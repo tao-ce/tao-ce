@@ -1,0 +1,64 @@
+{
+	"name": "Neo TAO Community Edition",
+  	"dockerComposeFile": [
+		"../docker-compose.yml",
+	],
+	"service": "dev",
+	"containerUser": "vscode",
+
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": { "moby": true, },
+		// "ghcr.io/devcontainers/features/docker-in-docker:2": { 	"moby": "true", },
+	},
+
+	"containerEnv": {
+		"CLUSTER_NAME": "default",
+		"HOME": "/home/vscode",
+		"K8S_FLAVOR": "k3s",
+	},
+	"portsAttributes": {
+		"443": {
+			"label": "https-ingress",
+			"requireLocalPort": true,
+			"onAutoForward": "notify",
+			"elevateIfNeeded": true,
+			"protocol": "https",
+		},
+		"80": {
+			"label": "http-ingress",
+			"requireLocalPort": true,
+			"onAutoForward": "notify",
+			"elevateIfNeeded": true,
+			"protocol": "http",
+		}
+	},
+
+	"onCreateCommand": "make -f .devcontainer/Makefile create",
+	"postStartCommand": "make -f .devcontainer/Makefile start",
+	"postAttachCommand": "make -f .devcontainer/Makefile attach",
+	
+	"workspaceFolder": "/workspace",
+
+	"remoteEnv": {
+		"HOST_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+	},
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"Redis.redis-for-vscode",
+				"mtxr.sqltools",
+				"mtxr.sqltools-driver-pg",
+				"tilt-dev.Tiltfile",
+				"mutantdino.resourcemonitor"
+			],
+		
+			"settings": {
+				"sqltools.connections": [
+					{ "name": "Stack Postgres", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres" },
+				]
+			},
+		}
+	},
+}

@@ -1,0 +1,107 @@
+services:
+
+  registry.local:
+    image: registry:2
+    hostname: registry.local
+    restart: always
+    environment:
+      - REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY=/data/local
+    volumes:
+      - registry:/data
+    extra_hosts:
+      "registry.local": "::1"
+
+  avahi:
+    image: ydkn/avahi:latest
+    privileged: true
+    restart: always
+    # links:
+      # - k8s:${MDNS_FQDN}
+    # network_mode: host
+    links:
+    - k8s:k8s
+    volumes:
+      - ./services/avahi/services:/etc/avahi/services
+
+  redis:
+    image: valkey/valkey:8-alpine
+    hostname: redis.deps.internal
+    restart: always
+    volumes:
+      - redis:/data:rw
+    command: ["valkey-server", "--save", "60", "1", "--loglevel", "warning"]
+    healthcheck:
+      test: valkey-cli ping
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 3s
+
+  pgsql:
+    image: postgres:17-alpine
+    hostname: pgsql.deps.internal
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgsql:/var/lib/postgresql/data:rw
+    healthcheck:
+      test: pg_isready -q -t 2 -U $$POSTGRES_USER
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 3s
+
+  pubsub:
+    hostname: pubsub.deps.internal
+    build:
+      context: services/pubsub-emulator
+
+  pubsub-emulator-ui:
+    image: ghcr.io/neoscript/pubsub-emulator-ui:2025.02.25
+    environment:
+      - PUBSUB_EMULATOR_HOST=pubsub.deps.internal:8432
+  
+  firestore:
+    hostname: firestore.deps.internal
+    build:
+      context: services/firebase
+    environment:
+      PROJECT_ID: demo-tao
+  es:
+    hostname: es.deps.internal
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.4
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    environment:
+    - node.name=es
+    - discovery.type=single-node
+    - bootstrap.memory_lock=true
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    - DISABLE_SECURITY_PLUGIN=true
+    - xpack.security.enabled=false
+    - xpack.security.transport.ssl.enabled=false
+    - xpack.security.http.ssl.enabled=false
+    volumes:
+      - es:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.1
+    environment:
+    - http.tls.selfSignedCertificate.disabled=true
+    - ELASTICSEARCH_HOSTS=http://es:9200
+    - server.host=es
+    - xpack.security.authc.providers.anonymous.anonymous1.order=0
+    - xpack.security.authc.providers.anonymous.anonymous1.credentials="elasticsearch_anonymous_user"
+  
+volumes:
+  pgsql: {}
+  es: {}
+  redis: {}
+  registry: {}

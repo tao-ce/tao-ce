@@ -1,0 +1,58 @@
+PWD = os.getcwd()
+
+ARTIFACTS = {
+    'build/php': 'build/php',
+    'base/php': 'base/php',
+    'build/go': 'build/go',
+    'build/node': 'build/node',
+    'build/node22': 'build/node22',
+}
+
+IMAGES = {
+    'upstream/php': 'php:8.2-fpm@sha256:8308d0367ecc789ce3d91d6ecd8fd48bb94578f5380d8351b40c04a14d9465d4',
+    'upstream/node': 'node:18-alpine3.21',
+    'upstream/node22': 'node:22-alpine',
+}
+
+def php(builder):
+    build = builder['build']
+    
+    build(
+        ref=ARTIFACTS['build/php'],
+        context=PWD,
+        dockerfile='{}/php-build.Dockerfile'.format(PWD),
+        target='build',
+        build_args={"BASE_PHP": IMAGES['upstream/php']},
+        # image_deps=[
+            # IMAGES['upstream/php'],
+            # ],
+        )
+
+    build(
+        ref=ARTIFACTS['base/php'],
+        context=PWD,
+        dockerfile='{}/php-build.Dockerfile'.format(PWD),
+        target='base',
+        )
+
+    build(
+        ref=ARTIFACTS['build/go'],
+        context=PWD,
+        dockerfile='{}/go-build.Dockerfile'.format(PWD),
+        target='build',
+    )
+    build(
+        ref=ARTIFACTS['build/node22'],
+        context=PWD,
+        dockerfile='{}/node-build.Dockerfile'.format(PWD),
+        build_args={"BASE_NODE": IMAGES['upstream/node22']},
+        target='build',
+    )
+
+    build(
+        ref=ARTIFACTS['build/node'],
+        context=PWD,
+        dockerfile='{}/node-build.Dockerfile'.format(PWD),
+        build_args={"BASE_NODE": IMAGES['upstream/node']},
+        target='build',
+    )

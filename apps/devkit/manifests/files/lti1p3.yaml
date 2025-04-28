@@ -1,0 +1,138 @@
+lti1p3:
+  key_chains:
+    platformKey:
+      key_set_name: "platformSet"
+      private_key: "file://%kernel.project_dir%/config/keys/private.key"
+      private_key_passphrase: "~"
+      public_key: "file://%kernel.project_dir%/config/keys/public.key"
+    primaryKeyPair:
+      key_set_name: "primaryKeySet"
+      private_key: "-----BEGIN ENCRYPTED PRIVATE KEY-----\nMIIFLTBXBgkqhkiG9w0BBQ0wSjApBgkqhkiG9w0BBQwwHAQIUi29jtYNXHgCAggA\nMAwGCCqGSIb3DQIJBQAwHQYJYIZIAWUDBAEqBBDuvB20m0YVWSNdoRhvhpmpBIIE\n0Jm47rHa0m3S3KqFqOPX54bixoAqzxpIhsmhFw4HZVPOvavtBDhShiPuB6161FoS\nmw4HhLSpnAxyCAfKTTbHpX2f+1w3DZLjhJ21TK1KpoSjgQbEhQuonRvTtKP6QuMg\n/uoMZQfqDEHh4/vl//HlRLBFaAREPasexRVLwpJ4OillTny8GBExRM8LbeXK8zd3\n9qR56hmTpwLmY+A9e0tWJQAvw1UZMChid9HmxFTf/k/N10lJD2szultgmF1CephI\neTbL97gdHWBeJcwhzjJ2FyQXWGCDb1LFEhBfRIuPGe+mRmEddCFN/OdiFQPYOIH2\ndNnEkJdCUNr2I9b2E3N296IQdurtOQhWeXSIieGmQrVLhH+Jjat58DOA8VLcsvxq\nB5HlZNqfjtD3jl8cfp4pInOfvy0xddneccCgBDU/v21Vw1Mi4CNfi1AAx7Yamm2k\nMqw7SrSyEY29+oo7NXd0QKdjWwmpPtyikqkndmXU+m3Uh8w0yj5Wu32S3aiiJloE\nHbrFQVboezV5Xl0HckLMAhCACqelo+ywV7JeGm5rdQkdCTAHHi2XdaE8H6OUu1gX\n8uijqRXASdsL2/1SZGis7h5tlarJfJTqSVfV11QJpSeNRuhOXYIYtsZlOJwAgUFC\np/MmxPPckBGX2Tucm5BuwYJBxg4b+GqSrBPHrTKl3RGF+s1iTqdPquNluFF/o4wH\n6DXRvt4RMi+l6qlUfbcDgulUsX+B79TfeSIsbn+hfijTqbaYwTS01VDoTzoNBF+f\n3K0vh0qmniRhcVUbYMRKEUYE9mc2sbv2FGIr4jbwvPtuXCMPIKSvDU3+0ILc8ng1\nty+p6jTqBqPR1Nf+NBxvqDk197veH/Ld1SsuiuCIYDswTRxCnsfmMGK3oRGxLfSY\n4Q9RFd35VTavFr1bwajqN9hq0m7ox0Uyb7qm+Vfn63QUS8J5nPU1J95gI5aBroEY\n1h+wG5XViBJJYwr0Bi0v3zxiCdWT7CFGR+ZdH9SIamRsLah0PJytQSPbokf6RjlB\nicz1hvirr8viRy0+hdZLh3ZOSrmy/CXkniR1qbknxdFXEQ9NzYXtwzM0DZLLGFfQ\n3CIyN5NJs/G026WaE/5OKhG3KIjTfWV6UyohAYm9ao4fm9GPw9nb9gvyYfTf4HBg\nnX7OT0b/QqZYFr47mfP1N1om8QOzFe3EtSpbQzilb+1+9t1lV9KTwIr3nWrcaabR\n8Z1VBHJlnHIrowFAKvlpcb9wbC5GFdvQp39C/337meJ8c7GU9q0uBQMWWyfjZyRV\nO2HXGWjFMsRU6H978BbhaQNi+n4HUziwNP2ETnr6UdG0wGVms/e55qRanYK56q+5\nrbxwd/FvJmb7GzoRqeEnikJxia2pVvDNb+1t22VxIxAK3qyaAQMj9nzKHuQA7WMo\nb0KmyHETwLiH3u+gtgZ3BYICkzHzC2OcOi8t2sXa40SM2DSfkcIPAEVX6gbt8Fz+\nRO8l72jxvuwj2Q6NIFh0Bq/Iv/4sdhaoGAgKV2pAHyY/xr5njwdNdc9r2Qbsi/Dl\nV6TXeJQKHx++gHMmdfYVIOpJKKscI+XuJcAQYhPOZ5kJMT/4xEoZpgYVWdteCkNJ\nKnwDogz2kAVmcb8EJIzWNW9E9WyFA/xDOehlQ4LR+gv8\n-----END ENCRYPTED PRIVATE KEY-----"
+      private_key_passphrase: "123456"
+      public_key: "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4ulGNnuEVY0Y3SdpFAY6\nTj0E/IQPz1n9fFJQLk5iu68G7+utaUJkcFRgc63mcodVYeJ4ZM0l9C5SClVrrRPV\nnZdK2/hCxx5fH3wIu2lhBkcAyPJh5G1/2VijjWksnQhZPgZLjGkiuw8JPhgSfcB2\nzm3XTWif//QOGzaG1ee8umAhh+QRqaRdad45F4WFTu1MYCi8eI7BU/Oip7NrWcN5\nPr7fm9JiEzkonUHYp7h/TaNWDUMJ5D3ryWLmnHXnJbB+HR1Ovr/cN50raJyr4GzV\nk2Ff1tcTlT/AZmc3MDk5c17Ouse3WdbiFom3HL3/rqH3GVsGZ8KQPzBQhaqxeqR3\nhwIDAQAB\n-----END PUBLIC KEY-----"
+    toolKey:
+      key_set_name: "toolSet"
+      private_key: "file://%kernel.project_dir%/config/keys/private.key"
+      private_key_passphrase: "~"
+      public_key: "file://%kernel.project_dir%/config/keys/public.key"
+  platforms:
+    deliverPlatform:
+      audience: "https://community.tao.internal/deliver"
+      name: "Deliver Platform"
+      oauth2_access_token_url: "http://tao-ce-em-auth-server:8080/lti1p3/auth/primaryKeyPair/token"
+      oidc_authentication_url: "https://community.tao.internal/deliver/lti1p3/oidc/authentication"
+    devkitPlatform:
+      audience: "https://community.tao.internal/devkit/platform"
+      name: "LTI 1.3 DevKit (as platform)"
+      oauth2_access_token_url: "http://tao-ce-devkit-lti1p3:80/lti1p3/auth/platformKey/token"
+      oidc_authentication_url: "https://community.tao.internal/devkit/lti1p3/oidc/authentication"
+  registrations:
+    deliver--devkit:
+      client_id: "deliver-be-devkit-1"
+      deployment_ids:
+      - "1"
+      order: 4
+      platform: "deliverPlatform"
+      platform_jwks_url: "http://tao-ce-devkit-lti1p3:80/lti1p3/.well-known/jwks/primaryKeySet.json"
+      platform_key_chain: null
+      tool: "devkitTool"
+      tool_jwks_url: "http://tao-ce-em-auth-server:8080/lti1p3/.well-known/jwks/primaryKeySet.json"
+      tool_key_chain: "primaryKeyPair"
+    devkit--backoffice:
+      client_id: "backoffice_client_id"
+      deployment_ids:
+      - "deploymentId1"
+      order: 1
+      platform: "devkitPlatform"
+      platform_jwks_url: "http://tao-ce-devkit-lti1p3:80/lti1p3/.well-known/jwks/primaryKeySet.json"
+      platform_key_chain: "primaryKeyPair"
+      tool: "taoBackofficeTool"
+      tool_jwks_url: "http://tao-ce-tao:8080/taoLti/Security/jwks"
+      tool_key_chain: null
+    devkit--deliver:
+      client_id: "devkit-deliver-be-1"
+      deployment_ids:
+      - "deploymentId"
+      - "1"
+      - "2"
+      - "3"
+      order: 0
+      platform: "devkitPlatform"
+      platform_jwks_url: "http://tao-ce-devkit-lti1p3:80/lti1p3/.well-known/jwks/primaryKeySet.json"
+      platform_key_chain: "primaryKeyPair"
+      tool: "deliverTool"
+      tool_jwks_url: "http://tao-ce-em-auth-server:8080/.well-known/jwks.json"
+      tool_key_chain: "primaryKeyPair"
+    devkit--devkit:
+      client_id: "client_id"
+      deployment_ids:
+      - "deploymentId1"
+      - "deploymentId2"
+      order: 4
+      platform: "devkitPlatform"
+      platform_jwks_url: "http://tao-ce-devkit-lti1p3:80/lti1p3/.well-known/jwks/primaryKeySet.json"
+      platform_key_chain: "primaryKeyPair"
+      tool: "devkitTool"
+      tool_jwks_url: "http://tao-ce-devkit-lti1p3:80/lti1p3/.well-known/jwks/primaryKeySet.json"
+      tool_key_chain: "primaryKeyPair"
+    devkit--ms:
+      client_id: "devkit-manual-scoring-1"
+      deployment_ids:
+      - "1"
+      order: 2
+      platform: "devkitPlatform"
+      platform_jwks_url: "http://tao-ce-devkit-lti1p3:80/lti1p3/.well-known/jwks/primaryKeySet.json"
+      platform_key_chain: "primaryKeyPair"
+      tool: "manualScoringTool"
+      tool_jwks_url: "http://tao-ce-em-auth-server:8080/lti1p3/.well-known/jwks/primaryKeySet.json"
+      tool_key_chain: "primaryKeyPair"
+    devkit--proctoring:
+      client_id: "proctoring_client_id-1"
+      deployment_ids:
+      - "1"
+      order: 3
+      platform: "devkitPlatform"
+      platform_jwks_url: "http://tao-ce-devkit-lti1p3:80/lti1p3/.well-known/jwks/primaryKeySet.json"
+      platform_key_chain: "primaryKeyPair"
+      tool: "proctoringTool"
+      tool_jwks_url: "http://tao-ce-proctoring-lti13-gateway:8080/lti1p3/.well-known/jwks/primaryKeySet.json"
+      tool_key_chain: "primaryKeyPair"
+  scopes:
+  - "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly"
+  - "https://purl.imsglobal.org/spec/lti-bo/scope/basicoutcome"
+  - "https://purl.imsglobal.org/spec/lti-ap/scope/control.all"
+  - "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem"
+  - "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly"
+  - "https://purl.imsglobal.org/spec/lti-ags/scope/score"
+  - "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly"
+  tools:
+    deliverTool:
+      audience: "https://community.tao.internal/deliver"
+      deep_linking_url: "https://community.tao.internal/deliver/api/v1/lti/deep-links"
+      launch_url: "https://community.tao.internal/deliver/api/v1/auth/launch-lti-1p3/"
+      name: "Deliver Tool"
+      oidc_initiation_url: "https://community.tao.internal/auth-server/lti1p3/oidc/initiation"
+    devkitTool:
+      audience: "https://community.tao.internal/devkit/tool"
+      deep_linking_url: "https://community.tao.internal/devkit/tool/launch"
+      launch_url: "https://community.tao.internal/devkit/tool/launch"
+      name: "LTI 1.3 DevKit (as tool)"
+      oidc_initiation_url: "https://community.tao.internal/devkit/lti1p3/oidc/initiation"
+    manualScoringTool:
+      audience: "https://community.tao.internal/ms-be"
+      deep_linking_url: "~"
+      launch_url: "https://community.tao.internal/ms-be/api/v1/lti1p3/launch"
+      name: "Manual Scoring Tool"
+      oidc_initiation_url: "https://community.tao.internal/auth-server/lti1p3/oidc/initiation"
+    proctoringTool:
+      audience: "https://community.tao.internal/pr-lti-gateway"
+      deep_linking_url: "~"
+      launch_url: "https://community.tao.internal/pr-lti-gateway/api/v1/lti1p3/launch"
+      name: "Proctoring Tool"
+      oidc_initiation_url: "https://community.tao.internal/auth-server/lti1p3/oidc/initiation"
+    taoBackofficeTool:
+      audience: "https://community.tao.internal/backoffice"
+      deep_linking_url: "~"
+      launch_url: "https://community.tao.internal/backoffice/ltiDeliveryProvider/DeliveryTool/launch1p3?delivery="
+      name: "TAO Backoffice Tool"
+      oidc_initiation_url: "https://community.tao.internal/backoffice/taoLti/Security/oidcInitiation"

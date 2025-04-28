@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: &labels
+    tier: auth-server
+  name: em-auth-server
+spec:
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+      - image: tao/environment-management/auth-server
+        resources: {}
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8888
+          name: http-gw
+          protocol: TCP
+        - containerPort: 1888
+          name: grpc
+          protocol: TCP
+        envFrom:
+        - secretRef:
+            name: auth-server-env
+        volumeMounts:
+        - name: auth-server-keys
+          mountPath: /app/dist/config/keys
+          readOnly: true
+        - name: auth-server-config
+          mountPath: /app/preload-data
+          readOnly: true
+        name: server
+      restartPolicy: Always
+      securityContext: {}
+      volumes:
+      - name: envoy-config
+        secret:
+          secretName: envoy-config
+      - name: auth-server-keys
+        secret:
+          secretName: auth-server-keys
+      - name: auth-server-config
+        secret:
+          secretName: auth-server-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: em-auth-server
+  labels: &labels
+    tier: auth-server
+spec:
+  selector: *labels
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+  - port: 8888
+    targetPort: 8888
+    name: http-gw
+  - port: 1888
+    targetPort: 1888
+    name: grpc
+---

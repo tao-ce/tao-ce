@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: &labels
+    tier: static
+  name: tao-deliver-fe-static
+spec:
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+        
+      containers:
+      - image: tao/deliver/static
+        resources: {}
+        name: static
+        envFrom:
+        - secretRef:
+            name: tao-deliver-fe-static-env
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: http
+        volumeMounts:
+          - name: tao-deliver-fe-static-config
+            mountPath: /etc/caddy/Caddyfile
+            subPath: Caddyfile
+      restartPolicy: Always
+      volumes:
+      - name: tao-deliver-fe-static-config
+        secret:
+          secretName: tao-deliver-fe-static-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tao-deliver-fe-static
+  labels: &labels
+    tier: static
+spec:
+  selector: *labels
+  ports:
+  - port: 8080
+    targetPort: 80

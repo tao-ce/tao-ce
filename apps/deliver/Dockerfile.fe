@@ -1,0 +1,32 @@
+ARG BASE='build/node'
+ARG BASE_CADDY='base/caddy'
+FROM ${BASE} AS bootstrap
+
+WORKDIR /app
+
+COPY packages/deliver-app .
+
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
+    npm run build:bootstrap
+
+EXPOSE 3000
+
+USER node
+
+CMD ["node", "server.js"]
+
+FROM ${BASE} AS static-build
+
+WORKDIR /app
+
+COPY . .
+
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
+    --mount=type=secret,id=NPM_TOKEN \
+    npm  config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) && npm whoami
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm npm ci 
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm npm run build:app
+
+FROM ${BASE_CADDY} AS static
+
+COPY --from=static-build /app/packages/deliver-app/dist /srv/static/deliver-fe-static/

@@ -1,0 +1,1 @@
+{ "policies": { "Certificates": { "Install": ["~/.mozilla/certificates/local.crt"] } } }

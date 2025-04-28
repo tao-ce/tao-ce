@@ -1,0 +1,31 @@
+ARG BUILD_NODE=build/node
+
+FROM $BUILD_NODE AS build
+
+WORKDIR /app
+
+COPY src/node-auth-server/*.json /app/
+
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
+    npm install && npm install typescript -g && rm -rf /app/logs/*
+
+COPY src/node-auth-server/types /app/types
+COPY src/node-auth-server/src /app/src
+
+RUN rm -rf /app/src/dist/test /app/src/dist/configs/keys
+
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
+    npm run build
+
+FROM $BUILD_NODE AS export
+
+EXPOSE 80
+
+WORKDIR /app
+
+COPY --from=build --chown=node /app/dist /app
+COPY --from=build --chown=node /app/node_modules /app/node_modules
+
+CMD [ "node", "--enable-source-maps", "--max-http-header-size=51200", "./server.js" ]
+
+

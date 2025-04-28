@@ -1,0 +1,30 @@
+ARG BUILD='build/node'
+ARG BASE_CADDY='base/caddy'
+
+FROM ${BUILD} AS bootstrap
+
+WORKDIR /app
+
+COPY ./frontend/ .
+
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
+    npm run build:bootstrap
+
+CMD ["node", "/app/server.js"]
+
+
+FROM ${BUILD} AS static-build
+
+WORKDIR /app
+
+COPY ./frontend/ .
+
+RUN --mount=type=secret,id=NPM_TOKEN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm \
+    npm  config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) && npm whoami
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
+    npm ci
+
+FROM ${BASE_CADDY} AS static
+
+COPY --from=static-build /app/dist /srv/static/portal-static

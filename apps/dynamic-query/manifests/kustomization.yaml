@@ -1,0 +1,18 @@
+
+namePrefix: tao-ce-
+
+labels:
+  - pairs:
+      app: tao-ce
+      component: dynamic-query
+    includeSelectors: true
+    includeTemplates: true
+    
+resources:
+- ./deploy.yaml
+- ./dynamic-query-api-env.yaml
+
+
+configurations:
+  - ./backendRefs.yaml
+

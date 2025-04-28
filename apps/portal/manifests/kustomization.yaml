@@ -1,0 +1,30 @@
+
+namePrefix: tao-ce-
+
+labels:
+  - pairs:
+      app: tao-ce
+      component: portal
+    includeSelectors: true
+    includeTemplates: true
+
+resources:
+- ./deployments/be.yaml
+- ./deployments/static.yaml
+- ./deployments/bootstrap.yaml
+- ./secrets/tao-portal-be-env.yaml
+- ./secrets/tao-portal-worker-env.yaml
+- ./secrets/tao-portal-bootstrap-env.yaml
+- ./secrets/tao-portal-static-env.yaml
+- ./routes/tao-portal-bootstrap.yaml
+- ./routes/tao-portal-static.yaml
+
+
+secretGenerator:
+  - name: tao-portal-static-config
+    files:
+    - ./files/Caddyfile
+
+configurations:
+  - ./backendRefs.yaml
+

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    component: devkit 
+  name: devkit-lti1p3
+spec:
+  selector:
+    matchLabels:
+      component: devkit 
+  template:
+    metadata:
+      labels:
+        component: devkit
+    spec:
+        
+      containers:
+      - image: tao/devkit/backend
+        resources: {}
+        name: backend
+        envFrom:
+        - secretRef:
+            name: devkit-lti1p3-env
+        volumeMounts:
+        - name: devkit-lti1p3-config
+          mountPath: /app/devkit/config/packages/lti1p3.yaml
+          subPath: lti1p3.yaml
+          readOnly: true
+        - name: devkit-lti1p3-keys
+          mountPath: /app/devkit/config/keys
+          readOnly: true
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: http
+      restartPolicy: Always
+      volumes:
+      - name: devkit-lti1p3-config
+        secret:
+          secretName: devkit-lti1p3-config
+      - name: devkit-lti1p3-keys
+        secret:
+          secretName: devkit-lti1p3-keys
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devkit-lti1p3
+  labels:
+    component: devkit
+spec:
+  selector:
+    component: devkit
+  ports:
+  - port: 80
+    targetPort: 80

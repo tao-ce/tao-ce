@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: &labels
+    tier: envoy
+  name: envoy
+spec:
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+      - image: tao/environment-management/envoy
+        name: envoy
+        command:
+        - /usr/local/bin/envoy
+        - -c
+        - /etc/envoy/envoy.yaml
+        - --log-level
+        - trace
+        resources: {}
+        volumeMounts:
+        - name: envoy-config
+          mountPath: /etc/envoy
+          readOnly: true
+      restartPolicy: Always
+      ports:
+      - containerPort: 80
+        protocol: TCP
+        name: http
+      - containerPort: 10001
+        protocol: TCP
+      securityContext: {}
+      volumes:
+      - name: envoy-config
+        secret:
+          secretName: envoy-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: envoy
+  labels: &labels
+    tier: envoy
+spec:
+  selector: *labels
+  ports:
+  - port: 80
+    targetPort: 80

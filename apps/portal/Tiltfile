@@ -1,0 +1,93 @@
+load('ext://uibutton', 'cmd_button', 'text_input', 'location')
+
+PWD = os.getcwd()
+
+REALM = 'tao'
+APPLICATION = 'portal'
+
+IMAGES = {
+    'build/node': 'build/node',
+    'base/caddy': 'caddy:2-alpine',
+}
+
+ARTIFACTS = {
+    'backend': '{}/{}/backend'.format(REALM,APPLICATION),
+    'static': '{}/{}/static'.format(REALM,APPLICATION),
+    'bootstrap': '{}/{}/bootstrap'.format(REALM,APPLICATION),
+}
+
+PULLS = {}
+
+def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+
+    # k8s_yaml(kustomize("{pwd}/manifests/init".format(pwd=pwd)),)
+    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
+    k8s_resource( "tao-ce-tao-portal-be", labels=[APPLICATION])
+    k8s_resource( "tao-ce-tao-portal-static", labels=[APPLICATION])
+    k8s_resource( "tao-ce-tao-portal-bootstrap", labels=[APPLICATION])
+
+
+    builder['build'](
+        ref=ARTIFACTS['backend'],
+        context='{pwd}/src'.format(pwd=pwd),
+        build_args={"BASE": IMAGES['build/node']},
+        dockerfile='{pwd}/Dockerfile.be'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['build/node'],
+            ],
+        )
+
+    builder['build'](
+        ref=ARTIFACTS['bootstrap'],
+        context='{pwd}/src'.format(pwd=pwd),
+        target="bootstrap",
+        build_args={
+            "BASE": IMAGES['build/node'],
+            "BASE_CADDY": IMAGES['base/caddy'],
+            },
+        dockerfile='{pwd}/Dockerfile.fe'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['build/node'],
+            ],
+        secret="id=NPM_TOKEN,src=.secrets/npm",
+        )
+
+    builder['build'](
+        ref=ARTIFACTS['static'],
+        context='{pwd}/src'.format(pwd=pwd),
+        target="static",
+        build_args={
+            "BASE": IMAGES['build/node'],
+            "BASE_CADDY": IMAGES['base/caddy'],
+            },
+        dockerfile='{pwd}/Dockerfile.fe'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['build/node'],
+            ],
+        secret="id=NPM_TOKEN,src=.secrets/npm",
+        )
+
+
+
+    cmd_button('{}_{}_reset_admin'.format(REALM,APPLICATION),
+                argv=['sh', '-c', '''
+                    curl -X POST -H 'Content-Type: application/json' -d @- http://es:9200/portal-user/_doc/1admin <{pwd}/files/admin_user.json
+                '''.format(pwd=pwd)],
+                location=location.RESOURCE,
+                resource="tao-ce-tao-portal-be",
+                icon_name='lock_reset',
+                text='Reset Admin Creds',
+                requires_confirmation=True,
+    )
+
+
+    cmd_button('{}_{}_wipe_users'.format(REALM,APPLICATION),
+                argv=['sh', '-c', '''
+                    curl -X DELETE -H 'Content-Type: application/json' http://es:9200/portal-user
+                '''],
+                location=location.RESOURCE,
+                resource="tao-ce-tao-portal-be",
+                icon_name='group_off',
+                text='💀 Wipe users',
+                requires_confirmation=True,
+    )

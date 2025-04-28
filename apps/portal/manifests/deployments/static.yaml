@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    tier: static
+  name: tao-portal-static
+spec:
+  selector:
+    matchLabels:
+      tier: static
+  template:
+    metadata:
+      labels:
+        tier: static
+    spec:
+      containers:
+      - image: tao/portal/static
+        resources: {}
+        name: static
+        # envFrom:
+        # - secretRef:
+            # name: tao-portal-static-env
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: http
+        volumeMounts:
+        - name: tao-portal-static-config
+          mountPath: /etc/caddy/Caddyfile
+          subPath: Caddyfile
+      restartPolicy: Always
+      volumes:
+      - name: tao-portal-static-config
+        secret:
+          secretName: tao-portal-static-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tao-portal-static
+  labels: &labels
+    tier: static
+spec:
+  selector: *labels
+  ports:
+  - port: 8080
+    targetPort: 80

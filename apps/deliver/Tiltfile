@@ -1,0 +1,100 @@
+# load('ext://uibutton', 'cmd_button', 'text_input', 'location')
+
+PWD = os.getcwd()
+
+REALM = 'tao'
+APPLICATION = 'deliver'
+
+IMAGES = {
+    'build/php': 'build/php',
+    'build/node': 'build/node',
+    'base/php': 'base/php',
+    'base/caddy': 'caddy:2-alpine',
+}
+
+ARTIFACTS = {
+    'code': '{}/{}/code'.format(REALM,APPLICATION),
+    'backend': '{}/{}/backend'.format(REALM,APPLICATION),
+    'static': '{}/{}/static'.format(REALM,APPLICATION),
+    'bootstrap': '{}/{}/bootstrap'.format(REALM,APPLICATION),
+    'sandbox': '{}/{}/sandbox'.format(REALM,APPLICATION),
+}
+
+PULLS = {}
+
+def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+
+
+    k8s_yaml(kustomize("{pwd}/manifests/init".format(pwd=pwd)),)
+    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
+    k8s_resource( "tao-ce-tao-deliver-be", labels=[APPLICATION])
+    k8s_resource( "tao-ce-tao-deliver-fe-static", labels=[APPLICATION])
+    k8s_resource( "tao-ce-tao-deliver-fe-bootstrap", labels=[APPLICATION])
+    k8s_resource( "tao-ce-tao-deliver-sandbox", labels=[APPLICATION])
+
+    builder['build'](
+        ref=ARTIFACTS['code'],
+        context='{pwd}'.format(pwd=pwd),
+        target="export",
+        dockerfile='{pwd}/Dockerfile.be'.format(pwd=pwd),
+        build_args={"BUILD_PHP": IMAGES["build/php"]},
+        image_deps=[
+            IMAGES['build/php']
+            ],
+        ssh="default",
+        # ssh="{}".format(os.getenv("SSH_AUTH_SOCK", "/dev/null"))
+        # secret="id=ssh,src={}".format(os.getenv("SSH_AUTH_SOCK", "/dev/null"))
+        )
+    builder['build'](
+        ref=ARTIFACTS['backend'],
+        context='{pwd}'.format(pwd=pwd),
+        build_args={"BASE": IMAGES['base/php']},
+        dockerfile='{pwd}/Dockerfile.be'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['base/php'],
+            ARTIFACTS['code'],
+            ],
+        )
+
+    builder['build'](
+        ref=ARTIFACTS['sandbox'],
+        context='{pwd}/src/sandbox'.format(pwd=pwd),
+        build_args={"BASE": IMAGES['build/node']},
+        dockerfile='{pwd}/Dockerfile.sandbox'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['build/node'],
+            ],
+        secret="id=NPM_TOKEN,src=.secrets/npm",
+        )
+
+    builder['build'](
+        ref=ARTIFACTS['static'],
+        context='{pwd}/src/fe'.format(pwd=pwd),
+        target="static",
+        build_args={
+            "BASE": IMAGES['build/node'],
+            "BASE_CADDY": IMAGES['base/caddy'],
+            },
+        dockerfile='{pwd}/Dockerfile.fe'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['build/node'],
+            
+            ],
+        secret="id=NPM_TOKEN,src=.secrets/npm",
+        )
+
+
+    builder['build'](
+        ref=ARTIFACTS['bootstrap'],
+        context='{pwd}/src/fe'.format(pwd=pwd),
+        target="bootstrap",
+        build_args={
+            "BASE": IMAGES['build/node'],
+            },
+        dockerfile='{pwd}/Dockerfile.fe'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['build/node'],
+            
+            ],
+        secret="id=NPM_TOKEN,src=.secrets/npm",
+        )

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: &labels
+    tier: lti-gateway
+  name: em-lti-gateway
+spec:
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      initcontainers:
+      - image: tao/environment-management/lti-gateway
+        resources: {}
+        envfrom:
+        - secretref:
+            name: lti-gateway-env
+        name: init 
+        command:
+        - /bin/sh
+        - -c
+        - |
+          php bin/console messenger:setup-transports
+      containers:
+      - image: tao/environment-management/lti-gateway
+        resources: {}
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: http
+        envFrom:
+        - secretRef:
+            name: lti-gateway-env
+        name: lti-gateway
+      - image: tao/environment-management/lti-gateway
+        resources: {}
+        envFrom:
+        - secretRef:
+            name: lti-gateway-env
+        name: worker
+        command:
+        - /bin/sh
+        - -c
+        - |
+          php bin/console messenger:consume -vvv lti_event
+      restartPolicy: Always
+      securityContext: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: em-lti-gateway
+  labels: &labels
+    tier: lti-gateway
+spec:
+  selector: *labels
+  ports:
+  - port: 80
+    targetPort: 80

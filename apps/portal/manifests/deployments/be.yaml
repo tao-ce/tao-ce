@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    tier: be
+  name: tao-portal-be
+spec:
+  selector:
+    matchLabels:
+      tier: be 
+  template:
+    metadata:
+      labels:
+        tier: be
+    spec:
+      # initContainers:
+      # - image: tao/portal/backend
+      #   resources: {}
+      #   volumeMounts: &volumes
+      #   - name: deliver-data
+      #     mountPath: /app/deliver/var/storage
+      #   name: init 
+      #   envFrom:
+      #   - secretRef:
+      #       name: tao-portal-be-env
+      #   command:
+      #   - /bin/sh
+      #   - -c
+      #   - |
+      #     php bin/console messenger:setup-transports
+      containers:
+      - image: tao/portal/backend
+        resources: {}
+        name: backend
+        envFrom:
+        - secretRef:
+            name: tao-portal-be-env
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+          name: http
+      - image: tao/portal/backend
+        resources: {}
+        name: worker
+        envFrom:
+        - secretRef:
+            name: tao-portal-worker-env
+        command:
+        - node
+        - './worker.js'
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tao-portal-be
+  labels: &labels
+    tier: be
+spec:
+  selector: *labels
+  ports:
+  - port: 3000
+    targetPort: 3000

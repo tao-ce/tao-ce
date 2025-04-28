@@ -1,0 +1,17 @@
+
+namePrefix: tao-ce-
+
+labels:
+  - pairs:
+      app: tao-ce
+      component: timers
+    includeSelectors: true
+    includeTemplates: true
+
+resources:
+- ./deploy.yaml
+
+
+configurations:
+  - ./backendRefs.yaml
+

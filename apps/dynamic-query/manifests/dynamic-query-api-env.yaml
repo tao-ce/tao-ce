@@ -1,0 +1,16 @@
+apiVersion: "v1"
+kind: "Secret"
+metadata:
+  name: "tao-dynamic-query-api-env"
+stringData:
+  DEBUG: "true"
+  ELASTICSEARCH_URL: "http://es.deps.internal:9200"
+  # FIRESTORE_EMULATOR_HOST: "firestore.deps.internal:8080"
+  # FIRESTORE_HIERARCHY_BE_COLLECTION: "hierarchies"
+  # FIRESTORE_PROJECT_ID: "demo-tao"
+  # FIRESTORE_ROOT_COLLECTION: "oat-dev"
+  # FIRESTORE_ROOT_DOC: "stores"
+  # GCP_PROJECT_ID: "emulator-project"
+  # GOOGLE_CLOUD_PROJECT: "emulator-project"
+  # HIERARCHY_API_URL: "http://tao-ce-hierarchy-be:3001"
+  LOG_LEVEL: "trace"

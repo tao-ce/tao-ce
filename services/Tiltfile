@@ -1,0 +1,14 @@
+PWD = os.getcwd()
+
+ARTIFACTS = {
+    'service/pubsub-cli': 'service/pubsub-cli',
+}
+
+def build(builder):
+    build = builder['build']
+    
+    build(
+        ref=ARTIFACTS['service/pubsub-cli'],
+        context='{}/pubsub'.format(PWD),
+        target='export',
+        )

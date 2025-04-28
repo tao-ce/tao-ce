@@ -1,0 +1,35 @@
+# load('ext://uibutton', 'cmd_button', 'text_input', 'location')
+
+PWD = os.getcwd()
+
+REALM = 'tao'
+APPLICATION = 'dynamic-query'
+
+IMAGES = {
+    'build/node22': 'build/node22',
+}
+
+ARTIFACTS = {
+    'api': '{}/{}/api'.format(REALM,APPLICATION),
+}
+
+PULLS = {}
+
+def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+
+
+    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
+
+    builder['build'](
+        ref=ARTIFACTS['api'],
+        context='{pwd}/src'.format(pwd=pwd),
+        target="api",
+        build_args={
+            "BASE": IMAGES['build/node22'],
+            },
+        dockerfile='{pwd}/Dockerfile'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['build/node22'],
+            ],
+        secret="id=NPM_TOKEN,src=.secrets/npm",
+        )

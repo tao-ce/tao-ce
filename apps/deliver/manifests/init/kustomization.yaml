@@ -1,0 +1,11 @@
+
+namePrefix: tao-ce-
+
+labels:
+  - pairs:
+      app: tao-ce
+      component: deliver
+      stage: init
+
+resources:
+- ./init.yaml

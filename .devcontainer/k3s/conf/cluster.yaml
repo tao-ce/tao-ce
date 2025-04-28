@@ -1,0 +1,6 @@
+disable: traefik,coredns
+tls-san:
+  - k8s
+flannel-external-ip: true
+#  private-registry: /app/conf/k3s/registries.yaml
+# disable-default-registry-endpoint: true

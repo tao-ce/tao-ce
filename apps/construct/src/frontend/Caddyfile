@@ -1,0 +1,23 @@
+:80 {
+    handle_path /backoffice/* {
+        @views path */views/*
+
+        handle @views {
+                file_server {
+                    root /srv/static/construct
+                }
+            }
+
+        handle {
+            rewrite * index.php
+            php_fastcgi backend:9741 {
+                root /app/construct
+                index index.php
+            }
+         }
+    }
+    
+log {
+    output stdout
+}
+}

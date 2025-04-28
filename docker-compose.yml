@@ -1,0 +1,10 @@
+name: neo-tao-ce
+
+include:
+  - path:
+    - ${DEVCONTAINER_PATH:-.devcontainer}/docker-compose.yml
+    - ./docker-compose.config.yml
+    project_directory: .
+  - ./docker-compose.stack.yml
+    
+

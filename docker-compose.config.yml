@@ -1,0 +1,8 @@
+services:
+  dev:
+    links:
+      - k8s:community.tao.internal
+
+networks:
+  default:
+    name: "${COMPOSE_PROJECT_NAME}-net"

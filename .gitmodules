@@ -1,0 +1,33 @@
+[submodule "apps/devkit/src"]
+	path = apps/devkit/src
+	url = https://github.com/oat-sa/devkit-lti1p3
+[submodule "apps/environment-management/src"]
+	path = apps/environment-management/src
+	url = git@github.com:oat-sa/environment-management.git
+[submodule "apps/deliver/src/be"]
+	path = apps/deliver/src/be
+	url = git@github.com:oat-sa/tao-deliver-be.git
+[submodule "apps/deliver/src/fe"]
+	path = apps/deliver/src/fe
+	url = git@github.com:oat-sa/tao-deliver-fe.git
+[submodule "apps/timers/src"]
+	path = apps/timers/src
+	url = git@github.com:oat-sa/tao-timers-be.git
+[submodule "apps/portal/src"]
+	path = apps/portal/src
+	url = git@github.com:oat-sa/tao-portal.git
+[submodule "apps/dynamic-query/src"]
+	path = apps/dynamic-query/src
+	url = git@github.com:oat-sa/tao-dynamic-query-api.git
+[submodule "apps/deliver/src/sandbox"]
+	path = apps/deliver/src/sandbox
+	url = git@github.com:oat-sa/test-runner-sandbox.git
+[submodule "apps/construct/src/libs/oat-sa/extension-tao-deliver-connect"]
+	path = apps/construct/src/libs/oat-sa/extension-tao-deliver-connect
+	url = git@github.com:oat-sa/extension-tao-deliver-connect.git
+[submodule "apps/construct/src/libs/oat-sa/extension-tao-testqti-export"]
+	path = apps/construct/src/libs/oat-sa/extension-tao-testqti-export
+	url = git@github.com:oat-sa/extension-tao-testqti-export.git
+[submodule "apps/construct/src/libs/oat-sa/extension-tao-deliver-pcis"]
+	path = apps/construct/src/libs/oat-sa/extension-tao-deliver-pcis
+	url = git@github.com:oat-sa/extension-tao-deliver-pcis.git

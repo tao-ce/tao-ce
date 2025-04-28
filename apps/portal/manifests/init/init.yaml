@@ -1,0 +1,58 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: portal-init
+spec:
+  ttlSecondsAfterFinished: 2
+
+  template:
+    spec:
+      initContainers:
+      - name: init-es
+        image: alpine/curl:latest
+        command: ['sh', '-c', 'echo -e "Checking for the availability of es"; while ! curl -I ${ELASTICSEARCH_URL}/test-runner-deliveries ; do sleep 1; printf "-"; done; echo -e "es ready";']
+        env:
+        - name: ELASTICSEARCH_URL
+          value: http://es.deps.internal:9200
+      containers:
+      - image: alpine/curl
+        name: init-portal
+        env:
+        - name: ELASTICSEARCH_URL
+          value: http://es.deps.internal:9200
+        - name: TENANT_ID
+          value: "1"
+        - name: TENANT_PASSWORD
+          value: '$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui'
+        command: 
+          - /bin/sh 
+          - -c
+          - |
+            curl \
+            --request POST \
+            --location ${ELASTICSEARCH_URL}/portal-user/_doc/${TENANT_ID}admin \
+            --header 'Content-Type: application/json' \
+            --data-raw '
+              {
+                "login": "admin",
+                "name": "Admin",
+                "tenantId": "'${TENANT_ID}'",
+                "password": "'${TENANT_PASSWORD}'",
+           
+                "active": true,
+                "workingProfiles": [
+                  {
+                    "role": [
+                      "ADMIN",
+                      "BATTERY",
+                      "CONTENT_CREATOR",
+                      "SYSTEM_MANAGER"
+                    ],
+                    "name": "profile-backoffice"
+                  }
+                ]
+              }'
+            exit 0
+        resources: {}
+      restartPolicy: Never
+

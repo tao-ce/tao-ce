@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: &labels
+    tier: sidecar
+  name: em-sidecar
+spec:
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+      - image: tao/environment-management/sidecar
+        resources: {}
+        name: sidecar
+        envFrom:
+        - secretRef:
+            name: sidecar-env
+        volumeMounts:
+        - name: auth-server-keys
+          mountPath: /var/keys
+          readOnly: true
+        ports:
+        - containerPort: 18084 
+          protocol: TCP
+          name: grpc
+        - containerPort: 8080
+          protocol: TCP
+          name: http
+      restartPolicy: Always
+      securityContext: {}
+      volumes:
+      - name: auth-server-keys
+        secret:
+          secretName: auth-server-keys
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: em-sidecar
+  labels: &labels
+    tier: sidecar
+spec:
+  selector: *labels
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: http
+  - port: 18084
+    targetPort: 18084
+    name: grpc

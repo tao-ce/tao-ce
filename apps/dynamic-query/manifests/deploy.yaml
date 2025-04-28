@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    tier: api
+  name: tao-dynamic-query-api
+spec:
+  selector:
+    matchLabels:
+      tier: api
+  template:
+    metadata:
+      labels:
+        tier: api
+    spec:
+      containers:
+      - image: tao/dynamic-query/api
+        resources: {}
+        name: api
+        envFrom:
+        - secretRef:
+            name: tao-dynamic-query-api-env
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+          name: http
+      restartPolicy: Always
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tao-dynamic-query-api
+  labels: &labels
+    tier: api 
+spec:
+  selector: *labels
+  ports:
+  - port: 3000
+    targetPort: 3000

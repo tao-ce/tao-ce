@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: &labels
+    tier: bootstrap
+  name: tao-deliver-fe-bootstrap
+spec:
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+        
+      containers:
+      - image: tao/deliver/bootstrap
+        resources: {}
+        name: bootstrap
+        envFrom:
+        - secretRef:
+            name: tao-deliver-fe-bootstrap-env
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+          name: http
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tao-deliver-fe-bootstrap
+  labels: &labels
+    tier: bootstrap
+spec:
+  selector: *labels
+  ports:
+  - port: 3000
+    targetPort: 3000

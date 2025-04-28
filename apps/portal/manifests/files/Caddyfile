@@ -1,0 +1,8 @@
+:80 {
+    root * /srv/static
+    file_server browse
+    
+    log {
+        output stdout
+    }
+}
