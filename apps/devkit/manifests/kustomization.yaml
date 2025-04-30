@@ -10,9 +10,13 @@ labels:
     includeSelectors: true
     includeTemplates: true
 
+configurations:
+  - backendRefs.yaml
+
 resources:
 - ./deploy.yml
 - ./secrets/devkit-lti1p3-env.yaml
+- ./routes.yaml
 
 secretGenerator:
 - name: devkit-lti1p3-config
