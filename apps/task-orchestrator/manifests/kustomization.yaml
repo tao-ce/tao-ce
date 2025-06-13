@@ -1,0 +1,18 @@
+
+namePrefix: tao-ce-
+
+labels:
+  - pairs:
+      app: tao-ce
+      component: task-orchestrator
+    includeSelectors: true
+    includeTemplates: true
+    
+resources:
+- ./deployments/be.yaml
+- ./routes/be.yaml
+- ./secrets/be.yaml
+
+configurations:
+  - ./backendRefs.yaml
+

@@ -31,6 +31,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
     k8s_resource( "tao-ce-tao-deliver-fe-static", labels=[APPLICATION])
     k8s_resource( "tao-ce-tao-deliver-fe-bootstrap", labels=[APPLICATION])
     k8s_resource( "tao-ce-tao-deliver-sandbox", labels=[APPLICATION])
+    k8s_resource( "tao-ce-deliver-init", labels=[APPLICATION])
 
     builder['build'](
         ref=ARTIFACTS['code'],
@@ -42,9 +43,8 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             IMAGES['build/php']
             ],
         ssh="default",
-        # ssh="{}".format(os.getenv("SSH_AUTH_SOCK", "/dev/null"))
-        # secret="id=ssh,src={}".format(os.getenv("SSH_AUTH_SOCK", "/dev/null"))
         )
+
     builder['build'](
         ref=ARTIFACTS['backend'],
         context='{pwd}'.format(pwd=pwd),

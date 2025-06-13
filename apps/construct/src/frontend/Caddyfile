@@ -2,6 +2,9 @@
     handle_path /backoffice/* {
         @views path */views/*
 
+        header Access-Control-Allow-Origin "https://community.tao.internal"
+        header Access-Control-Allow-Credentials true
+
         handle @views {
                 file_server {
                     root /srv/static/construct

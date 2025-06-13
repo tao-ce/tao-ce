@@ -52,13 +52,13 @@ kind: Secret
 metadata:
   name: rt-timers-env
 type: Opaque
-strinData:
+stringData:
   FIRESTORE_EMULATOR_HOST: "firestore.deps.internal:8080"
   FIRESTORE_PROJECT_ID: "demo-tao"
   LOG_LEVEL: "trace"
   MESSENGER_ASSESSMENT_LOG_TRANSPORT_DSN: "gps://default?client_config[apiEndpoint]=http://pubsub.deps.internal:8432&max_messages_pull=10&topic[name]=assessment-log"
   PUBSUB_EMULATOR_HOST: "http://pubsub.deps.internal:8432"
-  PUBSUB_PROJECT_ID: "emulator-project"
+  PUBSUB_PROJECT_ID: "demo-tao"
   SIDECAR_URL: "http://tao-ce-em-auth-server:8888"
   TIMERS_FIRESTORE_COLLECTION: "oat-dev"
   TIMERS_JWKS_URL: "http://tao-ce-em-auth-server:8080/.well-known/jwks.json"

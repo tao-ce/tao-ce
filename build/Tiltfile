@@ -5,13 +5,17 @@ ARTIFACTS = {
     'base/php': 'base/php',
     'build/go': 'build/go',
     'build/node': 'build/node',
+    'build/node18': 'build/node18',
     'build/node22': 'build/node22',
+    'build/node23': 'build/node23',
 }
 
 IMAGES = {
     'upstream/php': 'php:8.2-fpm@sha256:8308d0367ecc789ce3d91d6ecd8fd48bb94578f5380d8351b40c04a14d9465d4',
     'upstream/node': 'node:18-alpine3.21',
-    'upstream/node22': 'node:22-alpine',
+    'upstream/node18': 'node:18-alpine3.21',
+    'upstream/node22': 'node:22-alpine3.21',
+    'upstream/node23': 'node:23-alpine3.21',
 }
 
 def php(builder):
@@ -41,11 +45,28 @@ def php(builder):
         dockerfile='{}/go-build.Dockerfile'.format(PWD),
         target='build',
     )
+
+    build(
+        ref=ARTIFACTS['build/node18'],
+        context=PWD,
+        dockerfile='{}/node-build.Dockerfile'.format(PWD),
+        build_args={"BASE_NODE": IMAGES['upstream/node18']},
+        target='build',
+    )
+
     build(
         ref=ARTIFACTS['build/node22'],
         context=PWD,
         dockerfile='{}/node-build.Dockerfile'.format(PWD),
         build_args={"BASE_NODE": IMAGES['upstream/node22']},
+        target='build',
+    )
+
+    build(
+        ref=ARTIFACTS['build/node23'],
+        context=PWD,
+        dockerfile='{}/node-build.Dockerfile'.format(PWD),
+        build_args={"BASE_NODE": IMAGES['upstream/node23']},
         target='build',
     )
 

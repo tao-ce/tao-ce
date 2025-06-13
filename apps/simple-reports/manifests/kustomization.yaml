@@ -1,0 +1,25 @@
+
+namePrefix: tao-ce-
+
+labels:
+  - pairs:
+      app: tao-ce
+      component: simple-reports
+    includeSelectors: true
+    includeTemplates: true
+    
+resources:
+- ./deployments/be.yaml
+- ./deployments/jsreport.yaml
+- ./secrets/simple-reports-be-env.yaml
+- ./routes/simple-reports.yaml
+- ./routes/jsreport.yaml
+
+secretGenerator:
+  - name: jsreport-config
+    files:
+    - ./files/jsreport.config.json
+
+configurations:
+  - ./backendRefs.yaml
+

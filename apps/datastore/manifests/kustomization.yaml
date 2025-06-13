@@ -1,0 +1,17 @@
+
+namePrefix: tao-ce-
+
+labels:
+  - pairs:
+      app: tao-ce
+      component: datastore
+    includeSelectors: true
+    includeTemplates: true
+    
+resources:
+- ./deployments/worker.yaml
+- ./secrets/worker.yaml
+
+# configurations:
+  # - ./backendRefs.yaml
+

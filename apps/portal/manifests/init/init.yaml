@@ -46,7 +46,8 @@ spec:
                       "ADMIN",
                       "BATTERY",
                       "CONTENT_CREATOR",
-                      "SYSTEM_MANAGER"
+                      "SYSTEM_MANAGER",
+                      "WORKING_PROFILES_MANAGER"
                     ],
                     "name": "profile-backoffice"
                   }

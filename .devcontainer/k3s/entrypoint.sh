@@ -16,6 +16,8 @@
     done
 } &
 
+# update-alternatives --set iptables /usr/sbin/iptables-legacy
+# update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 
 # {
 
@@ -28,4 +30,4 @@
 #     rm -f ${K3S_KUBECONFIG_OUTPUT}
 # } &
 
-exec /bin/k3s $@
+exec /bin/k3s $@ --prefer-bundled-bin 

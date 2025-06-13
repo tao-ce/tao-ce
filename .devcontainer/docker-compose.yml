@@ -11,7 +11,9 @@ services:
     - ./.data/kube:/home/vscode/.kube-remote:cached
     - run-k3s:/run/k3s
     shm_size: 1gb
+    # init: true
     privileged: true
+    ipc: host
     extra_hosts:
     - "host.docker.internal:host-gateway"
     dns:
@@ -19,6 +21,7 @@ services:
     - 8.8.8.8
     - 8.8.4.4
     environment:
+      container: systemd
       K3S_URL: https://k8s:6443
       CONTAINERD_ADDRESS: unix:///run/k3s/containerd/containerd.sock
       BUILDKIT_HOST: tcp://k8s:12345
@@ -48,6 +51,8 @@ services:
         hard: 65535
     sysctls:
       "net.ipv4.ip_unprivileged_port_start": 0
+      # "fs.inotify.max_user_watches": 524288
+      # "fs.inotify.max_user_instances": 512
     privileged: true
     restart: always
     environment:

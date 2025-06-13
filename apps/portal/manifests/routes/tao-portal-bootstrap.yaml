@@ -10,10 +10,39 @@ spec:
   - name: gateway
     namespace: istio-system
   rules:
+  # - filters:
+  #   - type: RequestRedirect
+  #     requestRedirect:
+  #       path:
+  #         type: ReplacePrefixMatch
+  #         replacePrefixMatch: /portal/
+  #       statusCode: 301
   - matches:
     - path:
         type: PathPrefix
-        value: /
+        value: /sessions
+    - path:
+        type: PathPrefix
+        value: /api
+    # filters:
+    # - type: "URLRewrite"
+      # urlRewrite:
+        # path:
+          # replacePrefixMatch: "/"
+          # type: "ReplacePrefixMatch"
+    backendRefs:
+    - name: tao-portal-bootstrap
+      port: 3000
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /portal
+    filters:
+    - type: "URLRewrite"
+      urlRewrite:
+        path:
+          replacePrefixMatch: "/"
+          type: "ReplacePrefixMatch"
     backendRefs:
     - name: tao-portal-bootstrap
       port: 3000

@@ -99,7 +99,7 @@ services:
     - server.host=es
     - xpack.security.authc.providers.anonymous.anonymous1.order=0
     - xpack.security.authc.providers.anonymous.anonymous1.credentials="elasticsearch_anonymous_user"
-  
+
 volumes:
   pgsql: {}
   es: {}

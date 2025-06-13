@@ -1,7 +1,22 @@
 services:
   dev:
+    build:
+      args:
+        - DEVCONTAINER_FLAVOR=fedora
     links:
       - k8s:community.tao.internal
+      - firestore
+
+  proxy:
+    ports:
+      - 443:443
+    image: alpine/socat
+    privileged: true
+    links:
+      - k8s
+    command: >
+      TCP-LISTEN:443,fork,reuseaddr TCP:k8s:443
+    restart: no
 
 networks:
   default:

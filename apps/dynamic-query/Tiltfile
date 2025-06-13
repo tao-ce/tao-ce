@@ -1,4 +1,4 @@
-# load('ext://uibutton', 'cmd_button', 'text_input', 'location')
+load('ext://uibutton', 'cmd_button', 'text_input', 'location')
 
 PWD = os.getcwd()
 
@@ -33,3 +33,15 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             ],
         secret="id=NPM_TOKEN,src=.secrets/npm",
         )
+
+    cmd_button('{}-{}-elasticsearch'.format(REALM,APPLICATION),
+                argv=['sh', '-c', '''
+                    curl -X PUT -H 'Content-Type: application/json' -d '@{pwd}/src/mappings/dynamic-api-index-config.json' http://es.deps.internal:9200/dynamic-api-index-config
+                '''.format(pwd=pwd)],
+                location=location.RESOURCE,
+                resource="tao-ce-tao-dynamic-query-api",
+                icon_name='install_desktop',
+                text='elasticsearch indices',
+                requires_confirmation=True,
+    )
+ 

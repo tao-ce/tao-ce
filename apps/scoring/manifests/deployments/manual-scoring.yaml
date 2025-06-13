@@ -1,0 +1,174 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels: &labels
+    tier: manual-scoring
+  name: tao-manual-scoring
+spec:
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      initContainers:
+      - image: tao/scoring/manual/be
+        resources: {}
+        name: init
+        envFrom:
+        - secretRef:
+            name: manual-scoring-be-env
+        command:
+        - /bin/sh
+        - -c
+        - |
+          php bin/console doctrine:database:create --if-not-exists --no-interaction
+          php bin/console doctrine:migrations:migrate --no-interaction
+          php bin/console messenger:setup-transports -vvv
+      containers:
+      - image: tao/scoring/manual/bootstrap
+        resources: {}
+        name: bootstrap
+        envFrom:
+        - secretRef:
+            name: manual-scoring-fe-env
+        ports:
+        - containerPort: 3000
+          name: http-bootstrap
+          protocol: TCP
+      - image: tao/scoring/manual/static
+        resources: {}
+        name: static
+        ports:
+        - containerPort: 80
+          name: http-static
+          protocol: TCP
+        envFrom:
+        - secretRef:
+            name: manual-scoring-fe-env
+        volumeMounts:
+        - name: manual-scoring-static-config
+          mountPath: /etc/caddy/Caddyfile
+          subPath: Caddyfile
+      - image: tao/scoring/manual/be
+        resources: {}
+        name: be
+        envFrom:
+        - secretRef:
+            name: manual-scoring-be-env
+        env:
+          - name: PHP_PORT
+            value: "8088"
+        ports:
+        - containerPort: 8088
+          name: http
+          protocol: TCP
+      - image: tao/scoring/manual/be
+        resources: {}
+        name: worker
+        envFrom:
+        - secretRef:
+            name: manual-scoring-be-env
+        command:
+        - /bin/sh
+        - -c
+        - |
+          # php bin/console messenger:consume -vvv grader-deliveries grader-responses
+          php bin/console messenger:consume internal grader-deliveries grader-responses grader-scores grader-statuses failures
+          # sleep infinity
+      restartPolicy: Always
+      volumes:
+      - name: manual-scoring-static-config
+        secret:
+          secretName: manual-scoring-static-config
+          items:
+            - key: Caddyfile
+              path: Caddyfile
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tao-manual-scoring-be
+  labels: &labels
+    tier: manual-scoring
+spec:
+  selector: *labels
+  ports:
+  - port: 8080
+    targetPort: 8088
+    name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tao-manual-scoring-fe
+  labels: &labels
+    tier: manual-scoring
+spec:
+  selector: *labels
+  ports:
+  - port: 3000
+    targetPort: 3000
+    name: http-bootstrap
+  - port: 80
+    targetPort: 80
+    name: http-static
+---
+apiVersion: "gateway.networking.k8s.io/v1"
+kind: "HTTPRoute"
+metadata:
+  name: "tao-manual-scoring"
+spec:
+  hostnames:
+  - community.tao.internal
+  parentRefs:
+  - name: gateway
+    namespace: istio-system
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /ms-be/api/v1/auth
+    filters:
+    - type: "URLRewrite"
+      urlRewrite:
+        path:
+          replacePrefixMatch: "/api/v1/auth"
+          type: "ReplacePrefixMatch"
+    backendRefs:
+    - name: tao-manual-scoring-be
+      port: 8080
+
+  # http-bootstrap
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /ms-fe/
+    filters:
+    - type: "URLRewrite"
+      urlRewrite:
+        path:
+          replacePrefixMatch: "/"
+          type: "ReplacePrefixMatch"
+    backendRefs:
+    - name: tao-manual-scoring-fe
+      port: 3000
+
+
+  # static
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /ms-fe-static/
+    filters:
+    - type: "URLRewrite"
+      urlRewrite:
+        path:
+          replacePrefixMatch: "/"
+          type: "ReplacePrefixMatch"
+    backendRefs:
+    - name: tao-manual-scoring-fe
+      port: 80
+
+
+ 

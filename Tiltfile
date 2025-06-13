@@ -47,3 +47,28 @@ tao_deliver = load_dynamic('./apps/deliver/Tiltfile')
 tao_deliver['build'](
     builder=builder,
 )
+
+tao_simple_reports = load_dynamic('./apps/simple-reports/Tiltfile')
+tao_simple_reports['build'](
+    builder=builder,
+)
+
+tao_task_orchestrator = load_dynamic('./apps/task-orchestrator/Tiltfile')
+tao_task_orchestrator['build'](
+    builder=builder,
+)
+
+tao_datastore = load_dynamic('./apps/datastore/Tiltfile')
+tao_datastore['build'](
+    builder=builder,
+)
+
+tao_hierarchy = load_dynamic('./apps/hierarchy/Tiltfile')
+tao_hierarchy['build'](
+    builder=builder,
+)
+
+tao_scoring = load_dynamic('./apps/scoring/Tiltfile')
+tao_scoring['build'](
+    builder=builder,
+)

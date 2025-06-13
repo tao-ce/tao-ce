@@ -1,7 +1,6 @@
 
-ARG BUILD='build/node'
 ARG BASE='build/node'
-FROM ${BUILD} AS export
+FROM $BASE AS export
 
 WORKDIR /app
 

@@ -1,0 +1,32 @@
+# load('ext://uibutton', 'cmd_button', 'text_input', 'location')
+
+PWD = os.getcwd()
+
+REALM = 'tao'
+APPLICATION = 'datastore'
+
+IMAGES = {
+    'build/node': 'build/node',
+}
+
+ARTIFACTS = {
+    'worker': '{}/{}/worker'.format(REALM,APPLICATION),
+}
+
+PULLS = {}
+
+def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+
+
+    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
+    # k8s_resource( "tao-ce-tao-simple-reports-be", labels=[APPLICATION])
+
+    builder['build'](
+        ref=ARTIFACTS['worker'],
+        context='{pwd}/src/node'.format(pwd=pwd),
+        build_args={"BASE": IMAGES['build/node']},
+        dockerfile='{pwd}/Dockerfile'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['build/node'],
+            ],
+        )

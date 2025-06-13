@@ -6,10 +6,10 @@
 	"service": "dev",
 	"containerUser": "vscode",
 
-	"features": {
-		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": { "moby": true, },
+	// "features": {
+		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": { "moby": true, },
 		// "ghcr.io/devcontainers/features/docker-in-docker:2": { 	"moby": "true", },
-	},
+	// },
 
 	"containerEnv": {
 		"CLUSTER_NAME": "default",
@@ -51,14 +51,26 @@
 				"mtxr.sqltools",
 				"mtxr.sqltools-driver-pg",
 				"tilt-dev.Tiltfile",
-				"mutantdino.resourcemonitor"
+				"mutantdino.resourcemonitor",
+				"MermaidChart.vscode-mermaid-chart"
 			],
 		
 			"settings": {
 				"sqltools.connections": [
-					{ "name": "Stack Postgres", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres" },
+					{ "name": "TAO Backoffice", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "postgres" },
+					{ "name": "Scoring Service", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "scoring_service" },
+					{ "name": "Manual Scoring", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "manual_scoring" },
+					{ "name": "Simple Reports", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "simple_reports" },
 				]
 			},
 		}
 	},
+
+    "mounts": [
+        {
+            "source": "/var/run/docker.sock",
+            "target": "/var/run/docker-host.sock",
+            "type": "bind"
+        }
+    ],
 }

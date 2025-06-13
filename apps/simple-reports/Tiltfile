@@ -1,0 +1,49 @@
+# load('ext://uibutton', 'cmd_button', 'text_input', 'location')
+
+PWD = os.getcwd()
+
+REALM = 'tao'
+APPLICATION = 'simple-reports'
+
+IMAGES = {
+    'build/php': 'build/php',
+    'build/node': 'build/node',
+    'base/php': 'base/php',
+    'base/caddy': 'caddy:2-alpine',
+}
+
+ARTIFACTS = {
+    'code': '{}/{}/code'.format(REALM,APPLICATION),
+    'backend': '{}/{}/backend'.format(REALM,APPLICATION),
+}
+
+PULLS = {}
+
+def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+
+
+    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
+    k8s_resource( "tao-ce-tao-simple-reports-be", labels=[APPLICATION])
+
+    builder['build'](
+        ref=ARTIFACTS['code'],
+        context='{pwd}'.format(pwd=pwd),
+        target="export",
+        dockerfile='{pwd}/Dockerfile.be'.format(pwd=pwd),
+        build_args={"BUILD_PHP": IMAGES["build/php"]},
+        image_deps=[
+            IMAGES['build/php']
+            ],
+        ssh="default",
+        )
+
+    builder['build'](
+        ref=ARTIFACTS['backend'],
+        context='{pwd}'.format(pwd=pwd),
+        build_args={"BASE": IMAGES['base/php']},
+        dockerfile='{pwd}/Dockerfile.be'.format(pwd=pwd),
+        image_deps=[
+            IMAGES['base/php'],
+            ARTIFACTS['code'],
+            ],
+        )

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    tier: be
+  name: tao-simple-reports-be
+spec:
+  selector:
+    matchLabels:
+      tier: be 
+  template:
+    metadata:
+      labels:
+        tier: be
+    spec:
+      initContainers:
+      - image: tao/simple-reports/backend
+        resources: {}
+        name: init 
+        envFrom:
+        - secretRef:
+            name: tao-simple-reports-be-env
+        command:
+        - /bin/sh
+        - -c
+        - |
+          php bin/console doctrine:database:create --if-not-exists --no-interaction
+          php bin/console doctrine:migrations:migrate --no-interaction
+          # php bin/console app:fixtures:load --no-interaction
+          # php bin/console hautelook:fixtures:load
+      containers:
+      - image: tao/simple-reports/backend
+        resources: {}
+        volumeMounts: &volumes
+        - name: simple-reports-data
+          mountPath: /app/simple-reports/var/storage
+        name: backend
+        envFrom:
+        - secretRef:
+            name: tao-simple-reports-be-env
+        ports:
+        - containerPort: 80
+          protocol: TCP
+          name: http
+      restartPolicy: Always
+      volumes:
+      - name: simple-reports-data
+        hostPath:
+          path: /data/tao/simple-reports
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tao-simple-reports-be
+  labels: &labels
+    tier: be
+spec:
+  selector: *labels
+  ports:
+  - port: 9001
+    targetPort: 80

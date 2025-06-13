@@ -19,7 +19,7 @@ spec:
         - -c
         - /etc/envoy/envoy.yaml
         - --log-level
-        - trace
+        - info 
         resources: {}
         volumeMounts:
         - name: envoy-config

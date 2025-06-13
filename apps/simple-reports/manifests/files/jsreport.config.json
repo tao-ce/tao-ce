@@ -1,0 +1,49 @@
+{
+    "extensions": {
+        "azure-storage": {
+            "enabled": false
+        },
+        "fs-store-aws-s3-persistence": {
+            "enabled": false
+        },
+        "fs-store-azure-storage-persistence": {
+            "enabled": false
+        },
+        "mongodb-store": {
+            "enabled": false
+        },
+        "mssql-store": {
+            "enabled": false
+        },
+        "oracle-store": {
+            "enabled": false
+        },
+        "postgres-store": {
+            "enabled": false
+        },
+        "scheduling": {
+            "enabled": false
+        },
+        "studio": {
+            "enabled": false
+        },
+        "chrome-pdf": {
+"launchOptions": {
+"args": ["--ignore-certificate-errors", "--no-sandbox"]
+}
+}
+    },
+    "httpPort": 3000,
+    "logger": {
+        "console": {
+            "level": "silly"
+        },
+        "error": {
+            "transport": "console"
+        },
+        "file": {
+            "transport": "console"
+        }
+    },
+    "trustUserCode": true
+}

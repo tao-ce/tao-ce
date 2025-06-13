@@ -1,5 +1,8 @@
 :80 {
     root * /srv/static
+    header Access-Control-Allow-Origin "https://community.tao.internal"
+    header Access-Control-Allow-Credentials true
+
     file_server browse
     
     log {

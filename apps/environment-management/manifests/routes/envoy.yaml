@@ -13,6 +13,9 @@ spec:
   #         replacePrefixMatch: "/"
   #         type: "ReplacePrefixMatch"
   rules:
+  # - backendRefs:
+  #   - name: "envoy"
+  #     port: 80
   - backendRefs:
     - name: "envoy"
       port: 80
@@ -62,13 +65,13 @@ spec:
     - path:
         type: "PathPrefix"
         value: "/ss-be"
-  - backendRefs:
-    - name: "envoy"
-      port: 80
-    matches:
-    - path:
-        type: "PathPrefix"
-        value: "/sr-be"
+  # - backendRefs:
+  #   - name: "envoy"
+  #     port: 80
+  #   matches:
+  #   - path:
+  #       type: "PathPrefix"
+  #       value: "/sr-be"
   - backendRefs:
     - name: "envoy"
       port: 80

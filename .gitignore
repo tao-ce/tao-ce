@@ -3,4 +3,5 @@ output
 .data
 .bak
 .secrets
+.vscode
 **/no-commit.*

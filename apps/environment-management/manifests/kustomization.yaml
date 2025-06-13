@@ -6,7 +6,7 @@ namePrefix: tao-ce-
 
 resources:
 - ./secrets/auth-server-env.yaml
-- ./secrets/auth-server-config.yaml
+# - ./secrets/auth-server-config.yaml
 - ./secrets/lti-gateway-env.yaml
 - ./secrets/sidecar-env.yaml
 - ./deployments/auth-server.yaml
@@ -27,6 +27,12 @@ labels:
   includeTemplates: true
 
 secretGenerator:
+- name: auth-server-config
+  files:
+
+  - ./files/environments.json
+  - ./files/tenant-data.json
+
 - name: auth-server-keys
   files:
   - ./keys/private.pem

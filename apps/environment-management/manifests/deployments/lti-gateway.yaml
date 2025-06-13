@@ -11,18 +11,19 @@ spec:
     metadata:
       labels: *labels
     spec:
-      initcontainers:
+      initContainers:
       - image: tao/environment-management/lti-gateway
         resources: {}
-        envfrom:
-        - secretref:
+        envFrom: &env
+        - secretRef:
             name: lti-gateway-env
         name: init 
         command:
         - /bin/sh
         - -c
         - |
-          php bin/console messenger:setup-transports
+          true
+          # php bin/console messenger:setup-transports
       containers:
       - image: tao/environment-management/lti-gateway
         resources: {}
@@ -30,15 +31,11 @@ spec:
         - containerPort: 80
           protocol: TCP
           name: http
-        envFrom:
-        - secretRef:
-            name: lti-gateway-env
+        envFrom: *env
         name: lti-gateway
       - image: tao/environment-management/lti-gateway
         resources: {}
-        envFrom:
-        - secretRef:
-            name: lti-gateway-env
+        envFrom: *env
         name: worker
         command:
         - /bin/sh

@@ -13,6 +13,7 @@ labels:
 resources:
 - ./deploy.yml
 - ./secrets/devkit-lti1p3-env.yaml
+- ./route.yml
 
 secretGenerator:
 - name: devkit-lti1p3-config
@@ -22,3 +23,6 @@ secretGenerator:
   files:
   - ./files/private.key
   - ./files/public.key
+
+configurations:
+  - ./backendRefs.yaml

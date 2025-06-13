@@ -27,7 +27,8 @@ spec:
         - /bin/sh
         - -c
         - |
-          php bin/console messenger:setup-transports
+          true
+          # php bin/console messenger:setup-transports
       containers:
       - image: tao/deliver/backend
         resources: {}
@@ -53,7 +54,7 @@ spec:
         - /bin/sh
         - -c
         - |
-          php bin/console messenger:consume -vvv  publication
+          php bin/console messenger:consume -vvv  publication result-extraction clean-up delivery-language-attachment
       restartPolicy: Always
       volumes:
       - name: deliver-data

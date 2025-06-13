@@ -9,6 +9,6 @@ def build(builder):
     
     build(
         ref=ARTIFACTS['service/pubsub-cli'],
-        context='{}/pubsub'.format(PWD),
+        context='{}/pubsub-cli'.format(PWD),
         target='export',
         )

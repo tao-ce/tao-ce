@@ -12,7 +12,7 @@ spec:
         name: pubsub-topics
         env:
         - name: PUBSUB_PROJECT_ID
-          value: emulator-project
+          value: demo-tao
         - name: GRPC_ARGS
           value: "-plaintext"
         - name: GRPC_ENDPOINT
@@ -24,8 +24,9 @@ spec:
           - /bin/sh
           - -c
           - |
-            jq -r '[.[].topic]|unique.[]' /init/pairs.json  | xargs -n1 /bin/pubsub-cli topic create
-            jq -r '.[]|.topic + " " + .subscription' /init/pairs.json | xargs -n2 /bin/pubsub-cli subscription create
+            sleep 3
+            jq -r '[.[].topic]|unique.[]' /init/pairs.json  | while read topic ; do echo topic $topic ; /bin/pubsub-cli topic create $topic ; done
+            jq -r '.[]|.topic + " " + .subscription' /init/pairs.json | while read topic sub ; do echo sub $sub on $topic ;  /bin/pubsub-cli subscription create $topic $sub ; done
             exit 0
         resources: {}
       volumes:
@@ -86,6 +87,10 @@ data:
       {"topic": "grader-responses-topic", "subscription": "ms-grader-responses-subscription"},
       {"topic": "grader-deliveries-topic", "subscription": "hbl-grader-deliveries-subscription"},
       {"topic": "grader-deliveries-topic", "subscription": "ms-grader-deliveries-subscription"},
+      {"topic": "ms-internal-topic", "subscription": "ms-internal-subscription"},
+      {"topic": "ms-failures-topic", "subscription": "ms-failures-subscription"},
+      {"topic": "grader-scores-topic", "subscription": "ss-grader-scores-subscription"},
+
       {"topic": "users-ds", "subscription": "users-ds"},
       {"topic": "users-ds", "subscription": "users-merge-subscription"},
       {"topic": "delivery-language-attachment-succeeded", "subscription": "delivery-language-attachment-succeeded"},

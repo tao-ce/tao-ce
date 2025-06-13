@@ -16,6 +16,8 @@ ARG TILT_VERSION=0.34.0
 ARG NERDCTL_VERSION=2.0.4
 ARG BUILDCTL_VERSION=v0.20.2
 ARG UBUNTU_VERSION=noble
+ARG FEDORA_VERSION=42
+ARG DEVCONTAINER_FLAVOR=ubuntu
 
 FROM golang:alpine AS build
 ARG TARGETPLATFORM
@@ -109,41 +111,13 @@ RUN cd /tmp \
         | tar xz \
     && mv /tmp/bin/* /usr/local/bin/
 
-# FROM alpine/curl AS get-ungoogledchromium
-# ARG TARGETPLATFORM
-# ARG TARGETOS
-# ARG TARGETARCH
-# ARG UGC_VERSION
 
-# # https://github.com/linuxserver/docker-ungoogled-chromium/blob/master/Dockerfile
-# RUN if [ -z ${UGC_VERSION+x} ]; then \
-#     UGC_VERSION=$(curl -sX GET "https://api.github.com/repos/ungoogled-software/ungoogled-chromium-portablelinux/releases/latest" \
-#       | awk '/tag_name/{print $4;exit}' FS='[""]'); \
-#   fi && \
-#   curl -o \
-#     /tmp/ugc.tar.xz -L \
-#     "https://github.com/ungoogled-software/ungoogled-chromium-portablelinux/releases/download/${UGC_VERSION}/ungoogled-chromium_${UGC_VERSION}_${TARGETOS}}.tar.xz" && \
-#   mkdir -p \
-#     /opt/ungoogledchromium && \
-#   tar xf \
-#     /tmp/ugc.tar.xz -C \
-#     /opt/ungoogledchromium --strip-components=1
-
-FROM mcr.microsoft.com/devcontainers/base:${UBUNTU_VERSION} AS devcontainer
+FROM mcr.microsoft.com/devcontainers/base:${UBUNTU_VERSION} AS devcontainer-ubuntu
 
 ARG TARGETPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
 ARG UBUNTU_VERSION
-ARG KUSTOMIZE_VERSION
-ARG KUBE_VERSION
-ARG SKAFFOLD_VERSION
-ARG ZARF_VERSION
-ARG K3D_VERSION
-ARG KIND_VERSION
-ARG MINIKUBE_VERSION
-ARG K9S_VERSION
-ARG TALOSCTL_VERSION
 
 ENV BIN_DEST=/usr/local/bin
 
@@ -174,12 +148,38 @@ RUN sudo apt update \
             firefox-devedition/mozilla \
     && rm -rf /var/lib/apt/lists/*
 
-COPY ./container/mozilla/policies.json /etc/firefox/policies/policies.json
+FROM quay.io/fedora-ostree-desktops/kinoite:${FEDORA_VERSION} AS devcontainer-fedora
 
-# COPY --from=get-ungoogled-chromium \
-#     --link \
-#     /opt/ungoogledchromium \
-#     /opt/ungoogledchromium
+ARG TARGETPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG FEDORA_VERSION
+
+ARG USERNAME="vscode"
+ENV USERNAME="${USERNAME}"
+
+RUN dnf install -y make && \
+    useradd -G wheel ${USERNAME} && \
+    echo '%wheel  ALL=(ALL)       NOPASSWD: ALL' | tee -a /etc/sudoers
+
+ENV SET_X=1
+
+FROM devcontainer-${DEVCONTAINER_FLAVOR} AS devcontainer
+
+ARG TARGETPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG KUSTOMIZE_VERSION
+ARG KUBE_VERSION
+ARG SKAFFOLD_VERSION
+ARG ZARF_VERSION
+ARG K3D_VERSION
+ARG KIND_VERSION
+ARG MINIKUBE_VERSION
+ARG K9S_VERSION
+ARG TALOSCTL_VERSION
+
+ENV BIN_DEST=/usr/local/bin
 
 COPY --link --from=build /go/bin/jsonnet   ${BIN_DEST}/jsonnet
 COPY --link --from=build /go/bin/yq        ${BIN_DEST}/yq
@@ -268,12 +268,19 @@ COPY \
     /bin/k9s \
     ${BIN_DEST}/k9s
 
+COPY \
+    --link \
+    --chmod=0755 \
+    --from=ghcr.io/blue-build/cli:latest-installer \
+    /out/bluebuild \
+    ${BIN_DEST}/bluebuild
+
 COPY --from=get-dive --chmod=0755 \
     --link \
     /usr/local/bin/dive \
     ${BIN_DEST}/dive
 USER vscode
-ENV PATH="$PATH:/home/vscode/.krew/bin"
+ENV PATH="$PATH:$BIN_DEST:/home/vscode/.krew/bin"
 
 RUN \
     krew index add \
@@ -295,4 +302,7 @@ oomd
 kubevpn/kubevpn
 EOF
 
-CMD [ "sleep", "infinity" ]
+COPY ./container/mozilla/policies.json /etc/firefox/policies/policies.json
+
+ENTRYPOINT ["/usr/bin/sleep", "infinity"]
+

@@ -38,6 +38,14 @@ RUN docker-php-ext-enable apcu
 RUN docker-php-ext-enable xdebug
 RUN docker-php-ext-enable igbinary
 
+RUN set -eux; \
+  { \
+    echo 'upload_max_filesize=60M'; \
+    echo 'post_max_filesize=60M'; \
+    echo 'post_max_size=60M'; \
+  } >> /usr/local/etc/php/conf.d/upload.ini ; \
+  sed -i "s/^error_reporting.*/error_reporting = E_ALL \& ~E_USER_DEPRECATED \& ~E_DEPRECATED \& ~E_STRICT/" /usr/local/etc/php/php.ini-production
+
 FROM base AS add-npm
 
 ARG NVM_VERSION=0.40.1
@@ -60,3 +68,10 @@ COPY --from=composer/composer:lts /usr/bin/composer /usr/bin/composer
 
 RUN apt update && apt install -y git && mkdir -p /etc/ssh && ssh-keyscan -H github.com >>/etc/ssh/ssh_known_hosts
 
+RUN set -eux; \
+  { \
+    echo 'upload_max_filesize=60M'; \
+    echo 'post_max_filesize=60M'; \
+    echo 'post_max_size=60M'; \
+  } >> /usr/local/etc/php/conf.d/upload.ini \
+;

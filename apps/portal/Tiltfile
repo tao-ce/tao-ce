@@ -6,7 +6,7 @@ REALM = 'tao'
 APPLICATION = 'portal'
 
 IMAGES = {
-    'build/node': 'build/node',
+    'build/node': 'build/node23',
     'base/caddy': 'caddy:2-alpine',
 }
 
@@ -23,7 +23,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
     # k8s_yaml(kustomize("{pwd}/manifests/init".format(pwd=pwd)),)
     k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
     k8s_resource( "tao-ce-tao-portal-be", labels=[APPLICATION])
-    k8s_resource( "tao-ce-tao-portal-static", labels=[APPLICATION])
+    k8s_resource( "tao-ce-tao-portal-static", labels=[APPLICATION],links=["https://community.tao.internal/portal/"])
     k8s_resource( "tao-ce-tao-portal-bootstrap", labels=[APPLICATION])
 
 
@@ -69,25 +69,34 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
 
 
 
-    cmd_button('{}_{}_reset_admin'.format(REALM,APPLICATION),
+    cmd_button('{}_{}_reset_samples_data'.format(REALM,APPLICATION),
                 argv=['sh', '-c', '''
-                    curl -X POST -H 'Content-Type: application/json' -d @- http://es:9200/portal-user/_doc/1admin <{pwd}/files/admin_user.json
+                    while IFS=, read index mapping ; do
+                    curl -X DELETE -H 'Content-Type: application/json' http://es:9200/$index
+                    curl -XPUT -H 'Content-Type: application/json' http://es:9200/$index -d @$mapping
+                    done <<EOS
+portal-user,{pwd}/src/backend/mappings/portal-user.json
+portal-enrolment,{pwd}/src/backend/mappings/portal-enrolment.json
+portal-hierarchy,{pwd}/src/backend/mappings/portal-hierarchy.json
+portal-config-hierarchy,{pwd}/src/backend/mappings/portal-config-hierarchy.json
+EOS
+                    jsonnet lib/portal-data.jsonnet | jq -c '.[]' | curl -X POST -H 'Content-Type: application/json' --data-binary @- http://es:9200/_bulk?pretty
                 '''.format(pwd=pwd)],
                 location=location.RESOURCE,
                 resource="tao-ce-tao-portal-be",
                 icon_name='lock_reset',
-                text='Reset Admin Creds',
+                text='Reset Samples Data',
                 requires_confirmation=True,
     )
 
 
-    cmd_button('{}_{}_wipe_users'.format(REALM,APPLICATION),
-                argv=['sh', '-c', '''
-                    curl -X DELETE -H 'Content-Type: application/json' http://es:9200/portal-user
-                '''],
-                location=location.RESOURCE,
-                resource="tao-ce-tao-portal-be",
-                icon_name='group_off',
-                text='💀 Wipe users',
-                requires_confirmation=True,
-    )
+    # cmd_button('{}_{}_wipe_users'.format(REALM,APPLICATION),
+    #             argv=['sh', '-c', '''
+    #                 curl -X DELETE -H 'Content-Type: application/json' http://es:9200/portal-user
+    #             '''],
+    #             location=location.RESOURCE,
+    #             resource="tao-ce-tao-portal-be",
+    #             icon_name='group_off',
+    #             text='💀 Wipe users',
+    #             requires_confirmation=True,
+    # )

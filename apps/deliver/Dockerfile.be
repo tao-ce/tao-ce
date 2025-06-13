@@ -47,6 +47,13 @@ RUN set -eux; \
         ; \
         rm /usr/local/etc/php-fpm.d/www*;
 
+RUN set -eux; \
+  { \
+    echo 'upload_max_filesize=60M'; \
+    echo 'post_max_filesize=60M'; \
+    echo 'post_max_size=60M'; \
+  } >> /usr/local/etc/php/conf.d/upload.ini \
+;
 COPY --from=app-deliver --chown=www-data:www-data / /app/deliver
 COPY --chown=www-data:www-data ./basic_test_1726747527.zip   /app/samples/
 COPY --chown=www-data:www-data ./router.php /app/deliver/router.php

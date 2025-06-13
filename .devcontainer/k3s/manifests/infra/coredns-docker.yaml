@@ -184,6 +184,7 @@ data:
         health
         ready
         prometheus :9153
+        rewrite name community.tao.internal gateway-istio.istio-system.svc.cluster.local
         kubernetes cluster.local in-addr.arpa ip6.arpa {
           pods insecure
           fallthrough in-addr.arpa ip6.arpa
@@ -227,6 +228,6 @@ spec:
   - name: dns-tcp
     port: 53
     protocol: TCP
-  - nam: metrics
+  - name: metrics
     port: 9153
     protocol: TCP
