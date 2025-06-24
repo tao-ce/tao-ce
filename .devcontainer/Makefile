@@ -5,6 +5,7 @@ K8S_FLAVOR ?= k3s
 TLS_PATH=$(PWD)/.cache/tls
 MANIFEST_PATH=$(PWD)/.devcontainer/$(K8S_FLAVOR)/manifests
 INFRA_PATH=$(MANIFEST_PATH)/infra
+INGRESS_PATH=$(MANIFEST_PATH)/ingress
 
 
 ###do not use dynamic variable (e.g. from env); this variable is a gatekeep to ensure make is not running on host system 
@@ -12,7 +13,7 @@ ENSURE_USER = vscode
 
 CA_SUBJ := C=LU/ST=Luxembourg/L=Capellen/O=Open Assessment Technologies S.A./OU=DEV
 CA_CN := CN=DEV CA DO NOT USE IN PRODUCTION OR PUBLIC
-CA_SECRET_FILE := $(INFRA_PATH)/no-commit.cert-manager-ca-pair.yaml
+CA_SECRET_FILE := $(INGRESS_PATH)/no-commit.cert-manager-ca-pair.yaml
 
 WORKSPACE_BASHRC=${HOME}/.workspace_profile
 DEVCONTAINER_BASHRC = ./.devcontainer/.bashrc
