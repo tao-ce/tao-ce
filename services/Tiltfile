@@ -4,6 +4,11 @@ ARTIFACTS = {
     'service/pubsub-cli': 'service/pubsub-cli',
 }
 
+
+
+# def pull(builder):
+    # builder['pull']()
+
 def build(builder):
     build = builder['build']
     

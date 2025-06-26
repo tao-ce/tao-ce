@@ -66,6 +66,13 @@ construct_replace_generis() {
             $app_data_path/config/generis.conf.php
 }
 
+construct_replace_taoLti()  {
+    gosu ${TAO_USER} \
+        sed -i \
+            -e "s@^.*'rootUrl'.*@'rootUrl' => '$config_base_url',     // overwritten by $0 on $(date -Ins -u)@" \
+            $app_data_path/config/taoLti/Lti1p3RegistrationRepository.conf.php
+}   
+
 construct_config() {
     construct_wait ready
 
@@ -73,6 +80,8 @@ construct_config() {
     construct_replace_generis TIME_ZONE ${config_tz}
     construct_replace_generis DEFAULT_LANG ${config_lang}
     construct_replace_generis DEFAULT_ANONYMOUS_INTERFACE_LANG ${config_lang}
+
+    construct_replace_taoLti
 }
 
 construct_update() {

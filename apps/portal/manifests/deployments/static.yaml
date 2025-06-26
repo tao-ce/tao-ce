@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   labels:
     tier: static
+  annotations:
+    tilt.dev/resource-link: "https://community.tao.internal/portal/"
   name: tao-portal-static
 spec:
   selector:

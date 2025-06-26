@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../apps/deliver/manifests
+
+images:
+  - name: tao/deliver/bootstrap
+    newName: quay.io/tao-ce/deliver/bootstrap
+    newTag: latest
+  - name: tao/deliver/static
+    newName: quay.io/tao-ce/deliver/static
+    newTag: latest
+  - name: tao/deliver/sandbox
+    newName: quay.io/tao-ce/deliver/sandbox
+    newTag: latest
+  - name: tao/deliver/backend
+    newName: quay.io/tao-ce/deliver/backend
+    newTag: latest

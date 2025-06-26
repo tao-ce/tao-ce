@@ -19,12 +19,10 @@ ARTIFACTS = {
 
 PULLS = {}
 
+def manifest(pwd=PWD):
+    return kustomize("{pwd}/manifests".format(pwd=pwd))
+
 def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
-
-    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
-    k8s_resource( "tao-ce-tao", labels=[APPLICATION],links=["https://community.tao.internal/backoffice/"])
-
-
     builder['build'](
         ref=ARTIFACTS['code'],
         context='{pwd}/src'.format(pwd=pwd),
@@ -34,6 +32,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             IMAGES['build/php']
             ],
         )
+
     builder['build'](
         ref=ARTIFACTS['backend'],
         context='{pwd}/src/backend'.format(pwd=pwd),
@@ -43,31 +42,27 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             ARTIFACTS['code'],
             ],
         )
-    if pulls.get('frontend'):
-        builder['pull'](
-            ref=ARTIFACTS['frontend'],
-            src=pulls.get('frontend'),
+        
+    builder['build'](
+        ref=ARTIFACTS['frontend'],
+        context='{pwd}/src/frontend'.format(pwd=pwd),
+        build_args={
+            "APP_CONSTRUCT": ARTIFACTS['code'],
+            "BASE_CADDY": IMAGES['base/caddy'], 
+            },
+        image_deps=[
+            ARTIFACTS['code'],
+            ],
         )
-    else:
-        builder['build'](
-            ref=ARTIFACTS['frontend'],
-            context='{pwd}/src/frontend'.format(pwd=pwd),
-            build_args={
-                "APP_CONSTRUCT": ARTIFACTS['code'],
-                "BASE_CADDY": IMAGES['base/caddy'], 
-                },
-            image_deps=[
-                ARTIFACTS['code'],
-                ],
-            )
 
+def ui(pwd=PWD):
     cmd_button('podexec',
                 argv=['sh', '-c', '''
                 kubectl exec -c backend -it deploy/tao-ce-tao -- taoadm install -F
                 kubectl rollout restart deploy/tao-ce-tao
                 '''],
                 location=location.RESOURCE,
-                resource="tao-ce-tao",
+                resource="construct-tao",
                 icon_name='install_desktop',
                 text='💀 Reinstall TAO Construct',
                 requires_confirmation=True,

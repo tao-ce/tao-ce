@@ -22,8 +22,7 @@ spec:
         - /bin/sh
         - -c
         - |
-          true
-          # php bin/console messenger:setup-transports
+          php bin/console messenger:setup-transports
       containers:
       - image: tao/environment-management/lti-gateway
         resources: {}

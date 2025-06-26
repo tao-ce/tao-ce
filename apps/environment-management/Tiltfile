@@ -20,15 +20,11 @@ ARTIFACTS = {
 
 PULLS = {}
 
-def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
-
-    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
+def manifest(pwd=PWD):
+    kustomize("{pwd}/manifests".format(pwd=pwd))
     watch_file("{pwd}/manifests")
-    k8s_resource( "tao-ce-em-auth-server", labels=[APPLICATION])
-    k8s_resource( "tao-ce-em-lti-gateway", labels=[APPLICATION])
-    k8s_resource( "tao-ce-em-sidecar", labels=[APPLICATION])
-    k8s_resource( "tao-ce-envoy", labels=[APPLICATION])
 
+def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
     builder['build'](
         ref=ARTIFACTS['lti-gateway'],
         context='{pwd}'.format(pwd=pwd),

@@ -137,7 +137,7 @@ data:
                               "appenders": [
                                   {
                                       "class": "SingleFileAppender",
-                                      "file": "php://stderr",
+                                      "file": "/app/construct/data/mono.log",
                                       "format": "%d [%s] [%p] '%m' %f %l",
                                       "prefix": "tao",
                                       "rotation-ratio": 0,

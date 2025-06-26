@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../apps/scoring/manifests
+
+images:
+  - name: tao/scoring/service/be
+    newName: quay.io/tao-ce/scoring/service/be
+    newTag: latest
+  - name: tao/scoring/manual/be
+    newName: quay.io/tao-ce/scoring/manual/be
+    newTag: latest
+  - name: tao/scoring/manual/bootstrap
+    newName: quay.io/tao-ce/scoring/manual/bootstrap
+    newTag: latest
+  - name: tao/scoring/manual/static
+    newName: quay.io/tao-ce/scoring/manual/static
+    newTag: latest

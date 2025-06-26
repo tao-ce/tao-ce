@@ -148,7 +148,9 @@ RUN sudo apt update \
             firefox-devedition/mozilla \
     && rm -rf /var/lib/apt/lists/*
 
-FROM quay.io/fedora-ostree-desktops/kinoite:${FEDORA_VERSION} AS devcontainer-fedora
+# FROM quay.io/fedora-ostree-desktops/kinoite:${FEDORA_VERSION} AS devcontainer-fedora
+
+FROM fedora:${FEDORA_VERSION} AS devcontainer-fedora
 
 ARG TARGETPLATFORM
 ARG TARGETOS
@@ -158,7 +160,7 @@ ARG FEDORA_VERSION
 ARG USERNAME="vscode"
 ENV USERNAME="${USERNAME}"
 
-RUN dnf install -y make && \
+RUN dnf install -y make git firefox curl dnsutils skopeo pre-commit xdg-utils && \
     useradd -G wheel ${USERNAME} && \
     echo '%wheel  ALL=(ALL)       NOPASSWD: ALL' | tee -a /etc/sudoers
 

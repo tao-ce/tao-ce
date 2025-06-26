@@ -1,17 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    component: devkit 
+  labels: &labels
+    tier: backend 
   name: devkit-lti1p3
 spec:
   selector:
-    matchLabels:
-      component: devkit 
+    matchLabels: *labels
   template:
     metadata:
-      labels:
-        component: devkit
+      labels: *labels
     spec:
         
       containers:
@@ -47,11 +45,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: devkit-lti1p3
-  labels:
-    component: devkit
+  labels: &labels
+    tier: backend
 spec:
-  selector:
-    component: devkit
+  selector: *labels
   ports:
   - port: 80
     targetPort: 80

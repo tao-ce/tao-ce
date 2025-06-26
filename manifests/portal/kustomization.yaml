@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../apps/portal/manifests
+
+images:
+  - name: tao/portal/bootstrap
+    newName: quay.io/tao-ce/portal/bootstrap
+    newTag: latest
+  - name: tao/portal/static
+    newName: quay.io/tao-ce/portal/static
+    newTag: latest
+  - name: tao/portal/backend
+    newName: quay.io/tao-ce/portal/backend
+    newTag: latest

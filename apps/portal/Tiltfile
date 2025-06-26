@@ -18,15 +18,10 @@ ARTIFACTS = {
 
 PULLS = {}
 
+def manifest(pwd=PWD):
+    return kustomize("{pwd}/manifests".format(pwd=pwd))
+
 def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
-
-    # k8s_yaml(kustomize("{pwd}/manifests/init".format(pwd=pwd)),)
-    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
-    k8s_resource( "tao-ce-tao-portal-be", labels=[APPLICATION])
-    k8s_resource( "tao-ce-tao-portal-static", labels=[APPLICATION],links=["https://community.tao.internal/portal/"])
-    k8s_resource( "tao-ce-tao-portal-bootstrap", labels=[APPLICATION])
-
-
     builder['build'](
         ref=ARTIFACTS['backend'],
         context='{pwd}/src'.format(pwd=pwd),
@@ -67,8 +62,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         secret="id=NPM_TOKEN,src=.secrets/npm",
         )
 
-
-
+def ui(pwd=PWD):
     cmd_button('{}_{}_reset_samples_data'.format(REALM,APPLICATION),
                 argv=['sh', '-c', '''
                     while IFS=, read index mapping ; do
@@ -83,7 +77,7 @@ EOS
                     jsonnet lib/portal-data.jsonnet | jq -c '.[]' | curl -X POST -H 'Content-Type: application/json' --data-binary @- http://es:9200/_bulk?pretty
                 '''.format(pwd=pwd)],
                 location=location.RESOURCE,
-                resource="tao-ce-tao-portal-be",
+                resource="be",
                 icon_name='lock_reset',
                 text='Reset Samples Data',
                 requires_confirmation=True,

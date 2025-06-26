@@ -18,7 +18,22 @@ IMAGES = {
     'upstream/node23': 'node:23-alpine3.21',
 }
 
-def php(builder):
+PULLS = {
+    'build/php': 'quay.io/tao-ce/build/php:latest',
+    'base/php': 'quay.io/tao-ce/build/php:latest', # TODO change with actual base
+    'build/node': IMAGES['upstream/node'],
+    'build/node18': IMAGES['upstream/node18'],
+    'build/node22': IMAGES['upstream/node22'],
+    'build/node23': IMAGES['upstream/node23'],
+}
+
+
+def pull(builder):
+    for image in PULLS:
+        builder['pull'](image, PULLS[image])
+
+
+def build(builder):
     build = builder['build']
     
     build(

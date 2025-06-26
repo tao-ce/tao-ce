@@ -1,3 +1,6 @@
+
+CONTAINERD_NAMESPACE = os.getenv('CONTAINERD_NAMESPACE', default='k8s.io')
+
 def build(
     ref,
     context,
@@ -15,11 +18,12 @@ def build(
     cache_from=[],
     image_deps=[],
     platform='',
+    ns=CONTAINERD_NAMESPACE,
 ):
 
     cmd = ['nerdctl']
 
-    cmd += ['--namespace', 'k8s.io']
+    cmd += ['--namespace', ns]
 
     cmd += ['build']
 
@@ -87,11 +91,12 @@ def pull(
     ref,
     src,
     live_update=[],
+    ns=CONTAINERD_NAMESPACE,
 ):
 
-    cmd = ['nerdctl', '--namespace', 'k8s.io', 'pull', src]
-    cmd += ['&&', 'nerdctl', '--namespace', 'k8s.io', 'image', 'tag', src, '"${EXPECTED_REF}"']
-    cmd += ['&&', 'nerdctl', '--namespace', 'k8s.io', 'image', 'tag', src, '{}:latest'.format(ref)]
+    cmd = ['nerdctl', '--namespace', ns, 'pull', src]
+    cmd += ['&&', 'nerdctl', '--namespace', ns, 'image', 'tag', src, '"${EXPECTED_REF}"']
+    cmd += ['&&', 'nerdctl', '--namespace', ns, 'image', 'tag', src, '{}:latest'.format(ref)]
 
     cmd = ' '.join(cmd)
 

@@ -1,13 +1,40 @@
 
+# Checklist
+
+## Hardware
+
+* at least 80GB of space disk available
+* at least 4 CPUs (8 recommended)
+* at least 8GB of RAM (16GB recommended)
+
+## System
+
+> [!WARNING]
+> This has been tested recent Linux only (Fedora 42 with `x86_64` arch). MacOS and Windows support and requirements may differ.
+
+
+* `docker` daemon is installed and running. user is member of `docker` group, and `docker compose` command is available.
+* `sysctl` records has the following value
+```
+sysctl net.ipv4.ip_unprivileged_port_start=0  # 443 might be enough, but we are not going to prod
+sysctl fs.inotify.max_user_instances=512      # or higher
+sysctl fs.inotify.max_user_watches=524288     # or higher
+```
+
+## Credentials
+
+* `ssh-agent` is running with your GitHub key added
+* a NPM private token is required
+
 # Gather Code
 1. Add credentials (will be removed once released OSS)
   * Add NPM token in `.secrets/npm`
-  * Ensure to have `ssh-agent` running with your GitHub key added
 2. Clone repos
 ```bash
-git clone git@github.com:tao-ce/tao-ce.git`
+git clone git@github.com:tao-ce/tao-ce.git
 cd tao-ce
-git submodule update
+git submodule update --init --recursive
+
 ```
 
 # Run
@@ -26,7 +53,7 @@ git submodule update
     - `tao-ce-em-sidecar`
     - `tao-ce-envoy`
     - `tao-ce-tao-portal-be`
-  * in `tao-ce-tao-portal-be` row, click `Reset Credentials`
+  * in `tao-ce-tao-portal-be` row, click `Reset Samples Data`
 
 # Use
 1. open `https://community.tao.internal/portal`
