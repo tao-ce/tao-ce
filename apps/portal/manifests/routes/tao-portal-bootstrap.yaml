@@ -4,8 +4,8 @@ kind: "HTTPRoute"
 metadata:
   name: "tao-portal-bootstrap"
 spec:
-  hostnames:
-  - community.tao.internal
+  # hostnames:
+  # - community.tao.internal
   parentRefs:
   - name: gateway
     namespace: istio-system

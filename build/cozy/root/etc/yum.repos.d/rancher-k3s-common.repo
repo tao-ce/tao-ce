@@ -1,0 +1,7 @@
+[rancher-k3s-common-stable]
+name=Rancher K3s Common (stable)
+baseurl=https://rpm.rancher.io/k3s/stable/common/centos/8/noarch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+gpgkey=https://rpm.rancher.io/public.key

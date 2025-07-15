@@ -6,5 +6,5 @@ resources:
 
 images:
   - name: tao/simple-reports/backend
-    newName: quay.io/tao-ce/simple-reports/backend
+    newName: quay.io/tao-ce/tao/simple-reports/backend
     newTag: latest

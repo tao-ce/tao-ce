@@ -16,7 +16,7 @@ spec:
         resources: {}
         envFrom: &env
         - secretRef:
-            name: lti-gateway-env
+            name: tao-ce-setup-lti-gateway-env
         name: init 
         command:
         - /bin/sh

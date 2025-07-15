@@ -17,7 +17,7 @@ spec:
         name: backend
         envFrom:
         - secretRef:
-            name: tao-hierarchy-be-env
+            name: tao-ce-setup-tao-hierarchy-be-env
         ports:
         - containerPort: 3001
           protocol: TCP

@@ -5,10 +5,10 @@ kind: Kustomization
 namePrefix: tao-ce-
 
 resources:
-- ./secrets/auth-server-env.yaml
+# - ./secrets/auth-server-env.yaml
 # - ./secrets/auth-server-config.yaml
-- ./secrets/lti-gateway-env.yaml
-- ./secrets/sidecar-env.yaml
+# - ./secrets/lti-gateway-env.yaml
+# - ./secrets/sidecar-env.yaml
 - ./deployments/auth-server.yaml
 - ./deployments/lti-gateway.yaml
 - ./deployments/sidecar.yaml
@@ -26,20 +26,20 @@ labels:
   includeSelectors: true
   includeTemplates: true
 
-secretGenerator:
-- name: auth-server-config
-  files:
+# secretGenerator:
+# - name: auth-server-config
+#   files:
 
-  - ./files/environments.json
-  - ./files/tenant-data.json
+#   - ./files/environments.json
+#   - ./files/tenant-data.json
 
-- name: auth-server-keys
-  files:
-  - ./keys/private.pem
-  - ./keys/public.pem
-- name: envoy-config
-  files:
-  - ./files/envoy.yaml
+# - name: auth-server-keys
+#   files:
+#   - ./keys/private.pem
+#   - ./keys/public.pem
+# - name: envoy-config
+#   files:
+#   - ./files/envoy.yaml
 
 
 

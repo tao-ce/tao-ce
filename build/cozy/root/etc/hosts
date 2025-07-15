@@ -1,0 +1,10 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+0.0.0.0     tao-ce-cozy tao-ce-cozy.local community.tao.internal admin.tao.internal
+10.247.40.4 redis.deps
+10.247.40.7 es.deps
+10.247.40.9 firestore.deps
+10.247.40.17 kibana.deps
+10.247.40.5 pgsql.deps
+10.247.40.8 pubsub.deps
+10.247.40.18 pubsub-ui.deps

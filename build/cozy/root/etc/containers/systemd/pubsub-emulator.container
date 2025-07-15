@@ -1,0 +1,15 @@
+[Unit]
+Description=Pubsub emulator for TAO Community
+Before=k3s.service
+
+[Container]
+Image=quay.io/tao-ce/services/pubsub-emulator:latest
+NetworkAlias=pubsub
+IP=10.247.40.8
+Network=deps.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,1 +1,16 @@
-{ "policies": { "Certificates": { "Install": ["~/.mozilla/certificates/local.crt"] } } }
+{
+    "policies": {
+        "Certificates": {
+            "Install": [
+                "/workspace/build/tls/ca.crt"
+            ]
+        }
+    },
+    "Preferences": {
+        "network.socket.ip_addr_any.disabled": {
+            "Status": "locked",
+            "Value": false
+        }
+    },
+    "SkipTermsOfUse": true
+}

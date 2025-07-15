@@ -1,0 +1,9 @@
+secretGenerator:
+  - name: local-ca-pair
+    namespace: cert-manager 
+    options:
+      disableNameSuffixHash: true
+    files:
+    - tls.crt=./.cache/ca.crt
+    - tls.key=./.cache/ca.key
+    type: "kubernetes.io/tls"

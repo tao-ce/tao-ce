@@ -1,9 +1,7 @@
 services:
   dev:
     image: quay.io/tao-ce/devcontainer:latest
-    # build:
-      # args:
-        # - DEVCONTAINER_FLAVOR=fedora
+    build: !reset null
     links:
       - k8s:community.tao.internal
       - firestore

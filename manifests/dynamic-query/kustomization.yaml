@@ -6,5 +6,5 @@ resources:
 
 images:
   - name: tao/dynamic-query/api
-    newName: quay.io/tao-ce/dynamic-query/api
+    newName: quay.io/tao-ce/tao/dynamic-query/api
     newTag: latest

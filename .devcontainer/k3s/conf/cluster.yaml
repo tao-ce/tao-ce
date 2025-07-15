@@ -2,5 +2,7 @@ disable: traefik,coredns
 tls-san:
   - k8s
 flannel-external-ip: true
+kubelet-arg:
+- config=/opt/k3s/conf/kubelet-config.yaml
 #  private-registry: /app/conf/k3s/registries.yaml
 # disable-default-registry-endpoint: true

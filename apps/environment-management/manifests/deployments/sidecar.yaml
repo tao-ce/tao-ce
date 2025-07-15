@@ -17,7 +17,7 @@ spec:
         name: sidecar
         envFrom:
         - secretRef:
-            name: sidecar-env
+            name: tao-ce-setup-sidecar-env
         volumeMounts:
         - name: auth-server-keys
           mountPath: /var/keys
@@ -34,7 +34,7 @@ spec:
       volumes:
       - name: auth-server-keys
         secret:
-          secretName: auth-server-keys
+          secretName: tao-ce-setup-auth-server-keys
 
 
 ---

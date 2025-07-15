@@ -1,0 +1,23 @@
+[Unit]
+Description=Kibana for TAO Community
+Before=k3s.service
+After=elasticsearch.container
+
+[Container]
+Image=docker.io/kibana:8.15.1
+#Image=docker.elastic.co/kibana/kibana:8.15.1
+IP=10.247.40.17
+Network=deps.network
+NetworkAlias=kibana
+Environment=http.tls.selfSignedCertificate.disabled=true
+Environment=ELASTICSEARCH_HOSTS=http://es:9200
+Environment=server.host=es
+Environment=xpack.security.authc.providers.anonymous.anonymous1.order=0
+Environment=xpack.security.authc.providers.anonymous.anonymous1.credentials="elasticsearch_anonymous_user"
+
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

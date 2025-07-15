@@ -6,11 +6,11 @@ resources:
 
 images:
   - name: tao/portal/bootstrap
-    newName: quay.io/tao-ce/portal/bootstrap
+    newName: quay.io/tao-ce/tao/portal/bootstrap
     newTag: latest
   - name: tao/portal/static
-    newName: quay.io/tao-ce/portal/static
+    newName: quay.io/tao-ce/tao/portal/static
     newTag: latest
   - name: tao/portal/backend
-    newName: quay.io/tao-ce/portal/backend
+    newName: quay.io/tao-ce/tao/portal/backend
     newTag: latest

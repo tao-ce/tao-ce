@@ -6,5 +6,5 @@ resources:
 
 images:
   - name: tao/devkit/backend
-    newName: quay.io/tao-ce/devkit/backend
+    newName: quay.io/tao-ce/tao/devkit/backend
     newTag: latest

@@ -21,6 +21,7 @@ IMAGES = {
 PULLS = {
     'build/php': 'quay.io/tao-ce/build/php:latest',
     'base/php': 'quay.io/tao-ce/build/php:latest', # TODO change with actual base
+    'build/go': ' golang:1.24-alpine',
     'build/node': IMAGES['upstream/node'],
     'build/node18': IMAGES['upstream/node18'],
     'build/node22': IMAGES['upstream/node22'],
@@ -28,16 +29,12 @@ PULLS = {
 }
 
 
-def pull(builder):
-    for image in PULLS:
-        builder['pull'](image, PULLS[image])
+def images(builder):
+    update_settings(suppress_unused_image_warnings=ARTIFACTS.keys())
 
-
-def build(builder):
-    build = builder['build']
-    
-    build(
+    builder(
         ref=ARTIFACTS['build/php'],
+        src=PULLS['build/php'],
         context=PWD,
         dockerfile='{}/php-build.Dockerfile'.format(PWD),
         target='build',
@@ -47,46 +44,52 @@ def build(builder):
             # ],
         )
 
-    build(
+    builder(
         ref=ARTIFACTS['base/php'],
+        src=PULLS['base/php'],
         context=PWD,
         dockerfile='{}/php-build.Dockerfile'.format(PWD),
         target='base',
         )
 
-    build(
+    builder(
         ref=ARTIFACTS['build/go'],
+        src=PULLS['build/go'],
         context=PWD,
         dockerfile='{}/go-build.Dockerfile'.format(PWD),
         target='build',
     )
 
-    build(
+    builder(
         ref=ARTIFACTS['build/node18'],
+        src=PULLS['build/node18'],
         context=PWD,
         dockerfile='{}/node-build.Dockerfile'.format(PWD),
         build_args={"BASE_NODE": IMAGES['upstream/node18']},
         target='build',
     )
 
-    build(
+    builder(
         ref=ARTIFACTS['build/node22'],
+        src=PULLS['build/node22'],
         context=PWD,
         dockerfile='{}/node-build.Dockerfile'.format(PWD),
         build_args={"BASE_NODE": IMAGES['upstream/node22']},
         target='build',
     )
 
-    build(
+    builder(
         ref=ARTIFACTS['build/node23'],
+        src=PULLS['build/node23'],
         context=PWD,
         dockerfile='{}/node-build.Dockerfile'.format(PWD),
         build_args={"BASE_NODE": IMAGES['upstream/node23']},
         target='build',
     )
 
-    build(
+    builder(
         ref=ARTIFACTS['build/node'],
+        src=PULLS['build/node'],
         context=PWD,
         dockerfile='{}/node-build.Dockerfile'.format(PWD),
         build_args={"BASE_NODE": IMAGES['upstream/node']},

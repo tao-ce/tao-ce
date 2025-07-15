@@ -11,7 +11,7 @@ labels:
 resources:
 - ./deployments/be.yaml
 - ./deployments/jsreport.yaml
-- ./secrets/simple-reports-be-env.yaml
+# - ./secrets/simple-reports-be-env.yaml
 - ./routes/simple-reports.yaml
 - ./routes/jsreport.yaml
 

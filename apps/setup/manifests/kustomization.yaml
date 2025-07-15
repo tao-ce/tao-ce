@@ -1,0 +1,16 @@
+
+resources:
+  - ./crd.yaml
+  - https://github.com/metacontroller/metacontroller/manifests/production
+  - ./controller.yaml
+  - ./setup.yaml
+
+
+patches:
+- patch: |-
+    - op: add
+      path: /spec/template/spec/containers/0/args/-
+      value: --apply-strategy=server-side-apply
+  target:
+    kind: StatefulSet
+    name: metacontroller

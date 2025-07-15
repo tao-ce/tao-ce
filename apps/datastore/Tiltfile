@@ -18,8 +18,8 @@ PULLS = {}
 def manifest(pwd=PWD):
     return kustomize("{pwd}/manifests".format(pwd=pwd))
 
-def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
-    builder['build'](
+def images(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+    builder(
         ref=ARTIFACTS['worker'],
         context='{pwd}/src/node'.format(pwd=pwd),
         build_args={"BASE": IMAGES['build/node']},

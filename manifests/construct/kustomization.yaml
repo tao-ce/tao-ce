@@ -6,8 +6,8 @@ resources:
 
 images:
   - name: tao/construct/backend
-    newName: quay.io/tao-ce/construct/backend
+    newName: quay.io/tao-ce/tao/construct/backend
     newTag: latest
   - name: tao/construct/frontend
-    newName: quay.io/tao-ce/construct/frontend
+    newName: quay.io/tao-ce/tao/construct/frontend
     newTag: latest

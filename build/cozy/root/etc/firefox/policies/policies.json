@@ -1,0 +1,62 @@
+{
+    "policies": {
+        "Bookmarks": [
+            {
+                "Folder": "TAO Community Edition",
+                "Placement": "toolbar",
+                "Title": "Cozy Admin",
+                "URL": "https://admin.tao.internal:9090/"
+            },
+            {
+                "Folder": "TAO Community Edition",
+                "Placement": "toolbar",
+                "Title": "Portal",
+                "URL": "https://community.tao.internal/portal/"
+            },
+            {
+                "Folder": "TAO Community Edition",
+                "Placement": "toolbar",
+                "Title": "Construct",
+                "URL": "https://community.tao.internal/construct/"
+            },
+            {
+                "Folder": "Debugging tools",
+                "Placement": "toolbar",
+                "Title": "Kibana",
+                "URL": "http://kibana.deps:5601"
+            },
+            {
+                "Folder": "Debugging tools",
+                "Placement": "toolbar",
+                "Title": "PubSub UI",
+                "URL": "http://pubsub-ui.deps"
+            },
+            {
+                "Folder": "TAO Community Edition",
+                "Placement": "toolbar",
+                "Title": "Devkit",
+                "URL": "https://community.tao.internal/devkit/"
+            }
+        ],
+        "Certificates": {
+            "Install": [
+                "/var/lib/tao-ce/tls/ca.crt",
+                "/etc/cockpit/ws-certs.d/ca.crt"
+            ]
+        },
+        "DisplayBookmarksToolbar": "always",
+        "Homepage": {
+            "StartPage": "homepage",
+            "URL": "https://community.tao.internal/portal/"
+        },
+        "NoDefaultBookmarks": true,
+        "OverrideFirstRunPage": "https://admin.tao.internal:9090/",
+        "Preferences": {
+            "network.socket.ip_addr_any.disabled": {
+                "Status": "locked",
+                "Value": false
+            }
+        },
+        "SkipTermsOfUse": true
+    }
+}

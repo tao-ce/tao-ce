@@ -18,7 +18,7 @@ spec:
         name: bootstrap
         envFrom:
         - secretRef:
-            name: tao-deliver-fe-bootstrap-env
+            name: tao-ce-setup-tao-deliver-fe-bootstrap-env
         ports:
         - containerPort: 3000
           protocol: TCP

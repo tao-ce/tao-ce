@@ -6,14 +6,14 @@ resources:
 
 images:
   - name: tao/deliver/bootstrap
-    newName: quay.io/tao-ce/deliver/bootstrap
+    newName: quay.io/tao-ce/tao/deliver/bootstrap
     newTag: latest
   - name: tao/deliver/static
-    newName: quay.io/tao-ce/deliver/static
+    newName: quay.io/tao-ce/tao/deliver/static
     newTag: latest
   - name: tao/deliver/sandbox
-    newName: quay.io/tao-ce/deliver/sandbox
+    newName: quay.io/tao-ce/tao/deliver/sandbox
     newTag: latest
   - name: tao/deliver/backend
-    newName: quay.io/tao-ce/deliver/backend
+    newName: quay.io/tao-ce/tao/deliver/backend
     newTag: latest

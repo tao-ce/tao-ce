@@ -21,8 +21,8 @@ PULLS = {}
 def manifest(pwd=PWD):
     return kustomize("{pwd}/manifests".format(pwd=pwd))
 
-def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
-    builder['build'](
+def images(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+    builder(
         ref=ARTIFACTS['backend'],
         context='{pwd}/src'.format(pwd=pwd),
         build_args={"BASE": IMAGES['build/node']},
@@ -32,7 +32,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             ],
         )
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['bootstrap'],
         context='{pwd}/src'.format(pwd=pwd),
         target="bootstrap",
@@ -47,7 +47,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         secret="id=NPM_TOKEN,src=.secrets/npm",
         )
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['static'],
         context='{pwd}/src'.format(pwd=pwd),
         target="static",
@@ -64,33 +64,14 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
 
 def ui(pwd=PWD):
     cmd_button('{}_{}_reset_samples_data'.format(REALM,APPLICATION),
-                argv=['sh', '-c', '''
-                    while IFS=, read index mapping ; do
-                    curl -X DELETE -H 'Content-Type: application/json' http://es:9200/$index
-                    curl -XPUT -H 'Content-Type: application/json' http://es:9200/$index -d @$mapping
-                    done <<EOS
-portal-user,{pwd}/src/backend/mappings/portal-user.json
-portal-enrolment,{pwd}/src/backend/mappings/portal-enrolment.json
-portal-hierarchy,{pwd}/src/backend/mappings/portal-hierarchy.json
-portal-config-hierarchy,{pwd}/src/backend/mappings/portal-config-hierarchy.json
-EOS
-                    jsonnet lib/portal-data.jsonnet | jq -c '.[]' | curl -X POST -H 'Content-Type: application/json' --data-binary @- http://es:9200/_bulk?pretty
-                '''.format(pwd=pwd)],
-                location=location.RESOURCE,
-                resource="be",
-                icon_name='lock_reset',
-                text='Reset Samples Data',
-                requires_confirmation=True,
+        argv=[ 'sh', 'reset-users.sh' ],
+        env={
+            "ELASTICSEARCH_URL": "http://es.deps.internal:9200"
+        },
+        dir="hack/tasks",
+        location=location.RESOURCE,
+        resource="portal-be",
+        icon_name='lock_reset',
+        text='Reset Samples Data',
+        requires_confirmation=True,
     )
-
-
-    # cmd_button('{}_{}_wipe_users'.format(REALM,APPLICATION),
-    #             argv=['sh', '-c', '''
-    #                 curl -X DELETE -H 'Content-Type: application/json' http://es:9200/portal-user
-    #             '''],
-    #             location=location.RESOURCE,
-    #             resource="tao-ce-tao-portal-be",
-    #             icon_name='group_off',
-    #             text='💀 Wipe users',
-    #             requires_confirmation=True,
-    # )

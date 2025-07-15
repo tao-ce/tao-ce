@@ -10,8 +10,3 @@ labels:
     
 resources:
 - ./deployments/worker.yaml
-- ./secrets/worker.yaml
-
-# configurations:
-  # - ./backendRefs.yaml
-

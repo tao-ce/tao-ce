@@ -18,7 +18,7 @@ spec:
         name: delivery-results
         envFrom:
         - secretRef:
-            name: datastore-worker-env
+            name: tao-ce-setup-datastore-worker-env
         env:
         - name: ENTITY
           value: DELIVERY_RESULTS

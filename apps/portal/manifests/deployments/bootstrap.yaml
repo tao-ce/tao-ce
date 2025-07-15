@@ -17,7 +17,7 @@ spec:
         name: bootstrap
         envFrom:
         - secretRef:
-            name: tao-portal-bootstrap-env
+            name: tao-ce-setup-tao-portal-bootstrap-env
         ports:
         - containerPort: 3000
           protocol: TCP

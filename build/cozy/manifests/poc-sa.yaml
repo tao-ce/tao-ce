@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default
+  namespace: default
+imagePullSecrets:
+  - name: tao-artefacts-poc
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default
+  namespace: metacontroller
+imagePullSecrets:
+  - name: tao-artefacts-poc

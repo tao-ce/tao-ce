@@ -1,0 +1,38 @@
+diff --git a/apps/environment-management/src/lti-gateway/config/packages/dev/monolog.yaml b/apps/environment-management/src/lti-gateway/config/packages/dev/monolog.yaml
+index beb50b2c..2704b8b2 100644
+--- a/apps/environment-management/src/lti-gateway/config/packages/dev/monolog.yaml
++++ b/apps/environment-management/src/lti-gateway/config/packages/dev/monolog.yaml
+@@ -1,11 +1,18 @@
+ monolog:
++    channels:
++    - deprecation
+     handlers:
+         main:
+             type: stream
+             path: "php://stdout"
+             level: debug
+-            channels: ["!event"]
++            channels: ["!event", "!deprecation"]
+         console:
+             type: console
+             process_psr_3_messages: false
+-            channels: ["!event", "!console"]
++            channels: ["!event", "!console","!deprecation"]
++
++        deprecation:
++            bubble: false
++            type: "null"
++            channels: [deprecation]
+\ No newline at end of file
+diff --git a/apps/environment-management/src/lti-gateway/config/services.yaml b/apps/environment-management/src/lti-gateway/config/services.yaml
+index 5eec572a..2010deec 100644
+--- a/apps/environment-management/src/lti-gateway/config/services.yaml
++++ b/apps/environment-management/src/lti-gateway/config/services.yaml
+@@ -87,6 +87,7 @@ services:
+         factory: [ '@Google\Cloud\Core\ServiceBuilder', 'pubsub' ]
+         arguments:
+             $config:
++                projectId: '%env(GOOGLE_CLOUD_PROJECT)%'
+                 transport: 'grpc'
+                 # credentialsFetcher: '@Google\Auth\Credentials\GCECredentials'
+                 scopes: [ 'https://www.googleapis.com/auth/cloud-platform' ]

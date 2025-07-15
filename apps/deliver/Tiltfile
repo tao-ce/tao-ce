@@ -25,12 +25,12 @@ PULLS = {}
 def manifest(pwd=PWD):
     return kustomize("{pwd}/manifests".format(pwd=pwd))
 
-def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+def images(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
 
 
     # k8s_yaml(kustomize("{pwd}/manifests/init".format(pwd=pwd)),)
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['code'],
         context='{pwd}'.format(pwd=pwd),
         target="export",
@@ -42,7 +42,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         ssh="default",
         )
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['backend'],
         context='{pwd}'.format(pwd=pwd),
         build_args={"BASE": IMAGES['base/php']},
@@ -53,7 +53,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             ],
         )
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['sandbox'],
         context='{pwd}/src/sandbox'.format(pwd=pwd),
         build_args={"BASE": IMAGES['build/node']},
@@ -64,7 +64,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         secret="id=NPM_TOKEN,src=.secrets/npm",
         )
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['static'],
         context='{pwd}/src/fe'.format(pwd=pwd),
         target="static",
@@ -81,7 +81,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         )
 
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['bootstrap'],
         context='{pwd}/src/fe'.format(pwd=pwd),
         target="bootstrap",

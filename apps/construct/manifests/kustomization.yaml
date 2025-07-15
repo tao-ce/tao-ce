@@ -11,7 +11,7 @@ labels:
   includeTemplates: true
 
 resources:
-- ./secret.yaml
+# - ./secret.yaml
 - ./deploy.yaml
 - ./route.yaml
 

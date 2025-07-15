@@ -65,10 +65,11 @@ services:
     - buildkit:/var/lib/buildkit:z
     - run-k3s:/run/k3s
     - ./.data/kube:/kube
+    - ./.data/manifests:/var/lib/rancher/k3s/server/manifests/infra:ro
     - ./.data/k8s:/data
     - ${DEVCONTAINER_PATH:-.}/k3s:/opt/k3s:ro
-    - ${DEVCONTAINER_PATH:-.}/k3s/manifests/infra:/var/lib/rancher/k3s/server/manifests/infra:ro
-    - ${DEVCONTAINER_PATH:-.}/k3s/manifests/ingress:/var/lib/rancher/k3s/server/manifests/ingress:ro
+    # - ${DEVCONTAINER_PATH:-.}/k3s/manifests/infra:/var/lib/rancher/k3s/server/manifests/infra:ro
+    # - ${DEVCONTAINER_PATH:-.}/k3s/manifests/ingress:/var/lib/rancher/k3s/server/manifests/ingress:ro
     # ports:
     # - 6443        # Kubernetes API Server
     # - 80:80       # Ingress controller port 80

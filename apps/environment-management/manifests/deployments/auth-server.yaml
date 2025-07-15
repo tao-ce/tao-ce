@@ -12,7 +12,8 @@ spec:
       labels: *labels
     spec:
       containers:
-      - image: tao/environment-management/auth-server
+      - name: server
+        image: tao/environment-management/auth-server
         resources: {}
         ports:
         - containerPort: 8080
@@ -24,29 +25,42 @@ spec:
         - containerPort: 1888
           name: grpc
           protocol: TCP
-        envFrom:
+        envFrom: &env
         - secretRef:
-            name: auth-server-env
-        volumeMounts:
+            name: tao-ce-setup-auth-server-env
+        volumeMounts: &mount
         - name: auth-server-keys
           mountPath: /app/dist/config/keys
           readOnly: true
         - name: auth-server-config
           mountPath: /app/preload-data
           readOnly: true
-        name: server
+      initContainers:
+      - name: refresh
+        image: tao/environment-management/auth-server
+        restartPolicy: Always
+        envFrom: *env
+        volumeMounts: *mount
+        command:
+          - /bin/sh
+          - -c
+          - |
+            while true ; do
+            /usr/local/bin/node scripts/tenant-data-preloader/preload-tenant-data-json.js
+            sleep 60
+            done
       restartPolicy: Always
       securityContext: {}
       volumes:
       - name: envoy-config
         secret:
-          secretName: envoy-config
+          secretName: tao-ce-setup-envoy-config
       - name: auth-server-keys
         secret:
-          secretName: auth-server-keys
+          secretName: tao-ce-setup-auth-server-keys
       - name: auth-server-config
         secret:
-          secretName: auth-server-config
+          secretName: tao-ce-setup-auth-server-config
 
 ---
 apiVersion: v1

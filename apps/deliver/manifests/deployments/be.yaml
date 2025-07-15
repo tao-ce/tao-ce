@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   labels:
     tier: be
@@ -22,7 +22,7 @@ spec:
         name: init 
         envFrom:
         - secretRef:
-            name: tao-deliver-be-env
+            name: tao-ce-setup-tao-deliver-be-env
         command:
         - /bin/sh
         - -c
@@ -38,7 +38,7 @@ spec:
         name: backend
         envFrom:
         - secretRef:
-            name: tao-deliver-be-env
+            name: tao-ce-setup-tao-deliver-be-env
         ports:
         - containerPort: 80
           protocol: TCP
@@ -49,7 +49,7 @@ spec:
         name: worker
         envFrom:
         - secretRef:
-            name: tao-deliver-be-env
+            name: tao-ce-setup-tao-deliver-be-env
         command:
         - /bin/sh
         - -c

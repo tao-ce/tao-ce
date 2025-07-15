@@ -1,4 +1,10 @@
-k3s/create: CHECK $(CA_SECRET_FILE)
+K3S_MANIFESTS_PATH=/workspace/.data/manifests
+
+k3s/create: CHECK # $(CA_SECRET_FILE)
+	sudo mkdir -p $(K3S_MANIFESTS_PATH)
+	# sudo cp /workspace/.devcontainer
+	kubectl kustomize $(PWD)/build/crystal | sudo tee $(K3S_MANIFESTS_PATH)/crystal-infra.yaml
+	# kubectl kustomize $(PWD)/manifests/ingress | sudo tee $(K3S_MANIFESTS_PATH)/ingress.yaml
 
 k3s/start: CHECK $(WORKSPACE_BASHRC)
 	grep -qF \

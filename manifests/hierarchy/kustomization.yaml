@@ -6,5 +6,5 @@ resources:
 
 images:
   - name: tao/hierarchy/backend
-    newName: quay.io/tao-ce/hierarchy/backend
+    newName: quay.io/tao-ce/tao/hierarchy/backend
     newTag: latest

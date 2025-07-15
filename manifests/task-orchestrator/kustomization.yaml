@@ -6,5 +6,5 @@ resources:
 
 images:
   - name: tao/task-orchestrator/backend
-    newName: quay.io/tao-ce/task-orchestrator/backend
+    newName: quay.io/tao-ce/tao/task-orchestrator/backend
     newTag: latest

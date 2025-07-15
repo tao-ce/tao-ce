@@ -31,10 +31,14 @@ sysctl fs.inotify.max_user_watches=524288     # or higher
   * Add NPM token in `.secrets/npm`
 2. Clone repos
 ```bash
-git clone git@github.com:tao-ce/tao-ce.git
+git clone -b develop git@github.com:tao-ce/tao-ce.git
 cd tao-ce
 git submodule update --init --recursive
-
+```
+3. Current code may need [some patches](/hack/sources), apply them:
+```
+patch -p1 < hack/sources/portal.patch
+patch -p1 < hack/sources/em.patch
 ```
 
 # Run

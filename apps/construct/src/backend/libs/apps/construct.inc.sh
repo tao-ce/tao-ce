@@ -66,6 +66,18 @@ construct_replace_generis() {
             $app_data_path/config/generis.conf.php
 }
 
+construct_setup_taoLti() {
+    gosu ${TAO_USER} \
+        php index.php 'oat\taoLti\scripts\tools\SetupLtiPlatform' \
+            -l 'Portal' \
+            -cid 'portal-authoring-client-id-1' \
+            -did '1' \
+            -a   ${PORTAL_BE_BASE_URL} \
+            -tu  'http://foo.bar' \
+            -ou  ${DELIVERTENANT_0_LTI_1P3_OIDC_LOGIN_INITIATION_URL} \
+            -ju  ${DELIVERTENANT_0_LTI_1P3_CREDENTIALS_0_JWKS}
+}
+
 construct_replace_taoLti()  {
     gosu ${TAO_USER} \
         sed -i \
@@ -81,6 +93,7 @@ construct_config() {
     construct_replace_generis DEFAULT_LANG ${config_lang}
     construct_replace_generis DEFAULT_ANONYMOUS_INTERFACE_LANG ${config_lang}
 
+    construct_setup_taoLti
     construct_replace_taoLti
 }
 
@@ -118,13 +131,18 @@ construct_worker() {
 
 construct_install() {
     force_install=0
+    silent_skip=0
 
-    while getopts ":F" o; do
+    while getopts ":Fs" o; do
         case $o in
             F)
                 _warn "Forcing install, current installation will be overwritten (^C now to cancel)..."
                 force_install=1
                 sleep 10
+            ;;
+            s)
+                _warn "Silent skip if TAO is already installed."
+                silent_skip=1
             ;;
             ?)
                 _fail "No such option -${OPTARG}."
@@ -135,11 +153,16 @@ construct_install() {
     set -e
 
     construct_is_installed && {
+        [ $silent_skip -eq 1 ] && { 
+                _warn "Silent skip ${app_name} installation process..."
+                return 0
+            } || \
         [ $force_install -eq 0 ] \
             && _fail "${app_name} already installed, use '-F' option to overwrite (DATA IN $app_data_path AND DATABASE IN pgsql WILL BE LOST)" \
             || _warn "${app_name} starting"
     }
 
+    _warn "${app_name} install running..."
 
     gosu ${TAO_USER} \
         php tao/scripts/taoSetup.php \

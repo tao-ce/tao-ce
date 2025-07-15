@@ -18,7 +18,7 @@ spec:
         name: backend
         envFrom:
         - secretRef:
-            name: devkit-lti1p3-env
+            name: tao-ce-setup-devkit-lti1p3-env
         volumeMounts:
         - name: devkit-lti1p3-config
           mountPath: /app/devkit/config/packages/lti1p3.yaml
@@ -35,10 +35,10 @@ spec:
       volumes:
       - name: devkit-lti1p3-config
         secret:
-          secretName: devkit-lti1p3-config
+          secretName: tao-ce-setup-devkit-lti1p3-config
       - name: devkit-lti1p3-keys
         secret:
-          secretName: devkit-lti1p3-keys
+          secretName: tao-ce-setup-devkit-lti1p3-keys
 
 ---
 apiVersion: v1

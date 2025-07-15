@@ -1,0 +1,13 @@
+{
+    "version": 0,
+
+    "menu": {
+        "index": {
+	    "order": 2,
+            "label": "TAO Community",
+            "path": "wizard.html"
+        }
+    },
+
+    "content-security-policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval'"
+}

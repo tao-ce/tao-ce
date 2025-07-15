@@ -1,0 +1,40 @@
+apiVersion: community.taocloud.org/v1alpha1
+kind: TAOSetup
+metadata:
+  name: tao-community-edition
+spec:
+  publicDomain: community.tao.internal
+  env:
+  - name: GOOGLE_CLOUD_PROJECT
+    value: demo-tao
+  dependencies:
+  - key: pubsub
+    type: pubsub
+    address:
+      schema: http
+      port: 8432
+      host: pubsub.deps
+  - key: firestore
+    type: firestore
+    address:
+      schema: http
+      port: 8080
+      host: firestore.deps
+  - key: es
+    type: es
+    address:
+      schema: http
+      port: 9200
+      host: es.deps
+  - key: pgsql
+    type: pgsql
+    address:
+      schema: pgsql
+      port: 5432
+      host: pgsql.deps
+  - key: redis
+    type: redis
+    address:
+      schema: redis
+      host: redis.deps
+      

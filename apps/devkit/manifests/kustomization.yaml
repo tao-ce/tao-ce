@@ -15,17 +15,17 @@ configurations:
 
 resources:
 - ./deploy.yml
-- ./secrets/devkit-lti1p3-env.yaml
+# - ./secrets/devkit-lti1p3-env.yaml
 - ./route.yml
 
-secretGenerator:
-- name: devkit-lti1p3-config
-  files:
-  - ./files/lti1p3.yaml
-- name: devkit-lti1p3-keys
-  files:
-  - ./files/private.key
-  - ./files/public.key
+# secretGenerator:
+# - name: devkit-lti1p3-config
+#   files:
+#   - ./files/lti1p3.yaml
+# - name: devkit-lti1p3-keys
+#   files:
+#   - ./files/private.key
+#   - ./files/public.key
 
 configurations:
   - ./backendRefs.yaml

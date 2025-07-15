@@ -11,7 +11,7 @@ labels:
 resources:
 - ./deployments/be.yaml
 # - ./routes/be.yaml
-- ./secrets/be.yaml
+# - ./secrets/be.yaml
 
 # configurations:
   # - ./backendRefs.yaml

@@ -6,14 +6,14 @@ resources:
 
 images:
   - name: tao/scoring/service/be
-    newName: quay.io/tao-ce/scoring/service/be
+    newName: quay.io/tao-ce/tao/scoring/service/be
     newTag: latest
   - name: tao/scoring/manual/be
-    newName: quay.io/tao-ce/scoring/manual/be
+    newName: quay.io/tao-ce/tao/scoring/manual/be
     newTag: latest
   - name: tao/scoring/manual/bootstrap
-    newName: quay.io/tao-ce/scoring/manual/bootstrap
+    newName: quay.io/tao-ce/tao/scoring/manual/bootstrap
     newTag: latest
   - name: tao/scoring/manual/static
-    newName: quay.io/tao-ce/scoring/manual/static
+    newName: quay.io/tao-ce/tao/scoring/manual/static
     newTag: latest

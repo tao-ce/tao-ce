@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: tao
   labels: &labels
@@ -11,19 +11,14 @@ spec:
     metadata:
       labels: *labels
     spec:
-        
       containers:
       - image: tao/construct/backend
         resources: {}
         name: backend
         envFrom: &construct-envFrom
         - secretRef:
-            name: tao-env
-        env: &construct-env
-        - name: CONSTRUCT_BASE_URL
-          value: https://community.tao.internal/backoffice/
-
-        volumeMounts:
+            name: tao-ce-setup-tao-env
+        volumeMounts: &be-volumes
           - mountPath: /data
             name: construct-data
           - name: construct-config-init
@@ -36,13 +31,7 @@ spec:
         - taoadm
         - worker
         envFrom: *construct-envFrom
-        env: *construct-env
-        volumeMounts:
-          - mountPath: /data
-            name: construct-data
-          - name: construct-config-init
-            mountPath: /usr/local/etc/tao/init/construct-seed.json
-            subPath: construct-seed.json            
+        volumeMounts: *be-volumes
       - image: tao/construct/frontend
         resources: {}
         ports:
@@ -60,6 +49,19 @@ spec:
           - name: construct-config-frontend
             mountPath: /etc/caddy/Caddyfile
             subPath: Caddyfile
+
+      initContainers:
+      - image: tao/construct/backend
+        resources: {}
+        name: setup
+        envFrom: *construct-envFrom
+        volumeMounts: *be-volumes
+        command:
+        - /bin/sh
+        - -c
+        - |
+          taoadm install -s
+          taoadm update
       
       restartPolicy: Always
       securityContext: {}
@@ -68,10 +70,10 @@ spec:
           hostPath:
             path: /data/tao/construct
         - name: construct-config-init
-          configMap:
-            name: tao-config
+          secret:
+            secretName: tao-ce-setup-tao-seed
             items:
-              - key: construct-seed
+              - key:  construct-seed.json
                 path: construct-seed.json
         - name: construct-config-frontend
           configMap:
@@ -88,230 +90,6 @@ metadata:
   labels:
     tier: tao
 data:
-  construct-seed: |
-    {
-      "configuration": {
-          "generis": {
-              "filesystem": {
-                  "class": "oat\\oatbox\\filesystem\\FileSystemService",
-                  "options": {
-                      "adapters": {
-                          "default": {
-                              "class": "Local",
-                              "options": {
-                                  "location": "/app/construct/data"
-                              }
-                          },
-                          "memory": {
-                              "class": "League\\Flysystem\\InMemory\\InMemoryFilesystemAdapter"
-                          }
-                      },
-                      "dirs": {
-                          "dataStore": "default",
-                          "deliveryAssemblyExport": "default",
-                          "fileUploadDirectory": "default",
-                          "itemDirectory": "default",
-                          "log": "default",
-                          "ltiKeyChain": "default",
-                          "portableElementStorage": "default",
-                          "private": "default",
-                          "public": "default",
-                          "qtiItemImsPci": "default",
-                          "qtiItempPci": "default",
-                          "sharedTmp": "default",
-                          "stateBackup": "default",
-                          "taoQtiTest": "default",
-                          "taoQtiTestSessionFilesystem": "default",
-                          "taskQueueStorage": "default"
-                      },
-                      "filesPath": "/app/construct/data"
-                  },
-                  "type": "configurableService"
-              },
-              "log": {
-                  "class": "oat\\oatbox\\log\\LoggerService",
-                  "options": {
-                      "logger": {
-                          "class": "oat\\oatbox\\log\\logger\\TaoLog",
-                          "options": {
-                              "appenders": [
-                                  {
-                                      "class": "SingleFileAppender",
-                                      "file": "/app/construct/data/mono.log",
-                                      "format": "%d [%s] [%p] '%m' %f %l",
-                                      "prefix": "tao",
-                                      "rotation-ratio": 0,
-                                      "threshold": 2
-                                  }
-                              ]
-                          }
-                      }
-                  },
-                  "type": "configurableService"
-              },
-              "persistences": {
-                  "cache": {
-                      "driver": "phpfile"
-                  },
-                  "default": {
-                      "dbname": "postgres",
-                      "driver": "pdo_pgsql",
-                      "host": "pgsql",
-                      "password": "postgres",
-                      "user": "postgres"
-                  },
-                  "deliveryExecution": {
-                      "driver": "phpredis",
-                      "host": "redis",
-                      "port": 6379
-                  },
-                  "metricsCache": {
-                      "driver": "phpredis",
-                      "host": "redis",
-                      "port": 6379
-                  },
-                  "serviceState": {
-                      "driver": "phpredis",
-                      "host": "redis",
-                      "port": 6379
-                  },
-                  "session": {
-                      "driver": "phpredis",
-                      "host": "redis",
-                      "port": 6379
-                  }
-              }
-          },
-          "global": {
-              "anonymous_lang": "en-US",
-              "import_data": false,
-              "instance_name": "tao",
-              "lang": "en-US",
-              "mode": "production",
-              "namespace": "https://communityedition.tao/ontologies/tao.rdf",
-              "session_name": "tao",
-              "timezone": "Europe/Luxembourg",
-              "url": "http://construct.default.svc"
-          },
-          "tao": {
-              "session": {
-                  "class": "\\common_session_php_KeyValueSessionHandler",
-                  "options": {
-                      "persistence": "session"
-                  },
-                  "type": "configurableService"
-              },
-              "stateStorage": {
-                  "class": "tao_models_classes_service_StateStorage",
-                  "options": {
-                      "persistence": "serviceState"
-                  },
-                  "type": "configurableService"
-              }
-          },
-          "taoDeliverConnect": {
-              "DeliverTenantService": {
-                  "class": "oat\\taoDeliverConnect\\model\\DeliverTenantService",
-                  "options": {
-                      "tenant_api": {
-                          "class": "oat\\taoDeliverConnect\\model\\api\\TenantDriverApiReader",
-                          "options": {
-                              "OPTION_DRIVER": "oat\\generis\\persistence\\EnvironmentVariableKVDriver"
-                          }
-                      }
-                  },
-                  "type": "configurableService"
-              }
-          },
-          "taoDelivery": {
-              "execution_service": {
-                  "class": "oat\\taoDelivery\\model\\execution\\implementation\\KeyValueService",
-                  "options": {
-                      "persistence": "deliveryExecution"
-                  },
-                  "type": "configurableService"
-              }
-          },
-          "taoLti": {
-              "LtiProviderService": {
-                  "class": "oat\\taoLti\\models\\classes\\LtiProvider\\LtiProviderService",
-                  "options": {
-                      "ltiProviderListImplementations": [
-                          {
-                              "class": "oat\\taoDeliverConnect\\model\\TenantLtiProviderRepository",
-                              "options": []
-                          },
-                          {
-                              "class": "oat\\taoLti\\models\\classes\\LtiProvider\\RdfLtiProviderRepository",
-                              "options": []
-                          },
-                          {
-                              "class": "oat\\taoQtiTestExport\\model\\LtiProvider\\ExportLtiProviderRepository",
-                              "options": []
-                          }
-                      ]
-                  },
-                  "type": "configurableService"
-              },
-              "PlatformKeyChainRepository": {
-                  "type": "configurableService",
-                  "class": "oat\\taoLti\\models\\classes\\Security\\DataAccess\\Repository\\PlatformKeyChainRepository",
-                  "options": [
-                    {
-                      "defaultKeyId": "1_0",
-                      "defaultKeyName": "defaultPlatformKeyName",
-                      "defaultPublicKeyPath": "/platform/default/public.key",
-                      "defaultPrivateKeyPath": "/platform/default/private.key"
-                    }
-                  ]
-              }
-            }
-      },
-      "extensions": [
-          "tao",
-          "taoCe",
-          "taoLti",
-          "taoLtiConsumer",
-          "taoDeliverConnect",
-          "taoBackOffice",
-          "taoTaskQueue"
-      ],
-      "postInstall": [
-          {
-              "class": "oat\\generis\\scripts\\tools\\ContainerCacheWarmup",
-              "params": []
-          },
-          {
-              "class": "oat\\taoTaskQueue\\scripts\\tools\\InitializeQueue",
-              "params": [
-                  "--broker=rds",
-                  "--persistence=default"
-              ]
-          },
-          {
-              "class": "oat\\tao\\scripts\\tools\\RegisterFrontendLog"
-          },
-          {
-              "class": "oat\\taoDeliverConnect\\scripts\\install\\SetupTaskQueue",
-              "params": []
-          },
-          {
-              "class": "oat\\taoAdvancedSearch\\scripts\\tools\\IndexCreator"
-          }
-      ],
-      "seed": {
-          "identifier": "tao"
-      },
-      "super-user": {
-          "email": "admin@localhost",
-          "firstname": "Administrator",
-          "lastname": "TAOTesting",
-          "login": "taoAdmin",
-          "password": "TAOce2025"
-      }
-    }
-     
-
   Caddyfile: |
     :8080 {
       handle_path {$CONSTRUCT_URL_PFX:""}/* {

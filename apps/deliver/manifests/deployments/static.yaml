@@ -18,7 +18,7 @@ spec:
         name: static
         envFrom:
         - secretRef:
-            name: tao-deliver-fe-static-env
+            name: tao-ce-setup-tao-deliver-fe-static-env
         ports:
         - containerPort: 80
           protocol: TCP

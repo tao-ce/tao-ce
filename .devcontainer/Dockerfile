@@ -17,7 +17,9 @@ ARG NERDCTL_VERSION=2.0.4
 ARG BUILDCTL_VERSION=v0.20.2
 ARG UBUNTU_VERSION=noble
 ARG FEDORA_VERSION=42
-ARG DEVCONTAINER_FLAVOR=ubuntu
+ARG FEDORA_FLAVOR=devcontainer-fedora-base
+ARG DEVCONTAINER_FLAVOR=fedora
+
 
 FROM golang:alpine AS build
 ARG TARGETPLATFORM
@@ -148,23 +150,45 @@ RUN sudo apt update \
             firefox-devedition/mozilla \
     && rm -rf /var/lib/apt/lists/*
 
-# FROM quay.io/fedora-ostree-desktops/kinoite:${FEDORA_VERSION} AS devcontainer-fedora
+FROM fedora:${FEDORA_VERSION} as devcontainer-fedora-base
 
-FROM fedora:${FEDORA_VERSION} AS devcontainer-fedora
+FROM ${FEDORA_FLAVOR} AS devcontainer-fedora
 
 ARG TARGETPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
 ARG FEDORA_VERSION
+ARG FEDORA_FLAVOR
 
 ARG USERNAME="vscode"
 ENV USERNAME="${USERNAME}"
 
-RUN dnf install -y make git firefox curl dnsutils skopeo pre-commit xdg-utils && \
-    useradd -G wheel ${USERNAME} && \
-    echo '%wheel  ALL=(ALL)       NOPASSWD: ALL' | tee -a /etc/sudoers
+RUN dnf --setopt=install_weak_deps=false install -y \
+        make \
+        vim \
+        patch \
+        btop \
+        iptables-legacy \
+        netcat \
+        git \
+        firefox \
+        curl \
+        dnsutils \
+        skopeo \
+        pre-commit \
+        xdg-utils \
+        openssl \
+        jq \
+        yq \
+        podman \
+    && useradd -G wheel ${USERNAME} \
+    && echo '%wheel  ALL=(ALL)       NOPASSWD: ALL' | tee -a /etc/sudoers \
+    && dnf clean all
 
 ENV SET_X=1
+
+
+FROM devcontainer-fedora AS vm
 
 FROM devcontainer-${DEVCONTAINER_FLAVOR} AS devcontainer
 
@@ -190,31 +214,31 @@ ADD --chmod=0755 \
     --link \
     https://dl.k8s.io/release/${KUBE_VERSION}/bin/${TARGETPLATFORM}/kubectl \
     ${BIN_DEST}/kubectl
-ADD --chmod=0755 \
-    --link \
-    https://storage.googleapis.com/skaffold/releases/${SKAFFOLD_VERSION}/skaffold-${TARGETOS}-${TARGETARCH} \
-    ${BIN_DEST}/skaffold
-ADD --chmod=0755 \
-    --link \
-    https://github.com/zarf-dev/zarf/releases/download/${ZARF_VERSION}/zarf_${ZARF_VERSION}_${TARGETOS}_${TARGETARCH} \
-    ${BIN_DEST}/zarf
-ADD --chmod=0755 \
-    --link \
-    https://github.com/k3d-io/k3d/releases/download/${K3D_VERSION}/k3d-${TARGETOS}-${TARGETARCH} \
-    ${BIN_DEST}/k3d
-ADD --chmod=0755 \
-    --link \
-    https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-${TARGETOS}-${TARGETARCH} \
-    ${BIN_DEST}/kind
-ADD --chmod=0755 \
-    --link \
-    https://github.com/kubernetes/minikube/releases/download/${MINIKUBE_VERSION}/minikube-${TARGETOS}-${TARGETARCH} \
-    ${BIN_DEST}/minikube
+# ADD --chmod=0755 \
+#     --link \
+#     https://storage.googleapis.com/skaffold/releases/${SKAFFOLD_VERSION}/skaffold-${TARGETOS}-${TARGETARCH} \
+#     ${BIN_DEST}/skaffold
+# ADD --chmod=0755 \
+#     --link \
+#     https://github.com/zarf-dev/zarf/releases/download/${ZARF_VERSION}/zarf_${ZARF_VERSION}_${TARGETOS}_${TARGETARCH} \
+#     ${BIN_DEST}/zarf
+# ADD --chmod=0755 \
+#     --link \
+#     https://github.com/k3d-io/k3d/releases/download/${K3D_VERSION}/k3d-${TARGETOS}-${TARGETARCH} \
+#     ${BIN_DEST}/k3d
+# ADD --chmod=0755 \
+#     --link \
+#     https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-${TARGETOS}-${TARGETARCH} \
+#     ${BIN_DEST}/kind
+# ADD --chmod=0755 \
+#     --link \
+#     https://github.com/kubernetes/minikube/releases/download/${MINIKUBE_VERSION}/minikube-${TARGETOS}-${TARGETARCH} \
+#     ${BIN_DEST}/minikube
 
-ADD --chmod=0755 \
-    --link \
-    https://github.com/siderolabs/talos/releases/download/${TALOSCTL_VERSION}/talosctl-${TARGETOS}-${TARGETARCH} \
-    ${BIN_DEST}/talosctl
+# ADD --chmod=0755 \
+#     --link \
+#     https://github.com/siderolabs/talos/releases/download/${TALOSCTL_VERSION}/talosctl-${TARGETOS}-${TARGETARCH} \
+#     ${BIN_DEST}/talosctl
 
 COPY \
     --link \
@@ -270,27 +294,27 @@ COPY \
     /bin/k9s \
     ${BIN_DEST}/k9s
 
-COPY \
-    --link \
-    --chmod=0755 \
-    --from=ghcr.io/blue-build/cli:latest-installer \
-    /out/bluebuild \
-    ${BIN_DEST}/bluebuild
+# COPY \
+#     --link \
+#     --chmod=0755 \
+#     --from=ghcr.io/blue-build/cli:latest-installer \
+#     /out/bluebuild \
+#     ${BIN_DEST}/bluebuild
 
-COPY --from=get-dive --chmod=0755 \
-    --link \
-    /usr/local/bin/dive \
-    ${BIN_DEST}/dive
+# COPY --from=get-dive --chmod=0755 \
+#     --link \
+#     /usr/local/bin/dive \
+#     ${BIN_DEST}/dive
 USER vscode
 ENV PATH="$PATH:$BIN_DEST:/home/vscode/.krew/bin"
 
 RUN \
     krew index add \
         default https://github.com/kubernetes-sigs/krew-index.git \
-    && krew index add \
-        kubevpn https://github.com/kubenetworks/kubevpn.git \
+    # && krew index add \
+        # kubevpn https://github.com/kubenetworks/kubevpn.git \
     && krew update \
-    && xargs -n1 krew install <<EOF
+    && grep -v '^#' <<EOF | xargs -n1 krew install
 ctx
 ns
 sniff
@@ -300,8 +324,8 @@ graph
 grep
 history
 ktop
-oomd
-kubevpn/kubevpn
+# oomd
+# kubevpn/kubevpn
 EOF
 
 COPY ./container/mozilla/policies.json /etc/firefox/policies/policies.json

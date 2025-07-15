@@ -6,5 +6,5 @@ resources:
 
 images:
   - name: tao/datastore/worker
-    newName: quay.io/tao-ce/datastore/worker
+    newName: quay.io/tao-ce/tao/datastore/worker
     newTag: latest

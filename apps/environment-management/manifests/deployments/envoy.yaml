@@ -36,7 +36,7 @@ spec:
       volumes:
       - name: envoy-config
         secret:
-          secretName: envoy-config
+          secretName: tao-ce-setup-envoy-config
 
 ---
 apiVersion: v1

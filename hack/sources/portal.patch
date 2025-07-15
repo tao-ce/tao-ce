@@ -1,0 +1,146 @@
+diff --git a/apps/portal/src/backend/script/migrations/createRootHierarchies.js b/apps/portal/src/backend/script/migrations/createRootHierarchies.js
+index 399526432..2853c0b20 100644
+--- a/apps/portal/src/backend/script/migrations/createRootHierarchies.js
++++ b/apps/portal/src/backend/script/migrations/createRootHierarchies.js
+@@ -31,9 +31,9 @@ const rootOrganizationName = 'Root';
+  */
+ const run = async () => {
+     const token = await getAuthToken();
+-    const tenantIds = await getTenantIds(token);
+-
+-    for (const tenantId of tenantIds) {
++    // const tenantIds = await getTenantIds(token);
++    const tenantId = "1";
++    // for (const tenantId of tenantIds) {
+         try {
+             await new HierarchyConfigActivateService().activate({
+                 rootOrganizationId,
+@@ -56,7 +56,7 @@ const run = async () => {
+ 
+             log.error(err, `An unexpected error occurred for tenant "${tenantId}": ${err.message}`);
+         }
+-    }
++    // }
+ };
+ 
+ run();
+diff --git a/apps/portal/src/backend/src/controllers/lti.controller.js b/apps/portal/src/backend/src/controllers/lti.controller.js
+index 6b8910906..c426fa53a 100644
+--- a/apps/portal/src/backend/src/controllers/lti.controller.js
++++ b/apps/portal/src/backend/src/controllers/lti.controller.js
+@@ -223,7 +223,7 @@ async function launchAuthoring(req, res, next) {
+ 
+         const clientId = await sidecarGateway.getAuthoringClientId(tenantId);
+         const ltiRegistration = await fetchRegistration(tenantId, clientId);
+-
++        log.debug(JSON.stringify(ltiRegistration));
+         const tenantClaims = await sidecarGateway.getTenantLtiClaimsForDeliveryLaunch(tenantId);
+         log.debug(`tenantClaims: ${JSON.stringify(tenantClaims)}`);
+         const locale = await sidecarGateway.getTenantLocale(tenantId);
+@@ -234,7 +234,8 @@ async function launchAuthoring(req, res, next) {
+         }
+ 
+         ltiLaunchLink = await ltiUtil.generateLtiLaunchLink(ltiRegistration, {
+-            targetLinkUrl: '/taoLti/AuthoringTool/launch',
++            // targetLinkUrl: '/backoffice/taoLti/AuthoringTool/launch',
++            ltiLaunchUrl: ltiRegistration.tool.launchUrl,
+             user: req.token.user,
+             claims: {
+                 ...tenantClaims,
+diff --git a/apps/portal/src/backend/src/services/gateway/tag.gateway.js b/apps/portal/src/backend/src/services/gateway/tag.gateway.js
+index 5061a6cd3..3e76cfe31 100644
+--- a/apps/portal/src/backend/src/services/gateway/tag.gateway.js
++++ b/apps/portal/src/backend/src/services/gateway/tag.gateway.js
+@@ -28,7 +28,8 @@ const { log } = require('../logger.service');
+  * @throws {Error} will throw connection and application errors
+  */
+ async function applyTags(entityName, id, tags) {
+-    if (!tags || !Array.isArray(tags)) return Promise.resolve();
++    return Promise.resolve();
++    // if (!tags || !Array.isArray(tags)) return Promise.resolve();
+     try {
+         log.trace(entityName, id, tags);
+         await axios.post(`${config.classification.apiUrl}/api/v1/tags/apply`, {
+diff --git a/apps/portal/src/backend/src/services/gateway/tenantApi.gateway.js b/apps/portal/src/backend/src/services/gateway/tenantApi.gateway.js
+index b1828b743..e07847a27 100644
+--- a/apps/portal/src/backend/src/services/gateway/tenantApi.gateway.js
++++ b/apps/portal/src/backend/src/services/gateway/tenantApi.gateway.js
+@@ -109,18 +109,54 @@ async function updateConfig({ token, id, value }) {
+  * @param {string} param0.id config id
+  */
+ async function getConfig({ token, id }) {
+-    try {
+-        const url = `${config.tenantApi.apiUrl}/api/v1/tenants/${token.tenant_id}/configurations/${id}`;
++    // try {
++
++        const HIERARCHY_MAPPING_TOOL_CONFIGURATION_KEY = 'hierarchy.auto-assignment-tool.config';
++        // log.debug(`Getting config: tenantId: %o, id: %o`, token.tenant_id, id);
++        switch (id) {
++            case HIERARCHY_MAPPING_TOOL_CONFIGURATION_KEY:
++                return   {"compoundData": {
++                            "targetUserField": "email",
++                            "targetUserRoles": [
++                                "GROUP_MANAGER"
++                            ],
++                            "targetUsersFieldFilters": [
++                                {
++                                "field": "addresses.zipCode",
++                                "path": "addresses",
++                                "type": "terms",
++                                "values": [
++                                    "{{targetUserFieldValue}}"
++                                ]
++                                },
++                                {
++                                "field": "addresses.type",
++                                "path": "addresses",
++                                "type": "terms",
++                                "values": [
++                                    "residential"
++                                ]
++                                }
++                            ]
++                        } }
++                break;
++        
++            default:
++                // log.error()
++                throw new Error("CANNOT FIND STRING "+id);
++                ;
++        }
++				;
++         // const url = `${config.tenantApi.apiUrl}/api/v1/tenants/${token.tenant_id}/configurations/${id}`;
+ 
+-        log.debug(`Getting config: tenantId: %o, id: %o`, token.tenant_id, id);
+ 
+-        const response = await axios.get(url, getHeaders(token));
++        // const response = await axios.get(url, getHeaders(token));
+ 
+-        return response.data;
+-    } catch (err) {
+-        log.error(err, `Error updating config: tenantId=%o, id=%o, error=%s`, token.tenant_id, id, err.message);
+-        throw new PortalError(500, `Error getting config: ${err.message}`);
+-    }
++        // return response.data;
++    // } catch (err) {
++        // log.error(err, `Error updating config: tenantId=%o, id=%o, error=%s`, token.tenant_id, id, err.message);
++        // throw new PortalError(500, `Error getting config: ${err.message}`);
++    // }
+ }
+ 
+ function getHeaders(token) {
+@@ -134,13 +170,8 @@ function getHeaders(token) {
+ 
+ async function getTenantIds(token) {
+     try {
+-        const url = `${config.tenantApi.apiUrl}/api/v1/tenants`;
+-
+-        log.debug(`Getting tenant ids`);
+-
+-        const response = await axios.get(url, getHeaders(token));
++        return ["1"];
+ 
+-        return response.data.map(tenantData => tenantData.meta.tenantId);
+     } catch (err) {
+         log.error(err, `Error getting tenant ids: error=%s`, err.message);
+         throw new PortalError(500, `Error getting tenant ids: ${err.message}`);

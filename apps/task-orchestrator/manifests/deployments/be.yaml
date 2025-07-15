@@ -19,7 +19,7 @@ spec:
         name: worker
         envFrom:
         - secretRef:
-            name: tao-task-orchestrator-be-env
+            name: tao-ce-setup-tao-task-orchestrator-be-env
         command:
         - npm
         - run
@@ -29,7 +29,7 @@ spec:
         name: backend
         envFrom:
         - secretRef:
-            name: tao-task-orchestrator-be-env
+            name: tao-ce-setup-tao-task-orchestrator-be-env
         ports:
         - containerPort: 8080
           protocol: TCP

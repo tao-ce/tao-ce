@@ -21,11 +21,10 @@ ARTIFACTS = {
 PULLS = {}
 
 def manifest(pwd=PWD):
-    kustomize("{pwd}/manifests".format(pwd=pwd))
-    watch_file("{pwd}/manifests")
+    return kustomize("{pwd}/manifests".format(pwd=pwd))
 
-def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
-    builder['build'](
+def images(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+    builder(
         ref=ARTIFACTS['lti-gateway'],
         context='{pwd}'.format(pwd=pwd),
         dockerfile='{pwd}/Dockerfile.lti-gateway'.format(pwd=pwd),
@@ -36,7 +35,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             ],
         )
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['sidecar'],
         context='{pwd}'.format(pwd=pwd),
         dockerfile='{pwd}/Dockerfile.sidecar'.format(pwd=pwd),
@@ -48,7 +47,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         )
 
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['auth-server'],
         context='{pwd}'.format(pwd=pwd),
         dockerfile='{pwd}/Dockerfile.auth-server'.format(pwd=pwd),
@@ -60,14 +59,14 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         )
 
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['envoy'],
         context='{pwd}'.format(pwd=pwd),
         dockerfile='{pwd}/Dockerfile.envoy'.format(pwd=pwd),
         target="export",
         )
 
-
+def ui(pwd=PWD):
     cmd_button('{}_{}_auth-server_refresh'.format(REALM,APPLICATION),
                 argv=['sh', '-c', '''
                 kubectl exec -c server deploy/tao-ce-em-auth-server  -- node /app/scripts/tenant-data-preloader/preload-tenant-data-json.js

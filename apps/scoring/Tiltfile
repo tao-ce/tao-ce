@@ -20,17 +20,12 @@ ARTIFACTS = {
 
 PULLS = {}
 
-def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
-    k8s_yaml(kustomize("{pwd}/manifests".format(pwd=pwd)),)
-    watch_file("{pwd}/manifests")
-    #k8s_resource( "tao-ce-tao-deliver-be", labels=[APPLICATION])
-    #k8s_resource( "tao-ce-tao-deliver-fe-static", labels=[APPLICATION])
-    #k8s_resource( "tao-ce-tao-deliver-fe-bootstrap", labels=[APPLICATION])
-    #k8s_resource( "tao-ce-tao-deliver-sandbox", labels=[APPLICATION])
-    #k8s_resource( "tao-ce-deliver-init", labels=[APPLICATION])
+def manifest(pwd=PWD):
+    return kustomize("{pwd}/manifests".format(pwd=pwd))
 
+def images(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['ss-be'],
         context='{pwd}'.format(pwd=pwd),
         build_args={"BASE": IMAGES['build/php'], "BUILD": IMAGES['build/php'], },
@@ -39,7 +34,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         image_deps=[ IMAGES['base/php'], IMAGES['build/php'], ],
         ssh="default",
         )
-    builder['build'](
+    builder(
         ref=ARTIFACTS['ms-be'],
         context='{pwd}'.format(pwd=pwd),
         build_args={"BASE": IMAGES['build/php'], "BUILD": IMAGES['build/php'], },
@@ -48,7 +43,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         image_deps=[ IMAGES['base/php'], IMAGES['build/php'], ],
         ssh="default",
         )
-    builder['build'](
+    builder(
         ref=ARTIFACTS['ms-fe-static'],
         context='{pwd}/src/tao-manual-scoring-fe'.format(pwd=pwd),
         build_args={
@@ -59,7 +54,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
         target="static",
                 secret="id=NPM_TOKEN,src=.secrets/npm",
         )
-    builder['build'](
+    builder(
         ref=ARTIFACTS['ms-fe-bootstrap'],
         context='{pwd}/src/tao-manual-scoring-fe'.format(pwd=pwd),
         build_args={"BASE": IMAGES['build/node']},

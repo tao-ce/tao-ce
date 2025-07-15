@@ -20,9 +20,9 @@ PULLS = {}
 def manifest(pwd=PWD):
     return kustomize("{pwd}/manifests".format(pwd=pwd))
 
-def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+def images(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['code'],
         context='{pwd}'.format(pwd=pwd),
         target="export",
@@ -31,7 +31,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             IMAGES['build/php']
             ],
         )
-    builder['build'](
+    builder(
         ref=ARTIFACTS['backend'],
         context='{pwd}'.format(pwd=pwd),
         build_args={"BASE": IMAGES['base/php']},

@@ -1,4 +1,4 @@
-ARG BUILD='build/node'
+ARG BUILD='build/node22'
 
 FROM ${BUILD} AS backend
 

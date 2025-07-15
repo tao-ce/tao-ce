@@ -1,0 +1,19 @@
+[Unit]
+Description=Cockpit
+Before=multi-user.target
+Before=graphical.target
+
+[Container]
+Image=quay.io/cockpit/ws:latest
+Exec=/container/label-run
+Environment=IMAGE=quay.io/cockpit/ws:latest
+Environment=NAME=ws
+PodmanArgs=--privileged --pid=host 
+Volume=/:/host
+Volume=/usr/share/cockpit/branding:/usr/share/cockpit/branding:ro
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

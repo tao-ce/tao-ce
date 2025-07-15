@@ -10,7 +10,7 @@ labels:
     
 resources:
 - ./deploy.yaml
-- ./dynamic-query-api-env.yaml
+# - ./dynamic-query-api-env.yaml
 
 
 configurations:

@@ -4,8 +4,8 @@ kind: "HTTPRoute"
 metadata:
   name: "tao"
 spec:
-  hostnames:
-  - community.tao.internal
+  # hostnames:
+  # - community.tao.internal
   parentRefs:
   - name: gateway
     namespace: istio-system

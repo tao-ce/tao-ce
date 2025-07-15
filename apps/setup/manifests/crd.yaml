@@ -1,0 +1,75 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: taosetup.community.taocloud.org
+
+spec:
+  group: community.taocloud.org
+  scope: Cluster
+  names:
+    plural: taosetup
+    singular: taosetup
+    kind: TAOSetup
+    shortNames: ["taos"]
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              resourcesNamespace:
+                description: 'Namespace in which configmap to propagate is located'
+                type: string
+                default: default
+              clusterApexDomain:
+                type: string
+                default: cluster.local
+              publicDomain:
+                type: string
+              env:
+                type: array
+                items:
+                  properties:
+                    name:
+                      type: string
+                    value:
+                      type: string
+                  required: [name,value]
+                  type: object
+              dependencies:
+                items:
+                  properties:
+                    key:
+                      type: string
+                    type:
+                      type: string
+                    address:
+                      properties:
+                        schema: { type: string }
+                        host: { type: string }
+                        port: { type: integer, format: int16 }
+                        prefix: { type: string }
+                      required: [host]
+                      type: object
+                  type: object
+                  required: [address, key]
+                type: array
+            required:
+            - publicDomain
+          status:
+            type: object
+            properties:
+              working:
+                type: string
+              observedGeneration:
+                type: integer
+        required:
+        - spec
+    subresources:
+      status: {}

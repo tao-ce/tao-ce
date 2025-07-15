@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   labels:
     tier: be
@@ -19,15 +19,14 @@ spec:
         name: init 
         envFrom:
         - secretRef:
-            name: tao-simple-reports-be-env
+            name: tao-ce-setup-tao-simple-reports-be-env
         command:
         - /bin/sh
         - -c
         - |
           php bin/console doctrine:database:create --if-not-exists --no-interaction
           php bin/console doctrine:migrations:migrate --no-interaction
-          # php bin/console app:fixtures:load --no-interaction
-          # php bin/console hautelook:fixtures:load
+
       containers:
       - image: tao/simple-reports/backend
         resources: {}
@@ -37,7 +36,7 @@ spec:
         name: backend
         envFrom:
         - secretRef:
-            name: tao-simple-reports-be-env
+            name: tao-ce-setup-tao-simple-reports-be-env
         ports:
         - containerPort: 80
           protocol: TCP

@@ -22,8 +22,8 @@ PULLS = {}
 def manifest(pwd=PWD):
     return kustomize("{pwd}/manifests".format(pwd=pwd))
 
-def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
-    builder['build'](
+def images(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
+    builder(
         ref=ARTIFACTS['code'],
         context='{pwd}/src'.format(pwd=pwd),
         target="export",
@@ -33,7 +33,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             ],
         )
 
-    builder['build'](
+    builder(
         ref=ARTIFACTS['backend'],
         context='{pwd}/src/backend'.format(pwd=pwd),
         build_args={"APP_CONSTRUCT": ARTIFACTS['code'], "BASE": IMAGES['base/php']},
@@ -43,7 +43,7 @@ def build(builder, pwd=PWD,images=IMAGES,pulls=PULLS):
             ],
         )
         
-    builder['build'](
+    builder(
         ref=ARTIFACTS['frontend'],
         context='{pwd}/src/frontend'.format(pwd=pwd),
         build_args={

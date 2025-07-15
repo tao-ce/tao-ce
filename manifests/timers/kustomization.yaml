@@ -6,5 +6,5 @@ resources:
 
 images:
   - name: tao/timers/backend
-    newName: quay.io/tao-ce/timers/backend
+    newName: quay.io/tao-ce/tao/timers/backend
     newTag: latest

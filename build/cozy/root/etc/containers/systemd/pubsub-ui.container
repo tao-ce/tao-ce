@@ -1,0 +1,15 @@
+[Unit]
+Description=Pubsub UI for TAO Community
+Before=k3s.service
+
+[Container]
+Image=ghcr.io/neoscript/pubsub-emulator-ui:2025.06.08
+NetworkAlias=pubsub-ui
+IP=10.247.40.18
+Network=deps.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

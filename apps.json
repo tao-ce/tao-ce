@@ -9,5 +9,7 @@
     "portal": "apps/portal",
     "scoring": "apps/scoring",
     "simple-reports": "apps/simple-reports",
-    "timers": "apps/timers"
+    "timers": "apps/timers",
+    "setup": "apps/setup",
+    "task-orchestrator": "apps/task-orchestrator"
 }

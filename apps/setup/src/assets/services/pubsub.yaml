@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels: &labels
+    app: pubsub
+  name: pubsub-emulator
+spec:
+  serviceName: pubsub-emulator
+  selector:
+    matchLabels: *labels
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+      - image: pubsub-emulator
+        name: pubsub-emulator
+
+
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: deliver-init
+spec:
+  ttlSecondsAfterFinished: 2
+
+  template:
+    spec:
+      containers:
+      - image: quay.io/tao-ce/service/pubsub/cli
+        name: pubsub-topics
+        env:
+        - name: PUBSUB_PROJECT_ID
+          value: demo-tao
+        - name: GRPC_ARGS
+          value: "-plaintext"
+        - name: GRPC_ENDPOINT
+          value: "pubsub.deps:8432"
+        volumeMounts:
+        - name: pubsub-init
+          mountPath: /init
+        command: 
+          - /bin/sh
+          - -c
+          - |
+            sleep 3
+            jq -r '[.[].topic]|unique.[]' /init/pairs.json  | while read topic ; do echo topic $topic ; /bin/pubsub-cli topic create $topic ; done
+            jq -r '.[]|.topic + " " + .subscription' /init/pairs.json | while read topic sub ; do echo sub $sub on $topic ;  /bin/pubsub-cli subscription create $topic $sub ; done
+            exit 0
+        resources: {}
+      volumes:
+      - name: pubsub-init
+        configMap:
+          name: pubsub-init
+      restartPolicy: Never
