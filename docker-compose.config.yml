@@ -1,7 +1,7 @@
 services:
   dev:
-    image: quay.io/tao-ce/devcontainer:latest
-    build: !reset null
+    # image: quay.io/tao-ce/devcontainer:latest
+    # build: !reset null
     links:
       - k8s:community.tao.internal
       - firestore

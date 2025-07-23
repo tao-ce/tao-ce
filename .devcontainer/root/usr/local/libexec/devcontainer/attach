@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+
+DEFAULT_KUBECONFIG=${HOME}/.kube/config
+KUBECONFIG=${KUBECONFIG:-${DEFAULT_KUBECONFIG}}
+
+mkdir -p $(dirname ${KUBECONFIG})
+
+cat ${K3S_KUBECONFIG_OUTPUT} | \
+	yq '(.clusters[].cluster.server |= env(K3S_URL))' \
+		>${KUBECONFIG}

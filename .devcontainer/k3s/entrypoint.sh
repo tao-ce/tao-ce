@@ -1,8 +1,6 @@
 #!/bin/ash
 #
 
-# KUBE_DIR=$(dirname ${K3S_KUBECONFIG_OUTPUT})
-
 {
     
     until crictl info ; do 
@@ -15,19 +13,5 @@
             --config /opt/k3s/conf/buildkitd.toml
     done
 } &
-
-# update-alternatives --set iptables /usr/sbin/iptables-legacy
-# update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-
-# {
-
-#     until test -f ${K3S_KUBECONFIG_OUTPUT} ; do
-#         echo waiting ${K3S_KUBECONFIG_OUTPUT}
-#         sleep 1
-#     done
-
-#     sed -e "s@server:.*@server: https://k8s:6443@" ${K3S_KUBECONFIG_OUTPUT} >$KUBE_DIR/config
-#     rm -f ${K3S_KUBECONFIG_OUTPUT}
-# } &
 
 exec /bin/k3s $@ --prefer-bundled-bin 

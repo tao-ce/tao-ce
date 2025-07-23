@@ -1,0 +1,17 @@
+make
+vim
+patch
+btop
+netcat
+git
+firefox
+curl
+dnsutils
+skopeo
+pre-commit
+xdg-utils
+openssl
+jq
+yq
+podman
+bash-completion

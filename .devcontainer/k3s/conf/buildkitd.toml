@@ -20,6 +20,7 @@ debug = true
   gc = true
   maxUsedSpace = "20GB"
   minFreeSpace = "2GB"
+  max-parallelism = 4
 
 [registry."docker.io"]
   mirrors = ["registry.local:5000"]

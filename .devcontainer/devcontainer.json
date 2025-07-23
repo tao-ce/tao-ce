@@ -1,41 +1,20 @@
 {
-	"name": "Neo TAO Community Edition",
+	"name": "TAO Community Edition",
   	"dockerComposeFile": [
 		"../docker-compose.yml",
 	],
 	"service": "dev",
 	"containerUser": "vscode",
 
-	// "features": {
-		// "ghcr.io/devcontainers/features/docker-outside-of-docker:1": { "moby": true, },
-		// "ghcr.io/devcontainers/features/docker-in-docker:2": { 	"moby": "true", },
-	// },
-
 	"containerEnv": {
-		"CLUSTER_NAME": "default",
 		"HOME": "/home/vscode",
-		"K8S_FLAVOR": "k3s",
-	},
-	"portsAttributes": {
-		"443": {
-			"label": "https-ingress",
-			"requireLocalPort": true,
-			"onAutoForward": "notify",
-			"elevateIfNeeded": true,
-			"protocol": "https",
-		},
-		"80": {
-			"label": "http-ingress",
-			"requireLocalPort": true,
-			"onAutoForward": "notify",
-			"elevateIfNeeded": true,
-			"protocol": "http",
-		}
+		"DEVCONTAINER_INIT_MANIFEST": "/workspace/build/crystal",
+		"DEVCONTAINER_FLAVOR": "crystal",
 	},
 
-	"onCreateCommand": "make -f .devcontainer/Makefile create",
-	"postStartCommand": "make -f .devcontainer/Makefile start",
-	"postAttachCommand": "make -f .devcontainer/Makefile attach",
+	"onCreateCommand": "/usr/local/libexec/devcontainer/create",
+	"postStartCommand": "/usr/local/libexec/devcontainer/start",
+	"postAttachCommand": "/usr/local/libexec/devcontainer/attach",
 	
 	"workspaceFolder": "/workspace",
 
@@ -55,7 +34,7 @@
 				"MermaidChart.vscode-mermaid-chart",
 				"Sebbia.jsonnetng"
 			],
-		
+
 			"settings": {
 				"sqltools.connections": [
 					{ "name": "TAO Backoffice", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "postgres" },
@@ -64,14 +43,6 @@
 					{ "name": "Simple Reports", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "simple_reports" },
 				]
 			},
-		}
+		},
 	},
-
-    "mounts": [
-        {
-            "source": "/var/run/docker.sock",
-            "target": "/var/run/docker-host.sock",
-            "type": "bind"
-        }
-    ],
 }

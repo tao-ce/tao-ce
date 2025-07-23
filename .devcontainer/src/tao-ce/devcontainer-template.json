@@ -1,0 +1,22 @@
+{
+    "id": "tao-ce",
+    "version": "0.0.0",
+    "name": "TAO Community Edition",
+    "description": "Collection of tools for TAO Community Edition development",
+    "documentationURL": "https://github.com/tao-ce/devcontainer/tree/main/src/tao-ce",
+    "publisher": "Open Assessment Technologies S.A.",
+    "licenseURL": "https://github.com/tao-ce/devcontainer/blob/main/LICENSE",
+    "options": {
+        "imageFlavor": {
+            "type": "string",
+            "description": "Base system flavor",
+            "proposals": [
+                "fedora:42"				
+            ],
+            "default": "fedora:42"
+        }
+    },
+    "optionalPaths": [
+        ".github/*"
+    ]
+}
