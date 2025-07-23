@@ -17,6 +17,8 @@ CMD ["node", "server.js"]
 
 FROM ${BASE} AS static-build
 
+RUN apk add python3  py3-setuptools make g++ 
+
 WORKDIR /app
 
 COPY . .

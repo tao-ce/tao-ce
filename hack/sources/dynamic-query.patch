@@ -1,0 +1,12 @@
+diff --git a/apps/dynamic-query/src/src/libs/firestore.js b/apps/dynamic-query/src/src/libs/firestore.js
+index 26dc9ee..4dc72d7 100644
+--- a/apps/dynamic-query/src/src/libs/firestore.js
++++ b/apps/dynamic-query/src/src/libs/firestore.js
+@@ -36,6 +36,7 @@ function getStorage() {
+ 
+     if (firestoreConfig.FIRESTORE_EMULATOR_HOST) {
+         settings.host = firestoreConfig.FIRESTORE_EMULATOR_HOST;
++        settings.projectId = firestoreConfig.FIRESTORE_PROJECT_ID;
+         log.info(`Using Firestore emulator at ${settings.host}`);
+     } else {
+         settings.databaseId = firestoreConfig.FIRESTORE_DATABASE_ID;

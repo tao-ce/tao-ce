@@ -5,6 +5,7 @@ function(setup)
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         GCP_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         FIRESTORE_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
+        FIRESTORE_HOST: setup.dependencies.firestore.address.host,
         IS_GCP_BUCKET_DISABLED: 'true',
         DATASTORE_CONFIG_SOURCE_PATH: '/app/config/',
         PUBSUB_EMULATOR_HOST:  setup.dependencies.pubsub.address.url,

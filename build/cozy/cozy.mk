@@ -25,7 +25,7 @@ include $(MK_COZY_DIR)/cozy-vbox.mk
 
 cozy-prepare:
 	mkdir -p \
-		$(COZY_MANIFESTS_DIR)
+		$(COZY_MANIFESTS_DIR) $(COZY_OUTPUT_DIR)
 
 cozy-manifests: cozy-prepare $(COZY_CACHE_DIR)/.dockerconfigjson
 	kubectl kustomize \
@@ -57,6 +57,7 @@ cozy-container: cozy-manifests cozy-certs cozy-tasks cozy-assets
 	sudo podman build \
 		--no-hosts \
 		--no-hostname \
+		--network host \
 		--security-opt label=type:unconfined_t \
 		--build-arg=TAO_DOMAIN=$(TAO_DOMAIN) \
 		-t $(COZY_BOOTC_CONTAINER) \
@@ -70,6 +71,7 @@ cozy-runc:
 		/bin/sh
 
 cozy-vm-img: cozy-prepare
+	mkdir -p $(COZY_OUTPUT_DIR)
 	sudo podman run \
 		--rm \
 		-it \

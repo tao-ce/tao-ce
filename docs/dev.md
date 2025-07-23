@@ -39,6 +39,7 @@ git submodule update --init --recursive
 ```
 patch -p1 < hack/sources/portal.patch
 patch -p1 < hack/sources/em.patch
+patch -p1 < hack/sources/task-orchestrator.patch
 ```
 
 # Run

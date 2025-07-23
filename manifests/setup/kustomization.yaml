@@ -3,9 +3,11 @@ kind: Kustomization
 
 resources:
   - ../../apps/setup/manifests
-  - ./init-pubsub.yaml
 
 images:
   - name: tao/setup/controller
     newName: quay.io/tao-ce/tao/setup/controller
+    newTag: latest
+  - name: services/pubsub/cli
+    newName: quay.io/tao-ce/services/pubsub/cli
     newTag: latest

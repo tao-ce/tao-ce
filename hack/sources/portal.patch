@@ -1,3 +1,49 @@
+diff --git a/apps/portal/src/backend/mappings/tenant-tags.json b/apps/portal/src/backend/mappings/tenant-tags.json
+new file mode 100644
+index 000000000..6269b6b01
+--- /dev/null
++++ b/apps/portal/src/backend/mappings/tenant-tags.json
+@@ -0,0 +1,40 @@
++{
++  "aliases": {},
++  "mappings": {
++    "dynamic_templates": [
++      {
++        "dynamic_objects_as_keywords": {
++          "match": "*",
++          "mapping": {
++            "type": "keyword",
++            "normalizer": "lowercase"
++          }
++        }
++      }
++    ],
++    "dynamic": "strict",
++    "properties": {
++      "tenantId": {
++        "type": "keyword",
++        "normalizer": "lowercase"
++      },
++      "tag": {
++        "type": "keyword",
++        "normalizer": "lowercase",
++        "fields": {
++          "search": {
++            "type": "text"
++          }
++        }
++      },
++      "entity": {
++        "type": "keyword",
++        "normalizer": "lowercase"
++      },
++      "last_update_date": {
++        "type": "date",
++        "format": "epoch_millis"
++      }
++    }
++  }
++}
 diff --git a/apps/portal/src/backend/script/migrations/createRootHierarchies.js b/apps/portal/src/backend/script/migrations/createRootHierarchies.js
 index 399526432..2853c0b20 100644
 --- a/apps/portal/src/backend/script/migrations/createRootHierarchies.js

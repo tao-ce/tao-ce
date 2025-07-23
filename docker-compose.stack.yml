@@ -81,7 +81,7 @@ services:
         hard: 65536
     environment:
     - node.name=es
-    - node.roles=master,data_content,data_hot
+    # - node.roles=master,data_content,data_hot
     - discovery.type=single-node
     - bootstrap.memory_lock=true
     - "ES_JAVA_OPTS=-Xms128m -Xmx1024m"

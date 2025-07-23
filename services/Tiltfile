@@ -1,14 +1,14 @@
 PWD = os.getcwd()
 
 ARTIFACTS = {
-    'service/pubsub/cli': 'service/pubsub/cli',
-    'service/pubsub/ui': 'service/pubsub/ui',
-    'service/pubsub/emulator': 'service/pubsub/emulator',
-    'service/firebase': 'service/firebase',
+    'services/pubsub/cli': 'services/pubsub/cli',
+    'services/pubsub/ui': 'services/pubsub/ui',
+    'services/pubsub/emulator': 'services/pubsub/emulator',
+    'services/firebase': 'services/firebase',
 }
 
 PULLS = {
-    'service/pubsub/ui': 'ghcr.io/neoscript/pubsub-emulator-ui:2025.02.25',
+    'services/pubsub/ui': 'ghcr.io/neoscript/pubsub-emulator-ui:2025.02.25',
 }
 
 def manifest(pwd=PWD):
@@ -16,24 +16,24 @@ def manifest(pwd=PWD):
 
 def images(builder):
     builder(
-        ref=ARTIFACTS['service/pubsub/cli'],
+        ref=ARTIFACTS['services/pubsub/cli'],
         context='{}/pubsub-cli'.format(PWD),
         target='export',
         )
 
     builder(
-        ref=ARTIFACTS['service/firebase'],
+        ref=ARTIFACTS['services/firebase'],
         context='{}/firebase'.format(PWD),
         target='app-env',
     )
 
     builder(
-        ref=ARTIFACTS['service/pubsub/emulator'],
+        ref=ARTIFACTS['services/pubsub/emulator'],
         context='{}/pubsub-emulator'.format(PWD),
     )
 
     # builder(
-    #     ref=ARTIFACTS['service/pubsub/ui'],
-    #     src=PULLS['service/pubsub/ui'],
+    #     ref=ARTIFACTS['services/pubsub/ui'],
+    #     src=PULLS['services/pubsub/ui'],
     #     dockerfile='{}/pubsub-ui.Dockerfile'.format(PWD),
     # )

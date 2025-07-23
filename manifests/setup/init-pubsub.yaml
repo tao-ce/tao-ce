@@ -9,7 +9,7 @@ spec:
   template:
     spec:
       containers:
-      - image: quay.io/tao-ce/service/pubsub/cli
+      - image: quay.io/tao-ce/services/pubsub/cli
         name: pubsub-topics
         envFrom:
           - secretRef:

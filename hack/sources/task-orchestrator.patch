@@ -1,0 +1,122 @@
+diff --git a/apps/task-orchestrator/src/src/configs/gcp.config.js b/apps/task-orchestrator/src/src/configs/gcp.config.js
+index c122393..1271a05 100644
+--- a/apps/task-orchestrator/src/src/configs/gcp.config.js
++++ b/apps/task-orchestrator/src/src/configs/gcp.config.js
+@@ -27,6 +27,7 @@ module.exports = {
+         'GCP_PUBSUB_TASK_ORCHESTRATOR_SUBSCRIPTION_NAME'
+     ),
+     fireStoreDatabaseId: process.env.FIRESTORE_DATABASE_ID,
++    firestoreEmulatorHost: process.env.FIRESTORE_EMULATOR_HOST,
+     fireStoreProjectId: getEnvironmentVariableOrFail(
+         'FIRESTORE_PROJECT_ID'
+     ),
+diff --git a/apps/task-orchestrator/src/src/configs/general.config.js b/apps/task-orchestrator/src/src/configs/general.config.js
+index 125a946..c2f061f 100644
+--- a/apps/task-orchestrator/src/src/configs/general.config.js
++++ b/apps/task-orchestrator/src/src/configs/general.config.js
+@@ -38,7 +38,7 @@ module.exports = {
+     JWKS_URL: getEnvironmentVariableOrFail('JWKS_URL'),
+     SOCKET_PORT: parseInt(getEnvironmentVariableOrFail('SOCKET_PORT', 3000)),
+     SIDECAR_API_URL: getEnvironmentVariableOrFail('SIDECAR_API_URL', ''),
+-    TENANT_API_URL: getEnvironmentVariableOrFail('TENANT_API_URL', ''),
++    // TENANT_API_URL: getEnvironmentVariableOrFail('TENANT_API_URL', ''),
+     TENANT_METADATA_CACHE_TTL: parseInt(getEnvironmentVariableOrFail('TENANT_METADATA_CACHE_TTL', 3600)),
+     OAUTH2_TOKEN_CACHE_TTL: parseInt(getEnvironmentVariableOrFail('OAUTH2_TOKEN_CACHE_TTL', 1800)),
+     dynamicApi: {
+diff --git a/apps/task-orchestrator/src/src/services/gateway/tenant.gateway.js b/apps/task-orchestrator/src/src/services/gateway/tenant.gateway.js
+index 7582c92..a7c45c2 100644
+--- a/apps/task-orchestrator/src/src/services/gateway/tenant.gateway.js
++++ b/apps/task-orchestrator/src/src/services/gateway/tenant.gateway.js
+@@ -45,13 +45,26 @@ async function getMetaInformation(tenantId, tries = 1) {
+         log.debug(`Acquiring token to use for tenant API call`);
+         const token = await oAuth2TokenGenerationCall();
+         log.debug(`Calling tenant API for metadata for tenant ${tenantId}`);
+-        const response = await axios.get(`${config.TENANT_API_URL}/api/v1/tenants/${tenantId}/meta`, {
+-            headers: {
+-                Authorization: 'Bearer ' + token
+-            }
+-        }
+-        );
+-        const data = response?.data;
++        // const response = await axios.get(`${config.TENANT_API_URL}/api/v1/tenants/${tenantId}/meta`, {
++        //     headers: {
++        //         Authorization: 'Bearer ' + token
++        //     }
++        // }
++        // );
++        // const data = response?.data;
++        return {
++        "accountId": "local-dev-acc",
++        "domainDiagnostic": "diagnostic",
++        "id": "1",
++        "instanceId": "nextgen-stack-local",
++        "label": "nextgen-stack",
++        "msClientId": "ms-fe-solar-client-id",
++        "portalClientId": "portal-client-id_1",
++        "subdomainDiagnostic": "diagnostic",
++        "subdomainManualScoring": "community",
++        "subdomainPortal": "community",
++        "tenantId": "1"
++      };
+         if (data) {
+             log.debug(`Got tenant metadata for tenant ${tenantId}, ${JSON.stringify(data)}`);
+             await tenantMetadaCache.set(tenantId, data);
+diff --git a/apps/task-orchestrator/src/src/services/storage/firestore.js b/apps/task-orchestrator/src/src/services/storage/firestore.js
+index d58e2eb..f38ef0f 100644
+--- a/apps/task-orchestrator/src/src/services/storage/firestore.js
++++ b/apps/task-orchestrator/src/src/services/storage/firestore.js
+@@ -1,8 +1,14 @@
+ const { Firestore } = require('@google-cloud/firestore');
+-const { fireStoreProjectId, fireStoreDatabaseId } = require('../../configs/gcp.config');
++const { fireStoreProjectId, fireStoreDatabaseId, firestoreEmulatorHost } = require('../../configs/gcp.config');
+ const { log } = require('../logger.service');
+ 
+ const settings = { ignoreUndefinedProperties: true };
++
++if (firestoreEmulatorHost) {
++    log.info('Firestore Emulator: %s', firestoreEmulatorHost);
++    settings.host = firestoreEmulatorHost;
++}
++
+ if (fireStoreDatabaseId) {
+     settings.databaseId = fireStoreDatabaseId;
+     log.info('Firestore databaseId: %s', fireStoreDatabaseId);
+diff --git a/apps/task-orchestrator/src/worker.js b/apps/task-orchestrator/src/worker.js
+index 57e253a..0c1894a 100644
+--- a/apps/task-orchestrator/src/worker.js
++++ b/apps/task-orchestrator/src/worker.js
+@@ -70,20 +70,20 @@ taskOrchestratorSubscription.on('message', async msg => {
+             await sendEmailNotificationForJob(taskOrchestratorMessage.data);
+         }
+ 
+-        if ([jobStatus.FINISHED, jobStatus.FAILED].includes(status)) {
+-            try {
+-                log.info(`[TaskOrchestratorMessage update firestore record, jobId: [${jobId}], status: [${status}]]`);
+-                await storage.update(jobId, { ...data, progress });
+-                log.info(`[TaskOrchestratorMessage update elastic record jobId: [${jobId}], status: [${status}]]`);
+-                await updateRecord(index, jobId, data);
+-                msg.ack();
+-                return;
+-            } catch (e) {
+-                log.error(`[TaskOrchestratorMessage update record error: [${e.message}]]`);
+-                msg.nack();
+-                return;
+-            }
+-        }
++        // if ([jobStatus.FINISHED, jobStatus.FAILED].includes(status)) {
++        //     try {
++        //         log.info(`[TaskOrchestratorMessage update firestore record, jobId: [${jobId}], status: [${status}]]`);
++        //         await storage.update(jobId, { ...data, progress });
++        //         log.info(`[TaskOrchestratorMessage update elastic record jobId: [${jobId}], status: [${status}]]`);
++        //         await updateRecord(index, jobId, data);
++        //         msg.ack();
++        //         return;
++        //     } catch (e) {
++        //         log.error(`[TaskOrchestratorMessage update record error: [${e.message}]]`);
++        //         msg.nack();
++        //         return;
++        //     }
++        // }
+         if (progress === 0) {
+             log.info(`[TaskOrchestratorMessage create firestore record, jobId: [${jobId}], status: [${status}]]`);
+             await storage.put(jobId, { ...data, progress, jobId });

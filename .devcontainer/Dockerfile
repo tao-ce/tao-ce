@@ -7,6 +7,7 @@ ARG HELM_VERSION=v3.17.1
 ARG KREW_VERSION=latest
 ARG TILT_VERSION=latest
 ARG NERDCTL_VERSION=latest
+ARG MANIFEST_TOOL_VERSION=latest
 ARG BUILDCTL_VERSION=latest
 ARG SYFT_VERSION=latest
 
@@ -71,6 +72,23 @@ RUN \
     cd /tmp \
         && tar xzf $(cat /run/tmp/last-download) \
         && mv /tmp/k9s /usr/local/bin/k9s
+
+################################################################################
+FROM download AS get-manifest-tool
+ARG TARGETPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG MANIFEST_TOOL_VERSION
+
+RUN \
+    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
+    /usr/local/bin/download-release.sh \
+        estesp/manifest-tool \
+        binaries-manifest-tool-@@STRIPVERSION@@.tar.gz \
+        ${MANIFEST_TOOL_VERSION} ;\
+    cd /tmp \
+        && tar xzf $(cat /run/tmp/last-download) \
+        && mv /tmp/manifest-tool-linux-${TARGETARCH} /usr/local/bin/manifest-tool
 
 
 ################################################################################
@@ -293,7 +311,14 @@ COPY --chmod=4755 \
     --from=get-buildctl \
     /usr/local/bin/buildctl \
     ${BIN_DEST}/
-        
+
+COPY --chmod=4755 \
+    --chown=0:0 \
+    --link \
+    --from=get-manifest-tool \
+    /usr/local/bin/manifest-tool \
+    ${BIN_DEST}/
+    
 COPY \
     --link \
     --chmod=0755 \
@@ -308,7 +333,7 @@ RUN \
     krew index add \
         default https://github.com/kubernetes-sigs/krew-index.git \
     && krew update \
-    && grep -v '^#' <<EOF | xargs -n1 krew install
+    && grep -v '^#' <<EOF | xargs -n1 krew install || true
 ctx
 ns
 sniff

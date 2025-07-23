@@ -89,6 +89,7 @@ def build(
     image_deps=[],
     platform='',
     ns=CONTAINERD_NAMESPACE,
+    src=None,
 ):
 
     cmd = ['nerdctl',

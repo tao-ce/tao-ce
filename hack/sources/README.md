@@ -17,6 +17,7 @@ git submodule update --init --recursive
 ```
 patch -p1 < hack/sources/portal.patch
 patch -p1 < hack/sources/em.patch
+patch -p1 < hack/sources/task-orchestrator.patch
 ```
 
 ## Create new patches
@@ -24,7 +25,7 @@ patch -p1 < hack/sources/em.patch
 If you consider any app requires its own patch, use the following command (e.g. for `portal`):
 
 ```
-git diff -p --src-prefix=a/apps/portal/src --dst-prefix=b/apps/portal/src
+git diff -p --src-prefix=a/apps/portal/src/ --dst-prefix=b/apps/portal/src/
 
 ```
 

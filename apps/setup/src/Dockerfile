@@ -1,8 +1,9 @@
 FROM golang:1.22.7 AS build
+ARG TARGETARCH
 
 COPY . /go/src/setup/
 WORKDIR /go/src/setup/
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /go/bin/taocesetupcontroller
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build -o /go/bin/taocesetupcontroller
 
 FROM scratch AS export
 

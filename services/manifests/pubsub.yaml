@@ -13,13 +13,13 @@ spec:
       labels: *labels
     spec:
       containers:
-      - image: service/pubsub/emulator
+      - image: services/pubsub/emulator
         resources: {}
         name: emulator
         env:
         - name: PUBSUB_PORT
           value: "8432"
-      - image: service/pubsub/ui
+      - image: services/pubsub/ui
         resource: {}
         name: ui
       restartPolicy: Always
