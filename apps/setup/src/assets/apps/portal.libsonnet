@@ -100,6 +100,7 @@ function(setup)
   RELEASE_VERSION: "oat-dev",
   SIMPLE_REPORTS_API_URL: "https://%(publicDomain)s/sr-be/" % setup,
   JSREPORT_URL: "https://%(publicDomain)s/jsreport/" % setup,
+  REDIS_HOST: setup.dependencies.redis.address.url,
   STATIC_URL: "https://%(publicDomain)s/portal-static/" % setup,
 //   STUDIO_URL: "https://%(publicDomain)s/studio" % setup,
   TASK_ORCHESTRATOR_API_URL: "http://tao-ce-tao-task-orchestrator-be:8080",

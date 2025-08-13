@@ -15,7 +15,7 @@
 	"onCreateCommand": "/usr/local/libexec/devcontainer/create",
 	"postStartCommand": "/usr/local/libexec/devcontainer/start",
 	"postAttachCommand": "/usr/local/libexec/devcontainer/attach",
-	
+	"postCreateCommand": "git config --global --unset-all url.\"git@github.com:\".insteadOf",
 	"workspaceFolder": "/workspace",
 
 	"remoteEnv": {

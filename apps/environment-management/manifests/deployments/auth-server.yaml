@@ -35,20 +35,6 @@ spec:
         - name: auth-server-config
           mountPath: /app/preload-data
           readOnly: true
-      initContainers:
-      - name: refresh
-        image: tao/environment-management/auth-server
-        restartPolicy: Always
-        envFrom: *env
-        volumeMounts: *mount
-        command:
-          - /bin/sh
-          - -c
-          - |
-            while true ; do
-            /usr/local/bin/node scripts/tenant-data-preloader/preload-tenant-data-json.js
-            sleep 60
-            done
       restartPolicy: Always
       securityContext: {}
       volumes:
