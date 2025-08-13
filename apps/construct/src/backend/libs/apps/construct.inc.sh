@@ -1,3 +1,7 @@
+app_data_path=/var/lib/tao-ce/construct
+
+
+
 construct_is_ready() {
     [ -f "${app_ready_sem}" ]
 }
@@ -13,8 +17,6 @@ construct_init() {
         ${app_data_path}/data \
         ${app_data_path}/config \
         ${app_data_path}/locales
-
-    chown -R ${TAO_USER}:${TAO_GROUP} $app_data_path
 }
 
 construct_wait() {
@@ -60,15 +62,13 @@ construct_replace_generis() {
 
 
     _info "Update ${const_name} in ${app_data_path}/config/generis.conf.php to ${const_value}"
-    gosu ${TAO_USER} \
-        sed -i \
+    sed -i \
             -e "s@^define[(]'$const_name'[ ]*,.*@define('$const_name',$const_value); // overwritten by $0 on $(date -Ins -u)@" \
             $app_data_path/config/generis.conf.php
 }
 
 construct_setup_taoLti() {
-    gosu ${TAO_USER} \
-        php index.php 'oat\taoLti\scripts\tools\SetupLtiPlatform' \
+    php index.php 'oat\taoLti\scripts\tools\SetupLtiPlatform' \
             -l 'Portal' \
             -cid 'portal-authoring-client-id-1' \
             -did '1' \
@@ -79,8 +79,7 @@ construct_setup_taoLti() {
 }
 
 construct_replace_taoLti()  {
-    gosu ${TAO_USER} \
-        sed -i \
+    sed -i \
             -e "s@^.*'rootUrl'.*@'rootUrl' => '$config_base_url',     // overwritten by $0 on $(date -Ins -u)@" \
             $app_data_path/config/taoLti/Lti1p3RegistrationRepository.conf.php
 }   
@@ -102,8 +101,7 @@ construct_update() {
 
     rm -f ${app_ready_sem}
 
-    gosu ${TAO_USER} \
-        php tao/scripts/taoUpdate.php
+    php tao/scripts/taoUpdate.php
 
     _sem "${app_ready_sem}"
 }
@@ -164,15 +162,11 @@ construct_install() {
 
     _warn "${app_name} install running..."
 
-    gosu ${TAO_USER} \
-        php tao/scripts/taoSetup.php \
-            ${TAOADM_CONFIG}/init/construct-seed.json
+    php tao/scripts/taoSetup.php \
+        ${TAOADM_CONFIG}/init/construct-seed.json
 
-    gosu ${TAO_USER} \
-        php  index.php 'oat\\tao\\scripts\\tools\\UpdateDeliverConnectConfig'
-
-    gosu ${TAO_USER} \
-        php index.php 'oat\\taoAdvancedSearch\\scripts\\tools\\IndexCreator'
+    php  index.php 'oat\\tao\\scripts\\tools\\UpdateDeliverConnectConfig'
+    php index.php 'oat\\taoAdvancedSearch\\scripts\\tools\\IndexCreator'
 
     _sem "${app_install_sem}"
     construct_update

@@ -1,28 +1,15 @@
 
-ARG KUSTOMIZE_VERSION=v5.6.0
-ARG KUBE_VERSION=v1.33.1
-ARG K9S_VERSION=latest
-ARG ISTIO_VERSION=latest
-ARG HELM_VERSION=v3.17.1
-ARG KREW_VERSION=latest
 ARG TILT_VERSION=latest
-ARG NERDCTL_VERSION=latest
 ARG MANIFEST_TOOL_VERSION=latest
-ARG BUILDCTL_VERSION=latest
 ARG SYFT_VERSION=latest
 
-# ARG KUSTOMIZE_VERSION=v5.6.0
-# ARG KUBE_VERSION=v1.33.1
-# ARG K9S_VERSION=v0.50.8
-# ARG ISTIO_VERSION=1.25.0
-# ARG HELM_VERSION=v3.17.1
-# ARG KREW_VERSION=v0.4.4
-# ARG TILT_VERSION=v0.34.0
-# ARG NERDCTL_VERSION=v2.0.4
-# ARG BUILDCTL_VERSION=v0.20.2
-ARG UBUNTU_VERSION=noble
 ARG FEDORA_VERSION=42
 ARG DEVCONTAINER_FLAVOR=fedora
+ARG IMAGE_NVM_VERSIONS="18 20 22"
+ARG DEVCONTAINER_USERNAME="vscode"
+
+# do not change without keeping packages.php.lst up to date
+ARG IMAGE_PHP_VERSION="8.2"
 
 ################################################################################
 FROM golang:alpine AS build
@@ -38,40 +25,6 @@ ARG TARGETARCH
 
 RUN apk add jq
 COPY utils/download-release.sh /usr/local/bin/
-
-
-FROM download AS get-kustomize
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG KUSTOMIZE_VERSION
-
-RUN \
-    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-    /usr/local/bin/download-release.sh \
-        kubernetes-sigs/kustomize \
-        kustomize_@@STRIPSLASHVERSION@@_${TARGETOS}_${TARGETARCH}.tar.gz \
-        kustomize/${KUSTOMIZE_VERSION} ;\
-    cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/kustomize /usr/local/bin/kustomize
-
-################################################################################
-FROM download AS get-k9s
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG K9S_VERSION
-
-RUN \
-    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-    /usr/local/bin/download-release.sh \
-        derailed/k9s \
-        k9s_${TARGETOS}_${TARGETARCH}.tar.gz \
-        ${K9S_VERSION} ;\
-    cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/k9s /usr/local/bin/k9s
 
 ################################################################################
 FROM download AS get-manifest-tool
@@ -92,53 +45,20 @@ RUN \
 
 
 ################################################################################
-FROM download AS get-istioctl
+FROM download AS get-bldr
 ARG TARGETPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
-ARG ISTIO_VERSION
+ARG BLDR_VERSION="latest"
 
 RUN \
     --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
     /usr/local/bin/download-release.sh \
-        istio/istio \
-        istio-@@STRIPVERSION@@-${TARGETOS}-${TARGETARCH}.tar.gz \
-        ${ISTIO_VERSION} ;\
+        siderolabs/bldr \
+        bldr-linux-${TARGETARCH} \
+        ${BLDR_VERSION} ;\
     cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/istio-$(cat /run/tmp/version)/bin/istioctl /usr/local/bin/istioctl
-
-# RUN cd /tmp \
-#     && curl -L https://istio.io/downloadIstio | sh - \
-#     && mv /tmp/istio-${ISTIO_VERSION}/bin/istioctl /usr/local/bin/istioctl
-
-################################################################################
-# FROM download AS get-helm
-# ARG TARGETPLATFORM
-# ARG TARGETOS
-# ARG TARGETARCH
-# ARG HELM_VERSION
-
-
-# RUN cd /tmp \
-#     && curl -fsSL \
-#         https://get.helm.sh/helm-${HELM_VERSION}-${TARGETOS}-${TARGETARCH}.tar.gz \
-#         | tar xz \
-#     && mv /tmp/${TARGETOS}-${TARGETARCH}/helm /usr/local/bin/helm
-
-################################################################################
-FROM download AS get-krew
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG KREW_VERSION
-
-RUN \
-    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-    /usr/local/bin/download-release.sh kubernetes-sigs/krew krew-${TARGETOS}_${TARGETARCH}.tar.gz ${KREW_VERSION} ;\
-    cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/krew-${TARGETOS}_${TARGETARCH} /usr/local/bin/krew
+        && cp -a $(cat /run/tmp/last-download) /usr/local/bin/bldr
 
 ################################################################################
 FROM download AS get-tilt
@@ -160,24 +80,6 @@ RUN \
         && mv /tmp/tilt /usr/local/bin/tilt
     
 ################################################################################
-FROM download AS get-nerdctl
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG NERDCTL_VERSION
-
-RUN \
-    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-    /usr/local/bin/download-release.sh \
-        containerd/nerdctl \
-        nerdctl-@@STRIPVERSION@@-${TARGETOS}-${TARGETARCH}.tar.gz \
-        ${NERDCTL_VERSION} \
-        ; \
-    cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/nerdctl /usr/local/bin/nerdctl
-
-################################################################################
 FROM download AS get-syft
 ARG TARGETPLATFORM
 ARG TARGETOS
@@ -198,24 +100,6 @@ RUN \
     
     
 ################################################################################
-FROM download AS get-buildctl
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG BUILDCTL_VERSION
-
-RUN \
-    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-    /usr/local/bin/download-release.sh \
-        moby/buildkit \
-        buildkit-@@VERSION@@.${TARGETOS}-${TARGETARCH}.tar.gz \
-        ${BUILDCTL_VERSION} \
-        ;\
-    cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/bin/* /usr/local/bin/
-
-################################################################################
 FROM fedora:${FEDORA_VERSION} AS base-fedora
 
 ARG TARGETPLATFORM
@@ -223,66 +107,77 @@ ARG TARGETOS
 ARG TARGETARCH
 ARG FEDORA_VERSION
 ARG FEDORA_FLAVOR
+ARG IMAGE_PHP_VERSION
+ARG IMAGE_NVM_VERSIONS
 
-ARG USERNAME="vscode"
-ENV USERNAME="${USERNAME}"
-
-COPY root/ /
+ENV NVM_DIR=/usr/local/libexec/nvm
 
 RUN \
     --mount=type=cache,target=/var/cache/dnf,id=dnf-cache \
     --mount=type=cache,target=/var/cache/libdnf5,id=libdnf5-cache \
     --mount=type=bind,target=/run/context,source=. \
-    grep -v '^#' /run/context/packages.lst \
-        | xargs dnf --setopt=install_weak_deps=false install -y \
-    && useradd -G wheel ${USERNAME} \
-    && echo '%wheel  ALL=(ALL)       NOPASSWD: ALL' | tee -a /etc/sudoers
-    # && dnf clean all
+    set -a \
+    && . /etc/os-release \
+    && dnf install -y https://rpms.remirepo.net/${ID}/remi-release-${VERSION_ID}.rpm \
+    && dnf config-manager setopt remi.enabled=1 \
+    && dnf module reset -y php \
+    && dnf module enable -y php:remi-${IMAGE_PHP_VERSION} \
+    && cat \
+            /run/context/packages.php.lst \
+        | grep -v '^#' \
+        | sed \
+            -e "s/@@ARCH@@/$(uname -m)/g" \
+        | xargs dnf install -y \
+    && mkdir -p ${NVM_DIR} && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE="/etc/profile.d/" bash \
+    && . ${NVM_DIR}/nvm.sh \
+        && echo ${IMAGE_NVM_VERSIONS} | xargs -n1 | while read v ; do nvm install $v ; done  \
+        && nvm install --lts \
+        && nvm use --lts \
+        && nvm alias default node
 
+FROM base-fedora AS build-fedora
 
-ENV SET_X=1
+RUN \
+    --mount=type=cache,target=/var/cache/dnf,id=dnf-cache \
+    --mount=type=cache,target=/var/cache/libdnf5,id=libdnf5-cache \
+    --mount=type=bind,target=/run/context,source=. \
+    cat \
+            /run/context/packages.build.lst \
+        | grep -v '^#' \
+        | sed \
+            -e "s/@@ARCH@@/$(uname -m)/g" \
+        | xargs dnf install -y \
+    && mkdir -p /etc/ssh && ssh-keyscan -H github.com >>/etc/ssh/ssh_known_hosts
 
 ################################################################################
-FROM base-fedora AS devcontainer
+FROM build-fedora AS devcontainer
 
 ARG TARGETPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
-ARG KUSTOMIZE_VERSION
-ARG KUBE_VERSION
-ARG K9S_VERSION
+ARG DEVCONTAINER_USERNAME
 
 ENV BIN_DEST=/usr/local/bin
+ENV DEVCONTAINER_USERNAME="${DEVCONTAINER_USERNAME}"
 
 COPY --link --from=build /go/bin/jsonnet   ${BIN_DEST}/jsonnet
 COPY --link --from=build /go/bin/yq        ${BIN_DEST}/yq
 
-ADD --chmod=0755 \
-    --link \
-    https://dl.k8s.io/release/${KUBE_VERSION}/bin/${TARGETPLATFORM}/kubectl \
-    ${BIN_DEST}/kubectl
+RUN \
+    --mount=type=cache,target=/var/cache/dnf,id=dnf-cache \
+    --mount=type=cache,target=/var/cache/libdnf5,id=libdnf5-cache \
+    --mount=type=bind,target=/run/context,source=. \
+    cat \
+            /run/context/packages.dev.lst \
+        | grep -v '^#' \
+        | sed \
+            -e "s/@@ARCH@@/$(uname -m)/g" \
+        | xargs dnf install -y --setopt=install_weak_deps=false
 
-COPY \
-    --link \
-    --chmod=0755 \
-    --from=get-krew \
-    /usr/local/bin/krew \
-    ${BIN_DEST}/krew
 
-COPY \
-    --link \
-    --chmod=0755 \
-    --from=get-istioctl \
-    /usr/local/bin/istioctl \
-    ${BIN_DEST}/istioctl
-
-COPY \
-    --link \
-    --chmod=0755 \
-    --from=get-kustomize \
-    /usr/local/bin/kustomize \
-    ${BIN_DEST}/kustomize 
-
+RUN \
+    useradd -G wheel ${DEVCONTAINER_USERNAME} \
+    && echo '%wheel  ALL=(ALL)       NOPASSWD: ALL' | tee -a /etc/sudoers
 
 COPY --chmod=4755 \
     --chown=0:0 \
@@ -297,19 +192,10 @@ COPY --chmod=0755 \
     /usr/local/bin/tilt \
     ${BIN_DEST}/tilt
 
-
-COPY --chmod=4755 \
-    --chown=0:0 \
+COPY --chmod=0755 \
     --link \
-    --from=get-nerdctl \
-    /usr/local/bin/nerdctl \
-    ${BIN_DEST}/nerdctl
-        
-COPY --chmod=4755 \
-    --chown=0:0 \
-    --link \
-    --from=get-buildctl \
-    /usr/local/bin/buildctl \
+    --from=get-bldr \
+    /usr/local/bin/bldr \
     ${BIN_DEST}/
 
 COPY --chmod=4755 \
@@ -318,35 +204,13 @@ COPY --chmod=4755 \
     --from=get-manifest-tool \
     /usr/local/bin/manifest-tool \
     ${BIN_DEST}/
-    
-COPY \
-    --link \
-    --chmod=0755 \
-    --from=get-k9s \
-    /usr/local/bin/* \
-    ${BIN_DEST}/k9s
 
-USER vscode
-ENV PATH="$PATH:$BIN_DEST:/home/vscode/.krew/bin"
+# COPY ./root/ /
 
-RUN \
-    krew index add \
-        default https://github.com/kubernetes-sigs/krew-index.git \
-    && krew update \
-    && grep -v '^#' <<EOF | xargs -n1 krew install || true
-ctx
-ns
-sniff
-stern
-get-all
-graph
-grep
-history
-ktop
-EOF
+# RUN systemctl enable buildkit.socket buildkit.service
 
-WORKDIR /workspace
-
-ENTRYPOINT ["/bin/bash"]
-CMD ["/usr/local/libexec/devcontainer/entrypoint"]
-
+# required for systemd
+ENV container=docker
+VOLUME [ "/sys/fs/cgroup", "/run", "/run/lock", "/tmp", "/workspace" ]
+STOPSIGNAL SIGRTMIN+3
+CMD [ "/sbin/init" ]

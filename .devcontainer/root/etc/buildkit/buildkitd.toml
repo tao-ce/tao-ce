@@ -1,0 +1,8 @@
+insecure-entitlements = [ "network.host", "security.insecure" ]
+
+[grpc]
+    address = [ "unix:///var/run/buildkit/buildkit.sock" ]
+    gid = 10 
+
+[registry."registry:5000"]
+    http = true

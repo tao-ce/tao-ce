@@ -4,20 +4,22 @@
 		"../docker-compose.yml",
 	],
 	"service": "dev",
-	"containerUser": "vscode",
+	"remoteUser": "vscode",
 
-	"containerEnv": {
-		"HOME": "/home/vscode",
-		"DEVCONTAINER_INIT_MANIFEST": "/workspace/build/crystal",
-		"DEVCONTAINER_FLAVOR": "crystal",
-	},
+//	"containerEnv": {
+//		"HOME": "/home/vscode",
+		// "DEVCONTAINER_INIT_MANIFEST": "/workspace/build/crystal",
+		// "DEVCONTAINER_FLAVOR": "crystal",
+//	},
 
-	"onCreateCommand": "/usr/local/libexec/devcontainer/create",
-	"postStartCommand": "/usr/local/libexec/devcontainer/start",
-	"postAttachCommand": "/usr/local/libexec/devcontainer/attach",
-	
+	// "onCreateCommand": "/usr/local/libexec/devcontainer/create",
+	// "postStartCommand": "/usr/local/libexec/devcontainer/start",
+	// "postAttachCommand": "/usr/local/libexec/devcontainer/attach",
+
 	"workspaceFolder": "/workspace",
-
+/*
+	"overrideCommand": false,
+	
 	"remoteEnv": {
 		"HOST_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
 	},
@@ -25,7 +27,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				// "ms-kubernetes-tools.vscode-kubernetes-tools",
 				"Redis.redis-for-vscode",
 				"mtxr.sqltools",
 				"mtxr.sqltools-driver-pg",
@@ -45,4 +47,20 @@
 			},
 		},
 	},
+
+	"forwardPorts": [
+		"dev:10350",
+		"socks:51080",
+	],
+	"portsAttributes": {
+		"socks:51080": {
+			"label": "SOCKS5 Proxy",
+			"onAutoForward": "notify"
+		},
+		"dev:10350": {
+			"label": "Tilt",
+			"onAutoForward": "notify"
+		}
+	}
+		*/
 }
