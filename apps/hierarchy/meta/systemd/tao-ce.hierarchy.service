@@ -1,0 +1,15 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/hierarchy/backend && exec /usr/local/libexec/nvm/nvm-exec node src/index.js"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/hierarchy/backend.env
+Environment=NODE_VERSION=22
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

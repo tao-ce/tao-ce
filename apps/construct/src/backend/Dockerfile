@@ -19,7 +19,7 @@ EOC
 
 ADD --chmod=0755 https://github.com/aptible/supercronic/releases/download/v0.2.33/supercronic-linux-${TARGETARCH} /usr/local/bin/supercronic
 
-COPY --link --from=app-construct --chown=1000:1000 /app /app/construct
+COPY --from=app-construct --chown=1000:1000 /app /app/construct
 
 VOLUME [ "/data" ]
 RUN <<EOC

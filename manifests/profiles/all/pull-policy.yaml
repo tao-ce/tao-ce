@@ -1,8 +1,0 @@
-kind: ConfigMap
-apiVersion: v1
-metadata:
-  name: override-pull-policy
-  annotations:
-    config.kubernetes.io/local-config: "true"
-data:
-  imagePullPolicy: IfNotPresent

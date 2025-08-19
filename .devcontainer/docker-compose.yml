@@ -1,60 +1,55 @@
 
 services:
-  build:
-    image: moby/buildkit:latest
-    privileged: true
-    sysctls:
-      net.ipv6.conf.all.disable_ipv6: 1
-    volumes:
-    - .devcontainer/root/etc/buildkit/buildkitd.toml:/etc/buildkit/buildkitd.toml:ro
-    - buildkit-run:/var/run/buildkit
-    - buildkit-lib:/var/lib/buildkit
-
-  dind:
-    image: docker:dind
-    privileged: true
-    command: ["-G", "wheel"]
-    volumes:
-    # - .devcontainer/root/etc/docker/daemon.json:/etc/docker/daemon.json:ro
-    - dind-run:/var/run/docker
-    environment:
-      DOCKER_HOST: unix:///var/run/docker/docker.sock
-      # DOCKER_TLS_CERTDIR: ''
-
-
-  registry:
-    image: registry:3
-    volumes:
-    - registry-lib:/var/lib/registry
-
-  dev:
+   dev:
+    # image: localhost/tao-ce/monolith:latest
     build:
-      dockerfile: Dockerfile
-      context: ${DEVCONTAINER_PATH:-.}
+      context: .
       target: devcontainer
-    cgroup: private
-    # links:
-    # - build
-    environment:
-      BUILDKIT_HOST: unix:///var/run/buildkit/buildkit.sock
-      DOCKER_HOST: unix:///var/run/docker/docker.sock
-    tmpfs:
-    - /sys/fs/cgroup:rw
-    - /sys/fs/cgroup/buildkit:rw
+    cgroup: host
+    use_api_socket: true
     volumes:
     - .:/workspace:cached
-    - buildkit-run:/var/run/buildkit
-    - dind-run:/var/run/docker
-    entrypoint: /sbin/init
-    privileged: true # devcontainer is failing to start otherwise
+    - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    - containers:/home/vscode/.local/share/containers:rw
+    - tao-ce-opt:/opt/tao-ce:rw
+    - tao-ce-lib:/var/lib/tao-ce:rw
+    # - type: image
+    #   source: tao-ce/payload/construct:latest
+    #   target: /opt/tao-ce/construct
+    # - type: image
+    #   source: tao-ce/payload/deliver:latest
+    #   target: /opt/tao-ce/deliver
+    # - type: image
+    #   source: tao-ce/payload/devkit:latest
+    #   target: /opt/tao-ce/devkit
+    # - type: image
+    #   source: tao-ce/payload/dynamic-query:latest
+    #   target: /opt/tao-ce/dynamic-query
+    # - type: image
+    #   source: tao-ce/payload/datastore:latest
+    #   target: /opt/tao-ce/datastore
+    # - type: image
+    #   source: tao-ce/payload/environment-management:latest
+    #   target: /opt/tao-ce/environment-management
+    # - type: image
+    #   source: tao-ce/payload/hierarchy:latest
+    #   target: /opt/tao-ce/hierarchy
+    # - type: image
+    #   source: tao-ce/payload/portal:latest
+    #   target: /opt/tao-ce/portal
+    # - type: image
+    #   source: tao-ce/payload/task-orchestrator:latest
+    #   target: /opt/tao-ce/task-orchestrator
+    # - type: image
+    #   source: tao-ce/payload/timers:latest
+    #   target: /opt/tao-ce/timers
+    privileged: true
 
 volumes:
-  buildkit-run: {}
-  buildkit-lib: {}
-  registry-lib: {}
-  dind-run: {}
+  tao-ce-opt: {}
+  tao-ce-lib: {}
+  containers: {}
 
 networks:
   default:
-    # enable_ipv6: false
     name: "${COMPOSE_PROJECT_NAME}-net"

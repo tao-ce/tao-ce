@@ -1,0 +1,25 @@
+[Unit]
+ConditionPathExists=!/var/lib/tao-ce/portal/users_loaded.json
+After=tao-ce.portal.backend.service
+After=tao-ce.setup.service
+
+[Service]
+Type=oneshot
+ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/portal/"
+ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-user"
+ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-enrolment"
+ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-hierarchy"
+ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-config-hierarchy"
+ExecStart=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_OPT}/portal/backend/mappings/portal-user.json  ${ELASTICSEARCH_URL}/portal-user"
+ExecStart=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_OPT}/portal/backend/mappings/portal-enrolment.json ${ELASTICSEARCH_URL}/portal-enrolment"
+ExecStart=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_OPT}/portal/backend/mappings/portal-hierarchy.json ${ELASTICSEARCH_URL}/portal-hierarchy"
+ExecStart=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_OPT}/portal/backend/mappings/portal-config-hierarchy.json ${ELASTICSEARCH_URL}/portal-config-hierarchy"
+ExecStart=bash -c "curl -X POST -H 'Content-Type: application/json' --data-binary @${INSTALL_POPULATE} ${ELASTICSEARCH_URL}/_bulk/?pretty"
+ExecStartPost=bash -c "cp ${INSTALL_POPULATE} ${TAO_CE_VARLIB}/portal/users_loaded.json"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/portal/backend.env
+
+[Install]
+WantedBy=tao-ce.target

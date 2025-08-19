@@ -1,0 +1,146 @@
+BUILD_SIGNALS_DIR=os.getenv('BUILD_SIGNALS_DIR', default=".cache/tilt/signals")
+DEPLOY_APP_ROOT_DIR=os.getenv('DEPLOY_APP_ROOT_DIR', default="/opt/tao-ce")
+
+def signal(name,stage="build"):
+    return "{signals}/{stage}/{name}".format(signals=BUILD_SIGNALS_DIR, stage=stage, name=name)
+
+def local_build(
+    name,
+    # build specific
+    context=".",
+    target="",
+    contexts={},
+    tags=[],
+    args={},
+    additional_flags=[],
+    output=[],
+    cache=True,
+    file="",
+    inline_file="",
+    deps=[],
+    dir=None,
+    serve_dir=None,
+    trigger_mode=TRIGGER_MODE_AUTO,
+    resource_deps=[],
+    ignore=[],
+    auto_init=False,
+    serve_cmd="",
+    allow_parallel=True,
+    links=[],
+    labels=[],
+    readiness_probe=None,
+    ):
+
+
+    signal_dir = signal(name)
+
+    deps = deps
+
+    cmd_contexts = ["--build-context {}={}".format(n,contexts[n]) for n in contexts]
+    cmd_tags = ["-t {}".format(t) for t in tags]
+    cmd_build_args = ["--build-arg {}={}".format(a,args[a]) for a in args ]
+    cmd_output = ["--output {}".format(o) for o in output]
+    cmd_cache = ["--layers"] if cache else ["--no-cache"]
+    cmd_target = ["--target {}".format(target)] if target else []
+    cmd_file = ["--file {}".format(file)] if file else []
+    cmd_file = ["--file -"] if inline_file else cmd_file
+    cmd_additional_flags = additional_flags
+
+    cmd_inline = "".join(["<<EOFFFFFFF\n"] + [inline_file] + ["\nEOFFFFFFF\n"]) if inline_file else ""
+
+    cmd_args = " ".join([]
+            + cmd_contexts
+            + cmd_tags
+            + cmd_build_args
+            + cmd_output
+            + cmd_cache
+            + cmd_target
+            + cmd_file
+            + cmd_additional_flags
+            + [context]
+        )
+
+    local_resource(
+        name,
+        cmd="""
+            set -eu
+            mkdir -p {signal_dir}
+            time buildah build \
+                {cmd_args} {cmd_inline}
+            date +%s >{signal_dir}/last
+        """.format(
+                signal_dir=signal_dir,
+                cmd_args=cmd_args,
+                cmd_inline=cmd_inline,
+            ),
+        dir=dir,
+        deps=deps,
+        trigger_mode=trigger_mode,
+        resource_deps=resource_deps,
+        ignore=ignore,
+        auto_init=auto_init,
+        serve_cmd=serve_cmd,
+        serve_dir=serve_dir,
+        allow_parallel=allow_parallel,
+        links=links,
+        labels=labels,
+        readiness_probe=readiness_probe,
+    )
+
+
+def local_app(
+        name,
+        # path=".",
+        after_build=[],
+        after_deploy=[],
+        # build specific
+        context=".",
+        contexts={},
+        target="",
+        tags=[],
+        args={},
+        additional_flags=[],
+        output=[],
+        cache=True,
+        # local_resource specific
+        deps=[],
+        dir=None,
+        trigger_mode=TRIGGER_MODE_AUTO,
+        resource_deps=[],
+        ignore=[],
+        auto_init=False,
+        serve_cmd="",
+        serve_dir=None,
+        allow_parallel=True,
+        links=[],
+        labels=[],
+        readiness_probe=None,
+    ):
+        deploy_path = "{}/{}".format(DEPLOY_APP_ROOT_DIR, name)
+
+        local_build(
+            name=name,
+            context=context,
+            contexts=contexts,
+            tags=tags+[],
+            args=args,
+            additional_flags=additional_flags,
+            output=output+["type=local,dest={}".format(deploy_path)],
+            serve_dir=serve_dir or deploy_path,
+            cache=cache,
+            dir=dir,
+            deps=deps
+                +[signal(a,"build") for a in after_build]
+                +[signal(a,"deploy") for a in after_deploy]
+                ,
+            trigger_mode=trigger_mode,
+            resource_deps=resource_deps,
+            ignore=ignore,
+            auto_init=auto_init,
+            serve_cmd=serve_cmd,
+            allow_parallel=allow_parallel,
+            links=links,
+            labels=labels,
+            readiness_probe=readiness_probe,
+            )
+

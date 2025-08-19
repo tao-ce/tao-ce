@@ -1,9 +1,27 @@
 group "default" {
-    targets = ["tao-ce"]
+    targets = concat(["devcontainer"], apps)
+    #targets = images
+}
+
+group "all" {
+    targets = concat(apps, images)
+}
+
+
+variable "registry" {
+    default = "localhost/tao-ce"
+}
+
+variable "images" {
+    default = [
+        "tao-ce",
+        "monolith",
+    ]
 }
 
 variable "apps" {
     default = [
+        "construct",
         "datastore",
         "deliver",
         "devkit",
@@ -14,6 +32,10 @@ variable "apps" {
         "task-orchestrator",
         "timers",
         ]
+}
+
+variable "TAG" {
+    default = "latest"
 }
 
 target "_secrets" {
@@ -34,12 +56,46 @@ target "_secrets" {
         build-image  = "target:build"
         go-build-image  = "target:go-build"
     }
+    output = [
+        {
+            type = "docker"
+            #type = "image"
+            #oci-mediatypes = true
+            name-canonical = true
+            push = false
+        }
+    ]
     target = "export"
+#    attest = [
+#        {
+#            type = "provenance"
+#            mode = "max"
+#        },
+#        {
+#          type = "sbom"
+#        }
+#    ]
 }
 
 target "build" {
     context = ".devcontainer"
     target = "build-fedora"
+}
+
+target "devcontainer" {
+    context = ".devcontainer"
+    target = "devcontainer"
+
+    output = [
+        {
+            type = "image"
+            oci-mediatypes = true
+            name-canonical = true
+            push = false
+        }
+    ]
+
+    tags = ["localhost/tao-ce/devcontainer:latest"]
 }
 
 target "go-build" {
@@ -52,6 +108,15 @@ RUN apk add --no-cache gcc musl-dev
 EOF
 }
 
+target "construct" {
+    inherits = [ "_secrets" ]
+    context = "./apps/construct"
+    contexts = {
+        src-code = "./apps/construct/src"
+    }
+    tags = tags("construct")
+}
+
 target "deliver" {
     inherits = [ "_secrets" ]
     context = "./apps/deliver"
@@ -60,6 +125,7 @@ target "deliver" {
         src-frontend = "./apps/deliver/src/fe"
         src-sandbox  = "./apps/deliver/src/sandbox"
     }
+    tags = tags("deliver")
 }
 
 target "datastore" {
@@ -68,6 +134,7 @@ target "datastore" {
     contexts = {
         src-worker  = "./apps/datastore/src/node"
     }
+    tags = tags("datastore")
 }
 
 target "devkit" {
@@ -76,6 +143,7 @@ target "devkit" {
     contexts = {
         src-backend = "./apps/devkit/src"
     }
+    tags = tags("devkit")
 }
 
 target "dynamic-query" {
@@ -84,6 +152,7 @@ target "dynamic-query" {
     contexts = {
         src-api  = "./apps/dynamic-query/src"
     }
+    tags = tags("dynamic-query")
 }
 
 target "environment-management" {
@@ -94,6 +163,7 @@ target "environment-management" {
         src-lti-gateway = "./apps/environment-management/src/lti-gateway"
         src-sidecar     = "./apps/environment-management/src/server"
     }
+    tags = tags("environment-management")
 }
 
 target "hierarchy" {
@@ -102,6 +172,7 @@ target "hierarchy" {
     contexts = {
         src-backend = "./apps/hierarchy/src"
     }
+    tags = tags("hierarchy")
 }
 
 target "task-orchestrator" {
@@ -110,6 +181,7 @@ target "task-orchestrator" {
     contexts = {
         src-backend = "./apps/task-orchestrator/src"
     }
+    tags = tags("task-orchestrator")
 }
 
 target "portal" {
@@ -119,6 +191,7 @@ target "portal" {
         src-backend = "./apps/portal/src/backend"
         src-frontend = "./apps/portal/src/frontend"
     }
+    tags = tags("portal")
 }
 
 target "timers" {
@@ -127,11 +200,17 @@ target "timers" {
     contexts = {
         src-backend = "./apps/timers/src"
     }
+    tags = tags("timers")
 }
 
 function "copy" {
     params = [image]
-    result = join("",["COPY --from=",image," / /",image,"/"])
+    result = join("",["COPY --link --from=",image," / /",image,"/"])
+}
+
+function "tags" {
+    params = [name]
+    result = [join("",["tao-ce/payload/",name,":",TAG])]
 }
 
 target "tao-ce" {
@@ -141,7 +220,9 @@ target "tao-ce" {
     ${join("\n",[for a in apps : copy(a)])}
 EOF
 
+
     contexts = {
+        construct = "target:construct"
         deliver = "target:deliver"
         datastore = "target:datastore"
         devkit = "target:devkit"
@@ -153,11 +234,23 @@ EOF
         task-orchestrator = "target:task-orchestrator"
     }
 
+    tags = ["${registry}/code:latest"]
+}
+
+
+target "monolith" {
+    context = "."
+    contexts = {
+  #      tao-ce = "target:tao-ce"
+        base = "target:devcontainer"
+    }
     output = [
         {
-            type = "local"
-            dest = "/opt/tao-ce"
+            type = "image"
+            oci-mediatypes = true
+            name-canonical = true
+            push = false
         }
     ]
-    
+    tags = ["${registry}/monolith:latest"]
 }

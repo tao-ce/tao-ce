@@ -11,21 +11,21 @@ services:
     extra_hosts:
       "registry.local": "::1"
 
-  avahi:
-    image: ydkn/avahi:latest
-    privileged: true
-    restart: always
-    # links:
-      # - k8s:${MDNS_FQDN}
-    # network_mode: host
-    links:
-    - k8s:k8s
-    volumes:
-      - ./services/avahi/services:/etc/avahi/services
+  # avahi:
+  #   image: ydkn/avahi:latest
+  #   privileged: true
+  #   restart: always
+  #   # links:
+  #     # - k8s:${MDNS_FQDN}
+  #   # network_mode: host
+  #   links:
+  #   - k8s:k8s
+  #   volumes:
+  #     - ./services/avahi/services:/etc/avahi/services
 
   redis:
     image: valkey/valkey:8-alpine
-    hostname: redis.deps.internal
+    # hostname: redis.deps.internal
     restart: always
     volumes:
       - redis:/data:rw
@@ -39,7 +39,7 @@ services:
 
   pgsql:
     image: postgres:17-alpine
-    hostname: pgsql.deps.internal
+    # hostname: pgsql.deps.internal
     restart: always
     environment:
       - POSTGRES_USER=postgres
@@ -54,9 +54,10 @@ services:
       start_period: 3s
 
   pubsub:
-    hostname: pubsub.deps.internal
+    # hostname: pubsub.deps.internal
     build:
       context: services/pubsub-emulator
+      target: export
 
   pubsub-emulator-ui:
     image: ghcr.io/neoscript/pubsub-emulator-ui:2025.02.25
@@ -64,7 +65,7 @@ services:
       - PUBSUB_EMULATOR_HOST=pubsub.deps.internal:8432
   
   firestore:
-    hostname: firestore.deps.internal
+    # hostname: firestore.deps.internal
     build:
       context: services/firebase
     environment:

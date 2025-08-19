@@ -12,7 +12,13 @@ include \
 	$(MK_SWIFT_DIR)/swift.mk \
 	$(MK_SBOM_DIR)/sbom.mk
 
-crystal: tls-ca
+crystal:
+	docker bake \
+		-f ./docker-bake.hcl \
+		--allow=network.host \
+		--allow=ssh \
+		--allow=fs.write=opt/tao-ce \
+		--set="tao-ce.no-cache=true"
 
 cozy: tls-ca cozy-container cozy-vm-img
 

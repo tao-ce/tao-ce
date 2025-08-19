@@ -1,0 +1,94 @@
+x-off: &off
+  restart: no
+  command: noop
+
+x-build: &build
+  ssh: [ default ]
+  secrets: [ NPM_TOKEN ]
+  args: &args
+    BUILD_IMAGE: "build-image"
+    GO_BUILD_IMAGE: "go-build-image"
+  additional_contexts: &ctxs
+    build-image: service:build
+    go-build-image: service:go-build
+  target: export
+
+services:
+  build:
+    <<: *off
+    build:
+      context: .devcontainer
+      target: build-fedora
+
+  go-build:
+    <<: *off
+    build:
+      dockerfile_inline: |
+        FROM golang:1.24-alpine
+        ENV CGO_ENABLED=0
+        RUN apk add --no-cache gcc musl-dev
+
+  payload-datastore:
+    <<: *off
+    build:
+      <<: *build
+      context: ./apps/datastore
+      additional_contexts:
+        <<: *ctxs
+        src-worker: ./apps/datastore/src/node
+
+  payload-devkit:
+    <<: *off
+    develop:
+      watch:
+        - path: ./apps/devkit
+          action: rebuild
+    build:
+      <<: *build
+      
+      context: ./apps/devkit
+      additional_contexts:
+        <<: *ctxs
+        src-backend: ./apps/devkit/src
+
+  payload-deliver:
+    <<: *off
+    build:
+      <<: *build
+      context: ./apps/deliver
+      additional_contexts:
+        <<: *ctxs
+        src-backend: ./apps/deliver/src/be
+        src-frontend: ./apps/deliver/src/fe
+        src-sandbox: ./apps/deliver/src/sandbox
+
+
+  devbase:
+    <<: *off
+    build:
+      context: .devcontainer
+      target: devcontainer
+
+
+  tao:
+    cgroup: host
+    build:
+      dockerfile_inline: |
+        FROM baseimage
+        COPY --link --from=datastore / /opt/tao-ce/datastore
+        COPY --link --from=deliver / /opt/tao-ce/deliver
+        COPY --link --from=devkit / /opt/tao-ce/devkit
+      additional_contexts:
+        baseimage: service:devbase
+        datastore: service:payload-datastore
+        deliver: service:payload-deliver
+        devkit: service:payload-devkit
+    tmpfs:
+    - /sys/fs/cgroup:rw
+    privileged: true # devcontainer is failing to start otherwise
+
+
+
+secrets:
+  NPM_TOKEN:
+    file: .secrets/npm

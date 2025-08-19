@@ -18,9 +18,13 @@ RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
 
 COPY --from=src-backend . .
 
+RUN find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --link --from=build-backend \
-    --exclude="**/.git*" \
+COPY --from=build-backend \
     /app /backend
+
+COPY meta /meta

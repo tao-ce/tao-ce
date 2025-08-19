@@ -17,13 +17,16 @@ RUN \
     --mount=type=secret,id=NPM_TOKEN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
-    && ${BUILD_NPM} ci
+    && ${BUILD_NPM} ci \
+    && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
 
 COPY --from=src-api . .
 
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --link --from=build-api \
-    --exclude="**/.git*" \
+COPY --from=build-api \
     /app /api
+
+COPY meta /meta

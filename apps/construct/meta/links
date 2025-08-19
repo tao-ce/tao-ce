@@ -1,0 +1,3 @@
+backend/config              config
+backend/data                data
+backend/tao/views/locales   locales

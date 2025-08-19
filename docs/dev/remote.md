@@ -16,9 +16,9 @@ subgraph remote-machine["Remote machine"]
 subgraph remote-code["vscode"]
 end
 repo
-socks-proxy
 remote-ssh["ssh-agent"]
 subgraph containers
+socks-proxy
 subgraph devcontainer
 dev-ssh["ssh-agent"]
 end
@@ -32,7 +32,7 @@ devcontainer -- load workspace --> repo
 devcontainer -- deploy in --> k3s
 browser -- HTTPS
 via /etc/hosts --> netcat
-browser -- HTTPS --> local-socks --> socks-proxy --> netcat
+browser -- HTTPS --> local-socks -- SSH session --> socks-proxy --> netcat
 local-ssh -- forward --> remote-ssh
 local-ssh -- forward --> dev-ssh
 ```

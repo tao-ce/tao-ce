@@ -5,6 +5,7 @@ ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 ### backend ####################################################################
 FROM $BUILD_IMAGE AS build-backend
 ARG BUILD_IMAGE
+ARG STATE_ROOT="/var/lib/tao-ce/deliver"
 
 WORKDIR /app
 COPY --from=src-backend . .
@@ -17,7 +18,19 @@ RUN     --mount=type=ssh \
         > .env ; \
         composer dump-env prod; \
         echo '<?php return [];' >.env.local.php; \
-        rm -rf .env .build/;
+        rm -rf .env .build/ var/storage; \
+        find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
+        find /app -type f | grep '[/][.]git.*$' | xargs rm -rf ;
+
+RUN \
+    cd /app \
+    && rm -rf \
+        var \
+    && mkdir -p \
+        ${STATE_ROOT}/data \
+    && ln -s \
+        ${STATE_ROOT}/data \
+        var
 
 ### bootstrap ##################################################################
 FROM $BUILD_IMAGE AS build-bootstrap
@@ -31,7 +44,9 @@ COPY --from=src-frontend ./packages/deliver-app .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} run build:bootstrap
+        ${BUILD_NPM} run build:bootstrap \
+        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
 
 ### static #####################################################################
 FROM $BUILD_IMAGE AS build-static
@@ -48,7 +63,10 @@ RUN \
     --mount=type=secret,id=NPM_TOKEN \
         ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
         && ${BUILD_NPM} ci \
-        && ${BUILD_NPM} run build:app
+        && ${BUILD_NPM} run build:app \
+        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+
 
 
 ### sandbox ####################################################################
@@ -70,24 +88,23 @@ RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
         ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
         && ${BUILD_NPM} ci \
-        && ${BUILD_NPM} run build
+        && ${BUILD_NPM} run build \
+        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+
 
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --link --from=build-backend  \
-    --exclude="**/.git*" \
+COPY --from=build-backend  \
     /app /backend
-COPY --link --from=build-bootstrap  \
-    --exclude="**/.git*" \
+COPY --from=build-bootstrap  \
     /app /bootstrap
-COPY --link --from=build-static     \
-    --exclude="**/.git*" \
+COPY --from=build-static     \
     /app/packages/deliver-app/dist /static
-COPY --link --from=build-sandbox    \
-    --exclude="**/.git*" \
+COPY --from=build-sandbox    \
     /app /sandbox
 
 COPY ./router.php /backend/router.php
 
-
+COPY meta /meta

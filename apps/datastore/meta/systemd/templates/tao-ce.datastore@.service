@@ -1,0 +1,17 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/datastore/worker && exec ${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/datastore.json"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/datastore/worker && exec /usr/local/libexec/nvm/nvm-exec node script/pipeline.js"
+Environment=NODE_VERSION=18
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/datastore/worker.env
+EnvironmentFile=/etc/tao-ce/setup/envs/datastore/%i.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

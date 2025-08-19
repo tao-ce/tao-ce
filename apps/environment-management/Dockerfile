@@ -23,11 +23,15 @@ COPY --from=src-auth-server src /app/src
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     rm -rf /app/src/dist/test /app/src/dist/configs/keys \
-    && ${BUILD_NPM} run build
+    && ${BUILD_NPM} run build \
+    && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+    
 
 ### lti-gateway ################################################################
 FROM $BUILD_IMAGE AS build-lti-gateway
 ARG BUILD_IMAGE
+ARG STATE_ROOT="/var/lib/tao-ce/environment-management/lti-gateway"
 
 WORKDIR /app
 
@@ -37,9 +41,19 @@ COPY src/libs /libs
 RUN set -eux; \
     composer install -n --optimize-autoloader --no-dev --prefer-dist; \
     composer dump-autoload -n --optimize --no-dev --classmap-authoritative; \
-    rm -rf .build/;
+    rm -rf .build/; \
+    find /app -type d | grep '[/][.]git$' | xargs rm -rf ; \
+    find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
 
-
+RUN \
+    cd /app \
+    && rm -rf \
+        var \
+    && mkdir -p \
+        ${STATE_ROOT}/data \
+    && ln -s \
+        ${STATE_ROOT}/data \
+        var
 ### sidecar ####################################################################
 FROM $GO_BUILD_IMAGE AS build-sidecar
 ARG GO_BUILD_IMAGE
@@ -70,18 +84,14 @@ RUN \
 FROM scratch AS export
 
 COPY --from=build-auth-server \
-    --exclude="**/.git*" \
     /app/dist /auth-server
 COPY --from=build-auth-server \
-    --exclude="**/.git*" \
     /app/node_modules /auth-server/node_modules
 COPY --from=build-lti-gateway \
-    --exclude="**/.git*" \
     /app /lti-gateway
 COPY --from=build-lti-gateway \
-    --exclude="**/.git*" \
     /libs /libs
 COPY --from=build-sidecar \
-    --exclude="**/.git*" \
     /server /app/config.yaml /sidecar/
 
+COPY meta /meta

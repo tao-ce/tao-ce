@@ -111,6 +111,7 @@ RUN \
 
 RUN \
     --mount=type=cache,id=dnf-cache,target=/var/cache/dnf \
+    --mount=type=cache,id=libdnf-cache,target=/var/cache/libdnf5 \
     --mount=type=bind,target=/run/context/packages.lst,source=config/packages.lst \
     cat /run/context/packages.lst \
         | grep -v '^#' \

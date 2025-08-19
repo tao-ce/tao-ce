@@ -1,0 +1,15 @@
+[Unit]
+After=tao-ce.construct.backend.service
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/construct/backend && exec php index.php 'oat\\taoTaskQueue\\scripts\\tools\\RunWorker' --limit=100 --queue=%i"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/construct/backend.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

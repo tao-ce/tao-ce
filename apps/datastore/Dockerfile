@@ -17,10 +17,15 @@ RUN ${BUILD_NPM} install
 
 COPY --from=src-worker . .
 
+RUN \
+    find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+
+
 ### Export #####################################################################
 
 FROM scratch AS export
 
-COPY --link --from=build-worker  \
-    --exclude="**/.git*" \
+COPY --from=build-worker  \
     /app /worker
+COPY meta /meta

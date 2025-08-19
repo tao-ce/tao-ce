@@ -1,0 +1,14 @@
+[Unit]
+#AssertPathExists=/etc/tao-ce/setup/envs/svc.env
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT} && exec /usr/local/bin/caddy run --config /etc/tao-ce/config/Caddyfile"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

@@ -1,0 +1,14 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/environment-management/sidecar && exec ./server"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/em/sidecar.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

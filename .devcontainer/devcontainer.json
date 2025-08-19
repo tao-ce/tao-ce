@@ -5,62 +5,15 @@
 	],
 	"service": "dev",
 	"remoteUser": "vscode",
-
-//	"containerEnv": {
-//		"HOME": "/home/vscode",
-		// "DEVCONTAINER_INIT_MANIFEST": "/workspace/build/crystal",
-		// "DEVCONTAINER_FLAVOR": "crystal",
-//	},
-
-	// "onCreateCommand": "/usr/local/libexec/devcontainer/create",
-	// "postStartCommand": "/usr/local/libexec/devcontainer/start",
-	// "postAttachCommand": "/usr/local/libexec/devcontainer/attach",
-
 	"workspaceFolder": "/workspace",
-/*
-	"overrideCommand": false,
-	
-	"remoteEnv": {
-		"HOST_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
-	},
 
+	"postCreateCommand": "sudo mkdir -p /opt/tao-ce /var/lib/tao-ce; sudo chown -R vscode: /opt/tao-ce /var/lib/tao-ce /home/vscode/.local; sudo loginctl enable-linger vscode;",
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				// "ms-kubernetes-tools.vscode-kubernetes-tools",
-				"Redis.redis-for-vscode",
-				"mtxr.sqltools",
-				"mtxr.sqltools-driver-pg",
-				"tilt-dev.Tiltfile",
-				"mutantdino.resourcemonitor",
-				"MermaidChart.vscode-mermaid-chart",
-				"Sebbia.jsonnetng"
-			],
-
-			"settings": {
-				"sqltools.connections": [
-					{ "name": "TAO Backoffice", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "postgres" },
-					{ "name": "Scoring Service", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "scoring_service" },
-					{ "name": "Manual Scoring", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "manual_scoring" },
-					{ "name": "Simple Reports", "driver": "PostgreSQL", "previewLimit": 50, "server": "pgsql", "port": 5432, "username": "postgres", "password": "postgres", "database": "simple_reports" },
-				]
-			},
-		},
-	},
-
-	"forwardPorts": [
-		"dev:10350",
-		"socks:51080",
-	],
-	"portsAttributes": {
-		"socks:51080": {
-			"label": "SOCKS5 Proxy",
-			"onAutoForward": "notify"
-		},
-		"dev:10350": {
-			"label": "Tilt",
-			"onAutoForward": "notify"
+				"tilt-dev.tiltfile",
+				"ms-azuretools.vscode-containers"
+			]
 		}
 	}
-		*/
 }

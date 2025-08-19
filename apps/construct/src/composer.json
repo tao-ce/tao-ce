@@ -87,7 +87,6 @@
     "oat-sa/extension-tao-testqti-previewer": "3.11.0",
     "oat-sa/extension-tao-deliver-connect": "*",
     "oat-sa/extension-tao-deliver-pcis": "*",
-        "oat-sa/extension-tao-scoring-service-connect": "*",
     "oat-sa/extension-tao-testqti-export": "*",
     "oat-sa/lib-generis-search": "2.3.1"
   },

@@ -1,0 +1,33 @@
+spec:
+  publicDomain: community.tao.internal
+  dependencies:
+  - key: pubsub
+    type: pubsub
+    address:
+      schema: http
+      port: 8432
+      host: pubsub
+  - key: firestore
+    type: firestore
+    address:
+      schema: http
+      port: 8080
+      host: firestore
+  - key: es
+    type: es
+    address:
+      schema: http
+      port: 9200
+      host: es
+  - key: pgsql
+    type: pgsql
+    address:
+      schema: pgsql
+      port: 5432
+      host: pgsql
+  - key: redis
+    type: redis
+    address:
+      schema: redis
+      host: redis
+      

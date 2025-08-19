@@ -1,0 +1,14 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/devkit/backend && php -S [::]:${LISTEN_PORT} -t ./public ./router.php"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/devkit/backend.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

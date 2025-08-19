@@ -1,0 +1,10 @@
+.cache
+.bak
+.data
+.tmp
+.secrets
+.vscode
+build/**/.cache
+**/.git
+**/.github
+*tar.gz

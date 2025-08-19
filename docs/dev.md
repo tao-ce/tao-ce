@@ -47,7 +47,7 @@ patch -p1 < hack/sources/task-orchestrator.patch
     * ensure to have [`Dev Containers`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension installed
     * open this repository workspace
     * enter in Dev Container: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> > `Dev Container: Reopen in container`
-2. Run Tilt console
+2. From Devcontainer terminal (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>`</kbd>), run Tilt console
     * run `tilt up -- --from-scratch --profile all`
     * press <kbd>SPACE</kbd> key to open browser
 3. Wait for all containers to build

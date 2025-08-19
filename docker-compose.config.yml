@@ -1,21 +1,22 @@
 services:
-  dev:
-    # image: quay.io/tao-ce/devcontainer:latest
-    # build: !reset null
-    links:
-      - k8s:community.tao.internal
-      - firestore
-
   proxy:
     ports:
       - 443:443
     image: alpine/socat
     privileged: true
     links:
-      - k8s
+      - dev
     command: >
-      TCP-LISTEN:443,fork,reuseaddr TCP:k8s:443
+      TCP-LISTEN:443,fork,reuseaddr TCP:dev:443
     restart: no
+
+  dev:
+    links:
+    - redis:redis
+    - pgsql:pgsql
+    - es:es
+    - pubsub:pubsub
+    - firestore:firestore
 
 networks:
   default:
