@@ -3,8 +3,7 @@ ARG MANIFEST_TOOL_VERSION=latest
 ARG SYFT_VERSION=latest
 
 ARG FEDORA_VERSION=42
-ARG DEVCONTAINER_FLAVOR=fedora
-ARG IMAGE_NVM_VERSIONS="18 20 22"
+ARG IMAGE_NVM_VERSIONS="18,20,22"
 ARG DEVCONTAINER_USERNAME="vscode"
 
 # do not change without keeping packages.php.lst up to date
@@ -118,7 +117,7 @@ RUN \
         | xargs dnf install -y \
     && mkdir -p ${NVM_DIR} && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE="/etc/profile.d/" bash \
     && . ${NVM_DIR}/nvm.sh \
-        && echo ${IMAGE_NVM_VERSIONS} | xargs -n1 | while read v ; do nvm install $v ; done  \
+        && echo ${IMAGE_NVM_VERSIONS} | tr , "\n" | xargs -n1 | while read v ; do nvm install $v ; done  \
         && nvm install --lts \
         && nvm use --lts \
         && nvm alias default node
@@ -148,6 +147,14 @@ RUN apk add --no-cache gcc musl-dev
 
 ################################################################################
 FROM base-fedora AS running
+
+LABEL org.opencontainers.image.name "TAO Community Edition"
+LABEL name "TAO Community Edition"
+LABEL org.opencontainers.image.vendor "Open Assessment Technologies S.A."
+LABEL vendor "Open Assessment Technologies S.A."
+LABEL org.opencontainers.image.license "TBD"
+LABEL license "TBD"
+LABEL org.opencontainers.image.url "https://github.com/tao-ce/tao-ce"
 
 ARG TARGETPLATFORM
 ARG TARGETOS
@@ -252,15 +259,18 @@ RUN \
             -e "s/@@ARCH@@/$(uname -m)/g" \
         | xargs dnf install -y --setopt=install_weak_deps=false
 
-#workaround
-
-RUN dnf update -y --enablerepo=update-testing buildah
+#workaround (stable buildah is missing --link, installing testing)
+RUN dnf update -y --enablerepo=updates-testing buildah
 
 RUN \
     useradd -G wheel ${DEVCONTAINER_USERNAME} \
     && echo '%wheel  ALL=(ALL)       NOPASSWD: ALL' | tee -a /etc/sudoers \
     && setcap cap_setuid+ep /usr/bin/newuidmap \
     && setcap cap_setgid+ep /usr/bin/newgidmap
+
+COPY \
+    --from=src-devcontainer \
+    etc/ /etc/
 
 COPY --chmod=4755 \
     --chown=0:0 \

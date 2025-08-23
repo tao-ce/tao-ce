@@ -1,5 +1,4 @@
 local templates = {
-    // devkit: (import '../../../apps/setup/src/assets/apps/devkit.libsonnet'),
     portal: (import './apps/portal.libsonnet'),
     em: (import './apps/environment-management.libsonnet'),
     hierarchy: (import './apps/hierarchy.libsonnet'),
@@ -34,6 +33,7 @@ local hydrateSetup(seed) = {
 
         env+: {
             GOOGLE_CLOUD_PROJECT: 'demo-tao',
+            GOOGLE_APPLICATION_CREDENTIALS: "%s/config/gcp.json" % this.dirs.etc,
             TAO_CE_PUBLIC_DOMAIN: this.publicDomain,
         },
         dependencies: 

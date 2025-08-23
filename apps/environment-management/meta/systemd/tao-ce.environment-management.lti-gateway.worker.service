@@ -3,6 +3,7 @@
 [Service]
 Type=simple
 ExecStartPre=/bin/sh -c "mkdir -p ${TAO_CE_VARLIB}/environment-management/lti-gateway/data"
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/environment-management/lti-gateway && exec php bin/console cache:clear"
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/environment-management/lti-gateway && exec php bin/console messenger:setup-transports"
 ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/environment-management/lti-gateway && exec php bin/console messenger:consume -vvv lti_event"
 EnvironmentFile=/etc/environment

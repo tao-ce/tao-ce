@@ -75,6 +75,6 @@ COPY  --from=build-frontend  \
     /app /static
 
 COPY ./router.php /backend/router.php
-
+COPY ./construct.sh /construct.sh
 COPY meta /meta
 

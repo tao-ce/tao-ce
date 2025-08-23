@@ -1,8 +1,0 @@
-services:
-  taoooo:
-    image: localhost/tao-ce/monolith:tilt-dev
-    ports:
-      - 8443:443
-
-x-podman:
-    in_pod: false

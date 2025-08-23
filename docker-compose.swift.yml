@@ -1,13 +1,8 @@
-
 services:
-   dev:
-    build:
-      context: .
-      additional_contexts:
-        src-devcontainer: build/crystal
-      target: devcontainer
-      args:
-        DEVCONTAINER_USERNAME: vscode
+  tao:
+    image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:latest
+    ports:
+      - 443:443
     cgroup: host
     volumes:
     - .:/workspace:cached
@@ -23,7 +18,14 @@ services:
     - pubsub:pubsub
     - firestore:firestore
 
+include:
+- ./docker-compose.stack.yml
+
 volumes:
   tao-ce-opt: {}
   tao-ce-lib: {}
   containers: {}
+
+
+x-podman:
+    in_pod: false

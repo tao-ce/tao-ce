@@ -10,14 +10,6 @@ services:
       TCP-LISTEN:443,fork,reuseaddr TCP:dev:443
     restart: no
 
-  dev:
-    links:
-    - redis:redis
-    - pgsql:pgsql
-    - es:es
-    - pubsub:pubsub
-    - firestore:firestore
-
 networks:
   default:
     name: "${COMPOSE_PROJECT_NAME}-net"

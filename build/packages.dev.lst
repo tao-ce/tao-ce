@@ -3,3 +3,6 @@ pre-commit
 podman
 buildah
 fuse-overlayfs
+patch
+zsh
+ps

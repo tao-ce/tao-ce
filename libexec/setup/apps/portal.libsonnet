@@ -30,6 +30,8 @@ function(setup)
   GCP_PUBSUB_DELIVERY_PUBLICATION_FAILED_SUBSCRIPTION_NAME: 'delivery-publication-failed',
   GCP_PUBSUB_DELIVERY_LOCALE_ATTACHMENT_SUCCEEDED_SUBSCRIPTION_NAME: 'delivery-language-attachment-succeeded',
   GCP_PUBSUB_DELIVERY_LOCALE_ATTACHMENT_FAILED_SUBSCRIPTION_NAME: 'delivery-language-attachment-failed',
+  GCP_PUBSUB_CAMPAIGN_NOTIFICATION_TOPIC_NAME: 'portal-campaign-notification-topic',
+  GCP_PUBSUB_CAMPAIGN_NOTIFICATION_SUBSCRIPTION_NAME: 'portal-campaign-notification-subscription',
   GCP_PUBSUB_USER_EVENTS_SUBSCRIPTION_NAME: 'portal-user-events-subscription',
   GCP_PUBSUB_PORTAL_SESSION_TEMPLATE_NOTIFICATION_SUBSCRIPTION_NAME: 'portal-session-template-notification-subscription',
   HIERARCHY_API_URL: setup.apps.hierarchy.backend.http.url,
@@ -43,7 +45,8 @@ function(setup)
   SIDECAR_API_URL: setup.apps["environment-management"].auth_server.gw.url,
   TASK_ORCHESTRATOR_API_URL: setup.apps.task_orchestrator.backend.http.url,
   TESTRUNNER_API_URL: setup.apps.deliver.backend.http.url,
-
+  REDIS_HOST: setup.dependencies.redis.address.host,
+  REDIS_PORT: setup.dependencies.redis.address.port,
   PORT: setup.apps.portal.backend.http.port,
   NODE_VERSION: "18",
   INSTALL_POPULATE: "%s/init/portal/%s.json" % [setup.dirs.libexec, setup.portal.populate ], 
@@ -64,7 +67,7 @@ function(setup)
   TENANTS: std.manifestJsonMinified([{clientId: "portal-client-id_1", label: "nextgen-stack", subdomain: std.split(setup.publicDomain,'.')[0] , tenantId: "1"}]),
   // TENANTS: "[{\"clientId\": \"portal-client-id_1\", \"label\": \"nextgen-stack\", \"subdomain\": \"community\", \"tenantId\": \"1\"}]",
   WS_TASK_ORCHESTRATOR_URL: "https://%(publicDomain)s/task-orchestrator-socket/" % setup,
-
+  NODE_ENV: 'production',
   PORT: setup.apps.portal.bootstrap.http.port,
   NODE_VERSION: "18",
 
@@ -90,5 +93,6 @@ function(setup)
     {"topic": "grader-statuses-topic", "subscription": "grader-statuses-portal"},
     {"topic": "grader-manual-results-topic", "subscription": "grader-manual-results-portal"},
     {"topic": "users-ds", "subscription": "users-merge-subscription"},
+    {"topic": "portal-campaign-notification-topic", "subscription": "portal-campaign-notification-subscription"},
   ]
 }

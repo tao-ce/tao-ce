@@ -1,11 +1,7 @@
 name: tao-ce
 
 include:
-  - path:
-    - ${DEVCONTAINER_PATH:-.devcontainer}/docker-compose.yml
-    - ./docker-compose.config.yml
-    # - ./docker-compose.dev.yml
-    # - ./docker-compose.monolith.yml
-    project_directory: .
-  - ./docker-compose.stack.yml
+- ./docker-compose.dev.yml
+- ./docker-compose.stack.yml
+- ./docker-compose.config.yml
 

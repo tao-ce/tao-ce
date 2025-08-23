@@ -117,7 +117,7 @@ APPS = [
     }),
 ]
 
-buildah = struct(**load_dynamic('lib/Tiltfile.buildah'))
+buildah = struct(**load_dynamic('build/crystal/Tiltfile.buildah'))
 
 def local_image_name(name,tag=BUILD_TAG):
     return "{reg}/{org}/{name}".format(
