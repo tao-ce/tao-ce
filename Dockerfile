@@ -105,6 +105,7 @@ RUN \
     --mount=type=cache,target=/var/cache/libdnf5,id=libdnf5-cache \
     set -a \
     && . /etc/os-release \
+    && dnf install -y python3-dnf-plugin-versionlock \
     && dnf install -y https://rpms.remirepo.net/${ID}/remi-release-${VERSION_ID}.rpm \
     && dnf config-manager setopt remi.enabled=1 \
     && dnf module reset -y php \
@@ -115,6 +116,7 @@ RUN \
         | sed \
             -e "s/@@ARCH@@/$(uname -m)/g" \
         | xargs dnf install -y \
+    && dnf  versionlock add php* \
     && mkdir -p ${NVM_DIR} && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE="/etc/profile.d/" bash \
     && . ${NVM_DIR}/nvm.sh \
         && echo ${IMAGE_NVM_VERSIONS} | tr , "\n" | xargs -n1 | while read v ; do nvm install $v ; done  \

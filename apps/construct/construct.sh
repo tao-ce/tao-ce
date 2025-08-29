@@ -80,6 +80,7 @@ construct_replace_generis() {
     const_value=$2
     const_type=${3:-string}
 
+    cd $app_path
     case $const_type in
         string)
             const_value="'"${const_value}"'"
@@ -98,6 +99,7 @@ construct_replace_generis() {
 }
 
 construct_setup_taoLti() {
+    cd $app_path
     php index.php 'oat\taoLti\scripts\tools\SetupLtiPlatform' \
             -l 'Portal' \
             -cid 'portal-authoring-client-id-1' \
@@ -109,6 +111,7 @@ construct_setup_taoLti() {
 }
 
 construct_replace_taoLti()  {
+    cd $app_path
     sed -i \
             -e "s@^.*'rootUrl'.*@'rootUrl' => '$config_base_url',     // overwritten by $0 on $(date -Ins -u)@" \
             $app_data_path/config/taoLti/Lti1p3RegistrationRepository.conf.php
@@ -116,6 +119,7 @@ construct_replace_taoLti()  {
 
 construct_config() {
     construct_wait ready
+    cd $app_path
 
     construct_replace_generis ROOT_URL ${config_base_url}
     construct_replace_generis TIME_ZONE ${config_tz}
@@ -128,6 +132,7 @@ construct_config() {
 
 construct_update() {
     construct_wait install
+    cd $app_path
 
     rm -f ${app_ready_sem}
 
@@ -139,6 +144,7 @@ construct_update() {
 construct_run() {
     construct_wait install
     construct_wait ready
+    cd $app_path
 
     construct_config
 
@@ -151,6 +157,8 @@ construct_run() {
 construct_install() {
     force_install=0
     silent_skip=0
+
+    cd $app_path
 
     while getopts ":Fs" o; do
         case $o in
