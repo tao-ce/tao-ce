@@ -9,6 +9,10 @@
 	},
 	"workspaceFolder": "/workspace",
 
+	"onCreateCommand": "build/crystal/create.sh",
+	"postAttachCommand": "build/crystal/attach.sh",
+
+
 	"features": {
 	    "ghcr.io/devcontainers/features/common-utils": {
 	        "installZsh": true,
@@ -25,7 +29,8 @@
 				"ms-azuretools.vscode-containers",
 				"MermaidChart.vscode-mermaid-chart",
 				"Grafana.vscode-jsonnet",
-				"marp-team.marp-vscode"
+				"marp-team.marp-vscode",
+				"OpenTofu.vscode-opentofu"
 			],
 			"settings": {
 				"containers.containerClient": "com.microsoft.visualstudio.containers.podman",
