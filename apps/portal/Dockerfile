@@ -56,11 +56,11 @@ RUN \
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --from=build-backend \
+COPY --link --from=build-backend \
     /app /backend
-COPY --from=build-bootstrap  \
+COPY --link --from=build-bootstrap  \
     /app /bootstrap
-COPY --from=build-static     \
+COPY --link --from=build-static     \
     /app/dist /static
 
 COPY meta /meta

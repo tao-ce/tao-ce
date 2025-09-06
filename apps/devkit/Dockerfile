@@ -38,7 +38,7 @@ RUN \
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --from=build-backend \
+COPY --link --from=build-backend \
         /app /backend
 COPY ./router.php /backend/router.php
 

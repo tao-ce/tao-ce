@@ -21,7 +21,7 @@ RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --from=build-backend \
+COPY --link --from=build-backend \
     /app /backend
 
 COPY meta /meta

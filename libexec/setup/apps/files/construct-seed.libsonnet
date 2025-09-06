@@ -59,7 +59,9 @@ function(setup)
                 "qtiItempPci": "default",
                 "qtiItemImsPci": "default",
                 "portableElementStorage": "default",
-                "dataStore": "default"
+                "dataStore": "default",
+                "revisions": "default",
+                "dataStoreQTITests": "default",
               }
             },
           },

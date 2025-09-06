@@ -1,0 +1,52 @@
+{
+	"name": "main",
+	"columns": [
+		{
+			"id": "229702",
+			"name": "timestamp",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: new Date(line.ts).toISOString() }\n}",
+			"faceted": false,
+			"idx": 3,
+			"width": 188
+		},
+		{
+			"id": "306713",
+			"name": "app",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content.APP, facets: [{ name: \"app\", value: line.json_content.APP }] }\n}",
+			"faceted": false,
+			"width": 150,
+			"idx": 3
+		},
+		{
+			"id": "149278",
+			"name": "tier",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content.TIER, facets: [{ name: \"tier\", value: line.json_content.TIER }] }\n}",
+			"faceted": false,
+			"idx": 2,
+			"width": 112
+		},
+		{
+			"id": "651420",
+			"name": "message",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    const message = line.json_content['MESSAGE'];\n    // try {\n    //     const json_message = JSON.parse(message);\n    //     return {\n    //         isJson: true,\n    //         text: message,\n    //     };\n\n    // }\n    // catch (e) {\n    const level = ((line) => {\n        if (line.json_content.MESSAGE.match(/error/i)) return \"error\";\n        if (line.json_content.MESSAGE.match(/debug/i)) return \"debug\";\n        return \"info\";\n\n    })(line);\n\n    return {\n        text: message,\n        facets: [{\n            name: \"level\",\n            value: level,\n        }],\n        isJson: ((m) => { try { JSON.parse(m); } catch (e) { return false; }; return true; })(message),\n    }\n    // }\n}",
+			"idx": 5,
+			"width": 1223,
+			"faceted": false
+		}
+	],
+	"settings": {
+		"middlewares": [
+			{
+				"id": "m_318527",
+				"name": "sanitize_journald",
+				"handlerTsCode": "(line: Message): Message | void => {\n  //\n  if (!line.json_content) return line;\n\n  const isLogger = line.json_content.SYSLOG_IDENTIFIER == \"logger\";\n  const hasMessage = line.json_content.hasOwnProperty('MESSAGE');\n  const hasTimestamp = line.json_content.hasOwnProperty('__REALTIME_TIMESTAMP');\n\n  if (hasMessage) {\n    //sanitize non-utf8 message from journalctl\n    const message = line.json_content.MESSAGE;\n    if (Array.isArray(message))\n      line.json_content.MESSAGE = message.map(b => String.fromCharCode(b)).join(\"\");\n  }\n\n  if (hasTimestamp) {\n    line.ts = parseInt(line.json_content['__REALTIME_TIMESTAMP']) / 1000;\n  }\n\n  if (!isLogger) {\n    //skip systemd log not related to tao-ce\n    if (!line.json_content._SYSTEMD_UNIT.startsWith('tao-ce.')) return;\n    //sanitize non-utf8 message\n    line.json_content.APP = line.json_content['_SYSTEMD_UNIT'].split('.')[1];\n    line.json_content.TIER = line.json_content['_SYSTEMD_UNIT'].split('.')[2];\n  }\n\n  return line;\n}"
+			}
+		],
+		"leftColWidth": 209,
+		"drawerColWidth": 419,
+		"maxMessages": 10000,
+		"entriesOrder": "asc",
+		"correlationIdField": "app",
+		"paintCorrelationIdCell": true
+	}
+}

@@ -63,7 +63,7 @@ ENV GOMODCACHE=/gomod-cache
 
 WORKDIR /app
 COPY src/libs/lib-em-go-proto /libs/lib-em-go-proto
-COPY --from=src-sidecar go.mod go.sum /app
+COPY --from=src-sidecar go.mod go.sum /app/
 
 RUN \
     --mount=type=cache,target=/gomod-cache \
@@ -83,15 +83,15 @@ RUN \
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --from=build-auth-server \
+COPY --link --from=build-auth-server \
     /app/dist /auth-server
-COPY --from=build-auth-server \
+COPY --link --from=build-auth-server \
     /app/node_modules /auth-server/node_modules
-COPY --from=build-lti-gateway \
+COPY --link --from=build-lti-gateway \
     /app /lti-gateway
-COPY --from=build-lti-gateway \
+COPY --link --from=build-lti-gateway \
     /libs /libs
-COPY --from=build-sidecar \
+COPY --link --from=build-sidecar \
     /server /app/config.yaml /sidecar/
 
 COPY meta /meta

@@ -1,5 +1,4 @@
-ARG TILT_VERSION=latest
-ARG MANIFEST_TOOL_VERSION=latest
+# ARG LOGDY_VERSION=latest
 ARG SYFT_VERSION=latest
 
 ARG FEDORA_VERSION=42
@@ -19,6 +18,7 @@ ARG TARGETPLATFORM
 
 RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/google/go-jsonnet/cmd/jsonnet@latest
 RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/mikefarah/yq/v4@latest
+RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/logdyhq/logdy-core@main
 
 ################################################################################
 FROM alpine/curl AS download
@@ -30,40 +30,21 @@ RUN apk add jq
 COPY hack/utils/download-release.sh /usr/local/bin/
 
 ################################################################################
-FROM download AS get-manifest-tool
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG MANIFEST_TOOL_VERSION
+# FROM download AS get-logdy
+# ARG TARGETPLATFORM
+# ARG TARGETOS
+# ARG TARGETARCH
+# ARG LOGDY_VERSION="latest"
 
-RUN \
-    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-    /usr/local/bin/download-release.sh \
-        estesp/manifest-tool \
-        binaries-manifest-tool-@@STRIPVERSION@@.tar.gz \
-        ${MANIFEST_TOOL_VERSION} ;\
-    cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/manifest-tool-linux-${TARGETARCH} /usr/local/bin/manifest-tool
-
-################################################################################
-FROM download AS get-tilt
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG TILT_VERSION="latest"
-
-RUN \
-    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-    case ${TARGETARCH} in amd64) TARGET_ARCH=x86_64 ;; *) TARGET_ARCH=${TARGETARCH} ;; esac \
-    && /usr/local/bin/download-release.sh \
-        tilt-dev/tilt \
-        tilt.@@STRIPVERSION@@.${TARGETOS}.${TARGET_ARCH}.tar.gz \
-        ${TILT_VERSION} \
-        ; \
-    cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/tilt /usr/local/bin/tilt
+# RUN \
+#     --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
+#     /usr/local/bin/download-release.sh \
+#         logdyhq/logdy-core \
+#         logdy_${TARGETOS}_${TARGETARCH}\
+#         ${LOGDY_VERSION} \
+#         ; \
+#     cd /tmp \
+#         && mv /tmp/logdy* /usr/local/bin/logdy
 
 ################################################################################
 FROM download AS get-syft
@@ -179,8 +160,9 @@ VOLUME [ "${TAO_CE_VARLIB}" ]
 
 COPY --from=ext-bin-envoy /usr/local/bin/envoy /usr/local/bin/envoy
 COPY --from=ext-bin-caddy /usr/bin/caddy /usr/local/bin/caddy
-COPY --link --from=build /go/bin/jsonnet   ${BIN_DEST}/jsonnet
-COPY --link --from=build /go/bin/yq        ${BIN_DEST}/yq
+COPY --link --from=build /go/bin/jsonnet    ${BIN_DEST}/jsonnet
+COPY --link --from=build /go/bin/yq         ${BIN_DEST}/yq
+COPY --link --from=build /go/bin/logdy-core ${BIN_DEST}/logdy
 
 COPY ./libexec      ${TAO_CE_LIBEXEC}
 COPY ./etc/         /etc/
@@ -281,15 +263,8 @@ COPY --chmod=4755 \
     /usr/local/bin/syft \
     ${BIN_DEST}/syft
 
-COPY --chmod=0755 \
-    --link \
-    --from=get-tilt \
-    /usr/local/bin/tilt \
-    ${BIN_DEST}/tilt
-
-COPY --chmod=4755 \
-    --chown=0:0 \
-    --link \
-    --from=get-manifest-tool \
-    /usr/local/bin/manifest-tool \
-    ${BIN_DEST}/
+# COPY --chmod=0755 \
+#     --link \
+#     --from=get-logdy \
+#     /usr/local/bin/logdy \
+#     ${BIN_DEST}/logdy

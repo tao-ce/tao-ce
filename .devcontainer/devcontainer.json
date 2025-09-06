@@ -30,7 +30,9 @@
 				"MermaidChart.vscode-mermaid-chart",
 				"Grafana.vscode-jsonnet",
 				"marp-team.marp-vscode",
-				"OpenTofu.vscode-opentofu"
+				"OpenTofu.vscode-opentofu",
+				"redhat.vscode-yaml",
+				"task.vscode-task"
 			],
 			"settings": {
 				"containers.containerClient": "com.microsoft.visualstudio.containers.podman",
@@ -59,6 +61,16 @@
 							"--background", "0", 
 							"/usr/bin/zsh", "-c", "cd ${containerWorkspaceFolder}; exec /usr/bin/zsh",
 						],
+					}
+				},
+				"task": {
+					"path": "go-task",
+				},
+				{
+				"yaml.schemas": {
+					"https://taskfile.dev/schema.json": [
+							"**/Taskfile.yml",
+						]
 					}
 				}
 			}

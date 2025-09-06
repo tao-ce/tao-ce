@@ -68,10 +68,11 @@ COPY --parents --from=code /app/**/views /
 FROM scratch AS export
 
 COPY \ 
-    --from=build-backend  \
+    --link --from=build-backend  \
     /app /backend
 
-COPY  --from=build-frontend  \
+COPY  \
+    --link --from=build-frontend  \
     /app /static
 
 COPY ./router.php /backend/router.php

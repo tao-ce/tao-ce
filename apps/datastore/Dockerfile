@@ -26,6 +26,6 @@ RUN \
 
 FROM scratch AS export
 
-COPY --from=build-worker  \
+COPY --link --from=build-worker  \
     /app /worker
 COPY meta /meta

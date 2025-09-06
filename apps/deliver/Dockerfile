@@ -96,13 +96,13 @@ RUN \
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --from=build-backend  \
+COPY --link --from=build-backend  \
     /app /backend
-COPY --from=build-bootstrap  \
+COPY --link --from=build-bootstrap  \
     /app /bootstrap
-COPY --from=build-static     \
+COPY --link --from=build-static     \
     /app/packages/deliver-app/dist /static
-COPY --from=build-sandbox    \
+COPY --link --from=build-sandbox    \
     /app /sandbox
 
 COPY ./router.php /backend/router.php

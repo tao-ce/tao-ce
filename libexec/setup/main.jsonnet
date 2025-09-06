@@ -25,8 +25,9 @@ local hydrateSetup(seed) = {
         etc:    '/etc/tao-ce',
         libexec:'/usr/local/libexec/tao-ce',
         data:   '%(varlib)s/data' % self,
-        envs:   '%(etc)s/setup/envs' % self,
-        files:  '%(etc)s/setup/config' % self,
+        setup:  '%(etc)s/setup' % self,
+        envs:   '%(setup)s/envs' % self,
+        files:  '%(setup)s/config' % self,
     },
 } + seed.spec + {
         local this=self,
@@ -73,6 +74,19 @@ std.foldl(
         {},
 )
 + {
+    "scripts/wipe/es.sh": |||
+        #!/bin/sh
+        echo '{"transient": {"action.destructive_requires_name": false}}' | curl -H "Content-Type: application/json" -d@- -k -X PUT "%(baseUrl)s/_cluster/settings"
+        curl -k -X DELETE "%(baseUrl)s/*"
+    ||| % setup.dependencies.es.address,
+    "scripts/wipe/data.sh": |||
+        #!/bin/sh
+        rm -rf --preserve-root /%(varlib)s/*
+    ||| % setup.dirs,
+    "scripts/wipe/config.sh": |||
+        #!/bin/sh
+        rm -rf --preserve-root %(setup)s/*
+    ||| % setup.dirs,
     "envs/dir.env": lib.toEnvFile(setup.dirs,['tao','ce','dir']),
     "envs/svc.env": 
         lib.toEnvFile(setup.env,[])

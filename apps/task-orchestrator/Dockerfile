@@ -24,7 +24,7 @@ RUN find /app -type d | grep '[/][.]git$' | xargs rm -rf \
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --from=build-backend \
+COPY --link --from=build-backend \
     /app /backend
 
 COPY meta /meta
