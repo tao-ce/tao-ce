@@ -4,6 +4,8 @@ vars:
   NAMESPACE: '{{ .NAMESPACE | default "apps" }}'
   DEFAULT_IMAGE: '{{.REGISTRY}}{{if ne .NAMESPACE "-" }}/{{.NAMESPACE}}{{ end }}/{{.APP}}'
   IMAGE: '{{ default .IMAGE .DEFAULT_IMAGE }}'
+  DEFAULT_REMOTE_IMAGE: '{{.REMOTE_REGISTRY}}{{if ne .NAMESPACE "-" }}/{{.NAMESPACE}}{{ end }}/{{.APP}}'
+  REMOTE_IMAGE: '{{ default .IMAGE .DEFAULT_IMAGE }}'
   DEFAULT_TARGET: export
   SIGNAL_DIR: '{{.ROOT_SIGNAL_DIR}}/{{.NAMESPACE}}/{{.APP}}'
   BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
@@ -27,16 +29,11 @@ tasks:
   up:
     method: none
     cmds:
-    # - task: _log
-    #   vars:
-    #     MESSAGE: "Converging {{ .APP }}..."
     - task: deploy
     - task: start
-    # - task: _log
-    #   vars:
-    #     MESSAGE: "Converged {{ .APP }} done"
 
   build:
+    run: always
     vars:
       CONTEXT: '{{ .CONTEXT | default "." }}'
       TARGET: '{{ .TARGET | default .DEFAULT_TARGET }}'

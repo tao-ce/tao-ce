@@ -14,6 +14,9 @@ vars:
     - "--ssh default"
     - "--secret type=file,id=NPM_TOKEN,src={{.ROOT_DIR}}/.secrets/npm"
   TAG: dev-latest
+
+  CODE_CONTAINERFILE: "{{ .CACHE_DIR }}/artifacts/tao-ce.code.Containerfile"
+
   APPS_CONTEXTS:
     map:
       construct: "container-image://{{ .REGISTRY }}/apps/construct:{{ .TAG }}"
@@ -206,9 +209,27 @@ includes:
         map:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
 
-  sys:
-    internal: true
+  artifacts:code:
     taskfile: ./build/crystal
+    vars:
+      APP: tao-ce
+      NAMESPACE: code
+      CONTEXTS:
+        ref: .APPS_CONTEXTS
+      FILE:
+        ref: .CODE_CONTAINERFILE
+      IMAGE: '{{.REGISTRY}}/code/tao-ce'
+
+  artifacts:monolith:
+    taskfile: ./build/crystal
+    vars:
+      APP: tao-ce
+      NAMESPACE: "-"
+      TARGET: monolith
+      CONTEXTS:
+        map:
+          tao-ce: "container-image://{{ .REGISTRY }}/code/tao-ce:{{ .TAG }}"
+      IMAGE: '{{.REGISTRY}}/tao-ce'
 
 tasks:
   _log:
@@ -222,10 +243,14 @@ tasks:
       APP={{.APP | default ""}}
       TIER={{.TIER| default "@task"}}
       EOF
-  artifacts:code:
-    vars:
-      CODE_CONTAINERFILE: "{{ .CACHE_DIR }}/artifacts/tao-ce.code.Containerfile"
+
+  code:build:
+    deps:
+    - builds:base:build
+    - builds:go:build
+
     cmds:
+    - task: all:build
     - mkdir -p $(dirname {{.CODE_CONTAINERFILE}})
     - | 
       cat >{{.CODE_CONTAINERFILE}} <<EOCONTAINERFILE
@@ -234,27 +259,12 @@ tasks:
       COPY --link --from={{ . }} / /{{ . }}
       {{ end }}
       EOCONTAINERFILE
-    - task: sys:build
-      vars:
-        APP: tao-ce 
-        NAMESPACE: code
-        CONTEXTS:
-          ref: .APPS_CONTEXTS
-        FILE:
-          ref: .CODE_CONTAINERFILE
-        IMAGE: '{{.REGISTRY}}/code/tao-ce'
+    - task: artifacts:code:build
 
-  artifacts:tao-ce:
+  monolith:build:
+    deps: [artifacts:monolith:build]
     cmds:
-    - task: sys:build
-      vars:
-        APP: tao-ce
-        NAMESPACE: "-"
-        TARGET: monolith
-        CONTEXTS:
-          map:
-            tao-ce: "container-image://{{ .REGISTRY }}/code/tao-ce:{{ .TAG }}"
-        IMAGE: '{{.REGISTRY}}/tao-ce'
+    - task: artifacts:tao-ce:build
 
   all:clean-start:
     run: once
@@ -271,6 +281,14 @@ tasks:
         as: APP
       task: "apps:{{.APP}}:start"
 
+  all:build:
+    internal: true
+    method: none
+    deps:
+    - for:
+        var: APPS
+      task: "apps:{{.ITEM}}:build"
+
   all:up:
     method: none
     deps:
@@ -278,7 +296,6 @@ tasks:
         var: APPS
       task: "apps:{{.ITEM}}:up"
     
-
 
   dev:wipe:
     desc: Remove all persistent data and config
@@ -298,36 +315,20 @@ tasks:
     prompt:
     - This task will wipe all code from devcontainer, do you want to continue?
     cmds:
-    - sudo systemctl stop --no-warn tao-ce.*.service"
-    - sudo systemctl disable --no-warn tao-ce.*.service"
+    - sudo systemctl stop --no-warn "tao-ce.*.service"
+    - sudo systemctl disable --no-warn "tao-ce.*.service"
     - task: dev:wipe
     - sudo rm -rf /opt/tao-ce/* /etc/tao-ce
     - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/deploy
     - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/start
 
-  # dev:reload:
-  #   sources:
-  #   - /etc/tao-ce/config/**
-  #   status:
-  #   - test -f /etc/tao-ce/setup/envs/dirs.env
-  #   deps:
-  #   - task: dev:init
-  #   cmds:
-  #   - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.target
-  #   - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.setup.service
-  #   - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.static.service
-  #   - sudo systemctl restart tao-ce.setup.service
-  #   - sudo systemctl restart tao-ce.static.service
-  
   dev:setup:
     method: none
     sources:
       - ./etc/tao-ce
       - ./libexec/init
       - ./libexec/setup
-    # generates:
-    #   - /etc/tao-ce/config
-    #   - /usr/local/libexec/tao-ce
+
     deps: [dev:sync:etc, dev:sync:libexec]
     cmds:
     - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.target
@@ -369,7 +370,6 @@ tasks:
     - task: dev:logdy
     - task: dev:setup
 
-
   dev:up:
     desc: Start all applications, and watch for changes
 
@@ -383,7 +383,6 @@ tasks:
     - task: dev:init
     - task: builds:base:build
     - task: builds:go:build
-    # - task: all:clean-start
     cmds:
     - task: _log
       vars:
