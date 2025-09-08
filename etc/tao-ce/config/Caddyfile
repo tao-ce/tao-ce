@@ -1,14 +1,4 @@
-{
-	pki {
-		ca local
-	}
-}
-
 {$TAO_CE_PUBLIC_DOMAIN}:443 {
-	tls {
-		issuer acme
-	}
-
 	@deliver-static path /sw.js /deliver-fe-static/*
 	@envoy-endpoints path /deliver/* /backoffice/* /pr-lti-gateway/* /ms-be/* /ss-be/* /portal-be/*
 	@portal-bootstrap path /sessions/* /api/* /portal

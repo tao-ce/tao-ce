@@ -25,15 +25,14 @@ RUN \
         ./config/packages/lti1p3.yaml \
     && mkdir -p \
         ${STATE_ROOT}/config/keys \
-        ${STATE_ROOT}/config/packages \
     && touch \
-        ${STATE_ROOT}/config/packages/lti1p3.yaml \
+        ${STATE_ROOT}/config/lti1p3.yaml \
     && ln -s \
         ${STATE_ROOT}/config/keys \
         config/keys \
     && ln -s \
-        ${STATE_ROOT}/config/packages/lti1p3.yaml \
-        config/lti1p3.yaml
+        ${STATE_ROOT}/config/lti1p3.yaml \
+        config/packages/lti1p3.yaml
 
 
 ### Export #####################################################################
