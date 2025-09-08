@@ -10,7 +10,7 @@ services:
     cgroup: host
     volumes:
     - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    - tao-ce-opt:/opt/tao-ce:rw
+    - containers:/home/vscode/.local/share/containers:rw
     - tao-ce-lib:/var/lib/tao-ce:rw
     privileged: true
     links:

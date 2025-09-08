@@ -6,9 +6,7 @@
 
 {$TAO_CE_PUBLIC_DOMAIN}:443 {
 	tls {
-		issuer internal {
-			ca local
-		}
+		issuer acme
 	}
 
 	@deliver-static path /sw.js /deliver-fe-static/*
