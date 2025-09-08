@@ -213,7 +213,7 @@ includes:
 tasks:
   _log:
     internal: true
-    # silent: true
+    silent: true
     ignore_error: true
     run: always
     cmd: |
@@ -246,7 +246,7 @@ tasks:
 
   artifacts:tao-ce:
     cmds:
-    - task: sys:build        
+    - task: sys:build
       vars:
         APP: tao-ce
         NAMESPACE: "-"
@@ -298,11 +298,12 @@ tasks:
     prompt:
     - This task will wipe all code from devcontainer, do you want to continue?
     cmds:
-    - sudo systemctl --no-warn stop "tao-ce.*.service"
+    - sudo systemctl stop --no-warn tao-ce.*.service"
+    - sudo systemctl disable --no-warn tao-ce.*.service"
     - task: dev:wipe
     - sudo rm -rf /opt/tao-ce/* /etc/tao-ce
-    - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/deploy/*
-    - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/start/*
+    - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/deploy
+    - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/start
 
   # dev:reload:
   #   sources:

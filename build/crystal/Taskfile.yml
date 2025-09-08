@@ -13,7 +13,7 @@ vars:
 tasks:
   _log:
     internal: true
-    # silent: true
+    silent: true
     ignore_error: true
 
     run: always
@@ -136,7 +136,6 @@ tasks:
       mkdir -p $(dirname {{.DEPLOY_SIGNAL_FILE}}) "{{.DIR}}/meta/deploy"
       cp {{.BUILD_SIGNAL_FILE}} {{.DEPLOY_SIGNAL_FILE}}
       cp {{.BUILD_SIGNAL_FILE}} "{{.DIR}}/meta/deploy/done"
-    - sudo systemctl daemon-reload
     - task: _log
       vars:
         MESSAGE: "Finished export from image {{.IMAGE}}:{{.TAG}} to {{.DIR}}"
@@ -149,8 +148,8 @@ tasks:
   start:
     vars:
       DIR: '/opt/tao-ce/{{.APP}}'
-    # sources:
-      # - "{{.DEPLOY_SIGNAL_FILE}}"
+    sources:
+      - "{{.DEPLOY_SIGNAL_FILE}}"
     status:
       - test "$(cat {{ .DEPLOY_SIGNAL_FILE }} )" == "$(cat {{ .START_SIGNAL_FILE }} )"
 
@@ -163,9 +162,10 @@ tasks:
     - task: _log
       vars:
         MESSAGE: Starting {{.APP}}...
-    - sudo systemctl enable --force {{.DIR}}/meta/systemd/*.service
     - |
-      sudo systemctl restart "tao-ce.{{.APP}}*"
+      sudo systemctl daemon-reload
+      sudo systemctl enable --force {{.DIR}}/meta/systemd/*.service
+      sudo systemctl restart --all "tao-ce.{{.APP}}*.service"
       mkdir -p $(dirname {{.START_SIGNAL_FILE}})
       cp {{.DEPLOY_SIGNAL_FILE}} {{.START_SIGNAL_FILE}}
     - task: _log
