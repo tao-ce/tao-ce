@@ -30,6 +30,7 @@ sysctl net.ipv4.ip_unprivileged_port_start=0  # 443 might be enough, but we are 
 git clone -b develop git@github.com:tao-ce/tao-ce.git
 cd tao-ce
 git submodule update --init --recursive
+task dev:init
 ```
 2. Add credentials (will be removed once released OSS)
   * Add NPM token in `.secrets/npm`

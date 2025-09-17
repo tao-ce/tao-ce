@@ -10,6 +10,9 @@ vars:
   CACHE_DIR: '{{.ROOT_DIR}}/.cache/build'
   ROOT_SIGNAL_DIR: '{{.CACHE_DIR}}/signals'
   REGISTRY: localhost/tao-ce
+  GCR: europe-west1-docker.pkg.dev
+  INTERNAL_REGISTRY: '{{.GCR}}/tao-ce/internal'
+  PUBLIC_REGISTRY: '{{.GCR}}/tao-ce/early-adopters'
   BUILD_COMMON_FLAGS: 
     - "--ssh default"
     - "--secret type=file,id=NPM_TOKEN,src={{.ROOT_DIR}}/.secrets/npm"
@@ -277,10 +280,40 @@ tasks:
       EOCONTAINERFILE
     - task: artifacts:code:build
 
+  registry:auth:
+    cmds:
+    - |
+      cat .secrets/google_token \
+        | podman login \
+          -u oauth2accesstoken \
+          --password-stdin \
+            https://{{.GCR}}
+
+
   swift:build:
     deps: [artifacts:code:build]
     cmds:
     - task: artifacts:swift:build
+  
+  swift:tag:
+    cmds:
+    - |
+      podman tag \
+        {{.REGISTRY}}/tao-ce:{{.TAG}} \
+        {{.INTERNAL_REGISTRY}}/tao-ce:latest-{{ARCH}}
+
+  swift:push:
+    cmds:
+    - | 
+      podman push \
+        {{.INTERNAL_REGISTRY}}/tao-ce:latest-{{ARCH}}
+
+  swift:promote:
+    cmds:
+    - |
+      skopeo copy \
+        docker://{{.INTERNAL_REGISTRY}}/tao-ce:latest-{{ARCH}} \
+        docker://{{.PUBLIC_REGISTRY}}/tao-ce:latest-{{ARCH}}
 
   cozy:build:
     deps:
