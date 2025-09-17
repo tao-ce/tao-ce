@@ -328,12 +328,18 @@ tasks:
         {{.INTERNAL_REGISTRY}}/tao-ce:latest-amd64 \
         {{.INTERNAL_REGISTRY}}/tao-ce:latest-arm64
 
+
   swift:promote:
     cmds:
     - |
       skopeo copy \
         docker://{{.INTERNAL_REGISTRY}}/tao-ce:latest-{{ARCH}} \
         docker://{{.PUBLIC_REGISTRY}}/tao-ce:latest-{{ARCH}}
+    - |
+      podman manifest create -a {{.PUBLIC_REGISTRY}}/tao-ce:latest \
+        {{.PUBLIC_REGISTRY}}/tao-ce:latest-amd64 \
+        {{.PUBLIC_REGISTRY}}/tao-ce:latest-arm64
+      podman push {{.PUBLIC_REGISTRY}}/tao-ce:latest
 
   cozy:build:
     deps:

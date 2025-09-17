@@ -4,7 +4,7 @@ services:
       - source: tao_config
         target: /etc/tao-ce/config/tao.yaml
         mode: 0644
-    image: europe-west1-docker.pkg.dev/tao-ce/early-adopters/tao-ce:latest
+    image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:latest
     ports:
       - 443:443
     cgroup: host
