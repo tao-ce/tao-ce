@@ -280,6 +280,20 @@ tasks:
       EOCONTAINERFILE
     - task: artifacts:code:build
 
+  gcloud:setup:
+    vars:
+      GCLOUDCLI_URL_ARCHS:
+        map:
+          arm64: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-arm.tar.gz
+          amd64: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+
+      GCLOUDCLI_URL: '{{index .GCLOUDCLI_URL_ARCHS ARCH}}'
+    cmds:
+    - |
+      curl -o- {{.GCLOUDCLI_URL}} | sudo tar xz -C /usr/local/share/ google-cloud-sdk
+      sudo ln -fs /usr/local/share/google-cloud-sdk/bin/gsutil /usr/local/bin/gsutil
+      sudo ln -fs /usr/local/share/google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
+
   registry:auth:
     cmds:
     - |
@@ -308,6 +322,12 @@ tasks:
       podman push \
         {{.INTERNAL_REGISTRY}}/tao-ce:latest-{{ARCH}}
 
+  swift:manifest:
+    - |
+      podman manifest create -a {{.INTERNAL_REGISTRY}}/tao-ce:latest \
+        {{.INTERNAL_REGISTRY}}/tao-ce:latest-amd64 \
+        {{.INTERNAL_REGISTRY}}/tao-ce:latest-arm64
+
   swift:promote:
     cmds:
     - |
@@ -323,6 +343,7 @@ tasks:
     cmds:
     - |
       mkdir -p .cache/artifacts/cozy
+      date -Iminutes --utc | cut -f1 -d+ | tr ':' '-' >.cache/artifacts/cozy/TS
       sudo -E podman run \
         --rm \
         -it \
@@ -346,6 +367,85 @@ tasks:
       TIER=@build
       EOF
       done
+
+  cozy:build:vmdk:
+    sources:
+      - .cache/artifacts/cozy/qcow2/disk.qcow2
+    generates:
+      - .cache/artifacts/cozy/disk.vmdk
+    cmds:
+    - |
+      qemu-img convert \
+        -f qcow2 \
+        .cache/artifacts/cozy/qcow2/disk.qcow2 \
+        -O vmdk \
+        .cache/artifacts/cozy/disk.vmdk
+
+  cozy:build:ova:
+    vars:
+      IMAGE_NAME: tao-ce-cozy
+      COZY_DIR: .cache/artifacts/cozy
+      VMDK_FILE: '{{.COZY_DIR}}/disk.vmdk'
+      OVA_FILE: '{{.COZY_DIR}}/{{.IMAGE_NAME}}.ova'
+      OVF_FILE: '{{.COZY_DIR}}/{{.IMAGE_NAME}}.ovf'
+      SHA_FILE: '{{.COZY_DIR}}/{{.IMAGE_NAME}}.mf'
+      DISK_CAPACITY:
+        sh: |
+          qemu-img info --output json {{.VMDK_FILE}} | jq '.["virtual-size"]'
+      DISK_UUID:
+        sh: cat /proc/sys/kernel/random/uuid
+      MACHINE_UUID:
+        sh: cat /proc/sys/kernel/random/uuid
+      VM_MANIFEST:
+        map:
+          disk:
+            file: disk.vmdk
+            capacity: '{{.DISK_CAPACITY}}'
+            uuid: '{{.DISK_UUID}}'
+          machine:
+            uuid: '{{.MACHINE_UUID}}'
+      VM_MANIFEST_ARGS: '{{.VM_MANIFEST | toJson }}'
+
+
+    # sources:
+    #   - "{{.VMDK_FILE}}"
+    # generates:
+    #   - "{{.OVA_FILE}}"
+    cmds:
+    - |
+      jsonnet -S \
+        --tla-code args='{{.VM_MANIFEST_ARGS}}' \
+        build/cozy/config/vm.ovf.jsonnet \
+          >{{.OVF_FILE}}
+    - |
+      pushd .cache/artifacts/cozy
+      sha256sum --tag \
+        $(basename {{.VMDK_FILE}}) \
+        $(basename {{.OVF_FILE}}) \
+          > $(basename {{.SHA_FILE}})
+      tar cf \
+        $(basename {{.OVA_FILE}}) \
+        $(basename {{.OVF_FILE}}) \
+        $(basename {{.VMDK_FILE}}) \
+        $(basename {{.SHA_FILE}})
+
+  cozy:push:ova:
+    vars:
+      IMAGE_NAME: tao-ce-cozy
+      COZY_DIR: .cache/artifacts/cozy
+      OVA_FILE: '{{.COZY_DIR}}/{{.IMAGE_NAME}}.ova'
+
+    # sources:
+    # - .cache/artifacts/cozy/TS
+    # - '{{.OVA_FILE}}'
+
+    cmds:
+    - |
+      gcloud \
+        --access-token-file=.secrets/google_token \
+          storage cp \
+            {{.OVA_FILE}} \
+            gs://tao-ce-build/cozy/{{ARCH}}/$(cat .cache/artifacts/cozy/TS)/$(basename {{.OVA_FILE}})
 
   all:clean-start:
     run: once
