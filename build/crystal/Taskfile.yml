@@ -36,6 +36,7 @@ tasks:
     run: always
     vars:
       CONTEXT: '{{ .CONTEXT | default "." }}'
+      SUDO: '{{ .SUDO | default "" }}'
       TARGET: '{{ .TARGET | default .DEFAULT_TARGET }}'
     sources:
     - "{{if eq .TASK_DIR .ROOT_DIR}}@@@@@{{else}}{{.TASK_DIR}}/**{{end}}"
@@ -44,7 +45,7 @@ tasks:
     - "{{.BUILD_SIGNAL_FILE}}"
     status:
     - >
-      podman image inspect
+      {{.SUDO}} podman image inspect
       --format {{"{{.Id}}"}}
       $(cat {{.BUILD_SIGNAL_FILE}})
     requires:
@@ -55,13 +56,17 @@ tasks:
         - IMAGE
         - TARGET
         - REGISTRY
+
+    set:
+    - pipefail
+    
     cmds:
     - task: _log
       vars:
         MESSAGE: "Starting build image {{.IMAGE}}:{{.TAG}} from {{ .TASK_DIR }}"
 
     - |
-      buildah build \
+      {{.SUDO}} buildah build \
         -t {{.IMAGE}}:{{.TAG}} \
         {{if .TARGET -}}--target {{.TARGET}}{{- end}} \
         {{if .FILE -}}-f {{.FILE}}{{- end}} \
@@ -85,7 +90,7 @@ tasks:
       done
     - mkdir -p $(dirname {{.BUILD_SIGNAL_FILE}})
     - >
-      podman image inspect
+      {{.SUDO}} podman image inspect
       --format {{"{{.Id}}"}}
       {{.IMAGE}}:{{.TAG}}
       | head -n1 > {{.BUILD_SIGNAL_FILE}}

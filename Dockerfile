@@ -1,6 +1,7 @@
 # ARG LOGDY_VERSION=latest
 ARG SYFT_VERSION=latest
 
+ARG FEDORA_IMAGE=fedora
 ARG FEDORA_VERSION=42
 ARG IMAGE_NVM_VERSIONS="18,20,22"
 ARG DEVCONTAINER_USERNAME="vscode"
@@ -67,13 +68,13 @@ RUN \
     
     
 ################################################################################
-FROM fedora:${FEDORA_VERSION} AS base-fedora
+FROM ${FEDORA_IMAGE}:${FEDORA_VERSION} AS base-fedora
 
 ARG TARGETPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
 ARG FEDORA_VERSION
-ARG FEDORA_FLAVOR
+ARG FEDORA_IMAGE
 ARG IMAGE_PHP_VERSION
 ARG IMAGE_NVM_VERSIONS
 
@@ -85,6 +86,7 @@ RUN \
     --mount=type=cache,target=/var/cache/dnf,id=dnf-cache \
     --mount=type=cache,target=/var/cache/libdnf5,id=libdnf5-cache \
     set -a \
+    && mkdir -p /var/opt /var/lib /var/usrlocal /var/tmp \
     && . /etc/os-release \
     && dnf install -y python3-dnf-plugin-versionlock \
     && dnf install -y https://rpms.remirepo.net/${ID}/remi-release-${VERSION_ID}.rpm \
@@ -138,6 +140,7 @@ LABEL vendor "Open Assessment Technologies S.A."
 LABEL org.opencontainers.image.license "TBD"
 LABEL license "TBD"
 LABEL org.opencontainers.image.url "https://github.com/tao-ce/tao-ce"
+LABEL org.opencontainers.image.authors "opensource-support@taotesting.com"
 
 ARG TARGETPLATFORM
 ARG TARGETOS
@@ -263,8 +266,52 @@ COPY --chmod=4755 \
     /usr/local/bin/syft \
     ${BIN_DEST}/syft
 
-# COPY --chmod=0755 \
-#     --link \
-#     --from=get-logdy \
-#     /usr/local/bin/logdy \
-#     ${BIN_DEST}/logdy
+
+################################################################################
+FROM running AS vm 
+
+ARG TARGETPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG DEVCONTAINER_USERNAME
+
+
+ARG TAO_CE_OPT=/opt/tao-ce
+ARG TAO_CE_ETC=/etc/tao-ce
+ARG TAO_CE_LIBEXEC=/usr/local/libexec/tao-ce
+ARG TAO_CE_VARLIB=/var/lib/tao-ce
+
+ENV TAO_CE_OPT=${TAO_CE_OPT}
+ENV TAO_CE_ETC=${TAO_CE_ETC}
+ENV TAO_CE_LIBEXEC=${TAO_CE_LIBEXEC}
+ENV TAO_CE_VARLIB=${TAO_CE_VARLIB}
+
+COPY --link --from=tao-ce / /${TAO_CE_OPT}
+
+ARG TAO_DOMAIN="community.tao.internal"
+ARG TIMEZONE="UTC"
+
+COPY build/packages.*.lst /run/context/
+
+RUN \
+    --mount=type=cache,target=/var/cache/dnf,id=dnf-cache \
+    --mount=type=cache,target=/var/cache/libdnf5,id=libdnf5-cache \
+    cat \
+            /run/context/packages.vm.lst \
+        | grep -v '^#' \
+        | sed \
+            -e "s/@@ARCH@@/$(uname -m)/g" \
+        | xargs dnf install -y --setopt=install_weak_deps=false
+
+
+COPY \
+    --from=cozy \
+    root/ /
+
+RUN systemctl enable \
+    ${TAO_CE_LIBEXEC}/systemd/tao-ce.target \
+    ${TAO_CE_LIBEXEC}/systemd/*.service \
+    ${TAO_CE_OPT}/*/meta/systemd/*.service \
+    && ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime 
+
+# RUN trust anchor /var/lib/tao-ce/tls/ca.crt

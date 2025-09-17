@@ -55,3 +55,6 @@
 [submodule "apps/scoring/src/tao-scoring-service-be"]
 	path = apps/scoring/src/tao-scoring-service-be
 	url = git@github.com:oat-sa/tao-scoring-service-be.git
+[submodule "build/cozy/src/cockpit-tao-ce"]
+	path = build/cozy/src/cockpit-tao-ce
+	url = git@github.com:tao-ce/cockpit-tao-ce.git

@@ -1,6 +1,5 @@
 [Unit]
 Description=Pubsub emulator for TAO Community
-Before=k3s.service
 
 [Container]
 Image=quay.io/tao-ce/services/pubsub-emulator:latest
@@ -10,6 +9,6 @@ Network=deps.network
 
 [Service]
 Restart=always
-
+RestartSec=5s
 [Install]
 WantedBy=multi-user.target

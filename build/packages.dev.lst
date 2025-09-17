@@ -8,3 +8,4 @@ zsh
 ps
 opentofu
 go-task
+qemu-img

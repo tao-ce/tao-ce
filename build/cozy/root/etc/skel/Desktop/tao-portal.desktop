@@ -2,4 +2,4 @@
 Icon=/var/lib/tao-ce/icons/logo.svg
 Name=TAO Community Edition - Portal
 Type=Link
-URL=https://community.tao.internal/portal/
+URL=https://tao-community-edition.local/portal/

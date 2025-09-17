@@ -1,6 +1,5 @@
 [Unit]
 Description=Kibana for TAO Community
-Before=k3s.service
 After=elasticsearch.container
 
 [Container]

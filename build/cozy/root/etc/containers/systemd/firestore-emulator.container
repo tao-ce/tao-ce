@@ -1,6 +1,5 @@
 [Unit]
 Description=Firestore emulator for TAO Community
-Before=k3s.service
 
 [Container]
 Image=quay.io/tao-ce/services/firestore-emulator:latest
@@ -13,6 +12,7 @@ Volume=/var/lib/tao-ce/dependencies/firestore:/data:z,U
 [Service]
 Restart=always
 ExecStartPre=mkdir -p /var/lib/tao-ce/dependencies/firestore
+RestartSec=5s
 
 [Install]
 WantedBy=multi-user.target

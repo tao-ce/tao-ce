@@ -220,7 +220,7 @@ includes:
         ref: .CODE_CONTAINERFILE
       IMAGE: '{{.REGISTRY}}/code/tao-ce'
 
-  artifacts:monolith:
+  artifacts:swift:
     taskfile: ./build/crystal
     vars:
       APP: tao-ce
@@ -231,6 +231,22 @@ includes:
           tao-ce: "container-image://{{ .REGISTRY }}/code/tao-ce:{{ .TAG }}"
       IMAGE: '{{.REGISTRY}}/tao-ce'
 
+  artifacts:cozy:
+    taskfile: ./build/crystal
+    dir: ./build/cozy
+    vars:
+      APP: tao-ce-vm
+      NAMESPACE: "-"
+      TARGET: vm
+      SUDO: sudo -E
+      CONTEXTS:
+        map:
+          secrets: ../../.secrets
+      ARGS:
+        map:
+          FEDORA_IMAGE: quay.io/fedora-ostree-desktops/kinoite
+      IMAGE: '{{.REGISTRY}}/tao-ce-vm'
+      
 tasks:
   _log:
     internal: true
@@ -261,10 +277,42 @@ tasks:
       EOCONTAINERFILE
     - task: artifacts:code:build
 
-  monolith:build:
-    deps: [artifacts:monolith:build]
+  swift:build:
+    deps: [artifacts:code:build]
     cmds:
-    - task: artifacts:tao-ce:build
+    - task: artifacts:swift:build
+
+  cozy:build:
+    deps:
+    - task: artifacts:cozy:build
+    set:
+      - pipefail
+    cmds:
+    - |
+      mkdir -p .cache/artifacts/cozy
+      sudo -E podman run \
+        --rm \
+        -it \
+        --privileged \
+        --pull=newer \
+        -v ./build/cozy/config/bootc.toml:/config.toml:ro \
+        -v ./.cache/artifacts/cozy:/output \
+        -v  /var/lib/containers/storage:/var/lib/containers/storage \
+        quay.io/centos-bootc/bootc-image-builder:latest \
+          --type qcow2 \
+          --rootfs xfs \
+          --chown $(id -u):$(id -g) \
+          --log-level debug \
+          -vv \
+          --use-librepo \
+          {{.REGISTRY}}/tao-ce-vm:dev-latest \
+      | while read line ; do
+      logger --journald <<EOF
+      MESSAGE=$line
+      APP=vm
+      TIER=@build
+      EOF
+      done
 
   all:clean-start:
     run: once

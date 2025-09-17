@@ -9,10 +9,15 @@ services:
       args:
         DEVCONTAINER_USERNAME: vscode
     cgroup: host
+    tty: true
     volumes:
     - .:/workspace:cached
+    # Required for systemd init
     - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    - containers:/home/vscode/.local/share/containers:rw
+    # Use native filesystem from volumes rather than tmpfs/overlayfs for building performance
+    - vscode-containers:/home/vscode/.local/share/containers:rw
+    - root-containers:/var/lib/containers:rw
+    # For data persistence
     - tao-ce-opt:/opt/tao-ce:rw
     - tao-ce-lib:/var/lib/tao-ce:rw
     privileged: true
@@ -26,4 +31,5 @@ services:
 volumes:
   tao-ce-opt: {}
   tao-ce-lib: {}
-  containers: {}
+  vscode-containers: {}
+  root-containers: {}

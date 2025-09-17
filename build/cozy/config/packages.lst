@@ -14,11 +14,10 @@ xdg-utils
 openssl
 jq
 yq
-k3s-selinux
 chromium
 cockpit-system
 cockpit-ostree
 cockpit-podman
 cockpit-networkmanager
 cockpit-navigator
-cri-tools
+pcp

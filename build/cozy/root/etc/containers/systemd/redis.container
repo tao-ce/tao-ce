@@ -1,6 +1,5 @@
 [Unit]
 Description=Redis for TAO Community
-Before=k3s.service
 
 [Container]
 Image=docker.io/valkey/valkey:8-alpine
@@ -11,6 +10,7 @@ Volume=/var/lib/tao-ce/dependencies/redis:/data:z,U
 
 [Service]
 Restart=always
+RestartSec=5s
 ExecStartPre=mkdir -p /var/lib/tao-ce/dependencies/redis
 
 [Install]
