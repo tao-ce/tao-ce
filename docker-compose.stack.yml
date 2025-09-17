@@ -44,8 +44,16 @@ services:
     environment:
       PROJECT_ID: demo-tao
   es:
-    hostname: es.deps.internal
     image: docker.elastic.co/elasticsearch/elasticsearch:8.17.4
+    # TODO HACK healthcheck from tao-ce.portal.init before loading users
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs http://es:9200/_cluster/health?wait_for_status=yellow&timeout=5s || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+      start_interval: 30s
+
     ulimits:
       memlock:
         soft: -1

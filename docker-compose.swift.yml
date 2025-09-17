@@ -4,7 +4,7 @@ services:
       - source: tao_config
         target: /etc/tao-ce/config/tao.yaml
         mode: 0644
-    image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:latest
+    image: europe-west1-docker.pkg.dev/tao-ce/early-adopters/tao-ce:latest
     ports:
       - 443:443
     cgroup: host
@@ -13,6 +13,10 @@ services:
     - containers:/home/vscode/.local/share/containers:rw
     - tao-ce-lib:/var/lib/tao-ce:rw
     privileged: true
+    depends_on:
+      es:
+        condition: service_healthy
+
     links:
     - redis:redis
     - pgsql:pgsql
@@ -24,7 +28,7 @@ configs:
   tao_config:
     content: |
       spec:
-        publicDomain: demo.community.taotesting.com 
+        publicDomain: community.tao.internal
         dependencies:
         - key: pubsub
           type: pubsub
