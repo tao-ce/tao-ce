@@ -1,0 +1,17 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/devkit/backend && mkdir -p ${TAO_CE_DIR_VARLIB}/devkit/config/keys && cp ${TAO_CE_DIR_SETUP}/config/devkit/lti1p3.yaml ${TAO_CE_DIR_VARLIB}/devkit/config/lti1p3.yaml && cp ${TAO_CE_DIR_SETUP}/config/devkit/*.pem ${TAO_CE_DIR_VARLIB}/devkit/config/keys/"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/devkit/backend && php -S [::]:${LISTEN_PORT} -t ./public ./router.php"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/devkit/backend.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target
+
+

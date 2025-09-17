@@ -8,31 +8,24 @@ flowchart LR
 subgraph local-machine["Local machine"]
 subgraph local-code["vscode"]
 end
-browser
 local-ssh["ssh-agent"]
-local-socks["socks-proxy"]
 end
 subgraph remote-machine["Remote machine"]
 subgraph remote-code["vscode"]
 end
 repo
-socks-proxy
 remote-ssh["ssh-agent"]
 subgraph containers
 subgraph devcontainer
 dev-ssh["ssh-agent"]
+tao-ce[tao-ce.*.service]
 end
-netcat -- tcp/443 --> k3s
 
 end
 end
 local-code -- SSH session --> remote-code
 remote-code -- attached to --> devcontainer
 devcontainer -- load workspace --> repo
-devcontainer -- deploy in --> k3s
-browser -- HTTPS
-via /etc/hosts --> netcat
-browser -- HTTPS --> local-socks --> socks-proxy --> netcat
 local-ssh -- forward --> remote-ssh
 local-ssh -- forward --> dev-ssh
 ```
@@ -45,17 +38,15 @@ local-ssh -- forward --> dev-ssh
     * ensure to have [`Dev Containers`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) and [`Remote Explorer`](https://marketplace.visualstudio.com/items?itemName=ms-vscode.remote-explorer) extensions installed
 
 ### Remote machine
-* at least 80GB of space disk available
-* at least 4 CPUs (8 recommended) `arm64` or `amd64`
-* at least 8GB of RAM (16GB recommended)
+* at least 20GB of space disk available
+* at least 4 CPUs `arm64` or `amd64`
+* at least 8GB of RAM 
 * SSH access using public key authentication
 * Root privileges using `sudo` 
 * Permissions to run containers (typically, add your remote user in `docker` group)
 * `sysctl` records has the following value:
 ```bash
 sudo sysctl -w net.ipv4.ip_unprivileged_port_start=0
-sudo sysctl -w fs.inotify.max_user_instances=8192       # or higher
-sudo sysctl -w fs.inotify.max_user_watches=1048576      # or higher
 ```
 ## Prepare remote environment
 
@@ -98,7 +89,7 @@ Host tao-ce-remote-dev      # you may change this name
   User core                 # update with remote user
   Port 22                   # usually 22, but SSH may be running on another port
   ForwardAgent true         
-  DynamicForward 57405
+  DynamicForward 17405
 ```
 
 ### Open session in Visual Studio Code
@@ -116,5 +107,5 @@ Follow [`dev.md`](../dev.md) documentation to deploy code
 
 You need either:
 * to update local `/etc/hosts` file to have `community.tao.internal` redirected to your remote server IP
-* or to use SOCKS5 proxy in your browser at `localhost`, port `57405`
+* or to use SOCKS5 proxy in your browser at `localhost`, port `17405`
     * you need also to add `127.0.0.1 community.tao.internal` in remote machine `/etc/hosts`

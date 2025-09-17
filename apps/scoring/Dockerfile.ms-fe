@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     npm run build:bootstrap
 
 FROM ${BASE} AS bootstrap
@@ -28,10 +28,11 @@ WORKDIR /app
 
 COPY . .
 
-RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     --mount=type=secret,id=NPM_TOKEN \
     npm  config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) && npm whoami
-RUN --mount=type=cache,id=npm-cache,target=/root/.npm npm ci 
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+     npm ci 
 
 FROM ${BASE_CADDY} AS static
 

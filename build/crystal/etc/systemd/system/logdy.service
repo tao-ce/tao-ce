@@ -1,0 +1,21 @@
+[Unit]
+Description=Logdy Service
+After=network.target
+
+[Service]
+Type=idle
+ExecStart=/sbin/sh -c "/usr/sbin/journalctl -af -o json \
+    | /usr/local/bin/logdy stdin \
+        -nu \
+        --bulk-window 250 \
+        --port=18995 \
+        --config=/etc/logdy.config.json \
+        --append-to-file=/var/tmp/logdy.log \
+        --rotate-file-size=100M"
+
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

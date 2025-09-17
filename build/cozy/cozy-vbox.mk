@@ -16,6 +16,7 @@ cozy-rmpack:
 cozy-freshpack: cozy-rmpack
 	-VBoxManage unregistervm $(COZY_VBOX_NAME) --delete-all
 
+cozy-vdi-img: $(COZY_VDI_IMAGE)
 $(COZY_VDI_IMAGE): $(COZY_TESTVM_BASE)
 	qemu-img convert -f qcow2 $(COZY_TESTVM_BASE) \
 		-O vdi \

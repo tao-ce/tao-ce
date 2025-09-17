@@ -1,14 +1,30 @@
-ARG BUILD='build/node22'
+# syntax=docker/dockerfile:1-labs
 
-FROM ${BUILD} AS backend
+ARG BUILD_IMAGE
+ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 
+### backend ####################################################################
+FROM $BUILD_IMAGE AS build-backend
+ARG BUILD_IMAGE
+ARG BUILD_NPM
+
+ENV NODE_VERSION="22"
 WORKDIR /app
 
-COPY ./package*.json .
+COPY --from=src-backend ./package*.json .
 
-RUN --mount=type=cache,id=npm-cache,target=/root/.npm \
-    npm ci
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} ci
 
-COPY . .
+COPY --from=src-backend . .
 
-CMD ["npm", "start"]
+RUN find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+
+### Export #####################################################################
+FROM scratch AS export
+
+COPY --link --from=build-backend \
+    /app /backend
+
+COPY meta /meta

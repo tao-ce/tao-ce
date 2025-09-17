@@ -5,19 +5,13 @@
                 "Folder": "TAO Community Edition",
                 "Placement": "toolbar",
                 "Title": "Cozy Admin",
-                "URL": "https://admin.tao.internal:9090/"
+                "URL": "https://tao-community-edition.local:9090/"
             },
             {
                 "Folder": "TAO Community Edition",
                 "Placement": "toolbar",
                 "Title": "Portal",
-                "URL": "https://community.tao.internal/portal/"
-            },
-            {
-                "Folder": "TAO Community Edition",
-                "Placement": "toolbar",
-                "Title": "Construct",
-                "URL": "https://community.tao.internal/construct/"
+                "URL": "https://tao-community-edition.local/portal/"
             },
             {
                 "Folder": "Debugging tools",
@@ -35,7 +29,7 @@
                 "Folder": "TAO Community Edition",
                 "Placement": "toolbar",
                 "Title": "Devkit",
-                "URL": "https://community.tao.internal/devkit/"
+                "URL": "https://tao-community-edition.local/devkit/"
             }
         ],
         "Certificates": {
@@ -47,7 +41,7 @@
         "DisplayBookmarksToolbar": "always",
         "Homepage": {
             "StartPage": "homepage",
-            "URL": "https://community.tao.internal/portal/"
+            "URL": "https://tao-community-edition.local/portal/"
         },
         "NoDefaultBookmarks": true,
         "OverrideFirstRunPage": "https://admin.tao.internal:9090/",

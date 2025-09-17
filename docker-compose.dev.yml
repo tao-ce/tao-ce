@@ -1,0 +1,35 @@
+
+services:
+   dev:
+    build:
+      context: .
+      additional_contexts:
+        src-devcontainer: build/crystal
+      target: devcontainer
+      args:
+        DEVCONTAINER_USERNAME: vscode
+    cgroup: host
+    tty: true
+    volumes:
+    - .:/workspace:cached
+    # Required for systemd init
+    - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    # Use native filesystem from volumes rather than tmpfs/overlayfs for building performance
+    - vscode-containers:/home/vscode/.local/share/containers:rw
+    - root-containers:/var/lib/containers:rw
+    # For data persistence
+    - tao-ce-opt:/opt/tao-ce:rw
+    - tao-ce-lib:/var/lib/tao-ce:rw
+    privileged: true
+    links:
+    - redis:redis
+    - pgsql:pgsql
+    - es:es
+    - pubsub:pubsub
+    - firestore:firestore
+
+volumes:
+  tao-ce-opt: {}
+  tao-ce-lib: {}
+  vscode-containers: {}
+  root-containers: {}

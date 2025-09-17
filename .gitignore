@@ -6,3 +6,4 @@ output
 .vscode
 **/no-commit.*
 **/no-commit-*
+.task

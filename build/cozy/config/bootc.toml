@@ -1,12 +1,8 @@
-[[customizations.group]]
-name = "k8s"
-gid = 1122
-
 [[customizations.user]]
 name = "tao"
 password = "tao"
 description = "TAO Community Edition"
-groups = ["wheel", "k8s"]
+groups = ["wheel" ]
 
 [[customizations.filesystem]]
 mountpoint = "/"

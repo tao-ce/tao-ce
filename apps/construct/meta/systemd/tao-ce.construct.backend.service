@@ -1,0 +1,18 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/construct/ && ./construct.sh init"
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/construct/ && ./construct.sh install -s"
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/construct/ && ./construct.sh update"
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/construct/ && ./construct.sh config "
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/construct/backend && exec php -S [::]:${LISTEN_PORT} -t ./ ./router.php"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/construct/backend.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

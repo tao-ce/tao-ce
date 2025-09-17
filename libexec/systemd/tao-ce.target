@@ -1,0 +1,5 @@
+[Unit]
+Description=TAO Community Edition - Monolith
+
+[Install]
+WantedBy=multi-user.target

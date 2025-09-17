@@ -1,0 +1,12 @@
+make
+patch
+git
+curl
+skopeo
+openssl
+jq
+yq
+python3-setuptools
+gcc-c++
+vim
+diffutils

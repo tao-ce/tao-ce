@@ -1,0 +1,16 @@
+make
+vim
+patch
+btop
+netcat
+git
+curl
+dnsutils
+openssl
+jq
+yq
+bash-completion
+systemd
+python3
+iptables
+polkit

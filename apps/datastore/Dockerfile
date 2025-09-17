@@ -1,19 +1,31 @@
-ARG BUILD_NODE=build/node
+# syntax=docker/dockerfile:1-labs
 
-FROM $BUILD_NODE as base
+ARG BUILD_IMAGE
+ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 
-# Create app directory
+### worker #####################################################################
+FROM $BUILD_IMAGE AS build-worker
+ARG BUILD_IMAGE
+ARG BUILD_NPM
+
+ENV NODE_VERSION="18"
 WORKDIR /app
 
-COPY package*.json ./
+COPY --from=src-worker package*.json ./
 
-RUN npm install
+RUN ${BUILD_NPM} install
 
-COPY . .
+COPY --from=src-worker . .
 
-EXPOSE 3000
+RUN \
+    find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
 
-HEALTHCHECK --interval=30s CMD npm run healthcheck
 
-FROM base as pipeline
-CMD ["node", "script/pipeline.js"]
+### Export #####################################################################
+
+FROM scratch AS export
+
+COPY --link --from=build-worker  \
+    /app /worker
+COPY meta /meta
