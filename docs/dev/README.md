@@ -18,6 +18,7 @@
 ```
 sysctl net.ipv4.ip_unprivileged_port_start=0  # 443 might be enough, but we are not going to prod
 ```
+* ensure port `443` is currently free on your machine
 
 ## Credentials
 
@@ -25,12 +26,12 @@ sysctl net.ipv4.ip_unprivileged_port_start=0  # 443 might be enough, but we are 
 * a NPM private token is required
 
 # Gather Code
+
 1. Clone repos
 ```bash
 git clone -b develop git@github.com:tao-ce/tao-ce.git
 cd tao-ce
 git submodule update --init --recursive
-task dev:init
 ```
 2. Add credentials (will be removed once released OSS)
   * Add NPM token in `.secrets/npm`
@@ -44,18 +45,20 @@ find hack/sources -type f | grep patch$ | while read p ; do patch -p1 <$p ; done
     * ensure to have [`Dev Containers`](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension installed
     * open this repository workspace
     * enter in Dev Container: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> > `Dev Container: Reopen in container`
-2. From Devcontainer terminal (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>`</kbd>), run Tilt console
-    * run `tilt up`
-    * press <kbd>SPACE</kbd> key to open browser, or connect to `http://0.0.0.0:10350`
-3. Run the following target in Tilt:
-    - `build-base`
-    - `build-go`
-    - then all applications
-4. On your host, ensure to have `community.tao.internal` leading to your IP or `0.0.0.0` in `/etc/hosts`
+2. From Devcontainer terminal (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>`</kbd>), run the following commands
+```bash
+# initialize development enviornment services
+task dev:init
+# build all services from sources, and deploy them locally (similar to `docker compose up`)
+task dev:up
+```
+3. You can follow up deployement with loggy on `http://localhost:18995` ; devcontainer should automatically forward it.
+4. Once every service is built, its code is synced in `/opt/tao-ce` and the related `systemd` services are started. 
 
 # Use
-1. open `https://community.tao.internal/portal`
-2. login with `admin` / `password` credentials
+1. you may have to update your `/etc/hosts` file with `0.0.0.0 community.tao.internal`
+2. open `https://community.tao.internal/portal`
+3. login with `admin` / `password` credentials
  
 # Further documentation
 * [Troubleshooting guide](dev/troubleshooting.md)
