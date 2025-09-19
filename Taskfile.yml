@@ -234,6 +234,22 @@ includes:
           tao-ce: "container-image://{{ .REGISTRY }}/code/tao-ce:{{ .TAG }}"
       IMAGE: '{{.REGISTRY}}/tao-ce'
 
+  artifacts:cozy-pi:
+    taskfile: ./build/crystal
+    dir: ./build/cozy
+    vars:
+      APP: tao-ce-pi
+      NAMESPACE: "-"
+      TARGET: pi
+      SUDO: sudo -E
+      CONTEXTS:
+        map:
+          secrets: ../../.secrets
+      ARGS:
+        map:
+          FEDORA_FLAVOR: quay.io/fedora/fedora-bootc
+      IMAGE: '{{.REGISTRY}}/tao-ce-pi'
+
   artifacts:cozy:
     taskfile: ./build/crystal
     dir: ./build/cozy
@@ -247,7 +263,7 @@ includes:
           secrets: ../../.secrets
       ARGS:
         map:
-          FEDORA_IMAGE: quay.io/fedora-ostree-desktops/kinoite
+          FEDORA_FLAVOR: quay.io/fedora-ostree-desktops/kinoite
       IMAGE: '{{.REGISTRY}}/tao-ce-vm'
       
 tasks:
@@ -340,6 +356,39 @@ tasks:
         {{.PUBLIC_REGISTRY}}/tao-ce:latest-amd64 \
         {{.PUBLIC_REGISTRY}}/tao-ce:latest-arm64
       podman push {{.PUBLIC_REGISTRY}}/tao-ce:latest
+
+  cozy-pi:build:
+    deps:
+    - task: artifacts:cozy-pi:build
+    set:
+      - pipefail
+    cmds:
+    - |
+      mkdir -p .cache/artifacts/cozy-pi
+      date -Iminutes --utc | cut -f1 -d+ | tr ':' '-' >.cache/artifacts/cozy-pi/TS
+      sudo podman run \
+        --rm \
+        -it \
+        --privileged \
+        --security-opt label=type:unconfined_t \
+        -v ./build/cozy/config/bootc.toml:/config.toml:ro \
+        -v ./.cache/artifacts/cozy-pi:/output \
+        -v  /var/lib/containers/storage:/var/lib/containers/storage \
+        quay.io/centos-bootc/bootc-image-builder:latest \
+          --type qcow2 \
+          --rootfs xfs \
+          --chown $(id -u):$(id -g) \
+          --log-level debug \
+          -vv \
+          --use-librepo \
+          {{.REGISTRY}}/tao-ce-pi:dev-latest \
+      | while read line ; do
+      logger --journald <<EOF
+      MESSAGE=$line
+      APP=pi
+      TIER=@build
+      EOF
+      done
 
   cozy:build:
     deps:

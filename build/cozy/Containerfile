@@ -6,6 +6,16 @@ ARG TAO_DOMAIN="tao-community-edition.local"
 ARG OS_VARIANT="TAO Community Edition - Cozy"
 ARG OS_VARIANT_ID="com.taotesting.cozy"
 
+FROM node:24 AS build-cockpit
+
+ENV NODE_ENV=production
+WORKDIR /app
+COPY src/cockpit-tao-ce/ /app/
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    make
+
+
 FROM ${FEDORA_FLAVOR}:${FEDORA_VERSION} AS base
 
 ARG TARGETPLATFORM
@@ -16,30 +26,16 @@ ARG FEDORA_FLAVOR
 ARG OS_VARIANT
 ARG OS_VARIANT_ID
 
+ARG TIMEZONE="UTC"
+ARG TAO_DOMAIN
+ARG REGISTRY_KEY
+
+LABEL org.opencontainers.image.authors="opensource-support@taotesting.com"
+
 RUN dnf -y swap fedora-release generic-release --allowerasing \
     && dnf -y remove kdeconnectd  kde-connect \
     && echo 'VARIANT="${OS_VARIANT}"' >>/usr/lib/os-release \
     && echo 'VARIANT_ID="${OS_VARIANT_ID}"' >>/usr/lib/os-release
-
-FROM node:24 AS build-cockpit
-
-ENV NODE_ENV=production
-WORKDIR /app
-COPY src/cockpit-tao-ce/ /app/
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    make
-
-FROM base AS vm
-
-LABEL org.opencontainers.image.authors="opensource-support@taotesting.com"
-
-ARG TAO_DOMAIN
-ARG TIMEZONE="UTC"
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG REGISTRY_KEY
 
 COPY --from=secrets /${REGISTRY_KEY} /etc/tao-ce/auth/registry.json
 
@@ -71,4 +67,14 @@ RUN \
     && systemctl enable \
         sshd.service \
         avahi-daemon.service \
+    && dnf clean all
+
+FROM base AS vm
+
+FROM base AS pi
+
+RUN \
+    --mount=type=cache,id=dnf-cache,target=/var/cache/dnf \
+    --mount=type=cache,id=libdnf-cache,target=/var/cache/libdnf5 \
+    dnf install -y uboot-images-armv8  bcm2711-firmware  bcm283x-firmware bcm283x-overlays \
     && dnf clean all
