@@ -7,7 +7,7 @@ ARG IMAGE_NVM_VERSIONS="18,20,22"
 ARG DEVCONTAINER_USERNAME="vscode"
 
 # do not change without keeping packages.php.lst up to date
-ARG IMAGE_PHP_VERSION="8.2"
+ARG IMAGE_PHP_VERSION="8.3"
 
 # External binaries images
 FROM docker.io/envoyproxy/envoy:v1.30-latest AS ext-bin-envoy

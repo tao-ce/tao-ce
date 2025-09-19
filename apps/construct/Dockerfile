@@ -18,6 +18,7 @@ COPY --from=src-code ./libs /libs
         # echo '#!/bin/sh\nshift\n/usr/local/libexec/nvm/nvm-exec npm $@\n' >/usr/local/bin/npm \
         # && chmod a+x /usr/local/bin/npm \
 RUN \
+    --mount=type=ssh \
     --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         . /usr/local/libexec/nvm/nvm.sh \
         && composer install \

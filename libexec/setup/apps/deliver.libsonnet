@@ -1,6 +1,6 @@
 function(setup)
 {
-    local dsn(topic) = "gps://default/%(topic)s?client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s&max_messages_pull=10" % {
+    local dsn(topic) = "gps://default/%(topic)s?client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s" % {
         topic: topic,
         project: setup.env.GOOGLE_CLOUD_PROJECT,
         pubsubEndpoint: setup.dependencies.pubsub.address.url,
@@ -10,9 +10,9 @@ function(setup)
 
   env: {
     backend: {
-      APP_DEBUG: "false",
+      APP_DEBUG: "true",
       APP_DEFAULT_LOCALE: "en-US",
-      APP_ENV: "offline",
+      APP_ENV: "dev",
       APP_SECRET: "954eb3a577baa0228a0133965ab3f1f4",
       ASSETS_MAX_FILE_SIZE_LIMIT: "100M",
       ASSETS_URL_SIGNATURE_KEY: "SecretK3y",
@@ -33,6 +33,7 @@ function(setup)
       DOCUMENT_MANAGER_TABLE_NAME_LTI_OAUTH_NONCES: "lti-oauth-nonces",
       DOCUMENT_MANAGER_TABLE_NAME_OAUTH2_ACCESS_TOKEN: "oauth2-access-token",
       DOCUMENT_MANAGER_TABLE_NAME_PUBLICATIONS: "publications",
+      DOCUMENT_MANAGER_TABLE_NAME_ENROLLMENT: 'portal-enrolment',
       DOCUMENT_REDIS_CACHE_NAMESPACE: "deliver-be-local-documents",
       DOCUMENT_REDIS_CACHE_TTL: "0",
       DYNAMIC_QUERY_API_INDEX_BATTERY: "portalBattery",
@@ -48,7 +49,7 @@ function(setup)
       FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
       FIRESTORE_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
       GCLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
-      // GOOGLE_CLOUD_BIGTABLE_INSTANCE: "emulator-instance",
+      GOOGLE_CLOUD_BIGTABLE_INSTANCE: '',
       GOOGLE_CLOUD_CDN_KEY: "",
       GOOGLE_CLOUD_CDN_KEY_NAME: "",
       GOOGLE_CLOUD_CDN_URL: "",

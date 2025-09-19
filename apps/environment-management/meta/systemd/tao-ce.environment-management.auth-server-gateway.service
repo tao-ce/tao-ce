@@ -1,0 +1,16 @@
+[Unit]
+After=tao-ce.environment-management.auth-server.service
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/environment-management/auth-server && exec /usr/local/libexec/nvm/nvm-exec  node --enable-source-maps --max-http-header-size=512000000 ./gw_server.js"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/em/auth-server.env
+Environment=NODE_VERSION=22
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target
