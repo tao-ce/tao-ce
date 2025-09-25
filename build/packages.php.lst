@@ -21,10 +21,10 @@ php-zstd
 php-process
 php-pecl-amqp
 php-pecl-apcu
-https://mirror.speedpartner.de/remi-archive/fedora/39/php82/@@ARCH@@/php-pecl-grpc-1.60.0-1.fc39.remi.8.2.@@ARCH@@.rpm
+php-pecl-grpc
 php-pecl-igbinary
 php-pecl-imagick
-https://mirror.speedpartner.de/remi-archive/fedora/39/php82/@@ARCH@@/php-pecl-protobuf-3.24.3-1.fc39.remi.8.2.@@ARCH@@.rpm
+https://mirror.speedpartner.de/remi-archive/fedora/39/php83/@@ARCH@@/php-pecl-protobuf-4.29.3-1.fc39.remi.8.3.@@ARCH@@.rpm
 php-pecl-ssh2
 php-pecl-xlswriter
 php-pecl-yaml

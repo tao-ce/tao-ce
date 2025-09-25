@@ -37,7 +37,7 @@ FROM $BUILD_IMAGE AS build-bootstrap
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
-ENV NODE_VERSION="18"
+ENV NODE_VERSION="22"
 WORKDIR /app
 
 COPY --from=src-frontend ./packages/deliver-app .
@@ -53,7 +53,7 @@ FROM $BUILD_IMAGE AS build-static
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
-ENV NODE_VERSION="18"
+ENV NODE_VERSION="22"
 WORKDIR /app
 
 COPY --from=src-frontend . .
@@ -77,7 +77,7 @@ ARG BUILD_NPM
 
 WORKDIR /app
 
-ENV NODE_VERSION="18"
+ENV NODE_VERSION="22"
 ENV API_URL=/data
 ARG PORT=3000
 

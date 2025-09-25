@@ -8,7 +8,7 @@ EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
 EnvironmentFile=/etc/tao-ce/setup/envs/em/auth-server.env
-Environment=NODE_VERSION=18
+Environment=NODE_VERSION=22
 Restart=always
 RestartSec=5s
 
