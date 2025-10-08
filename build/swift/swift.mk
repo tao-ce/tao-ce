@@ -3,7 +3,7 @@ IMAGES_LIST=$(SWIFT_DIR)/images.lst
 
 SWIFT_DEST_REGISTRY=europe-west1-docker.pkg.dev/tao-artefacts/tao-ce-poc
 # SWIFT_DEST_REGISTRY=quay.io/tao-ce
-SWIFT_TAG=latest
+SWIFT_TAG=tao-ce-release-candidate-01
 TARGET_TAG=$(SWIFT_TAG)
 
 swift-tag:

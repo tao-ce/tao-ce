@@ -35,7 +35,7 @@ variable "apps" {
 }
 
 variable "TAG" {
-    default = "latest"
+    default = "tao-ce-release-candidate-01"
 }
 
 target "_secrets" {
