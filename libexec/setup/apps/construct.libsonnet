@@ -27,9 +27,10 @@ function(setup)
         FEATURE_FLAG_FLA: 'true',
         // FEATURE_FLAG_QUICK_WINS_ENABLED: "true",
         // FEATURE_FLAG_STATISTIC_METADATA_IMPORT: "true",
+        // enable new Test preview
         FEATURE_FLAG_TAO_ADVANCE_ONLY: 'true',
-        // FEATURE_FLAG_TRANSLATION_ENABLED: "true",
         FEATURE_FLAG_TAO_CG_ONLY: 'false',
+        // FEATURE_FLAG_TRANSLATION_ENABLED: "true",
         FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER: 'true',
         GOOGLE_CLOUD_DELIVERY_EXECUTION_PUB_SUB_TOPIC_ID: 'ss-delivery-executions-topic',
         GOOGLE_CLOUD_DELIVERY_PUB_SUB_TOPIC_ID: 'ss-deliveries-topic',
@@ -51,4 +52,3 @@ function(setup)
     },
 
   }
-
