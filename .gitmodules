@@ -1,27 +1,35 @@
 [submodule "apps/devkit/src"]
 	path = apps/devkit/src
 	url = https://github.com/oat-sa/devkit-lti1p3
+	branch = tao-ce-release-candidate-01
 [submodule "apps/environment-management/src"]
 	path = apps/environment-management/src
 	url = git@github.com:oat-sa/environment-management.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/deliver/src/be"]
 	path = apps/deliver/src/be
 	url = git@github.com:oat-sa/tao-deliver-be.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/deliver/src/fe"]
 	path = apps/deliver/src/fe
 	url = git@github.com:oat-sa/tao-deliver-fe.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/timers/src"]
 	path = apps/timers/src
 	url = git@github.com:oat-sa/tao-timers-be.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/portal/src"]
 	path = apps/portal/src
 	url = git@github.com:oat-sa/tao-portal.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/dynamic-query/src"]
 	path = apps/dynamic-query/src
 	url = git@github.com:oat-sa/tao-dynamic-query-api.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/deliver/src/sandbox"]
 	path = apps/deliver/src/sandbox
 	url = git@github.com:oat-sa/test-runner-sandbox.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/construct/src/libs/oat-sa/extension-tao-deliver-connect"]
 	path = apps/construct/src/libs/oat-sa/extension-tao-deliver-connect
 	url = git@github.com:oat-sa/extension-tao-deliver-connect.git
@@ -43,6 +51,7 @@
 [submodule "apps/hierarchy/src"]
 	path = apps/hierarchy/src
 	url = git@github.com:oat-sa/tao-hierarchy-be.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/scoring/src/tao-manual-scoring-be"]
 	path = apps/scoring/src/tao-manual-scoring-be
 	url = git@github.com:oat-sa/tao-manual-scoring-be.git
