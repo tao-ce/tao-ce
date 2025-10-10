@@ -13,6 +13,7 @@ function(setup)
       'taoBackOffice',
       'taoTaskQueue',
       'taoMediaManager',
+      'taoQtiTestExport',
     ],
     'super-user': {
       lastname: 'TAOTesting',
