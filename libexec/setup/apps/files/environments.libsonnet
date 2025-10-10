@@ -4,6 +4,10 @@ function(setup)
       {
         configurations: [
           {
+            name: 'service_type',
+            value: 'ce-tao-deliver-be-service',
+          },
+          {
             name: 'example-config-1',
             value: '1',
           },
@@ -52,39 +56,29 @@ function(setup)
             value: 'portal-authoring-client-id-#tenantId#',
           },
           {
-            name: 'simple.reports.slugs',
-            value: {
-              default: {
-                dashboard: 'progress_monitoring_dashboard',
-                session: 'matter_and_measurements',
-                testTaker: 'matter_and_measurements_test_taker',
-              },
-            },
-          },
-          {
-            name: 'multifactor.authentication',
-            value: {
-              defaultType: 'email',
-              enabled: false,
-            },
-          },
-          {
             name: 'portal.csv_results_fields',
-            value: '["login","ltiParameters.family_name","ltiParameters.given_name","score","maxScore","sessionStartTime","sessionEndTime","items.*.completionStatus","items.*.responses","items.*.outcomes", "ltiParameters.spec_lti_claim_custom_metadata_*"]',
+            value: '["login",{ "key": "ltiParameters.name", "header": "userName" },"score","maxScore","outcomes.*","sessionStartTime","sessionEndTime","deliveryId",{ "key": "metadata.Label", "header": "deliveryLabel" },"items.*.qtiTitle","items.*.qtiLabel","items.*.statusCorrect","items.*.responses","items.*.duration","items.*.numAttempts","items.*.outcomes", { "key": "ltiParameters.spec_lti_claim_custom_metadata_*", "header": "customMetadata_*" }]',
           },
           {
             name: 'proctoring.registration_id',
             value: 'deliver--proctoring',
           },
           {
+            name: 'proctoring.external_providers',
+            value: '[{"clientId": "deliver-be-devkit-#tenantId#", "launchClaims": {"https://purl.imsglobal.org/spec/lti/claim/roles": ["http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator"]}, "providerName": "devkit"}, {"clientId": "proctorio_oat-staging-eu_oat-bench_#tenantId#", "launchClaims": {"https://purl.imsglobal.org/spec/lti/claim/roles": ["http://purl.imsglobal.org/vocab/lis/v2/membership#Reviewer"]}, "providerName": "proctorio", "settings": {"exam_settings": {"block_downloads": false, "calculator": 1, "close_tabs": true, "disable_clipboard": false, "disable_right_click": false, "full_screen": 3, "one_screen": true, "record_audio": true, "record_desk": 2, "record_video": true, "tabs": 1, "verify_audio": true, "verify_signature": false, "verify_video": true, "whiteboard": true}}}]',
+          },
+          {
+            name: 'portal.test_categories',
+            value: [],
+          },
+          {
             name: 'timers.configuration.thresholds',
             value: '[{"threshold":600000,"refreshRate":30000},{"threshold":1000,"refreshRate":500}]',
           },
           {
-            name: 'portal.login_validator_regex',
-            value: '{"pattern":"^[\\w\\-.@]{3,64}$","flags": ""}',
+            name: 'MSConfiguration',
+            value: '{"static_url": "https://%s/ms"}' % [setup.publicDomain],
           },
-
           {
             name: 'portal.sessionUserManagement',
             value: {
@@ -99,71 +93,265 @@ function(setup)
             },
           },
           {
-            name: 'portal.sessionCandidateManagement',
-            value: '{"candidateIdentifiersStrategy": {"priority": ["metadata.user.ssn", "metadata.user.duf", "metadata.user.dnumber", "metadata.user.passport", "login"]}, "candidateSearch": {"activityLogEnabled": false, "filter": [{"field": "role", "type": "terms", "values": ["TEST_TAKER"]}], "resultMatchCriteria": "exactMatch", "userSearchableFields": ["metadata.ssn", "metadata.duf", "metadata.dnumber", "metadata.passport", "login"]}}',
+            name: 'testRunnerConfiguration',
+            value: {
+              options: {
+                itemRunnerConfig: {
+                  elements: {
+                    CustomInteraction_audioRecordingInteraction: {
+                      propertyOverride: {
+                        useUploader: true,
+                      },
+                    },
+                    ExtendedTextInteraction: {
+                      propertyOverride: {
+                        dataAttrs: {
+                          'data-image-upload': 'true',
+                          'data-word-count': 'true',
+                        },
+                        uploadMaxSize: 15000000,
+                        uploadTimeout: 60000,
+                        usePersistentUndoRedo: true,
+                      },
+                    },
+                    UploadInteraction: {
+                      propertyOverride: {
+                        maxSize: 20000000,
+                      },
+                    },
+                  },
+                  options: {
+                    hideTooltips: false,
+                    stylePromptAsHeader: false,
+                  },
+                },
+                liteMode: false,
+                locale: 'en-US',
+                plugins: {
+                  highlighter: {
+                    colors: [
+                      'yellow',
+                      'blue',
+                      'pink',
+                      'green',
+                      'orange',
+                    ],
+                  },
+                  localItemState: {
+                    saveState: {
+                      enabled: true,
+                      excludePciTypeIdentifiers: [
+                        'audioRecordingInteraction',
+                      ],
+                      liveSaveIndicator: {
+                        enabled: true,
+                      },
+                      maxWait: 20000,
+                      minWait: 5000,
+                    },
+                  },
+                  pauseOnBlur: {
+                    threshold: 0,
+                  },
+                  preloadNextItemAssets: {
+                    preloadStrategy: {
+                      audios: true,
+                      audiosThreshold: 3000000,
+                      images: true,
+                      stylesheets: true,
+                      videos: true,
+                      videosThreshold: 3000000,
+                    },
+                  },
+                  readAloud: {
+                    providerConfig: {},
+                    providerId: 'native',
+                  },
+                },
+                proxy: {
+                  preloadItemStoreCapacity: 30,
+                  preloadSectionItemsAmount: 5,
+                  preloadStrategy: 'sectionItems',
+                },
+              },
+              providers: {
+                itemRunner: {
+                  category: 'runner',
+                  id: 'qtinui',
+                  module: 'taoQtiNuiItem/runner/qti',
+                },
+                plugins: [
+                  {
+                    category: 'content',
+                    id: 'titlePlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/content/title/plugin',
+                  },
+                  {
+                    category: 'content',
+                    id: 'menuPanelPlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/panel/menu/plugin',
+                  },
+                  {
+                    category: 'content',
+                    id: 'jumpMenuPlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/navigation/jumpMenu/plugin',
+                  },
+                  {
+                    category: 'content',
+                    id: 'navigatorPlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/navigation/navigator/plugin',
+                  },
+                  {
+                    category: 'state',
+                    id: 'localItemState',
+                    module: 'taoQtiNuiTest/runner/plugins/localItemState/plugin',
+                  },
+                  {
+                    category: 'performance',
+                    id: 'preloadNextItemAssetsPlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/navigation/preload/nextItemAssets/plugin',
+                  },
+                  {
+                    category: 'security',
+                    id: 'preventDropToInput',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/preventDropToInput/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'calculator',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/calculator/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'highlighter',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/highlighter/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'scratchpad',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/scratchpad/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'lineReader',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/lineReader/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'readAloud',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/readAloud/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'fullscreen',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/fullscreen/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'print',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/print/plugin',
+                  },
+                  {
+                    category: 'navigation',
+                    id: 'warnBeforeLeaving',
+                    module: 'taoQtiNuiTest/runner/plugins/navigation/warnBeforeLeaving/plugin',
+                  },
+                  {
+                    category: 'navigation',
+                    id: 'proctoring',
+                    module: 'taoQtiNuiTest/runner/plugins/proctoring/plugin',
+                  },
+                  {
+                    category: 'navigation',
+                    id: 'pciNavigationHelper',
+                    module: 'taoQtiNuiTest/runner/plugins/navigation/PCINavigationHelper/plugin',
+                  },
+                  {
+                    category: 'content',
+                    id: 'attachments',
+                    module: 'taoQtiNuiTest/runner/plugins/content/attachments/plugin',
+                  },
+                ],
+                proxy: {
+                  category: 'proxy',
+                  id: 'preload-actions-proxy',
+                  module: 'taoQtiNuiTest/runner/proxy/preloadProxy',
+                },
+                runner: {
+                  category: 'runner',
+                  id: 'qtinui',
+                  module: 'taoQtiNuiTest/runner/qti',
+                },
+              },
+              reviewProviders: {
+                itemRunner: {
+                  category: 'runner',
+                  id: 'qtinui',
+                  module: 'taoQtiNuiItem/runner/qti',
+                },
+                plugins: [
+                  {
+                    category: 'content',
+                    id: 'titlePlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/content/title/plugin',
+                  },
+                  {
+                    category: 'content',
+                    id: 'menuPanelPlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/panel/menu/plugin',
+                  },
+                  {
+                    category: 'content',
+                    id: 'navigatorPlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/navigation/reviewNavigator/plugin',
+                  },
+                  {
+                    category: 'integration',
+                    id: 'notify',
+                    module: 'taoQtiNuiTest/runner/plugins/integration/notify/plugin',
+                  },
+                  {
+                    category: 'content',
+                    id: 'jumpMenuPlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/navigation/jumpMenu/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'inlineCommentsPlugin',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/inlineComments/plugin',
+                  },
+                  {
+                    category: 'tools',
+                    id: 'highlighter',
+                    module: 'taoQtiNuiTest/runner/plugins/tools/highlighter/plugin',
+                  },
+                ],
+                proxy: {
+                  category: 'proxy',
+                  id: 'actions-proxy',
+                  module: 'taoQtiNuiTest/runner/proxy/reviewProxy',
+                },
+                runner: {
+                  category: 'runner',
+                  id: 'qtinui',
+                  module: 'taoQtiNuiTest/runner/qtiReview',
+                },
+              },
+            },
           },
           {
-            name: 'portal.test_categories',
-            value: [
-              {
-                id: 'a1-b2-listening',
-                title: 'A1-B2 Listening',
-              },
-              {
-                id: 'a1-b2-reading',
-                title: 'A1-B2 Reading',
-              },
-              {
-                id: 'a1-b2-speaking',
-                title: 'A1-B2 Speaking',
-              },
-              {
-                id: 'a1-b2-writing',
-                title: 'A1-B2 Writing',
-              },
-              {
-                id: 'a1-b1-sign-language-comprehension',
-                title: 'A1-B1 sign language comprehension',
-              },
-              {
-                id: 'a1-b2-sign-language-communication',
-                title: 'A1-B2 sign language communication',
-              },
-              {
-                id: 'c1-listening-and-writing',
-                title: 'C1 listening and writing',
-              },
-              {
-                id: 'c1-reading-and-speaking',
-                title: 'C1 reading and speaking',
-              },
-              {
-                id: 'social-studies-knowledge-of-society',
-                title: 'Social studies (knowledge of society)',
-              },
-              {
-                id: 'citizenship',
-                title: 'Citizenship',
-              },
-            ],
+            name: 'portal.sessionCandidateManagement',
+            value: '{"candidateIdentifiersStrategy": {"priority": ["metadata.user.ssn", "metadata.user.duf", "metadata.user.dnumber", "metadata.user.passport", "login"]}, "candidateSearch": {"activityLogEnabled": false, "filter": [{"field": "role", "type": "terms", "values": ["TEST_TAKER"]}], "resultMatchCriteria": "exactMatch", "userSearchableFields": ["metadata.ssn", "metadata.duf", "metadata.dnumber", "metadata.passport", "login"]}}',
           },
         ],
         featureFlags: [
           {
-            name: 'TIMER_SERVICE_ENABLED',
-            value: 'false',
-          },
-          {
-            name: 'ITEM_CONTENT_UPLOAD_ENABLED',
-            value: 'false',
-          },
-          {
             name: 'SCORING_SUBMISSION_ENABLED',
-            value: 'false',  //TODO FOR SCORING
+            value: 'true',
           },
           {
             name: 'SCORING_OWNS_GRADING_PROGRESS',
-            value: 'false',  //TODO FOR SCORING
+            value: 'true',
           },
           {
             name: 'DATA_STORE_ENABLE_RESULTS_TRANSFER',
@@ -171,10 +359,66 @@ function(setup)
           },
           {
             name: 'TESTRUNNER_READALOUD_FORCED',
-            value: 'false',
+            value: 'true',
           },
           {
             name: 'TIMERS_STOP_ON_DISCONNECT',
+            value: 'true',
+          },
+          {
+            name: 'ms.is_item_review_highlighter_enabled',
+            value: 'false',
+          },
+          {
+            name: 'FF_ENABLE_RBAC_MODE',
+            value: 'true',
+          },
+          {
+            name: 'AUTHORING_SSO_ENABLED',
+            value: 'false',
+          },
+          {
+            name: 'mergeUsersEnabled',
+            value: 'false',
+          },
+          {
+            name: 'reportGenerationEnabled',
+            value: 'false',
+          },
+          {
+            name: 'metadataEnabled',
+            value: 'false',
+          },
+          {
+            name: 'userEventsEnabled',
+            value: 'false',
+          },
+          {
+            name: 'sessionClustersEnabled',
+            value: 'false',
+          },
+          {
+            name: 'enrollmentSessionsEnabled',
+            value: 'false',
+          },
+          {
+            name: 'ADD_CUSTOM_TOUCHED_OUTCOME_VARIABLE_TO_RESULT',
+            value: 'false',
+          },
+          {
+            name: 'emailNotificationForBulkUserCreateEnabled',
+            value: 'false',
+          },
+          {
+            name: 'ms.isMarkAsSuspiciousForCheatingEnabled',
+            value: 'false',
+          },
+          {
+            name: 'diplomaGenerationEnabled',
+            value: 'false',
+          },
+          {
+            name: 'rbacEnabled',
             value: 'false',
           },
           {
@@ -182,7 +426,19 @@ function(setup)
             value: 'true',
           },
           {
+            name: 'DIAGNOSTIC_WORKSTATION_ID',
+            value: 'true',
+          },
+          {
+            name: 'DIAGNOSTIC_AUDIO_TEST',
+            value: 'true',
+          },
+          {
             name: 'AUTOMATIC_SESSION_SELECTION',
+            value: 'false',
+          },
+          {
+            name: 'REDIRECT_TO_LAUNCH_URL',
             value: 'true',
           },
           {
@@ -191,11 +447,11 @@ function(setup)
           },
           {
             name: 'dashboardEnabled',
-            value: 'true',
+            value: 'false',
           },
           {
             name: 'monitoringEnabled',
-            value: 'false',
+            value: 'true',
           },
           {
             name: 'MINIMAL_UI_TEST_TAKER',
@@ -203,7 +459,7 @@ function(setup)
           },
           {
             name: 'gradingEnabled',
-            value: 'false',  //TODO FOR SCORING
+            value: 'true',
           },
           {
             name: 'batteryEnabled',
@@ -227,10 +483,6 @@ function(setup)
           },
           {
             name: 'emailNotificationEnabled',
-            value: 'true',
-          },
-          {
-            name: 'userEmailIsMandatory',
             value: 'false',
           },
           {
@@ -239,7 +491,7 @@ function(setup)
           },
           {
             name: 'userLoginGenerationEnabled',
-            value: 'true',
+            value: 'false',
           },
           {
             name: 'CERTIFICATION_PRODUCT',
@@ -247,10 +499,6 @@ function(setup)
           },
           {
             name: 'easyPasswordEnabled',
-            value: 'true',
-          },
-          {
-            name: 'enableProctoring',
             value: 'false',
           },
           {
@@ -259,7 +507,7 @@ function(setup)
           },
           {
             name: 'WORKING_PROFILES_ENABLED',
-            value: 'true',
+            value: 'false',
           },
           {
             name: 'ms.isSuggestedScoringEnabled',
@@ -535,8 +783,8 @@ function(setup)
           },
         ],
         meta: {
-          id: 'local-dev-env',
-          name: 'Local Development Environment',
+          id: 'oat-bench-env',
+          name: 'OAT BENCH Environment',
         },
         oauth2Clients: [
           {
