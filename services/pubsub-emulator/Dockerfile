@@ -1,4 +1,4 @@
-FROM docker.io/google/cloud-sdk:emulators AS export
+FROM gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators AS export
 
 ENV PUBSUB_PORT=8432
 ENV PUBSUB_PROJECT_ID='demo-tao'
