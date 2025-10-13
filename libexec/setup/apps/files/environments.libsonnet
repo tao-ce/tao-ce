@@ -451,7 +451,7 @@ function(setup)
           },
           {
             name: 'monitoringEnabled',
-            value: 'true',
+            value: 'false',
           },
           {
             name: 'MINIMAL_UI_TEST_TAKER',
@@ -459,7 +459,7 @@ function(setup)
           },
           {
             name: 'gradingEnabled',
-            value: 'true',
+            value: 'false',
           },
           {
             name: 'batteryEnabled',
@@ -499,6 +499,10 @@ function(setup)
           },
           {
             name: 'easyPasswordEnabled',
+            value: 'false',
+          },
+          {
+            name: 'enableProctoring',
             value: 'false',
           },
           {
