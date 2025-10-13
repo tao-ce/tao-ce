@@ -1,80 +1,74 @@
 {
-	"name": "TAO Community Edition",
-  	"dockerComposeFile": [
-		"../docker-compose.yml",
-	],
-	"service": "dev",
-	"remoteUser": "vscode",
-	"remoteEnv": {
-	},
-	"workspaceFolder": "/workspace",
+    "name": "TAO Community Edition",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "dev",
+    "remoteUser": "vscode",
+    "remoteEnv": {},
+    "workspaceFolder": "/workspace",
 
-	"onCreateCommand": "build/crystal/create.sh",
-	"postAttachCommand": "build/crystal/attach.sh",
+    "onCreateCommand": "build/crystal/create.sh",
+    "postAttachCommand": "build/crystal/attach.sh",
 
-
-	"features": {
-	    "ghcr.io/devcontainers/features/common-utils": {
-	        "installZsh": true,
-	        "installOhMyZsh": true,
-	        "installOhMyZshConfig": true,
-	        "configureZshAsDefaultShell": true
-	    }
-	},
-	
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"tilt-dev.tiltfile",
-				"ms-azuretools.vscode-containers",
-				"MermaidChart.vscode-mermaid-chart",
-				"Grafana.vscode-jsonnet",
-				"marp-team.marp-vscode",
-				"OpenTofu.vscode-opentofu",
-				"redhat.vscode-yaml",
-				"task.vscode-task"
-			],
-			"settings": {
-				"containers.containerClient": "com.microsoft.visualstudio.containers.podman",
-				"containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
-				"terminal.integrated.defaultProfile.linux": "run0",
-				"terminal.integrated.profiles.linux": {
-
-					"run0":{
-
-						"path": "/usr/sbin/run0",
-						"env":{
-							"SYSTEMD_RUN_SHELL_PROMPT_PREFIX": "",
-						},
-						"args": [
-							"-u", "vscode", 
-							"--setenv", "SSH_AUTH_SOCK", 
-							"--setenv", "DISPLAY", 
-							"--setenv", "WAYLAND_DISPLAY", 
-							"--setenv", "REMOTE_CONTAINERS_DISPLAY_SOCK", 
-							"--setenv", "REMOTE_CONTAINERS_SOCKETS", 
-							"--setenv", "REMOTE_CONTAINERS_IPC", 
-							"--setenv", "VSCODE_IPC_HOOK_CLI",
-							"--setenv", "VSCODE_GIT_IPC_HANDLE",
-							"--setenv", "PATH",
-							"--setenv", "COLORTERM",
-							"--background", "0", 
-							"/usr/bin/zsh", "-c", "cd ${containerWorkspaceFolder}; exec /usr/bin/zsh",
-						],
-					}
-				},
-				"task": {
-					"path": "go-task",
-				},
-				{
-				"yaml.schemas": {
-					"https://taskfile.dev/schema.json": [
-							"**/Taskfile.yml",
-						]
-					}
-				}
-			}
-		}
-	},
-
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils": {
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "installOhMyZshConfig": true,
+            "configureZshAsDefaultShell": true
+        }
+    },
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "tilt-dev.tiltfile",
+                "ms-azuretools.vscode-containers",
+                "MermaidChart.vscode-mermaid-chart",
+                "Grafana.vscode-jsonnet",
+                "marp-team.marp-vscode",
+                "OpenTofu.vscode-opentofu",
+                "redhat.vscode-yaml",
+                "task.vscode-task"
+            ],
+            "settings": {
+                "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
+                "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
+                "terminal.integrated.defaultProfile.linux": "run0",
+                "terminal.integrated.profiles.linux": {
+                    "run0":{
+                        "path": "/usr/sbin/run0",
+                        "env":{
+                            "SYSTEMD_RUN_SHELL_PROMPT_PREFIX": ""
+                        },
+                        "args": [
+                            "-u", "vscode", 
+                            "--setenv", "SSH_AUTH_SOCK", 
+                            "--setenv", "DISPLAY", 
+                            "--setenv", "WAYLAND_DISPLAY", 
+                            "--setenv", "REMOTE_CONTAINERS_DISPLAY_SOCK", 
+                            "--setenv", "REMOTE_CONTAINERS_SOCKETS", 
+                            "--setenv", "REMOTE_CONTAINERS_IPC", 
+                            "--setenv", "VSCODE_IPC_HOOK_CLI",
+                            "--setenv", "VSCODE_GIT_IPC_HANDLE",
+                            "--setenv", "PATH",
+                            "--setenv", "COLORTERM",
+                            "--background", "0", 
+                            "/usr/bin/zsh", "-c", "cd ${containerWorkspaceFolder}; exec /usr/bin/zsh"
+                        ]
+                    }
+                },
+                "task": {
+                    "path": "go-task"
+                },
+                "yaml.schemas": {
+                    "https://taskfile.dev/schema.json": [
+                        "**/Taskfile.yml"
+                    ]
+                }
+            }
+        }
+    }
 }
+
