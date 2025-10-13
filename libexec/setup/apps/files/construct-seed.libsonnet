@@ -13,7 +13,6 @@ function(setup)
       'taoBackOffice',
       'taoTaskQueue',
       'taoMediaManager',
-      'taoQtiTestExport',
     ],
     'super-user': {
       lastname: 'TAOTesting',
@@ -145,10 +144,6 @@ function(setup)
               },
               {
                 class: 'oat\\taoLti\\models\\classes\\LtiProvider\\RdfLtiProviderRepository',
-                options: [],
-              },
-              {
-                class: 'oat\\taoQtiTestExport\\model\\LtiProvider\\ExportLtiProviderRepository',
                 options: [],
               },
             ],

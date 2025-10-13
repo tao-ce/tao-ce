@@ -143,10 +143,6 @@ function(setup)
                 class: 'oat\\taoLti\\models\\classes\\LtiProvider\\RdfLtiProviderRepository',
                 options: [],
               },
-              {
-                class: 'oat\\taoQtiTestExport\\model\\LtiProvider\\ExportLtiProviderRepository',
-                options: [],
-              },
             ],
           },
           type: 'configurableService',
@@ -174,7 +170,6 @@ function(setup)
       'taoBackOffice',
       'taoTaskQueue',
       'taoMediaManager',
-      'taoQtiTestExport',
     ],
     postInstall: [
       {
@@ -210,4 +205,3 @@ function(setup)
       password: 'TAOce2025',
     },
   }
-
