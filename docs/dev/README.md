@@ -35,10 +35,6 @@ git submodule update --init --recursive
 ```
 2. Add credentials (will be removed once released OSS)
   * Add NPM token in `.secrets/npm`
-3. Current code may need [some patches](/hack/sources), apply them:
-```
-find hack/sources -type f | grep patch$ | while read p ; do patch -p1 <$p ; done 
-```
 
 # Run
 1. Run VS Code (or any IDE compatible with [`devcontainers`](https://containers.dev/))
