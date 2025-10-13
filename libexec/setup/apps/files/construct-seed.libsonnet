@@ -64,6 +64,7 @@ function(setup)
               dataStore: 'default',
               revisions: 'default',
               dataStoreQTITests: 'default',
+              taoDeliverConnect: 'default',
             },
           },
         },

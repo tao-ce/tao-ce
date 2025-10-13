@@ -41,6 +41,8 @@ function(setup)
         SCORING_ENABLE: 'true',
         SCORING_SCOPE: 'event:post',
         // SCORING_SERVICE_URL: "http://tao-ce-tao-scoring-service-be:8080/api/v1/events",
+        IS_QTI_PACKAGE_STORED_EXTERNALLY_ENABLED: "true",
+        PUBLIC_STORAGE_URL: '%s/construct/data' % setup.dirs.varlib,
         SCORING_TOKEN_URL: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
         XDEBUG_MODE: 'off',
 
