@@ -3,6 +3,7 @@
     "dockerComposeFile": [
         "../docker-compose.yml"
     ],
+
     "service": "dev",
     "remoteUser": "vscode",
     "remoteEnv": {},
@@ -10,6 +11,7 @@
 
     "onCreateCommand": "build/crystal/create.sh",
     "postAttachCommand": "build/crystal/attach.sh",
+
 
     "features": {
         "ghcr.io/devcontainers/features/common-utils": {
@@ -35,28 +37,15 @@
             "settings": {
                 "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
                 "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
-                "terminal.integrated.defaultProfile.linux": "run0",
+                "terminal.integrated.defaultProfile.linux": "devsh",
                 "terminal.integrated.profiles.linux": {
-                    "run0":{
-                        "path": "/usr/sbin/run0",
+                    "devsh":{
+                        "overrideName": "devsh",
+                        "path": "${containerWorkspaceFolder}/.devcontainer/bin/devsh",
                         "env":{
-                            "SYSTEMD_RUN_SHELL_PROMPT_PREFIX": ""
-                        },
-                        "args": [
-                            "-u", "vscode", 
-                            "--setenv", "SSH_AUTH_SOCK", 
-                            "--setenv", "DISPLAY", 
-                            "--setenv", "WAYLAND_DISPLAY", 
-                            "--setenv", "REMOTE_CONTAINERS_DISPLAY_SOCK", 
-                            "--setenv", "REMOTE_CONTAINERS_SOCKETS", 
-                            "--setenv", "REMOTE_CONTAINERS_IPC", 
-                            "--setenv", "VSCODE_IPC_HOOK_CLI",
-                            "--setenv", "VSCODE_GIT_IPC_HANDLE",
-                            "--setenv", "PATH",
-                            "--setenv", "COLORTERM",
-                            "--background", "0", 
-                            "/usr/bin/zsh", "-c", "cd ${containerWorkspaceFolder}; exec /usr/bin/zsh"
-                        ]
+                            "SYSTEMD_RUN_SHELL_PROMPT_PREFIX": "",
+                            "WORKPACE_FOLDER": "${containerWorkspaceFolder}",
+                        }
                     }
                 },
                 "task": {
