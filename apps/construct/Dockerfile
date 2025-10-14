@@ -20,7 +20,9 @@ COPY --from=src-code ./libs /libs
 RUN \
     --mount=type=ssh \
     --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+    --mount=type=secret,id=NPM_TOKEN \
         . /usr/local/libexec/nvm/nvm.sh \
+        && npm config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
         && composer install \
             --no-interaction \
             --no-dev \

@@ -28,7 +28,7 @@
     "oat",
     "computer-based-assessment"
   ],
-	"repositories": [
+  "repositories": [
     {
       "type": "vcs",
       "url": "git@github.com:oat-sa/extension-tao-testqti-export.git"
@@ -40,7 +40,15 @@
     {
       "type": "vcs",
       "url": "git@github.com:oat-sa/extension-tao-deliver-pcis.git"
-		}
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:oat-sa/extension-tao-test-preview-ui-loader.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:oat-sa/extension-lti-test-review.git"
+    }
   ],
   "homepage": "http://www.taotesting.com",
   "prefer-stable": true,
@@ -71,7 +79,9 @@
     "oat-sa/lib-generis-search": "2.3.1",
     "oat-sa/extension-tao-deliver-connect": "5.29.2",
     "oat-sa/extension-tao-deliver-pcis": "0.4.4",
-    "oat-sa/extension-tao-testqti-export": "1.1.3"
+    "oat-sa/extension-tao-testqti-export": "1.1.3",
+    "oat-sa/extension-tao-test-preview-ui-loader": "*",
+    "oat-sa/extension-lti-test-review": "^3.9"
   },
   "require-dev": {
     "mikey179/vfsstream": "~1",
