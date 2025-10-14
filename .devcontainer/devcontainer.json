@@ -25,14 +25,14 @@
     "customizations": {
         "vscode": {
             "extensions": [
-                "tilt-dev.tiltfile",
                 "ms-azuretools.vscode-containers",
                 "MermaidChart.vscode-mermaid-chart",
                 "Grafana.vscode-jsonnet",
                 "marp-team.marp-vscode",
                 "OpenTofu.vscode-opentofu",
                 "redhat.vscode-yaml",
-                "task.vscode-task"
+                "task.vscode-task",
+                "matthewpi.caddyfile-support"
             ],
             "settings": {
                 "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
