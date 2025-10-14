@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "38516d17161eebd4311db28394fb23c4",
+    "content-hash": "808fd064e22800b41d81d122fc408664",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -541,6 +541,7 @@
                 "issues": "https://github.com/doctrine/annotations/issues",
                 "source": "https://github.com/doctrine/annotations/tree/1.14.4"
             },
+            "abandoned": true,
             "time": "2024-09-05T10:15:52+00:00"
         },
         {
@@ -634,6 +635,7 @@
                     "type": "tidelift"
                 }
             ],
+            "abandoned": true,
             "time": "2022-05-20T20:07:39+00:00"
         },
         {
@@ -2541,34 +2543,34 @@
         },
         {
             "name": "lcobucci/clock",
-            "version": "3.3.1",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/clock.git",
-                "reference": "db3713a61addfffd615b79bf0bc22f0ccc61b86b"
+                "reference": "f91d84f65cb3e974988bbe872b5da8ca132a155f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/clock/zipball/db3713a61addfffd615b79bf0bc22f0ccc61b86b",
-                "reference": "db3713a61addfffd615b79bf0bc22f0ccc61b86b",
+                "url": "https://api.github.com/repos/lcobucci/clock/zipball/f91d84f65cb3e974988bbe872b5da8ca132a155f",
+                "reference": "f91d84f65cb3e974988bbe872b5da8ca132a155f",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+                "php": "~8.3.0 || ~8.4.0",
                 "psr/clock": "^1.0"
             },
             "provide": {
                 "psr/clock-implementation": "1.0"
             },
             "require-dev": {
-                "infection/infection": "^0.29",
+                "infection/infection": "^0.31",
                 "lcobucci/coding-standard": "^11.1.0",
                 "phpstan/extension-installer": "^1.3.1",
-                "phpstan/phpstan": "^1.10.25",
-                "phpstan/phpstan-deprecation-rules": "^1.1.3",
-                "phpstan/phpstan-phpunit": "^1.3.13",
-                "phpstan/phpstan-strict-rules": "^1.5.1",
-                "phpunit/phpunit": "^11.3.6"
+                "phpstan/phpstan": "^2.0.0",
+                "phpstan/phpstan-deprecation-rules": "^2.0.0",
+                "phpstan/phpstan-phpunit": "^2.0.0",
+                "phpstan/phpstan-strict-rules": "^2.0.0",
+                "phpunit/phpunit": "^12.0.0"
             },
             "type": "library",
             "autoload": {
@@ -2589,7 +2591,7 @@
             "description": "Yet another clock abstraction",
             "support": {
                 "issues": "https://github.com/lcobucci/clock/issues",
-                "source": "https://github.com/lcobucci/clock/tree/3.3.1"
+                "source": "https://github.com/lcobucci/clock/tree/3.4.0"
             },
             "funding": [
                 {
@@ -2601,7 +2603,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-09-24T20:45:14+00:00"
+            "time": "2025-10-08T18:00:48+00:00"
         },
         {
             "name": "lcobucci/jwt",
@@ -2678,16 +2680,16 @@
         },
         {
             "name": "league/csv",
-            "version": "9.25.0",
+            "version": "9.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/csv.git",
-                "reference": "f856f532866369fb1debe4e7c5a1db185f40ef86"
+                "reference": "7fce732754d043f3938899e5183e2d0f3d31b571"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/csv/zipball/f856f532866369fb1debe4e7c5a1db185f40ef86",
-                "reference": "f856f532866369fb1debe4e7c5a1db185f40ef86",
+                "url": "https://api.github.com/repos/thephpleague/csv/zipball/7fce732754d043f3938899e5183e2d0f3d31b571",
+                "reference": "7fce732754d043f3938899e5183e2d0f3d31b571",
                 "shasum": ""
             },
             "require": {
@@ -2765,7 +2767,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-11T08:29:08+00:00"
+            "time": "2025-10-01T11:24:54+00:00"
         },
         {
             "name": "league/event",
@@ -3932,6 +3934,60 @@
             "time": "2025-02-07T15:40:08+00:00"
         },
         {
+            "name": "oat-sa/extension-lti-test-review",
+            "version": "v3.9.9",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:oat-sa/extension-lti-test-review.git",
+                "reference": "ff16d50cf9ba0a67f3d85664616ba9f04bc9acba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oat-sa/extension-lti-test-review/zipball/ff16d50cf9ba0a67f3d85664616ba9f04bc9acba",
+                "reference": "ff16d50cf9ba0a67f3d85664616ba9f04bc9acba",
+                "shasum": ""
+            },
+            "require": {
+                "oat-sa/extension-tao-delivery": ">=15.0.0",
+                "oat-sa/extension-tao-delivery-rdf": ">=14.0.0",
+                "oat-sa/extension-tao-lti": ">=15.4.1",
+                "oat-sa/extension-tao-ltideliveryprovider": ">=12.0.0",
+                "oat-sa/extension-tao-outcome": ">=13.0.0",
+                "oat-sa/extension-tao-outcomeui": ">=11.0.0",
+                "oat-sa/extension-tao-proctoring": ">=20.0.0",
+                "oat-sa/extension-tao-testqti": ">=48.20.8",
+                "oat-sa/extension-tao-testqti-previewer": ">=3.0.0",
+                "oat-sa/generis": ">=15.22",
+                "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
+                "oat-sa/tao-core": ">=54.39.1"
+            },
+            "type": "tao-extension",
+            "extra": {
+                "tao-extension-name": "ltiTestReview"
+            },
+            "autoload": {
+                "psr-4": {
+                    "oat\\ltiTestReview\\": "",
+                    "oat\\ltiTestReview\\models\\": "models/"
+                }
+            },
+            "license": [
+                "GPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Open Assessment Technologies SA"
+                }
+            ],
+            "description": "Extension for reviewing passed tests, with the display of actual and correct answers.",
+            "homepage": "http://www.taotesting.com",
+            "keywords": [
+                "computer-based-assessment",
+                "tao"
+            ],
+            "time": "2025-10-08T09:31:53+00:00"
+        },
+        {
             "name": "oat-sa/extension-pcisample",
             "version": "v3.9.5",
             "source": {
@@ -5010,6 +5066,93 @@
             "time": "2025-04-17T19:42:14+00:00"
         },
         {
+            "name": "oat-sa/extension-tao-ltideliveryprovider",
+            "version": "v12.21.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oat-sa/extension-tao-ltideliveryprovider.git",
+                "reference": "42f725188b03c4c45b833e67a2820d64399e4cc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oat-sa/extension-tao-ltideliveryprovider/zipball/42f725188b03c4c45b833e67a2820d64399e4cc2",
+                "reference": "42f725188b03c4c45b833e67a2820d64399e4cc2",
+                "shasum": ""
+            },
+            "require": {
+                "oat-sa/extension-tao-delivery": ">=15.8.0",
+                "oat-sa/extension-tao-delivery-rdf": ">=14.0.0",
+                "oat-sa/extension-tao-lti": ">=15.11.0",
+                "oat-sa/extension-tao-outcome": ">=13.3.0",
+                "oat-sa/extension-tao-outcomeui": ">=10.0.0",
+                "oat-sa/extension-tao-testqti": ">=48.4.1",
+                "oat-sa/generis": ">=15.24.2",
+                "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
+                "oat-sa/tao-core": ">=50.24.6"
+            },
+            "type": "tao-extension",
+            "extra": {
+                "tao-extension-name": "ltiDeliveryProvider"
+            },
+            "autoload": {
+                "psr-4": {
+                    "oat\\ltiDeliveryProvider\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Open Assessment Technologies S.A.",
+                    "homepage": "http://www.taotesting.com"
+                },
+                {
+                    "name": "Jérôme Bogaerts",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Joel Bout",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Bertrand Chevrier",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Lionel Lecaque",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Patrick Plichart",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Dieter Raber",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Somsack Sipasseuth",
+                    "role": "Developer"
+                }
+            ],
+            "description": "extension to manage LTI delivery provider for TAO",
+            "homepage": "http://www.taotesting.com",
+            "keywords": [
+                "OAT",
+                "QTI",
+                "TAO",
+                "computer-based-assessment"
+            ],
+            "support": {
+                "forum": "http://forum.taotesting.com",
+                "issues": "http://forge.taotesting.com",
+                "source": "https://github.com/oat-sa/extension-tao-ltideliveryprovider/tree/v12.21.5"
+            },
+            "time": "2025-04-17T19:29:04+00:00"
+        },
+        {
             "name": "oat-sa/extension-tao-mediamanager",
             "version": "v12.48.1",
             "source": {
@@ -5349,6 +5492,64 @@
             "time": "2025-04-17T19:33:13+00:00"
         },
         {
+            "name": "oat-sa/extension-tao-proctoring",
+            "version": "v20.7.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oat-sa/extension-tao-proctoring.git",
+                "reference": "0d844776d8797dbdd00de6916ac43e2fafda0b72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oat-sa/extension-tao-proctoring/zipball/0d844776d8797dbdd00de6916ac43e2fafda0b72",
+                "reference": "0d844776d8797dbdd00de6916ac43e2fafda0b72",
+                "shasum": ""
+            },
+            "require": {
+                "oat-sa/extension-tao-delivery": ">=15.0.0",
+                "oat-sa/extension-tao-delivery-rdf": ">=14.0.0",
+                "oat-sa/extension-tao-eventlog": ">=3.0.0",
+                "oat-sa/extension-tao-outcomeui": ">=10.0.0",
+                "oat-sa/extension-tao-test": ">=15.0.0",
+                "oat-sa/extension-tao-testqti": ">=41.0.0",
+                "oat-sa/extension-tao-testtaker": ">=8.0.0",
+                "oat-sa/generis": ">=15.22",
+                "oat-sa/lib-tao-dtms": "^1.0.1",
+                "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
+                "oat-sa/tao-core": ">=54.0.0",
+                "sinergi/browser-detector": "^6.0.2"
+            },
+            "type": "tao-extension",
+            "extra": {
+                "tao-extension-name": "taoProctoring"
+            },
+            "autoload": {
+                "psr-4": {
+                    "oat\\taoProctoring\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Open Assessment Technologies SA"
+                }
+            ],
+            "description": "Proctoring for deliveries",
+            "homepage": "http://www.taotesting.com",
+            "keywords": [
+                "TAO",
+                "computer-based-assessment"
+            ],
+            "support": {
+                "issues": "https://github.com/oat-sa/extension-tao-proctoring/issues",
+                "source": "https://github.com/oat-sa/extension-tao-proctoring/tree/v20.7.8"
+            },
+            "time": "2025-04-17T19:34:23+00:00"
+        },
+        {
             "name": "oat-sa/extension-tao-revision",
             "version": "v10.7.6",
             "source": {
@@ -5550,6 +5751,68 @@
                 "source": "https://github.com/oat-sa/extension-tao-test/tree/v16.4.10"
             },
             "time": "2025-06-06T07:49:23+00:00"
+        },
+        {
+            "name": "oat-sa/extension-tao-test-preview-ui-loader",
+            "version": "v1.29.9",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:oat-sa/extension-tao-test-preview-ui-loader.git",
+                "reference": "e7cda2b475b8c0d14ed3271c68ecfdc0486ecff3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oat-sa/extension-tao-test-preview-ui-loader/zipball/e7cda2b475b8c0d14ed3271c68ecfdc0486ecff3",
+                "reference": "e7cda2b475b8c0d14ed3271c68ecfdc0486ecff3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "oat-sa/extension-tao-mediamanager": ">=12.16.0",
+                "oat-sa/extension-tao-testqti-previewer": ">=3.2.0",
+                "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
+                "oat-sa/tao-core": ">=54.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "9.6.x-dev"
+            },
+            "type": "tao-extension",
+            "extra": {
+                "npm-bridge": {
+                    "arguments": [
+                        "--prefix",
+                        "views"
+                    ]
+                },
+                "tao-extension-name": "taoTestPreviewUILoader"
+            },
+            "autoload": {
+                "psr-4": {
+                    "oat\\taoTestPreviewUILoader\\": ""
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "oat\\taoTestPreviewUILoader\\Tests\\": "tests"
+                }
+            },
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Open Assessment Technologies SA"
+                }
+            ],
+            "description": "Extension that provides test previewer",
+            "homepage": "https://www.taotesting.com",
+            "keywords": [
+                "computer-based-assessment",
+                "oat",
+                "previewer",
+                "tao"
+            ],
+            "time": "2025-09-09T08:59:06+00:00"
         },
         {
             "name": "oat-sa/extension-tao-testqti",
@@ -6587,24 +6850,26 @@
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v3.0.0",
+            "version": "v3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "df1e7fde177501eee2037dd159cf04f5f301a512"
+                "reference": "d5b01a39b3415c2cd581d3bd3a3575c1ebbd8e77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/df1e7fde177501eee2037dd159cf04f5f301a512",
-                "reference": "df1e7fde177501eee2037dd159cf04f5f301a512",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/d5b01a39b3415c2cd581d3bd3a3575c1ebbd8e77",
+                "reference": "d5b01a39b3415c2cd581d3bd3a3575c1ebbd8e77",
                 "shasum": ""
             },
             "require": {
                 "php": "^8"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9",
-                "vimeo/psalm": "^4|^5"
+                "infection/infection": "^0",
+                "nikic/php-fuzzer": "^0",
+                "phpunit/phpunit": "^9|^10|^11",
+                "vimeo/psalm": "^4|^5|^6"
             },
             "type": "library",
             "autoload": {
@@ -6650,7 +6915,7 @@
                 "issues": "https://github.com/paragonie/constant_time_encoding/issues",
                 "source": "https://github.com/paragonie/constant_time_encoding"
             },
-            "time": "2024-05-08T12:36:18+00:00"
+            "time": "2025-09-24T15:06:41+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -7079,16 +7344,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.46",
+            "version": "3.0.47",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6"
+                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6",
-                "reference": "56483a7de62a6c2a6635e42e93b8a9e25d4f0ec6",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/9d6ca36a6c2dd434765b1071b2644a1c683b385d",
+                "reference": "9d6ca36a6c2dd434765b1071b2644a1c683b385d",
                 "shasum": ""
             },
             "require": {
@@ -7169,7 +7434,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.46"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.47"
             },
             "funding": [
                 {
@@ -7185,7 +7450,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-06-26T16:29:55+00:00"
+            "time": "2025-10-06T01:07:24+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -7808,16 +8073,16 @@
         },
         {
             "name": "qtism/qtism",
-            "version": "0.28.11",
+            "version": "0.28.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/oat-sa/qti-sdk.git",
-                "reference": "09cc1867a44770f9759d4c07ea2b7a8863801e90"
+                "reference": "953dd70ed719f52a1280d11990b36b32df71a801"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/qti-sdk/zipball/09cc1867a44770f9759d4c07ea2b7a8863801e90",
-                "reference": "09cc1867a44770f9759d4c07ea2b7a8863801e90",
+                "url": "https://api.github.com/repos/oat-sa/qti-sdk/zipball/953dd70ed719f52a1280d11990b36b32df71a801",
+                "reference": "953dd70ed719f52a1280d11990b36b32df71a801",
                 "shasum": ""
             },
             "require": {
@@ -7826,7 +8091,7 @@
                 "ext-libxml": "*",
                 "oat-sa/lib-beeme": "0.2.0",
                 "oat-sa/lib-tao-dtms": "^1.0.0",
-                "php": ">=7.1"
+                "php": ">=8.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "~9|~7",
@@ -7872,9 +8137,9 @@
             "support": {
                 "forum": "http://forum.taotesting.com",
                 "issues": "http://forge.taotesting.com",
-                "source": "https://github.com/oat-sa/qti-sdk/tree/0.28.11"
+                "source": "https://github.com/oat-sa/qti-sdk/tree/0.28.12"
             },
-            "time": "2025-07-23T11:55:24+00:00"
+            "time": "2025-10-03T12:09:53+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -8518,6 +8783,60 @@
                 }
             ],
             "time": "2024-11-27T12:13:42+00:00"
+        },
+        {
+            "name": "sinergi/browser-detector",
+            "version": "6.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sinergi/php-browser-detector.git",
+                "reference": "4927f7c2bedc48b68f183bd420aa3549c59e133b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sinergi/php-browser-detector/zipball/4927f7c2bedc48b68f183bd420aa3549c59e133b",
+                "reference": "4927f7c2bedc48b68f183bd420aa3549c59e133b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ^9.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sinergi\\BrowserDetector\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Bull",
+                    "email": "me@gabrielbull.com"
+                },
+                {
+                    "name": "Chris Schuld"
+                }
+            ],
+            "description": "Detecting the user's browser, operating system and language.",
+            "keywords": [
+                "browser",
+                "detection",
+                "language",
+                "operating system",
+                "os"
+            ],
+            "support": {
+                "issues": "https://github.com/sinergi/php-browser-detector/issues",
+                "source": "https://github.com/sinergi/php-browser-detector/tree/6.1.4"
+            },
+            "abandoned": true,
+            "time": "2021-09-23T13:51:44+00:00"
         },
         {
             "name": "slim/slim",
@@ -11120,30 +11439,31 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "v1.22.0",
+            "version": "v1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "35f1adb388946d92e6edab2aa2cb2b60e132ebd5"
+                "reference": "8cce4df9a20660cdc671e8f45ac61959ecdde8e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/35f1adb388946d92e6edab2aa2cb2b60e132ebd5",
-                "reference": "35f1adb388946d92e6edab2aa2cb2b60e132ebd5",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/8cce4df9a20660cdc671e8f45ac61959ecdde8e8",
+                "reference": "8cce4df9a20660cdc671e8f45ac61959ecdde8e8",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.2 || ^2.0",
-                "php": "^7.4 || 8.0.* || 8.1.* || 8.2.* || 8.3.* || 8.4.*",
+                "php": "8.2.* || 8.3.* || 8.4.*",
                 "phpdocumentor/reflection-docblock": "^5.2",
                 "sebastian/comparator": "^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0",
-                "sebastian/recursion-context": "^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0"
+                "sebastian/recursion-context": "^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.1"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.40",
-                "phpspec/phpspec": "^6.0 || ^7.0",
+                "friendsofphp/php-cs-fixer": "^3.88",
+                "phpspec/phpspec": "^6.0 || ^7.0 || ^8.0",
                 "phpstan/phpstan": "^2.1.13",
-                "phpunit/phpunit": "^8.0 || ^9.0 || ^10.0"
+                "phpunit/phpunit": "^11.0 || ^12.0"
             },
             "type": "library",
             "extra": {
@@ -11184,9 +11504,9 @@
             ],
             "support": {
                 "issues": "https://github.com/phpspec/prophecy/issues",
-                "source": "https://github.com/phpspec/prophecy/tree/v1.22.0"
+                "source": "https://github.com/phpspec/prophecy/tree/v1.23.0"
             },
-            "time": "2025-04-29T14:58:06+00:00"
+            "time": "2025-10-08T08:50:26+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -11509,16 +11829,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.6.27",
+            "version": "9.6.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "0a9aa4440b6a9528cf360071502628d717af3e0a"
+                "reference": "9ecfec57835a5581bc888ea7e13b51eb55ab9dd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0a9aa4440b6a9528cf360071502628d717af3e0a",
-                "reference": "0a9aa4440b6a9528cf360071502628d717af3e0a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9ecfec57835a5581bc888ea7e13b51eb55ab9dd3",
+                "reference": "9ecfec57835a5581bc888ea7e13b51eb55ab9dd3",
                 "shasum": ""
             },
             "require": {
@@ -11543,7 +11863,7 @@
                 "sebastian/comparator": "^4.0.9",
                 "sebastian/diff": "^4.0.6",
                 "sebastian/environment": "^5.1.5",
-                "sebastian/exporter": "^4.0.6",
+                "sebastian/exporter": "^4.0.8",
                 "sebastian/global-state": "^5.0.8",
                 "sebastian/object-enumerator": "^4.0.4",
                 "sebastian/resource-operations": "^3.0.4",
@@ -11592,7 +11912,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.27"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.6.29"
             },
             "funding": [
                 {
@@ -11616,7 +11936,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-09-14T06:18:03+00:00"
+            "time": "2025-09-24T06:29:11+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -12059,16 +12379,16 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "4.0.6",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "78c00df8f170e02473b682df15bfcdacc3d32d72"
+                "reference": "14c6ba52f95a36c3d27c835d65efc7123c446e8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/78c00df8f170e02473b682df15bfcdacc3d32d72",
-                "reference": "78c00df8f170e02473b682df15bfcdacc3d32d72",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/14c6ba52f95a36c3d27c835d65efc7123c446e8c",
+                "reference": "14c6ba52f95a36c3d27c835d65efc7123c446e8c",
                 "shasum": ""
             },
             "require": {
@@ -12124,15 +12444,27 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/exporter/issues",
-                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.6"
+                "source": "https://github.com/sebastianbergmann/exporter/tree/4.0.8"
             },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
                     "type": "github"
+                },
+                {
+                    "url": "https://liberapay.com/sebastianbergmann",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
+                    "type": "thanks_dev"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/sebastian/exporter",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2024-03-02T06:33:00+00:00"
+            "time": "2025-09-24T06:03:27+00:00"
         },
         {
             "name": "sebastian/global-state",
