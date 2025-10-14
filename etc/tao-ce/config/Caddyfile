@@ -1,5 +1,5 @@
 {$TAO_CE_PUBLIC_DOMAIN}:443 {
-	@deliver-static path /sw.js /deliver-fe-static/*
+	@deliver-static path /deliver/sw.js /sw.js /deliver-fe-static/*
 	@envoy-endpoints path /deliver/* /backoffice/* /pr-lti-gateway/* /ms-be/* /ss-be/* /portal-be/*
 	@portal-bootstrap path /sessions/* /api/* /portal
 	@deliver-bootstrap path /deliver-fe /deliver-fe/*
@@ -12,6 +12,7 @@
 
 	handle @deliver-static {
 		uri strip_prefix /deliver-fe-static
+		uri strip_prefix /deliver
 		root {$TAO_CE_DIR_OPT}/deliver/static
 		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
 		header Access-Control-Allow-Credentials true
@@ -84,7 +85,12 @@
 	handle_path /task-orchestrator-socket/* {
 		reverse_proxy {$TAO_CE_SVC_TASK_ORCHESTRATOR_BACKEND_SOCKET_ENDPOINT}
 	}
-
+	handle_path /timers-be/* {
+		reverse_proxy {$TAO_CE_SVC_TIMERS_BACKEND_HTTP_ENDPOINT}
+	}
+	handle_path /timers/* {
+		reverse_proxy {$TAO_CE_SVC_TIMERS_BACKEND_SOCKET_ENDPOINT}
+	}
 	# reverse_proxy will keep prefix
 	# reverse_proxy /backoffice/*     {$TAO_CE_SVC_CONSTRUCT_TAO_HTTP_ENDPOINT}
 	reverse_proxy @envoy-endpoints {$TAO_CE_SVC_ENVIRONMENT_MANAGEMENT_ENVOY_HTTP_ENDPOINT}
