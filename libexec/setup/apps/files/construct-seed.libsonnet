@@ -3,16 +3,17 @@ function(setup)
     seed: {
       identifier: 'tao',
     },
-
     extensions: [
       'tao',
       'taoCe',
+      'ltiTestReview',
       'taoLti',
       'taoLtiConsumer',
       'taoDeliverConnect',
       'taoBackOffice',
       'taoTaskQueue',
       'taoMediaManager',
+      'taoTestPreviewUILoader',
     ],
     'super-user': {
       lastname: 'TAOTesting',
@@ -34,7 +35,6 @@ function(setup)
         import_data: false,
       },
       generis: {
-
         filesystem: {
           type: 'configurableService',
           class: 'oat\\oatbox\\filesystem\\FileSystemService',
@@ -64,17 +64,16 @@ function(setup)
               revisions: 'default',
               dataStoreQTITests: 'default',
               taoDeliverConnect: 'default',
+              taoTestPreviewUILoader: 'default',
             },
           },
         },
         persistences: {
-
           local redis = {
             driver: 'phpredis',
             host: setup.dependencies.redis.address.host,
             port: setup.dependencies.redis.address.port,
           },
-
           default: {
             driver: 'pdo_pgsql',
             host: setup.dependencies.pgsql.address.host,
