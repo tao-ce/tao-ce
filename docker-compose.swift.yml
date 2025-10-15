@@ -1,0 +1,74 @@
+services:
+  tao:
+    configs:
+      - source: tao_config
+        target: /etc/tao-ce/config/tao.yaml
+        mode: 0644
+    image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:latest
+    ports:
+      - 443:443
+    cgroup: host
+    volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    - containers:/home/vscode/.local/share/containers:rw
+    - tao-ce-lib:/var/lib/tao-ce:rw
+    privileged: true
+    depends_on:
+      es:
+        condition: service_healthy
+
+    links:
+    - redis:redis
+    - pgsql:pgsql
+    - es:es
+    - pubsub:pubsub
+    - firestore:firestore
+
+configs:
+  tao_config:
+    content: |
+      spec:
+        publicDomain: community.tao.internal
+        dependencies:
+        - key: pubsub
+          type: pubsub
+          address:
+            schema: http
+            port: 8432
+            host: pubsub
+        - key: firestore
+          type: firestore
+          address:
+            schema: http
+            port: 8080
+            host: firestore
+        - key: es
+          type: es
+          address:
+            schema: http
+            port: 9200
+            host: es
+        - key: pgsql
+          type: pgsql
+          address:
+            schema: pgsql
+            port: 5432
+            host: pgsql
+        - key: redis
+          type: redis
+          address:
+            schema: redis
+            host: redis
+                  
+
+include:
+- ./docker-compose.stack.yml
+
+volumes:
+  tao-ce-opt: {}
+  tao-ce-lib: {}
+  containers: {}
+
+
+x-podman:
+    in_pod: false

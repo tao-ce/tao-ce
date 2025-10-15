@@ -1,0 +1,9 @@
+.cache
+output
+.data
+.bak
+.secrets
+.vscode
+**/no-commit.*
+**/no-commit-*
+.task

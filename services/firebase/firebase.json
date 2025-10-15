@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/firebase/firebase-tools/master/schema/firebase-config.json",
+  "emulators": {
+    "firestore": {
+        "host": "0.0.0.0"
+    },
+    "ui": {
+        "host": "0.0.0.0",
+        "port": 4000,
+        "enabled": true
+    }
+  }
+}

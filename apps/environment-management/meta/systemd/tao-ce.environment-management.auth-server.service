@@ -1,0 +1,16 @@
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/environment-management.json"
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/environment-management/auth-server && exec /usr/local/libexec/nvm/nvm-exec node scripts/tenant-data-preloader/preload-tenant-data-json.js"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/environment-management/auth-server && exec /usr/local/libexec/nvm/nvm-exec  node --enable-source-maps --max-http-header-size=512000000 ./server.js"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/em/auth-server.env
+Environment=NODE_VERSION=22
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

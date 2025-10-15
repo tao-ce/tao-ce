@@ -1,0 +1,11 @@
+skopeo
+pre-commit
+podman
+buildah
+fuse-overlayfs
+patch
+zsh
+ps
+opentofu
+go-task
+qemu-img

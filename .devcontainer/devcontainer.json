@@ -1,0 +1,63 @@
+{
+    "name": "TAO Community Edition",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+
+    "service": "dev",
+    "remoteUser": "vscode",
+    "remoteEnv": {},
+    "workspaceFolder": "/workspace",
+
+    "onCreateCommand": "build/crystal/create.sh",
+    "postAttachCommand": "build/crystal/attach.sh",
+
+
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils": {
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "installOhMyZshConfig": true,
+            "configureZshAsDefaultShell": true
+        }
+    },
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-containers",
+                "MermaidChart.vscode-mermaid-chart",
+                "Grafana.vscode-jsonnet",
+                "marp-team.marp-vscode",
+                "OpenTofu.vscode-opentofu",
+                "redhat.vscode-yaml",
+                "task.vscode-task",
+                "matthewpi.caddyfile-support"
+            ],
+            "settings": {
+                "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
+                "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
+                "terminal.integrated.defaultProfile.linux": "devsh",
+                "terminal.integrated.profiles.linux": {
+                    "devsh":{
+                        "overrideName": "devsh",
+                        "path": "${containerWorkspaceFolder}/.devcontainer/bin/devsh",
+                        "env":{
+                            "SYSTEMD_RUN_SHELL_PROMPT_PREFIX": "",
+                            "WORKPACE_FOLDER": "${containerWorkspaceFolder}",
+                        }
+                    }
+                },
+                "task": {
+                    "path": "go-task"
+                },
+                "yaml.schemas": {
+                    "https://taskfile.dev/schema.json": [
+                        "**/Taskfile.yml"
+                    ]
+                }
+            }
+        }
+    }
+}
+

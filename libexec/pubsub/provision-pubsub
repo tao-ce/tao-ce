@@ -1,0 +1,8 @@
+#!/bin/bash
+
+. $(dirname $0)/.venv/bin/activate
+
+. /etc/tao-ce/setup/envs/dir.env
+. /etc/tao-ce/setup/envs/svc.env
+
+PUBSUB_EMULATOR_HOST=${TAO_CE_SVC_DEPS_PUBSUB_ENDPOINT} PUBSUB_PROJECT_ID=${GOOGLE_CLOUD_PROJECT} python3 $(dirname $0)/provision-pubsub.py $@

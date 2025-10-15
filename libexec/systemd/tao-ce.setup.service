@@ -1,0 +1,8 @@
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c "exec jsonnet -Scm ${TAO_CE_ETC}/setup --tla-str-file seed=${TAO_CE_ETC}/config/tao.yaml ${TAO_CE_LIBEXEC}/setup/main.jsonnet"
+ExecStart=/bin/sh -c "exec ${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/*.json"
+EnvironmentFile=/etc/environment
+
+[Install]
+WantedBy=tao-ce.target

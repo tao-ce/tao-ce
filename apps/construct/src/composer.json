@@ -1,0 +1,95 @@
+{
+  "name": "oat-sa/tao-community",
+  "license": "GPL-2.0-only",
+  "config": {
+    "platform": {
+      "php": "8.3"
+    },
+    "preferred-install": "source",
+    "allow-plugins": {
+      "oat-sa/oatbox-extension-installer": true,
+      "oat-sa/composer-npm-bridge": true,
+      "php-http/discovery": true
+    }
+  },
+  "support": {
+    "issues": "http://forge.taotesting.com",
+    "forum": "http://forum.taotesting.com"
+  },
+  "authors": [
+    {
+      "homepage": "http://www.taotesting.com",
+      "name": "Open Assessment Technologies S.A."
+    }
+  ],
+  "keywords": [
+    "2025.02",
+    "tao",
+    "oat",
+    "computer-based-assessment"
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:oat-sa/extension-tao-testqti-export.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:oat-sa/extension-tao-deliver-connect.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:oat-sa/extension-tao-deliver-pcis.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:oat-sa/extension-tao-test-preview-ui-loader.git"
+    },
+    {
+      "type": "vcs",
+      "url": "git@github.com:oat-sa/extension-lti-test-review.git"
+    }
+  ],
+  "homepage": "http://www.taotesting.com",
+  "prefer-stable": true,
+  "require": {
+    "oat-sa/generis": "16.1.2",
+    "oat-sa/tao-core": "54.42.4",
+    "oat-sa/extension-tao-community": "11.1.4",
+    "oat-sa/extension-tao-funcacl": "7.4.8",
+    "oat-sa/extension-tao-dac-simple": "8.1.3",
+    "oat-sa/extension-tao-itemqti": "30.48.1",
+    "oat-sa/extension-tao-testqti": "48.21.3",
+    "oat-sa/extension-tao-testtaker": "8.13.1",
+    "oat-sa/extension-tao-group": "7.10.2",
+    "oat-sa/extension-tao-item": "12.8.6",
+    "oat-sa/extension-tao-itemqti-pci": "9.1.1",
+    "oat-sa/extension-tao-test": "16.4.10",
+    "oat-sa/extension-tao-outcome": "13.8.4",
+    "oat-sa/extension-tao-delivery": "15.15.3",
+    "oat-sa/extension-tao-delivery-rdf": "14.25.2",
+    "oat-sa/extension-tao-lti": "17.0.0",
+    "oat-sa/extension-tao-revision": "10.7.6",
+    "oat-sa/extension-tao-mediamanager": "^12.48",
+    "oat-sa/extension-pcisample": "3.9.5",
+    "oat-sa/extension-tao-backoffice": "7.1.0",
+    "oat-sa/extension-tao-eventlog": "3.6.2",
+    "oat-sa/extension-tao-task-queue": "6.9.2",
+    "oat-sa/extension-tao-testqti-previewer": "3.12.2",
+    "oat-sa/lib-generis-search": "2.3.1",
+    "oat-sa/extension-tao-deliver-connect": "5.29.2",
+    "oat-sa/extension-tao-deliver-pcis": "0.4.4",
+    "oat-sa/extension-tao-testqti-export": "1.1.3",
+    "oat-sa/extension-tao-test-preview-ui-loader": "*",
+    "oat-sa/extension-lti-test-review": "^3.9"
+  },
+  "require-dev": {
+    "mikey179/vfsstream": "~1",
+    "nimut/phpunit-merger": "~1",
+    "phpdocumentor/reflection-docblock": "5.3.0 as 2.0.5",
+    "phpspec/prophecy": "^1.15",
+    "phpunit/phpunit": "^9.0"
+  },
+  "minimum-stability": "dev",
+  "description": "TAO is an Open Source e-Testing platform that empowers you to build, deliver, and share innovative and engaging assessments online – in any language or subject matter."
+}

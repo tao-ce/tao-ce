@@ -1,0 +1,16 @@
+[Unit]
+#AssertPathExists=/etc/tao-ce/setup/envs/deliver/bootstrap.env
+
+
+[Service]
+Type=simple
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/deliver/bootstrap && exec /usr/local/libexec/nvm/nvm-exec node server.js"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/deliver/bootstrap.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

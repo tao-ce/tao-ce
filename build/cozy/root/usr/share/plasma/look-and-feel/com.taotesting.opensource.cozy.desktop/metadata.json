@@ -1,0 +1,17 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "opensource-support@taotesting.com",
+                "Name": "TAO Community Edition"
+            }
+        ],
+        "Category": "",
+        "Description": "TAO Community Edition",
+        "Id": "com.taotesting.opensource.cozy.desktop",
+        "License": "AGPL",
+        "Name": "TAO Community Edition",
+        "Website": "https://github.com/tao-ce"
+    }
+}

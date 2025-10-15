@@ -1,0 +1,11 @@
+<?xml version="1.0" standalone='no'?>
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+
+<service-group>
+  <name replace-wildcards="yes">TAO Community Edition (%h)</name>
+  <service>
+    <type>_https._tcp</type>
+    <port>443</port>
+    <txt-record>path=/portal/</txt-record>
+  </service>
+</service-group>

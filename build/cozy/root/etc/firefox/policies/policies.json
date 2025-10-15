@@ -1,0 +1,56 @@
+{
+    "policies": {
+        "Bookmarks": [
+            {
+                "Folder": "TAO Community Edition",
+                "Placement": "toolbar",
+                "Title": "Cozy Admin",
+                "URL": "https://tao-community-edition.local:9090/"
+            },
+            {
+                "Folder": "TAO Community Edition",
+                "Placement": "toolbar",
+                "Title": "Portal",
+                "URL": "https://tao-community-edition.local/portal/"
+            },
+            {
+                "Folder": "Debugging tools",
+                "Placement": "toolbar",
+                "Title": "Kibana",
+                "URL": "http://kibana.deps:5601"
+            },
+            {
+                "Folder": "Debugging tools",
+                "Placement": "toolbar",
+                "Title": "PubSub UI",
+                "URL": "http://pubsub-ui.deps"
+            },
+            {
+                "Folder": "TAO Community Edition",
+                "Placement": "toolbar",
+                "Title": "Devkit",
+                "URL": "https://tao-community-edition.local/devkit/"
+            }
+        ],
+        "Certificates": {
+            "Install": [
+                "/var/lib/tao-ce/tls/ca.crt",
+                "/etc/cockpit/ws-certs.d/ca.crt"
+            ]
+        },
+        "DisplayBookmarksToolbar": "always",
+        "Homepage": {
+            "StartPage": "homepage",
+            "URL": "https://tao-community-edition.local/portal/"
+        },
+        "NoDefaultBookmarks": true,
+        "OverrideFirstRunPage": "https://admin.tao.internal:9090/",
+        "Preferences": {
+            "network.socket.ip_addr_any.disabled": {
+                "Status": "locked",
+                "Value": false
+            }
+        },
+        "SkipTermsOfUse": true
+    }
+}

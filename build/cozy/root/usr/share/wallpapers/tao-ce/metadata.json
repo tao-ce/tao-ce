@@ -1,0 +1,13 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "opensource-support@taotesting.com",
+                "Name": "TAO Community Edition"
+            }
+        ],
+        "Id": "tao-ce",
+        "Name": "TAO Community Edition",
+        "License": "AGPL3"
+    }
+}

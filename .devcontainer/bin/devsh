@@ -1,0 +1,19 @@
+#!/bin/sh
+
+WORKSPACE_FOLDER=${WORKSPACE_FOLDER:-/workspace}
+
+/usr/sbin/run0 \
+	-u vscode \
+    --setenv SSH_AUTH_SOCK \
+	--setenv DISPLAY \
+	--setenv WAYLAND_DISPLAY \
+	--setenv REMOTE_CONTAINERS_DISPLAY_SOCK \
+	--setenv REMOTE_CONTAINERS_SOCKETS \
+	--setenv REMOTE_CONTAINERS_IPC \
+	--setenv VSCODE_IPC_HOOK_CLI \
+	--setenv VSCODE_GIT_IPC_HANDLE \
+	--setenv PATH \
+	--setenv COLORTERM \
+	--background 0 \
+	    /usr/bin/zsh \
+            -c "cd $WORKSPACE_FOLDER; exec /usr/bin/zsh"

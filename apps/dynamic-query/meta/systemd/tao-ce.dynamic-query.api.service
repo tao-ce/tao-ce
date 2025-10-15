@@ -1,0 +1,17 @@
+[Unit]
+#AssertPathExists=/etc/tao-ce/setup/envs/dynamic-query/api.env
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/dynamic-query.json"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/dynamic-query/api && exec /usr/local/libexec/nvm/nvm-exec npm start"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/dynamic-query/api.env
+Environment=NODE_VERSION=22
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target
