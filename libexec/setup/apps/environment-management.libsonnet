@@ -2,17 +2,11 @@ function(setup)
 
 {
     files: {
-    // ['%(pfx)sauth-server-config' % setup ]: {
         'tenant-data/tenant-data.json': std.manifestJson((import './files/tenant-data.libsonnet')(setup)),
         'tenant-data/environments.json': std.manifestJson((import './files/environments.libsonnet')(setup)),
-    // },
-    // ['%(pfx)senvoy-config' % setup]: {
         'envoy.yaml': std.manifestYamlDoc((import './files/envoy.libsonnet')(setup),quote_keys=false),
-    // },
-    // ['%(pfx)sauth-server-keys' % setup]: {
         'private.pem': importstr './keys/environment-management/private.pem',
         'public.pem': importstr './keys/environment-management/public.pem',
-    // },
     },
     env: {
     'auth-server': {
@@ -21,8 +15,6 @@ function(setup)
         APP_PRIVATE_KEY_PASSPHRASE: "123456",
         APP_PRIVATE_KEY_PATH: "%s/em/private.pem" % setup.dirs.files,
         APP_PUBLIC_KEY_PATH: "%s/em/public.pem" % setup.dirs.files,
-        // APP_PRIVATE_KEY_PATH: "%s/environment-management/private.pem" % setup.dirs.files,
-        // APP_PUBLIC_KEY_PATH: "%s/environment-management/public.pem" % setup.dirs.files,
         CC_USER_DATA_PRELOADER_SOURCE_PATH: "/app/preload-data/",
         CORS_ALLOW_ORIGIN: "*",
         DEBUG: "true",

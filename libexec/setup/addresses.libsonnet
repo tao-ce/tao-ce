@@ -76,12 +76,4 @@ local localAddress(p) = lib.address({schema: 'http', host: 'localhost', port: p,
             socket: localAddress(21905), //timers:3000
         },
     },
-    simple_reports: {
-        backend: {
-            http: localAddress(21906), //simple-report:9001
-        },
-        jsreport: {
-            http: localAddress(21907), //jsreport:3000
-        },
-    },
 }

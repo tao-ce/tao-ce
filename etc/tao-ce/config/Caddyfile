@@ -73,12 +73,6 @@
 	handle_path /auth-server/* {
 		reverse_proxy {$TAO_CE_SVC_ENVIRONMENT_MANAGEMENT_AUTH_SERVER_HTTP_ENDPOINT}
 	}
-	handle_path /jsreport/* {
-		reverse_proxy {$TAO_CE_SVC_SIMPLE_REPORTS_JSREPORT_HTTP_ENDPOINT}
-	}
-	handle_path /sr-be/* {
-		reverse_proxy {$TAO_CE_SVC_SIMPLE_REPORTS_BACKEND_HTTP_ENDPOINT}
-	}
 	handle_path /task-orchestrator/* {
 		reverse_proxy {$TAO_CE_SVC_TASK_ORCHESTRATOR_BACKEND_HTTP_ENDPOINT}
 	}

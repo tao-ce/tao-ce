@@ -7,9 +7,7 @@ local templates = {
     devkit: (import './apps/devkit.libsonnet'),
     'task-orchestrator': (import './apps/task-orchestrator.libsonnet'),
     'dynamic-query': (import './apps/dynamic-query.libsonnet'),
-    // sr: (import '../../../apps/setup/src/assets/apps/simple-reports.libsonnet'),
     timers: (import './apps/timers.libsonnet'),
-    aaaaaaa: (import './apps/timers.libsonnet'),
     construct: (import './apps/construct.libsonnet'),
 };
 

@@ -16,7 +16,7 @@ Each applications in apps contains:
 
 This folder contains building toolchain for each product, and their dependencies:
 * [`crystal`](/build/crystal/): the local deployment from sources 
-* [`swift`](/build/swift/): the deployment through pre-built containers on local Kubernetes
+* [`swift`](/build/swift/): the deployment through pre-built container
 * [`cozy`](/build/cozy/): the Virtual Machine deployment 
 
 ### [`hack`](/hack)
@@ -41,9 +41,9 @@ Configuration and resources to be used for image building.
 * [`pubsub`](/libexec/pubsub/): Python script to provision PubSub topics and subscriptions.
 
 
-## `Tiltfile` workflow
+## `Taskfile` workflow
 
-[Tilt](https://tilt.dev/) is used to build and run locally the TAO Community ecosystem.
+[go-task](https://taskfile.dev/docs/guide) is used to organize appliation build and local deployement of the TAO Community ecosystem in devcontainer.
 
 
-Once in `devcontainer` environment, running `tilt up` will load all `Tiltfile` and start local application deployment.
+Once in `devcontainer` environment, running `task dev:up` will build all dependencies and start local application deployment.
