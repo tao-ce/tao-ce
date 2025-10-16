@@ -4,10 +4,10 @@ ARG BUILD_IMAGE
 ARG GO_BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 
-### lti13-gateway ####################################################################
-FROM $BUILD_IMAGE AS build-lti13-gateway
+### lti1p3-gateway ####################################################################
+FROM $BUILD_IMAGE AS build-lti1p3-gateway
 ARG BUILD_IMAGE
-ARG STATE_ROOT="/var/lib/tao-ce/proctoring/lti13-gateway"
+ARG STATE_ROOT="/var/lib/tao-ce/proctoring/lti1p3-gateway"
 
 WORKDIR /app
 COPY --from=src-lti13-gateway . .
@@ -16,8 +16,8 @@ RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
         composer install -n --classmap-authoritative --no-dev --prefer-dist; \
-        composer dump-env tao-ce; \
-        echo '<?php return [];' >.env.local.php; \
+        composer dump-env ce; \
+        echo '<?php return ["APP_ENV" =>"ce"];' >.env.local.php; \
         rm -rf .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
         find /app -type f | grep '[/][.]git.*$' | xargs rm -rf ;
@@ -176,8 +176,9 @@ COPY --link --from=build-frontend-static     \
 COPY --link --from=build-frontend-bootstrap  \
     /app /frontend/bootstrap
 
-COPY --link --from=build-lti13-gateway     \
-    /app /lti13-gateway
+COPY --link --from=build-lti1p3-gateway     \
+    /app /lti1p3-gateway
+COPY ./router.php /lti1p3-gateway/router.php
 
 COPY --link --from=build-realtime-service     \
     /app /realtime-service

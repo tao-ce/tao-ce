@@ -2,12 +2,11 @@
 
 [Service]
 Type=simple
-Environment=NODE_VERSION=22
-ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/proctoring/lti13-gateway && php -S [::]:${LISTEN_PORT} -t ./public ./router.php"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/proctoring/lti1p3-gateway && php -S [::]:${TAO_CE_SVC_PROCTORING_LTI1P3GATEWAY_HTTP_PORT} -t ./public router.php"
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
-EnvironmentFile=/etc/tao-ce/setup/envs/proctoring/lti13-gateway.env
+EnvironmentFile=/etc/tao-ce/setup/envs/proctoring/lti1p3-gateway.env
 Restart=always
 RestartSec=5s
 

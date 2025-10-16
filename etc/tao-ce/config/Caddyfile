@@ -5,9 +5,9 @@
 	@deliver-bootstrap path /deliver-fe /deliver-fe/*
 	@proctoring-bootstrap path /proctoring-fe/*
 	@proctoring-realtime path /proctoring-realtime/*
-	@proctoring-auth-wait-bootstrap path /proctoring-auth-wait/*
-	@proctoring-lti1p3-gateway path /proctoring-lti1p3-gateway/*
-	@proctoring-auth-wait-api path /proctoring-auth-wait-api/*
+	@proctoring-auth-wait-bootstrap path /pr-auth-wait/*
+	@proctoring-lti1p3-gateway path /pr-lti-gateway/*
+	@proctoring-auth-wait-api path /pr-auth-wait-api/*
 
 	# handle will keep prefix
 	handle @deliver-bootstrap {
@@ -39,11 +39,11 @@
 	}
 
 	handle @proctoring-bootstrap {
-		uri strip_prefix /proctoring-fe
+		uri strip_prefix /pr-fe
 		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTEND_BOOTSTRAP_HTTP_ENDPOINT}
 	}
 
-	handle_path /proctoring-static/* {
+	handle_path /pr-fe-static/* {
 		root {$TAO_CE_DIR_OPT}/proctoring/frontend/static
 		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
 		header Access-Control-Allow-Credentials true
@@ -52,26 +52,26 @@
 	}
 
 	handle @proctoring-realtime {
-		uri strip_prefix /proctoring-realtime
+		uri strip_prefix /pr-realtime-api
 		reverse_proxy {TAO_CE_SVC_PROCTORING_REALTIMESERVICE_HTTP_ENDPOINT}
 	}
 
 	handle @proctoring-auth-wait-bootstrap {
-		uri strip_prefix /proctoring-auth-wait
+		uri strip_prefix /pr-auth-wait
 		reverse_proxy {TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_BOOTSTRAP_HTTP_ENDPOINT}
 	}
 
 	handle @proctoring-auth-wait-api {
-		uri strip_prefix /proctoring-auth-wait-api
+		uri strip_prefix /pr-auth-wait-api
 		reverse_proxy {TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_API_HTTP_ENDPOINT}
 	}
 
 	handle @proctoring-lti1p3-gateway {
-		uri strip_prefix /proctoring-lti1p3-gateway
+		uri strip_prefix /pr-lti-gateway
 		reverse_proxy {TAO_CE_SVC_PROCTORING_LTI1P3GATEWAY_HTTP_ENDPOINT}
 	}
 
-	handle_path /proctoring-auth-wait-static/* {
+	handle_path /pr-auth-wait-static/* {
 		root {$TAO_CE_DIR_OPT}/proctoring/frontend-auth-wait/static
 		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
 		header Access-Control-Allow-Credentials true

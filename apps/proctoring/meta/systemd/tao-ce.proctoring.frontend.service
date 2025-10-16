@@ -3,10 +3,12 @@
 [Service]
 Type=simple
 Environment=NODE_VERSION=22
+Environment=NODE_TLS_REJECT_UNAUTHORIZED=0
 ExecStart=/bin/sh -c "\
   cd ${TAO_CE_OPT}/proctoring/frontend/bootstrap && \
+  NODE_VERSION=22 \
   PORT=${TAO_CE_SVC_PROCTORING_FRONTEND_BOOTSTRAP_HTTP_PORT} \
-  exec /usr/local/libexec/nvm/nvm-exec node ./server.js \
+  exec /usr/local/libexec/nvm/nvm-exec node server.js \
 "
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env

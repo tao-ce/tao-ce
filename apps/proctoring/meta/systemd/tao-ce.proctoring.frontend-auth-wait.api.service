@@ -3,6 +3,7 @@
 [Service]
 Type=simple
 Environment=NODE_VERSION=22
+Environment=NODE_TLS_REJECT_UNAUTHORIZED=0
 ExecStart=/bin/sh -c "\
   cd ${TAO_CE_OPT}/proctoring/frontend-auth-wait/bootstrap && \
   PORT=${TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_API_HTTP_PORT} \
