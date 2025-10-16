@@ -231,7 +231,7 @@ function(setup)
           {
             name: 'simple.reports.customReports',
             value: {
-              active: true,
+              active: false,
               reports: {
                 group_performance: [
                   'ADMIN',
