@@ -3,6 +3,11 @@
 	@envoy-endpoints path /deliver/* /backoffice/* /pr-lti-gateway/* /ms-be/* /ss-be/* /portal-be/*
 	@portal-bootstrap path /sessions/* /api/* /portal
 	@deliver-bootstrap path /deliver-fe /deliver-fe/*
+	@proctoring-bootstrap path /proctoring-fe/*
+	@proctoring-realtime path /proctoring-realtime/*
+	@proctoring-auth-wait-bootstrap path /proctoring-auth-wait/*
+	@proctoring-lti1p3-gateway path /proctoring-lti1p3-gateway/*
+	@proctoring-auth-wait-api path /proctoring-auth-wait-api/*
 
 	# handle will keep prefix
 	handle @deliver-bootstrap {
@@ -27,6 +32,47 @@
 
 	handle_path /portal-static/* {
 		root {$TAO_CE_DIR_OPT}/portal/static
+		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
+		header Access-Control-Allow-Credentials true
+
+		file_server browse
+	}
+
+	handle @proctoring-bootstrap {
+		uri strip_prefix /proctoring-fe
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTEND_BOOTSTRAP_HTTP_ENDPOINT}
+	}
+
+	handle_path /proctoring-static/* {
+		root {$TAO_CE_DIR_OPT}/proctoring/frontend/static
+		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
+		header Access-Control-Allow-Credentials true
+
+		file_server browse
+	}
+
+	handle @proctoring-realtime {
+		uri strip_prefix /proctoring-realtime
+		reverse_proxy {TAO_CE_SVC_PROCTORING_REALTIMESERVICE_HTTP_ENDPOINT}
+	}
+
+	handle @proctoring-auth-wait-bootstrap {
+		uri strip_prefix /proctoring-auth-wait
+		reverse_proxy {TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_BOOTSTRAP_HTTP_ENDPOINT}
+	}
+
+	handle @proctoring-auth-wait-api {
+		uri strip_prefix /proctoring-auth-wait-api
+		reverse_proxy {TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_API_HTTP_ENDPOINT}
+	}
+
+	handle @proctoring-lti1p3-gateway {
+		uri strip_prefix /proctoring-lti1p3-gateway
+		reverse_proxy {TAO_CE_SVC_PROCTORING_LTI1P3GATEWAY_HTTP_ENDPOINT}
+	}
+
+	handle_path /proctoring-auth-wait-static/* {
+		root {$TAO_CE_DIR_OPT}/proctoring/frontend-auth-wait/static
 		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
 		header Access-Control-Allow-Credentials true
 

@@ -1,0 +1,15 @@
+[Unit]
+
+[Service]
+Type=simple
+Environment=NODE_VERSION=22
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/proctoring/lti13-gateway && php -S [::]:${LISTEN_PORT} -t ./public ./router.php"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/proctoring/lti13-gateway.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

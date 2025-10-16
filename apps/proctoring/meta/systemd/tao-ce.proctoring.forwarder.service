@@ -1,0 +1,17 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c "export ARCH=$(uname -m | sed 's/x86_64/amd64/' | sed 's/aarch64/arm64/')"
+ExecStartPre=/bin/sh -c "chmod +x ${TAO_CE_OPT}/proctoring/forwarder*"
+ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/proctoring.json"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/proctoring && sleep 10 && ./forwarder"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/proctoring/forwarder.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target
