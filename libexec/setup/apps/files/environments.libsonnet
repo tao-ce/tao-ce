@@ -520,7 +520,7 @@ function(setup)
           {
             name: 'readBehindEnabled',
             value: 'false',
-          },
+          }
         ],
         ltiPlatforms: [
           {
@@ -1111,19 +1111,7 @@ function(setup)
                 ],
               },
               {
-                resource: 'portal.custom-reports',
-                scopes: [
-                  'view',
-                ],
-              },
-              {
                 resource: 'portal.csv-export',
-                scopes: [
-                  'view',
-                ],
-              },
-              {
-                resource: 'portal.session-report',
                 scopes: [
                   'view',
                 ],
@@ -1165,12 +1153,6 @@ function(setup)
                 resource: 'portal.payment',
                 scopes: [
                   'create',
-                ],
-              },
-              {
-                resource: 'portal.report',
-                scopes: [
-                  'view',
                 ],
               },
             ],
