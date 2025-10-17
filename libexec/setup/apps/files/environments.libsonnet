@@ -1116,6 +1116,18 @@ function(setup)
                   'view',
                 ],
               },
+              {
+                resource: 'portal.delivery',
+                scopes: [
+                  'list',
+                ],
+              },
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                ],
+              },
             ],
           },
           {
@@ -1181,6 +1193,18 @@ function(setup)
                   'view',
                   'edit',
                   'delete',
+                ],
+              },
+              {
+                resource: 'portal.delivery',
+                scopes: [
+                  'list',
+                ],
+              },
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
                 ],
               },
             ],
