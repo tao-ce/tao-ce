@@ -6,7 +6,6 @@
 	@proctoring-bootstrap path /proctoring-fe/*
 	@proctoring-realtime path /proctoring-realtime/*
 	@proctoring-auth-wait-bootstrap path /pr-auth-wait/*
-	@proctoring-lti1p3-gateway path /pr-lti-gateway/*
 	@proctoring-auth-wait-api path /pr-auth-wait-api/*
 
 	# handle will keep prefix
@@ -64,11 +63,6 @@
 	handle @proctoring-auth-wait-api {
 		uri strip_prefix /pr-auth-wait-api
 		reverse_proxy {TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_API_HTTP_ENDPOINT}
-	}
-
-	handle @proctoring-lti1p3-gateway {
-		uri strip_prefix /pr-lti-gateway
-		reverse_proxy {TAO_CE_SVC_PROCTORING_LTI1P3GATEWAY_HTTP_ENDPOINT}
 	}
 
 	handle_path /pr-auth-wait-static/* {

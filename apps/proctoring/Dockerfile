@@ -15,9 +15,9 @@ COPY --from=src-lti13-gateway . .
 RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
-        composer install -n --classmap-authoritative --no-dev --prefer-dist; \
-        composer dump-env ce; \
-        echo '<?php return ["APP_ENV" =>"ce"];' >.env.local.php; \
+        composer install  --classmap-authoritative --prefer-dist; \
+        composer dump-env dev; \
+        echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
         find /app -type f | grep '[/][.]git.*$' | xargs rm -rf ;
