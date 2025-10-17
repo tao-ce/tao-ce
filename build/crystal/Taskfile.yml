@@ -105,6 +105,7 @@ tasks:
     aliases: [export]
     vars:
       DIR: '/opt/tao-ce/{{.APP}}'
+      IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
 
     # sources:
     #   - "{{ .BUILD_SIGNAL_FILE }}"
