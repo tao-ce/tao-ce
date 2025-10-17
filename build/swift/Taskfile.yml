@@ -3,8 +3,9 @@ version: '3'
 vars:
   GCR: europe-west1-docker.pkg.dev
   GCP_PROJECT: tao-ce
-  # REGISTRY: early-adopters
-  IMAGE: tao-ce
+  
+  INTERNAL_REGISTRY: internal
+  PUBLIC_REGISTRY: early-adopters
 
   TAO_VERSION:
     sh: echo $TAO_VERSION
@@ -21,21 +22,62 @@ vars:
   MANIFEST_TAG: "{{ .TAO_VERSION }}-{{ .CE_VERSION }}"
   IMAGE_TAG: "{{ .IMAGE_TAG }}-{{ .ARCH }}"
 
-  FULL_REGISTRY: "{{ .GCR }}/{{ .GCP_PROJECT }}/{{ .REGISTRY }}"
-  FULL_IMAGE: "{{ .FULL_REGISTRY }}/{{ .IMAGE }}"
+  FULL_REGISTRY: "{{ .GCR }}/{{ .GCP_PROJECT }}/{{ .PUBLIC_REGISTRY }}"
+  FULL_IMAGE: "{{ .FULL_REGISTRY }}/{{ .SWIFT_IMAGE }}"
 
   FULL_MANIFEST_URL: "{{ .FULL_IMAGE }}:{{ .MANIFEST_TAG }}"
   FULL_IMAGE_URL: "{{ .FULL_MANIFEST_URL }}-{{ .ARCH }}"
 
   DEV_TAG: dev-latest
-  LOCAL_IMAGE_URL: localhost/{{ .GCP_PROJECT }}/{{ .IMAGE }}:{{ .DEV_TAG }}
+  
 
   GOOGLE_TOKEN_FILE: .secrets/google_token
 
+includes:
+  monolith:
+    taskfile: ../crystal
+    dir: ../..
+    vars:
+      APP: tao-ce
+      IMAGE: '{{.LOCAL_IMAGE}}'
+      NAMESPACE: "-"
+      TARGET: monolith
+      CONTEXTS:
+        map:
+          tao-ce: "container-image://{{ .PAYLOAD_IMAGE }}:{{.DEV_TAG}}"
+
+  payload:
+    taskfile: ../crystal
+    dir: ../..
+    vars:
+      APP: tao-ce
+      NAMESPACE: payload
+      CONTEXTS:
+        ref: .APPS_CONTEXTS
+      FILE:
+        ref: .PAYLOAD_CONTAINERFILE
+      IMAGE: '{{.PAYLOAD_IMAGE}}'
+
 tasks:
-  info:
+  build:
+    desc: Build swift container {{ .LOCAL_IMAGE }} from {{ .PAYLOAD_IMAGE }}
+    deps:
+    - :builds:base:build
+    - :builds:go:build
+
     cmds:
     - pwd
+    - task: :all:build
+    - mkdir -p $(dirname {{.PAYLOAD_CONTAINERFILE}})
+    - | 
+      cat >{{.PAYLOAD_CONTAINERFILE}} <<EOCONTAINERFILE
+      FROM scratch AS export
+      {{ range .APPS | sortAlpha  -}}
+      COPY --link --from={{ . }} / /{{ . }}
+      {{ end }}
+      EOCONTAINERFILE
+    - task: payload:build
+    - task: monolith:build
 
   login:
     preconditions:

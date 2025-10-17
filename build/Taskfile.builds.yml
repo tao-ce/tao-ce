@@ -1,0 +1,19 @@
+# https://taskfile.dev
+
+version: '3'
+
+includes:
+  base:
+    taskfile: ./crystal
+    dir: ..
+    vars:
+      APP: base
+      NAMESPACE: builds
+      TARGET: "build-base"
+  go:
+    taskfile: ./crystal
+    dir: ..
+    vars:
+      APP: go
+      NAMESPACE: builds
+      TARGET: "build-go"

@@ -10,15 +10,18 @@ vars:
   CACHE_DIR: '{{.ROOT_DIR}}/.cache/build'
   ROOT_SIGNAL_DIR: '{{.CACHE_DIR}}/signals'
   REGISTRY: localhost/tao-ce
-  GCR: europe-west1-docker.pkg.dev
-  INTERNAL_REGISTRY: '{{.GCR}}/tao-ce/internal'
-  PUBLIC_REGISTRY: '{{.GCR}}/tao-ce/early-adopters'
+
+  SWIFT_IMAGE: tao-ce
+
+  LOCAL_IMAGE: "{{.REGISTRY}}/{{ .SWIFT_IMAGE}}"
+  PAYLOAD_IMAGE: "{{.REGISTRY}}/payload/{{ .SWIFT_IMAGE}}"
+
   BUILD_COMMON_FLAGS: 
     - "--ssh default"
     - "--secret type=file,id=NPM_TOKEN,src={{.ROOT_DIR}}/.secrets/npm"
   TAG: dev-latest
 
-  CODE_CONTAINERFILE: "{{ .CACHE_DIR }}/artifacts/tao-ce.code.Containerfile"
+  PAYLOAD_CONTAINERFILE: "{{ .CACHE_DIR }}/artifacts/tao-ce.payload.Containerfile"
 
   APPS_CONTEXTS:
     map:
@@ -37,287 +40,23 @@ vars:
     ref: keys .APPS_CONTEXTS
 
 includes:
-  builds:base:
-    taskfile: ./build/crystal
-    vars:
-      APP: base
-      NAMESPACE: builds
-      TARGET: "build-base"
-  builds:go:
-    taskfile: ./build/crystal
-    vars:
-      APP: go
-      NAMESPACE: builds
-      TARGET: "build-go"
+  builds:
+    taskfile: ./build/Taskfile.builds.yml
 
-  apps:construct:
-    taskfile: ./build/crystal
-    dir: apps/construct
-    vars:
-      APP: construct
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-code: './src'
-      BASES:
-        - builds/base
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-
-  apps:deliver:
-    taskfile: ./build/crystal
-    dir: apps/deliver
-    vars:
-      APP: deliver
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-backend: './src/be'
-          src-frontend: './src/fe'
-          src-sandbox: './src/sandbox'
-      BASES:
-        - builds/base
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}' 
-
-  apps:devkit:
-    taskfile: ./build/crystal
-    dir: apps/devkit
-    vars:
-      APP: devkit
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-backend: './src'
-      BASES:
-        - builds/base
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}' 
-
-  apps:datastore:
-    taskfile: ./build/crystal
-    dir: apps/datastore
-    vars:
-      APP: datastore
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-worker: './src/node'
-      BASES:
-        - builds/base
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-
-  apps:dynamic-query:
-    taskfile: ./build/crystal
-    dir: apps/dynamic-query
-    vars:
-      APP: dynamic-query
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-api: './src'
-      BASES:
-        - builds/base
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-
-
-  apps:environment-management:
-    aliases:
-      - apps:em
-    taskfile: ./build/crystal
-    dir: apps/environment-management
-    vars:
-      APP: environment-management
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-auth-server: './src/node-auth-server'
-          src-lti-gateway: './src/lti-gateway'
-          src-sidecar: './src/server'
-      BASES:
-        - builds/base
-        - builds/go
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
-
-  apps:hierarchy:
-    taskfile: ./build/crystal
-    dir: apps/hierarchy
-    vars:
-      APP: hierarchy
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-backend: './src'
-      BASES:
-        - builds/base
-        - builds/go
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
-
-  apps:portal:
-    taskfile: ./build/crystal
-    dir: apps/portal
-    vars:
-      APP: portal
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-backend: './src/backend'
-          src-frontend: './src/frontend'
-      BASES:
-        - builds/base
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-
-  apps:task-orchestrator:
-    taskfile: ./build/crystal
-    dir: apps/task-orchestrator
-    vars:
-      APP: task-orchestrator
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-backend: './src'
-      BASES:
-        - builds/base
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-
-  apps:timers:
-    taskfile: ./build/crystal
-    dir: apps/timers
-    vars:
-      APP: timers
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-backend: './src'
-      BASES:
-        - builds/base
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-
-  artifacts:code:
-    taskfile: ./build/crystal
-    vars:
-      APP: tao-ce
-      NAMESPACE: code
-      CONTEXTS:
-        ref: .APPS_CONTEXTS
-      FILE:
-        ref: .CODE_CONTAINERFILE
-      IMAGE: '{{.REGISTRY}}/code/tao-ce'
-
-  artifacts:swift:
-    taskfile: ./build/crystal
-    vars:
-      APP: tao-ce
-      NAMESPACE: "-"
-      TARGET: monolith
-      CONTEXTS:
-        map:
-          tao-ce: "container-image://{{ .REGISTRY }}/code/tao-ce:{{ .TAG }}"
-      IMAGE: '{{.REGISTRY}}/tao-ce'
-
-  artifacts:cozy:
-    taskfile: ./build/crystal
-    dir: ./build/cozy
-    vars:
-      APP: tao-ce-vm
-      NAMESPACE: "-"
-      TARGET: vm
-      SUDO: sudo -E
-      CONTEXTS:
-        map:
-          secrets: ../../.secrets
-      ARGS:
-        map:
-          FEDORA_IMAGE: quay.io/fedora-ostree-desktops/kinoite
-      IMAGE: '{{.REGISTRY}}/tao-ce-vm'
+  apps:
+    taskfile: ./apps/Taskfile.yml
 
   swift:
     taskfile: ./build/swift
 
   cozy:
     taskfile: ./build/cozy
-      
+
+  utils:
+    taskfile: ./build/utils
+    flatten: true
+
 tasks:
-  _log:
-    internal: true
-    silent: true
-    ignore_error: true
-    run: always
-    cmd: |
-      logger --journald <<EOF
-      MESSAGE={{.MESSAGE}}
-      APP={{.APP | default ""}}
-      TIER={{.TIER| default "@task"}}
-      EOF
-
-  code:build:
-    deps:
-    - builds:base:build
-    - builds:go:build
-
-    cmds:
-    - task: all:build
-    - mkdir -p $(dirname {{.CODE_CONTAINERFILE}})
-    - | 
-      cat >{{.CODE_CONTAINERFILE}} <<EOCONTAINERFILE
-      FROM scratch AS export
-      {{ range .APPS | sortAlpha  -}}
-      COPY --link --from={{ . }} / /{{ . }}
-      {{ end }}
-      EOCONTAINERFILE
-    - task: artifacts:code:build
-
-  gcloud:setup:
-    vars:
-      GCLOUDCLI_URL_ARCHS:
-        map:
-          arm64: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-arm.tar.gz
-          amd64: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
-
-      GCLOUDCLI_URL: '{{index .GCLOUDCLI_URL_ARCHS ARCH}}'
-    cmds:
-    - |
-      curl -o- {{.GCLOUDCLI_URL}} | sudo tar xz -C /usr/local/share/ google-cloud-sdk
-      sudo ln -fs /usr/local/share/google-cloud-sdk/bin/gsutil /usr/local/bin/gsutil
-      sudo ln -fs /usr/local/share/google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
-
-  registry:auth:
-    cmds:
-    - |
-      cat .secrets/google_token \
-        | podman login \
-          -u oauth2accesstoken \
-          --password-stdin \
-            https://{{.GCR}}
-
-  cozy:build:
-    cmds:
-    - task: artifacts:cozy:build
-
-  swift:build:
-    deps: [artifacts:code:build]
-    cmds:
-    - task: artifacts:swift:build
-  
   all:clean-start:
     run: once
     cmds:
@@ -363,6 +102,7 @@ tasks:
     - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/start/*
 
   dev:down:
+    desc: stop all tao-ce services and clean /opt/tao-ce 
     ignore_error: true
     prompt:
     - This task will wipe all code from devcontainer, do you want to continue?
@@ -375,6 +115,7 @@ tasks:
     - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/start
 
   dev:setup:
+    desc: restart core services
     method: none
     sources:
       - ./etc/tao-ce
@@ -390,6 +131,7 @@ tasks:
     - sudo systemctl restart tao-ce.static.service
 
   dev:sync:etc:
+    desc: copy etc config files
     method: none
     sources:
     - ./etc/**
@@ -399,6 +141,7 @@ tasks:
     - sudo cp -va ./build/crystal/etc/* /etc/
 
   dev:sync:libexec:
+    desc: copy libexec files
     method: none
     sources:
     - ./libexec/**
@@ -407,6 +150,7 @@ tasks:
     - sudo cp -va ./libexec/* /usr/local/libexec/tao-ce/
 
   dev:logdy:
+    desc: refresh config and start logdy
     sources:
       - ./build/crystal/etc/logdy.config.json
       - ./build/crystal/etc/systemd/system/logdy.service
@@ -417,6 +161,7 @@ tasks:
       - sudo systemctl restart logdy.service
 
   dev:init:
+    desc: initialize dev environment
     method: none
     cmds:
     - task: dev:logdy
@@ -451,6 +196,5 @@ tasks:
     cmds:
     - buildah prune -af
     - buildah rm -a
-    - podman image prune -af
-    - podman system prune -af --volumes --build
-    - rm -rf {{.ROOT_SIGNAL_DIR}}
+    - podman system reset -f
+    - rm -rf {{.ROOT_SIGNAL_DIR}} .task .cache

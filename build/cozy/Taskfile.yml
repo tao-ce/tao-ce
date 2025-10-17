@@ -2,7 +2,41 @@ version: '3'
 
 method: checksum
 
+includes:
+  artifacts:cozy:
+    taskfile: ../crystal
+    dir: .
+    vars:
+      APP: tao-ce-vm
+      NAMESPACE: "-"
+      TARGET: vm
+      SUDO: sudo -E
+      CONTEXTS:
+        map:
+          secrets: ../../.secrets
+      ARGS:
+        map:
+          FEDORA_IMAGE: quay.io/fedora-ostree-desktops/kinoite
+      IMAGE: 'localhost/tao-ce/tao-ce-vm'
+
+  utils:
+    taskfile: ../utils
+    dir: ../..
+
 tasks:
+  build:
+    deps:
+    - task: artifacts:cozy:build
+    cmds:
+    - task: build:bootc
+    - task: build:vmdk
+    - task: build:ova
+  
+  push:
+    cmds:
+    - task: utils:gcloud:setup
+    - task: push:ova
+
   build:bootc:
     set:
       - pipefail
