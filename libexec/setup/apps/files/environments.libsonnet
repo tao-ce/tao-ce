@@ -1052,6 +1052,10 @@ function(setup)
                   'view',
                 ],
               },
+              {
+                resource: 'portal.delivery',
+                scopes: ['create', 'view', 'edit', 'delete', 'list'],
+              },
             ],
           },
           {
