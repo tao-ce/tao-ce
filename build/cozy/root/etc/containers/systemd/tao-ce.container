@@ -14,7 +14,7 @@ PublishPort=443:443
 IP=10.247.40.73
 Network=deps.network
 Volume=/var/lib/tao-ce/data:/var/lib/tao-ce:z,U
-Volume=/etc/tao-ce/config:/etc/tao-ce/config:z,U
+Volume=/etc/tao-ce/config/tao.yaml:/etc/tao-ce/config/tao.yaml:z,U
 PodmanArgs=--privileged --authfile=/etc/tao-ce/auth/registry.json
 
 [Service]
