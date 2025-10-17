@@ -1105,6 +1105,7 @@ function(setup)
                   'grade',
                   'review-grade',
                   'reopen-grade',
+                  'preview'
                 ],
               },
               {
@@ -1123,6 +1124,7 @@ function(setup)
               {
                 resource: 'portal.delivery',
                 scopes: [
+                  'view',
                   'list',
                 ],
               },
@@ -1143,6 +1145,7 @@ function(setup)
                 scopes: [
                   'view',
                   'grade',
+                  'preview'
                 ],
               },
             ],
@@ -1182,6 +1185,7 @@ function(setup)
                 scopes: [
                   'view',
                   'review-grade',
+                  'preview'
                 ],
               },
             ],
