@@ -69,7 +69,7 @@ function(setup)
                 ELASTICSEARCH_HOST: setup.dependencies.es.address.host,
                 ELASTICSEARCH_PORT: '' + setup.dependencies.es.address.port,
                 ELASTICSEARCH_API_KEY: '',
-                DOCUMENT_MANAGER_TABLE_NAME_ASSESSMENT: 'pr-acs',
+                DOCUMENT_MANAGER_TABLE_NAME_ASSESSMENT: 'lti1p3-gateway-acs',
                 TENANT_ID_PREFIX: '1',
                 GOOGLE_APPLICATION_CREDENTIALS: '%s/proctoring/key.json' % setup.dirs.files,
                 BIGTABLE_PROJECT_ID: 'dev',
