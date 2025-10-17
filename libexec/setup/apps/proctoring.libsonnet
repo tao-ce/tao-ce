@@ -48,7 +48,7 @@ function(setup)
                 // AUTOMATIC_AUTHORIZATION: '',
                 OAUTH2_PUBLIC_KEY_PATH: '%s/proctoring/public.key' % setup.dirs.files,
                 OAUTH2_PRIVATE_KEY_PATH: '%s/proctoring/private.key' % setup.dirs.files,
-                OAUTH2_PRIVATE_KEY_PASS_PHRASE: '',
+                OAUTH2_PRIVATE_KEY_PASS_PHRASE: '123456',
                 PROCTORING_FRONTEND_URL: 'https://%(publicDomain)s/pr-fe' % setup,
                 PROCTORING_AUTHORIZATION_AWAITING_URL: 'https://%(publicDomain)s/pr-auth-wait' % setup,
                 MESSENGER_ASSESSMENT_STATUS_DSN: dsn('interactions') + '&subscription[pull][maxMessages]=10',
@@ -93,6 +93,9 @@ function(setup)
         },
         files: {
             'key.json': importstr './keys/proctoring/fake_gcp_key.json',
+            'private.key': importstr './keys/proctoring/private.key',
+            'public.key': importstr './keys/proctoring/public.key',
+            'lti1p3.yaml': std.manifestYamlDoc((import './files/proctoring-lti1p3.libsonnet')(setup), quote_keys=false),
         },
         pubsub: [
             { topic: 'test-ps-topic', subscription: 'test-ps-sub' },

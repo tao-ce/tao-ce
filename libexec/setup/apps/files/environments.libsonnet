@@ -61,7 +61,7 @@ function(setup)
                     },
                     {
                         name: 'proctoring.registration_id',
-                        value: 'deliver--proctoring',
+                        value: 'deliver__proctoring',
                     },
                     {
                         name: 'proctoring.external_providers',
@@ -566,6 +566,21 @@ function(setup)
                 ],
                 ltiRegistrations: [
                     {
+                        id: 'deliver__proctoring',
+                        clientId: 'deliver-proctoring-client-id',
+                        tenantId: '1',
+                        clientSecret: 'secret',
+                        platformId: 'portal-platform',
+                        toolId: 'proctoring-tool',
+                        platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
+                        toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
+                        platformKeyChain: {
+                        },
+                        toolKeyChain: {
+                        },
+                        deploymentIds: ['1'],
+                    },
+                    {
                         clientId: 'devkit-deliver-be-#tenantId#',
                         deploymentIds: [
                             'deploymentId',
@@ -767,14 +782,15 @@ function(setup)
                         name: 'MS LTI Tool',
                         oidcInitiationUrl: 'https://%s/auth-server/lti1p3/oidc/initiation' % [setup.publicDomain],
                     },
+
                     {
-                        audience: 'https://%s/pr-lti-gateway' % [setup.publicDomain],
-                        deepLinkingUrl: '',
                         id: 'proctoring-tool',
-                        isInternal: true,
-                        launchUrl: 'https://%s/pr-lti-gateway/api/v1/actions/proctoring/start' % [setup.publicDomain],
                         name: 'Proctoring tool',
+                        audience: 'https://%s/pr-lti-gateway' % [setup.publicDomain],
                         oidcInitiationUrl: 'https://%s/auth-server/lti1p3/oidc/initiation' % [setup.publicDomain],
+                        launchUrl: 'https://%s/pr-lti-gateway/api/v1/actions/proctoring/start' % [setup.publicDomain],
+                        deepLinkingUrl: '',
+                        isInternal: true,
                     },
                     {
                         audience: 'https://%s/backoffice' % [setup.publicDomain],
