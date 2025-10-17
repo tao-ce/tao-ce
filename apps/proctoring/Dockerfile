@@ -15,7 +15,7 @@ COPY --from=src-lti13-gateway . .
 RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
-        composer install  --classmap-authoritative --prefer-dist; \
+        composer install -n --classmap-authoritative --no-dev --prefer-dist; \
         composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \
@@ -179,6 +179,7 @@ COPY --link --from=build-frontend-bootstrap  \
 COPY --link --from=build-lti1p3-gateway     \
     /app /lti1p3-gateway
 COPY ./router.php /lti1p3-gateway/router.php
+COPY ./router.php /lti1p3-gateway/public/router.php
 
 COPY --link --from=build-realtime-service     \
     /app /realtime-service
