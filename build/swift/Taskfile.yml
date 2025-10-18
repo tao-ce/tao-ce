@@ -26,6 +26,7 @@ vars:
   FULL_IMAGE: "{{ .FULL_REGISTRY }}/{{ .SWIFT_IMAGE }}"
 
   FULL_MANIFEST_URL: "{{ .FULL_IMAGE }}:{{ .MANIFEST_TAG }}"
+  LOCAL_IMAGE_URL: "{{ .LOCAL_IMAGE }}:{{ .DEV_TAG }}"
   FULL_IMAGE_URL: "{{ .FULL_MANIFEST_URL }}-{{ .ARCH }}"
 
   DEV_TAG: dev-latest
