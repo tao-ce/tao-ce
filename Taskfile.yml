@@ -13,7 +13,7 @@ vars:
   GCR: europe-west1-docker.pkg.dev
   INTERNAL_REGISTRY: '{{.GCR}}/tao-ce/internal'
   PUBLIC_REGISTRY: '{{.GCR}}/tao-ce/early-adopters'
-  BUILD_COMMON_FLAGS: 
+  BUILD_COMMON_FLAGS:
     - "--ssh default"
     - "--secret type=file,id=NPM_TOKEN,src={{.ROOT_DIR}}/.secrets/npm"
   TAG: dev-latest
@@ -32,6 +32,7 @@ vars:
       task-orchestrator: "container-image://{{ .REGISTRY }}/apps/task-orchestrator:{{ .TAG }}"
       portal: "container-image://{{ .REGISTRY }}/apps/portal:{{ .TAG }}"
       timers: "container-image://{{ .REGISTRY }}/apps/timers:{{ .TAG }}"
+      proctoring: "container-image://{{ .REGISTRY }}/apps/proctoring:{{ .TAG }}"
 
   APPS:
     ref: keys .APPS_CONTEXTS
@@ -181,6 +182,30 @@ includes:
       ARGS:
         map:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  apps:proctoring:
+    taskfile: ./build/crystal
+    dir: apps/proctoring
+    vars:
+      APP: proctoring
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-forwarder: './src/apps/forwarder'
+          src-frontend-auth-wait: './src/apps/frontend-auth-wait'
+          src-frontend: './src/apps/frontend'
+          src-lti13-gateway: './src/apps/lti13-gateway'
+          src-realtime-service: './src/apps/realtime-service'
+          src-go-shared: './src/apps/go-shared'
+          src-protobuf: './src/apps/protobuf'
+          src-apps: './src/apps/'
+      BASES:
+        - builds/base
+        - builds/go
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
 
   apps:task-orchestrator:
     taskfile: ./build/crystal

@@ -520,7 +520,7 @@ function(setup)
           {
             name: 'readBehindEnabled',
             value: 'false',
-          }
+          },
         ],
         ltiPlatforms: [
           {
@@ -560,7 +560,7 @@ function(setup)
             id: 'portal-platform',
             isInternal: true,
             name: 'Portal LTI platform',
-            oauth2AccessTokenUrl: 'http://foo.bar',
+            oauth2AccessTokenUrl: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
             oidcAuthenticationUrl: 'http://foo.bar',
           },
         ],
