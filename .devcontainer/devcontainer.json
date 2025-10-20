@@ -6,7 +6,15 @@
 
     "service": "dev",
     "remoteUser": "vscode",
-    "remoteEnv": {},
+    "remoteEnv": {
+	    "SSH_AUTH_SOCK": "${env:SSH_AUTH_SOCK}",
+	    "DISPLAY": "${localEnv:DISPLAY}",
+	    "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}"
+    },
+    "mounts": [
+	    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+	    "source=${env:SSH_AUTH_SOCK},target=${env:SSH_AUTH_SOCK},type=bind",
+    ],
     "workspaceFolder": "/workspace",
 
     "onCreateCommand": "build/crystal/create.sh",
