@@ -61,7 +61,7 @@ function(setup)
                     },
                     {
                         name: 'proctoring.registration_id',
-                        value: 'deliver__proctoring',
+                        value: 'deliver--proctoring',
                     },
                     {
                         name: 'proctoring.external_providers',

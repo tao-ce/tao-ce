@@ -73,8 +73,11 @@ function(setup)
                 TENANT_ID_PREFIX: '1',
                 GOOGLE_APPLICATION_CREDENTIALS: '%s/proctoring/key.json' % setup.dirs.files,
                 BIGTABLE_PROJECT_ID: 'dev',
-                DELIVER_URL: 'https://%(publicDomain)s/deliver' % setup,
-                EM_AUTH_SERVER_GRPC_GATEWAY_HOST: setup.apps['environment-management'].auth_server.gw.baseUrl,
+                DELIVER_URL: setup.apps.deliver.backend.http.url,
+                EM_AUTH_SERVER_GRPC_GATEWAY_HOST: setup.apps['environment-management'].auth_server.gw.url,
+                XDEBUG_MODE: 'debug',
+                XDEBUG_CONFIG: 'log_level=0 idekey=proctoring-lti1p3-gateway client_host=%(publicDomain)s' % setup,
+                XDEBUG_TRIGGER: '1',
             },
             'realtime-service': {
                 LOG_LEVEL: 'trace',
@@ -95,7 +98,6 @@ function(setup)
             'key.json': importstr './keys/proctoring/fake_gcp_key.json',
             'private.key': importstr './keys/proctoring/private.key',
             'public.key': importstr './keys/proctoring/public.key',
-            'lti1p3.yaml': std.manifestYamlDoc((import './files/proctoring-lti1p3.libsonnet')(setup), quote_keys=false),
         },
         pubsub: [
             { topic: 'test-ps-topic', subscription: 'test-ps-sub' },
