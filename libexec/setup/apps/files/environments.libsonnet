@@ -451,7 +451,7 @@ function(setup)
                     },
                     {
                         name: 'monitoringEnabled',
-                        value: 'true',
+                        value: 'false',
                     },
                     {
                         name: 'MINIMAL_UI_TEST_TAKER',
@@ -566,7 +566,7 @@ function(setup)
                 ],
                 ltiRegistrations: [
                     {
-                        id: 'deliver__proctoring',
+                        id: 'deliver--proctoring',
                         clientId: 'deliver-proctoring-client-id',
                         tenantId: '1',
                         clientSecret: 'secret',

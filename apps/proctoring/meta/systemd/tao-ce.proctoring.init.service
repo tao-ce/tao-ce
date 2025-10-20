@@ -4,7 +4,6 @@ After=tao-ce.setup.service
 
 [Service]
 Type=oneshot
-ExecStartPre=/bin/sh -c "cp ${TAO_CE_DIR_SETUP}/config/proctoring/lti1p3.yaml ${TAO_CE_DIR_OPT}/proctoring/lti1p3-gateway/config/packages"
 ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/proctoring.json"
 ExecStartPre=bash -c "mkdir -p ${TAO_CE_DIR_VARLIB}/proctoring/"
 ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/lti1p3-gateway-acs"
