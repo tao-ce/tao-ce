@@ -556,30 +556,15 @@ function(setup)
                         oidcAuthenticationUrl: 'https://%s/ms-be/lti1p3/oidc/authentication' % [setup.publicDomain],
                     },
                     {
-                        id: 'portal-platform',
-                        name: 'Portal LTI platform',
                         audience: 'https://%s/portal-be' % [setup.publicDomain],
+                        id: 'portal-platform',
+                        isInternal: true,
+                        name: 'Portal LTI platform',
                         oauth2AccessTokenUrl: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
                         oidcAuthenticationUrl: 'http://foo.bar',
-                        isInternal: true,
                     },
                 ],
                 ltiRegistrations: [
-                    {
-                        id: 'deliver--proctoring',
-                        clientId: 'deliver-proctoring-client-id',
-                        tenantId: '1',
-                        clientSecret: 'secret',
-                        platformId: 'portal-platform',
-                        toolId: 'proctoring-tool',
-                        platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
-                        toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
-                        platformKeyChain: {
-                        },
-                        toolKeyChain: {
-                        },
-                        deploymentIds: ['1'],
-                    },
                     {
                         clientId: 'devkit-deliver-be-#tenantId#',
                         deploymentIds: [
@@ -782,15 +767,14 @@ function(setup)
                         name: 'MS LTI Tool',
                         oidcInitiationUrl: 'https://%s/auth-server/lti1p3/oidc/initiation' % [setup.publicDomain],
                     },
-
                     {
-                        id: 'proctoring-tool',
-                        name: 'Proctoring tool',
                         audience: 'https://%s/pr-lti-gateway' % [setup.publicDomain],
-                        oidcInitiationUrl: 'https://%s/auth-server/lti1p3/oidc/initiation' % [setup.publicDomain],
-                        launchUrl: 'https://%s/pr-lti-gateway/api/v1/actions/proctoring/start' % [setup.publicDomain],
                         deepLinkingUrl: '',
+                        id: 'proctoring-tool',
                         isInternal: true,
+                        launchUrl: 'https://%s/pr-lti-gateway/api/v1/actions/proctoring/start' % [setup.publicDomain],
+                        name: 'Proctoring tool',
+                        oidcInitiationUrl: 'https://%s/auth-server/lti1p3/oidc/initiation' % [setup.publicDomain],
                     },
                     {
                         audience: 'https://%s/backoffice' % [setup.publicDomain],
@@ -1127,19 +1111,7 @@ function(setup)
                                 ],
                             },
                             {
-                                resource: 'portal.custom-reports',
-                                scopes: [
-                                    'view',
-                                ],
-                            },
-                            {
                                 resource: 'portal.csv-export',
-                                scopes: [
-                                    'view',
-                                ],
-                            },
-                            {
-                                resource: 'portal.session-report',
                                 scopes: [
                                     'view',
                                 ],
@@ -1181,12 +1153,6 @@ function(setup)
                                 resource: 'portal.payment',
                                 scopes: [
                                     'create',
-                                ],
-                            },
-                            {
-                                resource: 'portal.report',
-                                scopes: [
-                                    'view',
                                 ],
                             },
                         ],
