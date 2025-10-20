@@ -2,106 +2,106 @@ local lib = import './lib.libsonnet';
 local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p, prefix: '' });
 
 {
-    'environment-management': {
-        auth_server: {
-            http: localAddress(21100),  // auth-server:8080
-            gw: localAddress(21101),  //auth-server:8888
-            grpc: localAddress(21102),  //auth-server:1888
-        },
-        lti_gateway: {
-            http: localAddress(21103),  //lti-gw:80
-        },
-        envoy: {
-            http: localAddress(21104),  //envoy:80
-        },
-        sidecar: {
-            http: localAddress(21105),  //sidecar:8080
-            grpc: localAddress(21106),  //sidecar:18084
-        },
+  'environment-management': {
+    auth_server: {
+      http: localAddress(21100),  // auth-server:8080
+      gw: localAddress(21101),  //auth-server:8888
+      grpc: localAddress(21102),  //auth-server:1888
     },
-    portal: {
-        backend: {
-            http: localAddress(21200),  //portal-be:3000
-        },
-        bootstrap: {
-            http: localAddress(21201),  //portal-bootstrap:3000
-        },
-        static: {
-            http: localAddress(21202),  //portal-static:8080
-        },
+    lti_gateway: {
+      http: localAddress(21103),  //lti-gw:80
     },
-    hierarchy: {
-        backend: {
-            http: localAddress(21900),  //hierarchy-be:3001
-        },
+    envoy: {
+      http: localAddress(21104),  //envoy:80
     },
-    deliver: {
-        backend: {
-            http: localAddress(21300),  //deliver-be:80
-        },
-        bootstrap: {
-            http: localAddress(21301),  //deliver-bootstrap:3000
-        },
-        static: {
-            http: localAddress(21302),  //deliver-static:8080
-        },
-        sandbox: {
-            http: localAddress(21303),  //deliver-sandbox:3000
-        },
+    sidecar: {
+      http: localAddress(21105),  //sidecar:8080
+      grpc: localAddress(21106),  //sidecar:18084
     },
-    construct: {
-        backend: {
-            http: localAddress(21304),  //construct:8080
-        },
+  },
+  portal: {
+    backend: {
+      http: localAddress(21200),  //portal-be:3000
     },
-    devkit: {
-        backend: {
-            http: localAddress(21305),  //devkit:80
-        },
+    bootstrap: {
+      http: localAddress(21201),  //portal-bootstrap:3000
     },
-    dynamic_query: {
-        api: {
-            http: localAddress(21901),  //dynamic-query-api:3000
-        },
+    static: {
+      http: localAddress(21202),  //portal-static:8080
     },
-    task_orchestrator: {
-        backend: {
-            http: localAddress(21902),  //task-orchestrator:8080
-            socket: localAddress(21903),  //task-orchestrator:3000
-        },
+  },
+  hierarchy: {
+    backend: {
+      http: localAddress(21900),  //hierarchy-be:3001
     },
-    timers: {
-        backend: {
-            http: localAddress(21904),  //timers:8080
-            socket: localAddress(21905),  //timers:3000
-        },
+  },
+  deliver: {
+    backend: {
+      http: localAddress(21300),  //deliver-be:80
     },
-    proctoring: {
-        frontendAuthWait: {
-            bootstrap: {
-                http: localAddress(21906),  //pr-fe-auth-wait:3000
-            },
-            static: {
-                http: localAddress(21907),  //pr-fe-auth-wait-static:8080
-            },
-            api: {
-                http: localAddress(21908),  //pr-fe-auth-wait-static:8080
-            },
-        },
-        frontend: {
-            bootstrap: {
-                http: localAddress(21909),  //pr-fe:3000
-            },
-            static: {
-                http: localAddress(21910),  //pr-fe-static:8080
-            },
-        },
-        lti1p3Gateway: {
-            http: localAddress(21911),  //pr-lti-gateway:8080
-        },
-        realtimeService: {
-            http: localAddress(21912),  //pr-realtime-api:8080
-            socket: localAddress(21913),  //pr-realtime-api:3000
-        },
+    bootstrap: {
+      http: localAddress(21301),  //deliver-bootstrap:3000
     },
+    static: {
+      http: localAddress(21302),  //deliver-static:8080
+    },
+    sandbox: {
+      http: localAddress(21303),  //deliver-sandbox:3000
+    },
+  },
+  construct: {
+    backend: {
+      http: localAddress(21304),  //construct:8080
+    },
+  },
+  devkit: {
+    backend: {
+      http: localAddress(21305),  //devkit:80
+    },
+  },
+  dynamic_query: {
+    api: {
+      http: localAddress(21901),  //dynamic-query-api:3000
+    },
+  },
+  task_orchestrator: {
+    backend: {
+      http: localAddress(21902),  //task-orchestrator:8080
+      socket: localAddress(21903),  //task-orchestrator:3000
+    },
+  },
+  timers: {
+    backend: {
+      http: localAddress(21904),  //timers:8080
+      socket: localAddress(21905),  //timers:3000
+    },
+  },
+  proctoring: {
+    frontendAuthWait: {
+      bootstrap: {
+        http: localAddress(21906),  //pr-fe-auth-wait:3000
+      },
+      static: {
+        http: localAddress(21907),  //pr-fe-auth-wait-static:8080
+      },
+      api: {
+        http: localAddress(21908),  //pr-fe-auth-wait-static:8080
+      },
+    },
+    frontend: {
+      bootstrap: {
+        http: localAddress(21909),  //pr-fe:3000
+      },
+      static: {
+        http: localAddress(21910),  //pr-fe-static:8080
+      },
+    },
+    lti1p3Gateway: {
+      http: localAddress(21911),  //pr-lti-gateway:8080
+    },
+    realtimeService: {
+      http: localAddress(21912),  //pr-realtime-api:8080
+      socket: localAddress(21913),  //pr-realtime-api:3000
+    },
+  },
 }
