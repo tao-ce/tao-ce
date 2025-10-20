@@ -4,7 +4,7 @@ function(setup)
       backend: {
         ADMIN_CLIENT_SECRET: 'secret',
         AUTH_SERVER_API_URL: setup.apps['environment-management'].auth_server.http.url,
-        DEBUG: 'true',
+        DEBUG: 'false',
         DYNAMIC_API_URL: setup.apps.dynamic_query.api.http.url,
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         EMAIL_SUBSCRIPTION_PORTAL_DOMAIN: setup.publicDomain,

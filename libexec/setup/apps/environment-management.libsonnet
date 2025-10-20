@@ -17,7 +17,7 @@ function(setup)
         APP_PUBLIC_KEY_PATH: '%s/em/public.pem' % setup.dirs.files,
         CC_USER_DATA_PRELOADER_SOURCE_PATH: '/app/preload-data/',
         CORS_ALLOW_ORIGIN: '*',
-        DEBUG: 'true',
+        DEBUG: 'false',
         ELASTICSEARCH_PREFIX: '',
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         EM_FIRESTORE_COLLECTION: 'oat-dev',
@@ -48,7 +48,7 @@ function(setup)
       'lti-gateway': {
         APP_ENV: 'dev',
         APP_SECRET: '5c796f2ca45012243a63d55d9f78771d',
-        DEBUG: 'true',
+        DEBUG: 'false',
         EM_AUTH_SERVER_GRPC_GATEWAY_HOST: setup.apps['environment-management'].auth_server.gw.baseUrl,
         EM_SIDECAR_HOST: setup.apps['environment-management'].auth_server.grpc.host,
         EM_SIDECAR_PORT: setup.apps['environment-management'].auth_server.grpc.port,
