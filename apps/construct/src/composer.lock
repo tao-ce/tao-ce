@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "808fd064e22800b41d81d122fc408664",
+    "content-hash": "d73ff9595a36c76aa3841eedfef8dab0",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -4086,100 +4086,6 @@
             "time": "2025-07-08T12:35:39+00:00"
         },
         {
-            "name": "oat-sa/extension-tao-community",
-            "version": "v11.1.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/oat-sa/extension-tao-community.git",
-                "reference": "c515bbecf89fb627633a56f4d0ff8563be142903"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/extension-tao-community/zipball/c515bbecf89fb627633a56f4d0ff8563be142903",
-                "reference": "c515bbecf89fb627633a56f4d0ff8563be142903",
-                "shasum": ""
-            },
-            "require": {
-                "oat-sa/extension-tao-backoffice": ">=6.13.0",
-                "oat-sa/extension-tao-delivery-rdf": ">=14.20.0",
-                "oat-sa/extension-tao-funcacl": ">=7.0.0",
-                "oat-sa/extension-tao-group": ">=7.0.0",
-                "oat-sa/extension-tao-item": ">=11.0.0",
-                "oat-sa/extension-tao-itemqti": ">=27.0.0",
-                "oat-sa/extension-tao-itemqti-pci": ">=7.0.0",
-                "oat-sa/extension-tao-outcomerds": ">=8.0.0",
-                "oat-sa/extension-tao-outcomeui": ">=10.0.0",
-                "oat-sa/extension-tao-test": ">=15.0.0",
-                "oat-sa/extension-tao-testqti": ">=41.0.0",
-                "oat-sa/extension-tao-testqti-previewer": ">=3.0.0",
-                "oat-sa/extension-tao-testtaker": ">=8.0.0",
-                "oat-sa/generis": ">=15.22",
-                "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-                "oat-sa/tao-core": ">=54.10.0"
-            },
-            "type": "tao-extension",
-            "extra": {
-                "tao-extension-name": "taoCe"
-            },
-            "autoload": {
-                "psr-4": {
-                    "oat\\taoCe\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "Open Assessment Technologies S.A.",
-                    "homepage": "http://www.taotesting.com"
-                },
-                {
-                    "name": "Jérôme Bogaerts",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Joel Bout",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Bertrand Chevrier",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Lionel Lecaque",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Patrick Plichart",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Dieter Raber",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Somsack Sipasseuth",
-                    "role": "Developer"
-                }
-            ],
-            "description": "extension that gather community tools in TAO",
-            "homepage": "http://www.taotesting.com",
-            "keywords": [
-                "OAT",
-                "QTI",
-                "TAO",
-                "computer-based-assessment"
-            ],
-            "support": {
-                "forum": "http://forum.taotesting.com",
-                "issues": "http://forge.taotesting.com",
-                "source": "https://github.com/oat-sa/extension-tao-community/tree/v11.1.4"
-            },
-            "time": "2025-04-17T16:46:19+00:00"
-        },
-        {
             "name": "oat-sa/extension-tao-dac-simple",
             "version": "v8.1.3",
             "source": {
@@ -5350,59 +5256,6 @@
                 "source": "https://github.com/oat-sa/extension-tao-outcome/tree/v13.8.4"
             },
             "time": "2025-04-17T19:34:01+00:00"
-        },
-        {
-            "name": "oat-sa/extension-tao-outcomerds",
-            "version": "v8.4.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/oat-sa/extension-tao-outcomerds.git",
-                "reference": "6c246b7d0a37bb62b23270fdc4b1849062f1fc1b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/extension-tao-outcomerds/zipball/6c246b7d0a37bb62b23270fdc4b1849062f1fc1b",
-                "reference": "6c246b7d0a37bb62b23270fdc4b1849062f1fc1b",
-                "shasum": ""
-            },
-            "require": {
-                "oat-sa/extension-tao-outcome": ">=13.0.0",
-                "oat-sa/generis": ">=15.22",
-                "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
-                "oat-sa/tao-core": ">=50.24.6"
-            },
-            "require-dev": {
-                "oat-sa/extension-tao-delivery": ">=15.10.0"
-            },
-            "type": "tao-extension",
-            "extra": {
-                "tao-extension-name": "taoOutcomeRds"
-            },
-            "autoload": {
-                "psr-4": {
-                    "oat\\taoOutcomeRds\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-only"
-            ],
-            "authors": [
-                {
-                    "name": "Open Assessment Technologies SA"
-                }
-            ],
-            "description": "extension that allows outcome storage in relational database",
-            "homepage": "http://www.taotesting.com",
-            "keywords": [
-                "TAO",
-                "computer-based-assessment"
-            ],
-            "support": {
-                "issues": "https://github.com/oat-sa/extension-tao-outcomerds/issues",
-                "source": "https://github.com/oat-sa/extension-tao-outcomerds/tree/v8.4.4"
-            },
-            "time": "2025-04-17T19:30:18+00:00"
         },
         {
             "name": "oat-sa/extension-tao-outcomeui",
