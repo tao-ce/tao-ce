@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d73ff9595a36c76aa3841eedfef8dab0",
+    "content-hash": "c6d3cc0c96433be23a0f6e63dbd92b99",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -5256,6 +5256,59 @@
                 "source": "https://github.com/oat-sa/extension-tao-outcome/tree/v13.8.4"
             },
             "time": "2025-04-17T19:34:01+00:00"
+        },
+        {
+            "name": "oat-sa/extension-tao-outcomerds",
+            "version": "v8.4.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oat-sa/extension-tao-outcomerds.git",
+                "reference": "6c246b7d0a37bb62b23270fdc4b1849062f1fc1b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oat-sa/extension-tao-outcomerds/zipball/6c246b7d0a37bb62b23270fdc4b1849062f1fc1b",
+                "reference": "6c246b7d0a37bb62b23270fdc4b1849062f1fc1b",
+                "shasum": ""
+            },
+            "require": {
+                "oat-sa/extension-tao-outcome": ">=13.0.0",
+                "oat-sa/generis": ">=15.22",
+                "oat-sa/oatbox-extension-installer": "~1.1||dev-master",
+                "oat-sa/tao-core": ">=50.24.6"
+            },
+            "require-dev": {
+                "oat-sa/extension-tao-delivery": ">=15.10.0"
+            },
+            "type": "tao-extension",
+            "extra": {
+                "tao-extension-name": "taoOutcomeRds"
+            },
+            "autoload": {
+                "psr-4": {
+                    "oat\\taoOutcomeRds\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-only"
+            ],
+            "authors": [
+                {
+                    "name": "Open Assessment Technologies SA"
+                }
+            ],
+            "description": "extension that allows outcome storage in relational database",
+            "homepage": "http://www.taotesting.com",
+            "keywords": [
+                "TAO",
+                "computer-based-assessment"
+            ],
+            "support": {
+                "issues": "https://github.com/oat-sa/extension-tao-outcomerds/issues",
+                "source": "https://github.com/oat-sa/extension-tao-outcomerds/tree/v8.4.4"
+            },
+            "time": "2025-04-17T19:30:18+00:00"
         },
         {
             "name": "oat-sa/extension-tao-outcomeui",

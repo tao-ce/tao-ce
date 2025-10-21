@@ -53,6 +53,9 @@
   "homepage": "http://www.taotesting.com",
   "prefer-stable": true,
   "require": {
+    "oat-sa/oatbox-extension-installer": "*",
+		"oat-sa/extension-tao-outcomerds" : "*",
+		"oat-sa/extension-tao-outcomeui" : "*",
     "oat-sa/generis": "16.1.2",
     "oat-sa/tao-core": "54.42.4",
     "oat-sa/extension-tao-funcacl": "7.4.8",
