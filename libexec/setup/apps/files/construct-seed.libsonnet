@@ -5,12 +5,10 @@ function(setup)
     },
     extensions: [
       'tao',
-      'taoCe',
       'ltiTestReview',
       'taoLti',
       'taoLtiConsumer',
       'taoDeliverConnect',
-      'taoBackOffice',
       'taoTaskQueue',
       'taoMediaManager',
       'taoTestPreviewUILoader',
@@ -104,15 +102,6 @@ function(setup)
                 }],
               },
             },
-          },
-        },
-      },
-      taoDelivery: {
-        execution_service: {
-          type: 'configurableService',
-          class: 'oat\\taoDelivery\\model\\execution\\implementation\\KeyValueService',
-          options: {
-            persistence: 'deliveryExecution',
           },
         },
       },
