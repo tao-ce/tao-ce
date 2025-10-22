@@ -34,8 +34,9 @@ function(setup)
       frontend: {
         API_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
         WS_URL: 'https://%(publicDomain)s/pr-realtime-api' % setup,
+        NODE_ENV: 'prod',
         LTI_BACKEND_SERVICE: 'https://%(publicDomain)s/pr-lti-gateway' % setup,
-        STATIC_URL: 'https://%(publicDomain)s/pr-fe-static' % setup,
+        STATIC_URL: '/pr-fe-static/',
         JWT_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS1ucnBzL2NsYWltL25hbWVzcm9sZXNlcnZpY2UiOiJmb28iLCJjb250ZXh0SWQiOjEzMzd9.Aude5UaQ_2yZF7E6uD4Z9r0jlSwCUiVJwI31wDToLw0',
       },
       'lti1p3-gateway': {
@@ -71,6 +72,7 @@ function(setup)
         ELASTICSEARCH_API_KEY: '',
         DOCUMENT_MANAGER_TABLE_NAME_ASSESSMENT: 'lti1p3-gateway-acs',
         TENANT_ID_PREFIX: '1',
+        DEBUG: 'true',
         GOOGLE_APPLICATION_CREDENTIALS: '%s/proctoring/key.json' % setup.dirs.files,
         BIGTABLE_PROJECT_ID: 'dev',
         DELIVER_URL: setup.apps.deliver.backend.http.url,
@@ -92,6 +94,9 @@ function(setup)
         PROCTORING_CONFIG_CACHE_TIME: '14400000',
         PROCTORING_CONFIG_EXPIRATION_TTL: 'proctoring.expiration.ttl',
         NAMESPACE: 'oat-dev',
+        FIRESTORE_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
+        FIRESTORE_DATABASE_ID: 'default',
+        FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
       },
     },
     files: {
