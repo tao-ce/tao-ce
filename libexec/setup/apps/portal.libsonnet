@@ -57,6 +57,7 @@ function(setup)
         AUTH_SERVER_URL: 'https://%(publicDomain)s/auth-server' % setup,
         DELIVERY_PREVIEW_URL: 'https://%(publicDomain)s/test-runner-sandbox' % setup,
         DELIVER_URL: 'https://%(publicDomain)s/deliver' % setup,
+        PROCTORING_URL: 'https://%(publicDomain)s/pr-lti-gateway/' % setup,
         PATH_PREFIX: '/portal',
         PAYMENT_URL: 'https://%(publicDomain)s/payments-be' % setup,
         RELEASE_VERSION: 'oat-dev',
@@ -70,7 +71,6 @@ function(setup)
         NODE_ENV: 'production',
         PORT: setup.apps.portal.bootstrap.http.port,
         NODE_VERSION: '18',
-
       },
     },
     files: {},

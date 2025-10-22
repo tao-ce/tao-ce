@@ -3,10 +3,11 @@
 	@envoy-endpoints path /deliver/* /backoffice/* /pr-lti-gateway/* /ms-be/* /ss-be/* /portal-be/*
 	@portal-bootstrap path /sessions/* /api/* /portal
 	@deliver-bootstrap path /deliver-fe /deliver-fe/*
-	@proctoring-bootstrap path /proctoring-fe/*
-	@proctoring-realtime path /proctoring-realtime/*
-	@proctoring-auth-wait-bootstrap path /pr-auth-wait/*
-	@proctoring-auth-wait-api path /pr-auth-wait-api/*
+	@proctoring-static path /pr-fe-static /pr-fe-static/*
+	@proctoring-bootstrap path /pr-fe /pr-fe/*
+	@proctoring-realtime path /pr-realtime-api/*
+	@proctoring-auth-wait-bootstrap path /pr-auth-wait /pr-auth-wait/*
+	@proctoring-auth-wait-api path /pr-auth-wait-api /pr-auth-wait-api/*
 
 	# handle will keep prefix
 	handle @deliver-bootstrap {
@@ -42,7 +43,8 @@
 		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTEND_BOOTSTRAP_HTTP_ENDPOINT}
 	}
 
-	handle_path /pr-fe-static/* {
+	handle @proctoring-static {
+		uri strip_prefix /pr-fe-static
 		root {$TAO_CE_DIR_OPT}/proctoring/frontend/static
 		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
 		header Access-Control-Allow-Credentials true
@@ -51,8 +53,7 @@
 	}
 
 	handle @proctoring-realtime {
-		uri strip_prefix /pr-realtime-api
-		reverse_proxy {TAO_CE_SVC_PROCTORING_REALTIMESERVICE_HTTP_ENDPOINT}
+		reverse_proxy {TAO_CE_SVC_PROCTORING_REALTIMESERVICE_SOCKET_ENDPOINT}
 	}
 
 	handle @proctoring-auth-wait-bootstrap {
