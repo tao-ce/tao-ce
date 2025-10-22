@@ -53,6 +53,7 @@
 	}
 
 	handle @proctoring-realtime {
+		uri strip_prefix /pr-realtime-api
 		reverse_proxy {TAO_CE_SVC_PROCTORING_REALTIMESERVICE_SOCKET_ENDPOINT}
 	}
 
