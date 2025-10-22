@@ -1040,6 +1040,12 @@ function(setup)
                   'delete',
                 ],
               },
+              {
+                resource: 'portal.experimental-features',
+                scopes: [
+                  'view',
+                ],
+              },
             ],
           },
           {
