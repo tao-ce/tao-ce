@@ -1052,6 +1052,10 @@ function(setup)
                   'view',
                 ],
               },
+              {
+                resource: 'portal.delivery',
+                scopes: ['create', 'view', 'edit', 'delete', 'list'],
+              },
             ],
           },
           {
@@ -1101,6 +1105,7 @@ function(setup)
                   'grade',
                   'review-grade',
                   'reopen-grade',
+                  'preview'
                 ],
               },
               {
@@ -1116,6 +1121,19 @@ function(setup)
                   'view',
                 ],
               },
+              {
+                resource: 'portal.delivery',
+                scopes: [
+                  'view',
+                  'list',
+                ],
+              },
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                ],
+              },
             ],
           },
           {
@@ -1127,6 +1145,7 @@ function(setup)
                 scopes: [
                   'view',
                   'grade',
+                  'preview'
                 ],
               },
             ],
@@ -1166,6 +1185,7 @@ function(setup)
                 scopes: [
                   'view',
                   'review-grade',
+                  'preview'
                 ],
               },
             ],
@@ -1181,6 +1201,18 @@ function(setup)
                   'view',
                   'edit',
                   'delete',
+                ],
+              },
+              {
+                resource: 'portal.delivery',
+                scopes: [
+                  'list',
+                ],
+              },
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
                 ],
               },
             ],
