@@ -7,7 +7,7 @@ Environment=NODE_TLS_REJECT_UNAUTHORIZED=0
 ExecStart=/bin/sh -c "\
   cd ${TAO_CE_OPT}/proctoring/frontend-auth-wait/bootstrap && \
   PORT=${TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_BOOTSTRAP_HTTP_PORT} \
-  exec /usr/local/libexec/nvm/nvm-exec npm serve:bootstrap \
+  exec /usr/local/libexec/nvm/nvm-exec node server.js \
 "
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
