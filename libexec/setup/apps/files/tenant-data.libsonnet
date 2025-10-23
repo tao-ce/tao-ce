@@ -5,6 +5,14 @@ function(setup)
       {
         configurations: [
           {
+            name: 'cookiePolicy',
+            value: std.toString({
+              display: false,
+              privacyPolicyLink: 'https://%(publicDomain)s/about/privacy/' % setup,
+              cookiePolicyLink: 'https://%(publicDomain)s/about/privacy/' % setup,
+            }),
+          },
+          {
             name: 'studio.qti.item.templates.groups',
             value: '[{"id": "choice", "title": "Choice"}, {"id": "text", "title": "Text"}]',
           },
