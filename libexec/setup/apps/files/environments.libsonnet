@@ -451,7 +451,7 @@ function(setup)
           },
           {
             name: 'monitoringEnabled',
-            value: 'false',
+            value: 'true',
           },
           {
             name: 'MINIMAL_UI_TEST_TAKER',
@@ -645,6 +645,7 @@ function(setup)
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
           },
+
           {
             clientId: 'portal-deliver-client-id-#tenantId#',
             deploymentIds: [
@@ -1105,7 +1106,7 @@ function(setup)
                   'grade',
                   'review-grade',
                   'reopen-grade',
-                  'preview'
+                  'preview',
                 ],
               },
               {
@@ -1145,7 +1146,7 @@ function(setup)
                 scopes: [
                   'view',
                   'grade',
-                  'preview'
+                  'preview',
                 ],
               },
             ],
@@ -1185,7 +1186,7 @@ function(setup)
                 scopes: [
                   'view',
                   'review-grade',
-                  'preview'
+                  'preview',
                 ],
               },
             ],
