@@ -35,6 +35,7 @@ function(setup)
         API_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
         WS_URL: 'https://%(publicDomain)s/pr-realtime-socket' % setup,
         NODE_ENV: 'development',
+        APP_NAMESPACE: 'pr-fe',
         LTI_BACKEND_SERVICE: 'https://%(publicDomain)s/pr-lti-gateway' % setup,
         STATIC_URL: 'https://%(publicDomain)s/pr-fe-static/' % setup,
         JWT_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS1ucnBzL2NsYWltL25hbWVzcm9sZXNlcnZpY2UiOiJmb28iLCJjb250ZXh0SWQiOjEzMzd9.Aude5UaQ_2yZF7E6uD4Z9r0jlSwCUiVJwI31wDToLw0',
