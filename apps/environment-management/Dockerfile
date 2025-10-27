@@ -91,6 +91,8 @@ COPY --link --from=build-lti-gateway \
     /app /lti-gateway
 COPY --link --from=build-lti-gateway \
     /libs /libs
+COPY ./router.php /lti-gateway/router.php
+COPY ./router.php /lti-gateway/public/router.php
 COPY --link --from=build-sidecar \
     /server /app/config.yaml /sidecar/
 

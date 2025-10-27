@@ -691,6 +691,21 @@ function(setup)
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
           },
+          {
+            id: 'deliver--proctoring',
+            clientId: 'deliver-proctoring-client-id',
+            tenantId: '1',
+            clientSecret: 'secret',
+            platformId: 'portal-platform',
+            toolId: 'proctoring-tool',
+            platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
+            toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
+            platformKeyChain: {
+            },
+            toolKeyChain: {
+            },
+            deploymentIds: ['1'],
+          },
         ],
         ltiRoleMappings: [
           {

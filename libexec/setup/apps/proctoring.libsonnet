@@ -72,7 +72,7 @@ function(setup)
         GCLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
         PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         PUBSUB_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
-        PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.baseUrl,
+        PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.endpoint,
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         ELASTICSEARCH_HOST: setup.dependencies.es.address.host,
         ELASTICSEARCH_PORT: '' + setup.dependencies.es.address.port,
