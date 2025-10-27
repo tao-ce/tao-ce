@@ -1,17 +1,19 @@
 [Unit]
-After=tao-ce.portal.backend.service
+ConditionPathExists=!/var/lib/tao-ce/proctoring/init.lock
 After=tao-ce.setup.service
 
 [Service]
 Type=oneshot
 ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/proctoring.json"
-ExecStartPre=bash -c "mkdir -p ${TAO_CE_DIR_VARLIB}/proctoring/"
+ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/proctoring/"
 ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/lti1p3-gateway-acs"
-ExecStart=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_DIR_OPT}/proctoring/lti1p3-gateway/mappings/acs.json  ${ELASTICSEARCH_URL}/lti1p3-gateway-acs"
+ExecStartPre=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_OPT}/proctoring/lti1p3-gateway/mappings/acs.json ${ELASTICSEARCH_URL}/lti1p3-gateway-acs"
+ExecStart=/bin/sh -c "echo '1' > /var/lib/tao-ce/proctoring/init.lock"
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
 EnvironmentFile=/etc/tao-ce/setup/envs/proctoring/lti1p3-gateway.env
+EnvironmentFile=/etc/tao-ce/setup/envs/proctoring/forwarder.env
 
 [Install]
 WantedBy=tao-ce.target

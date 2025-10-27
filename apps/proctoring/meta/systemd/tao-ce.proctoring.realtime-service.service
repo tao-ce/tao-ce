@@ -1,4 +1,5 @@
 [Unit]
+After=tao-ce.proctoring.init.service
 
 [Service]
 Type=simple

@@ -10,18 +10,24 @@ function(setup)
 
     env: {
       forwarder: {
-        LOG_LEVEL: '0',
+        LOG_LEVEL: '-4',
+        SERVER_PORT: setup.dependencies.pubsub.address.port,
+
         PROCTOR1_IDENTIFIER: 'proctor-1',
         PROCTOR2_IDENTIFIER: 'proctor-2',
+
         PUBSUB_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
+        PUBSUB_SUBSCRIPTION: 'interactions',
+        PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.endpoint,
+
         FIRESTORE_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         FIRESTORE_DATABASE_ID: 'default',
         FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
-        PUBSUB_SUBSCRIPTION: 'interactions',
+
         PREFIX: etcdKeyPrefix,
         PREFIX_SEPARATOR: etcdKeySeparator,
-        PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.url,
-        NAMESPACE: 'oat-dev',
+
+        NAMESPACE: setup.env.GOOGLE_APP_NAMESPACE,
       },
       'frontend-auth-wait': {
         STATIC_URL: 'https://%(publicDomain)s/pr-fe-static/' % setup,
@@ -98,7 +104,7 @@ function(setup)
         AUTH_GRPC_GATEWAY_API: setup.apps['environment-management'].auth_server.gw.baseUrl,
         PROCTORING_CONFIG_CACHE_TIME: '14400000',
         PROCTORING_CONFIG_EXPIRATION_TTL: 'proctoring.expiration.ttl',
-        NAMESPACE: 'oat-dev',
+        NAMESPACE: setup.env.GOOGLE_APP_NAMESPACE,
         FIRESTORE_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         FIRESTORE_DATABASE_ID: 'default',
         FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
@@ -114,5 +120,8 @@ function(setup)
       { topic: 'test-ps-topic', subscription: 'test-ps-topic-fwd-sub' },
       { topic: 'test-ps-topic', subscription: 'test-ps-topic-ing-sub' },
       { topic: 'test-ps-topic', subscription: 'test-ps-topic-acs-ing-sub' },
+      { topic: 'interactions', subscription: 'interactions' },
+      { topic: 'proctor-action', subscription: 'proctor-action' },
+      { topic: 'activity-logs-topic', subscription: 'activity-logs-ds' },
     ],
   }
