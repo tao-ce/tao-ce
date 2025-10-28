@@ -24,7 +24,7 @@ function(setup)
         PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.url,
         SIDECAR_API_URL: setup.apps['environment-management'].auth_server.grpc.url,
         SOCKET_PORT: setup.apps.task_orchestrator.backend.socket.port,
-        TASK_ORCHESTRATOR_FIRESTORE_COLLECTION: 'oat-dev',
+        TASK_ORCHESTRATOR_FIRESTORE_COLLECTION: setup.env.GOOGLE_APP_NAMESPACE,
         TASK_ORCHESTRATOR_FIRESTORE_STORAGE: 'task-orchestrator-storage',
       },
     },

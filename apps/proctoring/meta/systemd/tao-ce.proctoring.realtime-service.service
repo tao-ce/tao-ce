@@ -1,13 +1,11 @@
 [Unit]
+After=tao-ce.proctoring.init.service
 
 [Service]
 Type=simple
-Environment=NODE_VERSION=22
-Environment=PORT=${TAO_CE_SVC_PROCTORING_REALTIMESERVICE_HTTP_PORT}
 ExecStart=/bin/sh -c "\
   cd ${TAO_CE_OPT}/proctoring/realtime-service && \
-  SOCKET_PORT=${TAO_CE_SVC_PROCTORING_REALTIMESERVICE_SOCKET_PORT} \
-  exec /usr/local/libexec/nvm/nvm-exec node dist/src/index.js \
+  exec /usr/local/libexec/nvm/nvm-exec npm start \
 "
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
@@ -15,6 +13,8 @@ EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
 EnvironmentFile=/etc/tao-ce/setup/envs/proctoring/realtime-service.env
 Restart=always
 RestartSec=5s
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=tao-ce.target

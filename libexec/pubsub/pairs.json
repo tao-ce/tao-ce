@@ -1,5 +1,4 @@
 [
-    {"topic": "interactions", "subscription": "interactions"},
     {"topic": "acs-log", "subscription": "acs-log"},
     {"topic": "acs-log", "subscription": "acs-log-portal"},
     {"topic": "clean-up", "subscription": "clean-up"},
@@ -28,8 +27,6 @@
     {"topic": "tenant-api-topic", "subscription": "tenant-api-subscription"},
     {"topic": "tenant-api-construct-topic", "subscription": "tenant-api-construct-subscription"},
     {"topic": "tags-propagation", "subscription": "tags-propagation"},
-    {"topic": "proctor-action", "subscription": "proctor-action"},
-    {"topic": "activity-logs-topic", "subscription": "activity-logs-ds"},
     {"topic": "metadata-propagation-topic", "subscription": "metadata-propagation-ds"},
     {"topic": "tao-templates-email-topic", "subscription": "tao-templates-email-ds"},
     {"topic": "delivery-language-attachment", "subscription": "delivery-language-attachment"},

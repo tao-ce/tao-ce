@@ -15,6 +15,7 @@ COPY --from=src-lti13-gateway . .
 RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
+        composer dump-env dev; \
         composer install -n --classmap-authoritative --no-dev --prefer-dist; \
         composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
@@ -144,7 +145,8 @@ WORKDIR /build/forwarder
 
 ENV GOCACHE=/go-cache
 ENV GOMODCACHE=/gomod-cache
-ENV CGO_ENABLED=0
+ENV CGO_ENABLED=1
+ARG SVC_NAME=forwarder
 
 RUN \
     --mount=type=ssh \
@@ -157,14 +159,15 @@ RUN \
         --mount=type=cache,target=/gomod-cache \
         --mount=type=cache,target=/go-cache \
         GOOS=linux go build \
-                -ldflags '-s -w' \
+                -ldflags '-linkmode=external -extldflags "-static"' \
                 -o /service \
                 service/forwarder.go
+
 ### Export #####################################################################
 FROM scratch AS export
 
 COPY --link --from=build-forwarder \
-    /service /forwarder
+    /service /service
 
 COPY --link --from=build-frontend-auth-wait-bootstrap \
     /app /frontend-auth-wait/bootstrap
