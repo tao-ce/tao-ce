@@ -33,6 +33,7 @@ vars:
       portal: "container-image://{{ .REGISTRY }}/apps/portal:{{ .TAG }}"
       timers: "container-image://{{ .REGISTRY }}/apps/timers:{{ .TAG }}"
       proctoring: "container-image://{{ .REGISTRY }}/apps/proctoring:{{ .TAG }}"
+      content-service: "container-image://{{ .REGISTRY }}/apps/content-service:{{ .TAG }}"
 
   APPS:
     ref: keys .APPS_CONTEXTS
@@ -81,7 +82,7 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}' 
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
 
   apps:devkit:
     taskfile: ./build/crystal
@@ -96,7 +97,7 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}' 
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
 
   apps:datastore:
     taskfile: ./build/crystal
@@ -237,6 +238,21 @@ includes:
         map:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
 
+  apps:content-service:
+    taskfile: ./build/crystal
+    dir: apps/content-service
+    vars:
+      APP: content-service
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
   artifacts:code:
     taskfile: ./build/crystal
     vars:
@@ -274,7 +290,7 @@ includes:
         map:
           FEDORA_IMAGE: quay.io/fedora-ostree-desktops/kinoite
       IMAGE: '{{.REGISTRY}}/tao-ce-vm'
-      
+
 tasks:
   _log:
     internal: true
@@ -296,7 +312,7 @@ tasks:
     cmds:
     - task: all:build
     - mkdir -p $(dirname {{.CODE_CONTAINERFILE}})
-    - | 
+    - |
       cat >{{.CODE_CONTAINERFILE}} <<EOCONTAINERFILE
       FROM scratch AS export
       {{ range .APPS | sortAlpha  -}}
@@ -333,7 +349,7 @@ tasks:
     deps: [artifacts:code:build]
     cmds:
     - task: artifacts:swift:build
-  
+
   swift:tag:
     cmds:
     - |
@@ -343,7 +359,7 @@ tasks:
 
   swift:push:
     cmds:
-    - | 
+    - |
       podman push \
         {{.INTERNAL_REGISTRY}}/tao-ce:latest-{{ARCH}}
 
@@ -507,7 +523,7 @@ tasks:
     - for:
         var: APPS
       task: "apps:{{.ITEM}}:up"
-    
+
 
   dev:wipe:
     desc: Remove all persistent data and config

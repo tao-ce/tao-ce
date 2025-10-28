@@ -127,6 +127,17 @@
 	handle_path /timers/* {
 		reverse_proxy {$TAO_CE_SVC_TIMERS_BACKEND_SOCKET_ENDPOINT}
 	}
+	handle_path /content-service/* {
+		reverse_proxy {$TAO_CE_SVC_CONTENT_SERVICE_BACKEND_HTTP_ENDPOINT}
+	}
+	handle_path /content-service-storage/* {
+		root /var/lib/tao-ce/content-service/data
+		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
+		header Access-Control-Allow-Credentials true
+
+		file_server
+	}
+
 	# reverse_proxy will keep prefix
 	# reverse_proxy /backoffice/*     {$TAO_CE_SVC_CONSTRUCT_TAO_HTTP_ENDPOINT}
 	reverse_proxy @envoy-endpoints {$TAO_CE_SVC_ENVIRONMENT_MANAGEMENT_ENVOY_HTTP_ENDPOINT}
