@@ -68,3 +68,6 @@
 [submodule "build/cozy/src/cockpit-tao-ce"]
 	path = build/cozy/src/cockpit-tao-ce
 	url = git@github.com:tao-ce/cockpit-tao-ce.git
+[submodule "apps/content-service/src"]
+	path = apps/content-service/src
+	url = git@github.com:oat-sa/tao-content-service.git
