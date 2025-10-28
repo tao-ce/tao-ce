@@ -60,7 +60,7 @@ function(setup)
         GOOGLE_CLOUD_STORAGE_SIGNED_URL_TTL: '21600',
         HEALTH_CHECK_PUB_SUB_TOPIC: '',
         LOCK_DSN: setup.dependencies.redis.address.url,
-        LTI1P3_PROCTORING_AUDIENCE: 'https://%s/proctoring-lti13-gateway' % [setup.publicDomain],
+        LTI1P3_PROCTORING_AUDIENCE: setup.apps.proctoring.lti1p3Gateway.http.url,
         LTI1P3_PROCTORING_CLIENT_ID: 'deliver-proctoring-client-id',
         LTI1P3_PROCTORING_DEPLOYMENT_ID: '1',
         LTI_GATEWAY_URL: setup.apps['environment-management'].lti_gateway.http.url,

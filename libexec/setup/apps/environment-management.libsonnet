@@ -18,7 +18,7 @@ function(setup)
         APP_PUBLIC_KEY_PATH: '%s/em/public.pem' % setup.dirs.files,
         CC_USER_DATA_PRELOADER_SOURCE_PATH: '/app/preload-data/',
         CORS_ALLOW_ORIGIN: '*',
-        DEBUG: 'false',
+        DEBUG: 'true',
         ELASTICSEARCH_PREFIX: '',
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         EM_FIRESTORE_COLLECTION: 'oat-dev',
@@ -66,7 +66,6 @@ function(setup)
         PUBSUB_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         SANCTUARY_VERBOSE: 'true',
         WORKER_PHP_COMMAND: 'php -d memory_limit=-1 /var/www/html/bin/console worker:lti-event',
-
         LISTEN_PORT: setup.apps['environment-management'].lti_gateway.http.port,
       },
       sidecar: {

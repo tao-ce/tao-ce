@@ -1849,10 +1849,10 @@ function(setup)
             ],
           },
           {
+            name: 'Proctoring Deliver OAuth2 Credentials',
             clientId: 'deliver-proctoring-client-id',
             clientSecret: 'client-secret',
             isConfidential: true,
-            name: 'Proctoring Deliver OAuth2 Credentials',
             scopes: [
               'https://purl.imsglobal.org/spec/lti-ap/scope/control.all',
             ],
