@@ -7,6 +7,7 @@ function(setup)
       'envoy.yaml': std.manifestYamlDoc((import './files/envoy.libsonnet')(setup), quote_keys=false),
       'private.pem': importstr './keys/environment-management/private.pem',
       'public.pem': importstr './keys/environment-management/public.pem',
+      'key.json': importstr './keys/proctoring/fake_gcp_key.json',
     },
     env: {
       'auth-server': {
@@ -17,7 +18,7 @@ function(setup)
         APP_PUBLIC_KEY_PATH: '%s/em/public.pem' % setup.dirs.files,
         CC_USER_DATA_PRELOADER_SOURCE_PATH: '/app/preload-data/',
         CORS_ALLOW_ORIGIN: '*',
-        DEBUG: 'false',
+        DEBUG: 'true',
         ELASTICSEARCH_PREFIX: '',
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         EM_FIRESTORE_COLLECTION: 'oat-dev',
@@ -48,23 +49,23 @@ function(setup)
       'lti-gateway': {
         APP_ENV: 'dev',
         APP_SECRET: '5c796f2ca45012243a63d55d9f78771d',
-        DEBUG: 'false',
-        EM_AUTH_SERVER_GRPC_GATEWAY_HOST: setup.apps['environment-management'].auth_server.gw.baseUrl,
+        DEBUG: 'true',
+        GOOGLE_APPLICATION_CREDENTIALS: '%s/em/key.json' % setup.dirs.files,
+        EM_AUTH_SERVER_GRPC_GATEWAY_HOST: setup.apps['environment-management'].auth_server.gw.url,
         EM_SIDECAR_HOST: setup.apps['environment-management'].auth_server.grpc.host,
         EM_SIDECAR_PORT: setup.apps['environment-management'].auth_server.grpc.port,
-        GOOGLE_CLOUD_PROJECT: 'demo-tao',
-        GCP_PROJECT_ID: 'demo-tao',
+        GOOGLE_CLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
+        GCP_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         GOOGLE_CLOUD_SUBSCRIPTION_WORKER: 'lti-events-subscription',
         LTI1P3_SERVICE_ENCRYPTION_KEY: '3feca5c091026487889a20e5a7ddd98e',
         MESSENGER_FAILED_QUEUE_SUBSCRIPTION: 'failed-subscription',
         MESSENGER_FAILED_QUEUE_TOPIC: 'failed-topic',
         MESSENGER_LTI_EVENTS_QUEUE_SUBSCRIPTION: 'lti-events-subscription',
         MESSENGER_LTI_EVENTS_QUEUE_TOPIC: 'lti-events-topic',
-        PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.fullEndpoint,
-        PUBSUB_PROJECT_ID: 'demo-tao',
+        PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.endpoint,
+        PUBSUB_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         SANCTUARY_VERBOSE: 'true',
         WORKER_PHP_COMMAND: 'php -d memory_limit=-1 /var/www/html/bin/console worker:lti-event',
-
         LISTEN_PORT: setup.apps['environment-management'].lti_gateway.http.port,
       },
       sidecar: {
@@ -101,9 +102,9 @@ function(setup)
         // SIDECAR_PUBLIC_KEY_PATH: "%s/environment-management/public.pem" % setup.dirs.files,
       },
     },
-
     pubsub: [
       { topic: 'task-orchestrator-topic', subscription: 'task-orchestrator-ds' },
-
+      { topic: 'lti-events-topic', subscription: 'lti-events-subscription' },
+      { topic: 'failed-topic', subscription: 'failed-subscription' },
     ],
   }

@@ -1,4 +1,6 @@
 [Unit]
+After=tao-ce.proctoring.init.service
+After=tao-ce.proctoring.forwarder.service
 
 [Service]
 Type=simple

@@ -1,10 +1,10 @@
 [Unit]
+After=tao-ce.proctoring.init.service
 
 [Service]
 Type=simple
-ExecStartPre=/bin/sh -c "chmod +x ${TAO_CE_OPT}/proctoring/forwarder*"
-ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/proctoring.json"
-ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/proctoring && sleep 10 && ./forwarder"
+ExecStartPre=/bin/sh -c "chmod +x ${TAO_CE_OPT}/proctoring/service"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/proctoring/ && exec ./service"
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
