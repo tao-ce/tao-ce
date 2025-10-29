@@ -15,8 +15,7 @@ COPY --from=src-lti13-gateway . .
 RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
-        composer dump-env dev; \
-        composer install -n --classmap-authoritative --no-dev --prefer-dist; \
+        composer install -n --classmap-authoritative --no-dev --prefer-dist --no-cache; \
         composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \
