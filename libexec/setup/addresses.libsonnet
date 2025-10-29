@@ -107,6 +107,30 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
   'content-service': {
     backend: {
       http: localAddress(21400),  //content-service:3000
-    }
-  }
+    },
+  },
+  scoring: {
+    backend: {
+      http: localAddress(21914),  //ss-be:8080
+      worker: localAddress(21915),  //ss-be-worker:9001
+      grpc: localAddress(21916),  //ss-be-worker:80
+    },
+    frontend: {
+      bootstrap: localAddress(21917),  //ms-fe-static:80
+      static: localAddress(21918),  //ms-fe:443
+    },
+    hbl: {
+      http: localAddress(21920),  //hbl-be-worker:8080
+      worker: localAddress(21921),  //hbl-be-worker:8080
+    },
+    service: {
+      http: localAddress(21922),  //ss-be:8080
+      worker: localAddress(21923),  //ss-be-worker:9001
+    },
+  },
+  ai: {
+    backend: {
+      http: localAddress(21924),  //tao-ai-api:8080
+    },
+  },
 }

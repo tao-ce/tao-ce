@@ -1,12 +1,13 @@
 {$TAO_CE_PUBLIC_DOMAIN}:443 {
 	@deliver-static path /deliver/sw.js /sw.js /deliver-fe-static/*
-	@envoy-endpoints path /deliver/* /backoffice/* /pr-lti-gateway/* /ms-be/* /ss-be/* /portal-be/*
+	@envoy-endpoints path /deliver/* /backoffice/* /pr-lti-gateway/* /hbl-be/* /ms-be/* /ss-be/* /portal-be/*
 	@portal-bootstrap path /sessions/* /api/* /portal
 	@deliver-bootstrap path /deliver-fe /deliver-fe/*
 	@proctoring-static path /pr-fe-static*
 	@proctoring-bootstrap path /pr-fe*
 	@proctoring-auth-wait-bootstrap path /pr-auth-wait*
 	@proctoring-auth-wait-api path /pr-auth-wait-api*
+	@scoring-bootstrap path /ms-fe*
 
 	# handle will keep prefix
 	handle @deliver-bootstrap {
@@ -35,6 +36,19 @@
 		header Access-Control-Allow-Credentials true
 
 		file_server browse
+	}
+
+	handle_path /ms-fe-static/* {
+		root {$TAO_CE_DIR_OPT}/scoring/frontend/static
+		header Access-Control-Allow-Origin "https://{$TAO_CE_SVC_SCORING_FRONTEND_STATIC_FULLENDPOINT}"
+		header Access-Control-Allow-Credentials true
+
+		file_server browse
+	}
+
+	handle @scoring-bootstrap {
+		uri strip_prefix /ms-fe
+		reverse_proxy {$TAO_CE_SVC_SCORING_FRONTEND_BOOTSTRAP_ENDPOINT}
 	}
 
 	handle @proctoring-bootstrap {
