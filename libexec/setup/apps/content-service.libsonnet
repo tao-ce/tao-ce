@@ -12,6 +12,5 @@ function(setup)
       STORAGE_FILE_BASE_URL: 'https://%s/content-service-storage' % setup.publicDomain
    }
   },
-  files: {},
   pubsub: []
 }
