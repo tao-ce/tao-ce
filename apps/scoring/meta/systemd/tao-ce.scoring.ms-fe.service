@@ -1,0 +1,24 @@
+[Unit]
+After=tao-ce.setup.service
+After=tao-ce.scoring.ms-be.service
+After=tao-ce.scoring.hbl.service
+After=tao-ce.scoring.ss.service
+
+[Service]
+Type=simple
+Environment=NODE_TLS_REJECT_UNAUTHORIZED=0
+ExecStart=/bin/sh -c "\
+  cd ${TAO_CE_OPT}/scoring/ms-fe/bootstrap && \
+  NODE_VERSION=18 \
+  PORT=${TAO_CE_SVC_SCORING_FRONTEND_BOOTSTRAP_PORT} \
+  exec /usr/local/libexec/nvm/nvm-exec node server.cjs \
+"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/scoring/frontend.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

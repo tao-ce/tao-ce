@@ -1,0 +1,19 @@
+[Unit]
+ConditionPathExists=!/var/lib/tao-ce/scoring/init.lock
+After=tao-ce.setup.service
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/scoring.json"
+ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/scoring/hbl/data/cache/dev"
+ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/scoring/ss/data/cache/dev"
+ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/scoring/ms-be/data/cache/dev"
+ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/scoring/ss/data/storage/qti-compiled-deliveries"
+ExecStart=bash -c "chmod -R 0777 ${TAO_CE_VARLIB}/scoring"
+ExecStartPost=/bin/sh -c "echo '1' > ${TAO_CE_VARLIB}/scoring/init.lock"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+
+[Install]
+WantedBy=tao-ce.target

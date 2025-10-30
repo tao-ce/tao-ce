@@ -4,7 +4,7 @@ function(setup)
       backend: {
         COMPOSER_AUTH: '{"http-basic":{"github.com":{"username":"${GITHUB_USERNAME}","password":"${GITHUB_TOKEN}"}}}',
         APP_ENV: 'dev',
-        APP_DEBUG: if $.vm.enabled then 'false' else 'true',
+        APP_DEBUG: 'true',
         APP_HOST: setup.apps.scoring.backend.http.url,
         DATABASE_URL: 'pgsql://postgres:postgres@%(host)s:%(port)s/manual_scoring' % setup.dependencies.pgsql.address,
         CORS_ALLOW_ORIGIN: '.*',
@@ -50,7 +50,7 @@ function(setup)
         EM_AUTH_SERVER_GRPC_GATEWAY_HOST: setup.apps['environment-management'].auth_server.gw.url,
         DYNAMIC_QUERY_API_URL: setup.apps.dynamic_query.api.http.url,
         AI_API_URL: setup.apps.ai.backend.http.url,
-        CONTENT_API_URL: setup.apps.content.backend.http.url,
+        CONTENT_API_URL: setup.apps['content-service'].backend.http.url,
       },
       frontend: {
         API_URL: 'https://%(publicDomain)s/ms-be' % setup,
@@ -60,8 +60,9 @@ function(setup)
         TENANTS: '[{"label":"tao-ce-stack","clientId":"ms-fe-solar-client-id"}]',
       },
       hbl: {
+        APP_ENV: 'dev',
         COMPOSER_AUTH: '{"http-basic":{"github.com":{"username":"${GITHUB_USERNAME}","password":"${GITHUB_TOKEN}"}}}',
-        APP_HOST: setup.apps.scoring.hbl.backend.http.url,
+        APP_HOST: setup.apps.scoring.hbl.http.url,
         DATABASE_URL: 'pgsql://postgres:postgres@%(host)s:%(port)s/hbl_scoring_engine' % setup.dependencies.pgsql.address,
 
         MESSENGER_DELIVERIES_DSN: 'gps://default',
@@ -114,7 +115,7 @@ function(setup)
         LTI_GATEWAY_URL: setup.apps['environment-management'].lti_gateway.http.url,
 
         SOLAR_DELIVER_BASE_URL: setup.apps.deliver.backend.http.url,
-        SOLAR_DELIVER_OAUTH2_CLIENT_CREDENTIALS: '[{"tenantId":"1","clientId":"deliver-client-id-for-ss","clientSecret":"secret"}]' % $.config,
+        SOLAR_DELIVER_OAUTH2_CLIENT_CREDENTIALS: '[{"tenantId":"1","clientId":"deliver-client-id-for-ss","clientSecret":"secret"}]',
         SOLAR_DELIVER_GATEWAY_TIMEOUT: '45',
 
         TAO_BASIC_AUTH_USERNAME: 'admin',

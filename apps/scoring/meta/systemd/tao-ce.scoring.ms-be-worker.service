@@ -1,0 +1,28 @@
+[Unit]
+After=tao-ce.setup.service
+After=tao-ce.scoring.init.service
+After=tao-ce.scoring.init.ms-be.service
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console cache:clear"
+ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console messenger:setup-transports"
+ExecStart=bash -c " \
+  cd ${TAO_CE_OPT}/scoring/ss \
+  && exec php -d error_reporting='E_ALL & ~E_DEPRECATED' bin/console messenger:consume -v \
+  internal \
+  grader-deliveries \
+  grader-responses \
+  grader-scores \
+  grader-statuses \
+  failures \
+"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/scoring/backend.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

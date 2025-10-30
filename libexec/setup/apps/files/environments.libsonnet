@@ -459,7 +459,7 @@ function(setup)
           },
           {
             name: 'gradingEnabled',
-            value: 'false',
+            value: 'true',
           },
           {
             name: 'batteryEnabled',
@@ -515,7 +515,7 @@ function(setup)
           },
           {
             name: 'ms.isSuggestedScoringEnabled',
-            value: 'false',
+            value: 'true',
           },
           {
             name: 'readBehindEnabled',

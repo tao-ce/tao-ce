@@ -34,6 +34,7 @@ vars:
       timers: "container-image://{{ .REGISTRY }}/apps/timers:{{ .TAG }}"
       proctoring: "container-image://{{ .REGISTRY }}/apps/proctoring:{{ .TAG }}"
       content-service: "container-image://{{ .REGISTRY }}/apps/content-service:{{ .TAG }}"
+      scoring: "container-image://{{ .REGISTRY }}/apps/scoring:{{ .TAG }}"
 
   APPS:
     ref: keys .APPS_CONTEXTS
@@ -247,6 +248,23 @@ includes:
       CONTEXTS:
         map:
           src-backend: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+  apps:scoring:
+    taskfile: ./build/crystal
+    dir: apps/scoring
+    vars:
+      APP: scoring
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-hbl: './src/tao-hbl-scoring-engine-be'
+          src-ss: './src/tao-scoring-service-be'
+          src-ms: './src/tao-manual-scoring-be'
+          src-ms-fe: './src/tao-manual-scoring-fe'
       BASES:
         - builds/base
       ARGS:

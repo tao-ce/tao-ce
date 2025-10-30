@@ -58,6 +58,8 @@ function(setup)
         AUTH_SERVER_URL: 'https://%(publicDomain)s/auth-server' % setup,
         DELIVERY_PREVIEW_URL: 'https://%(publicDomain)s/test-runner-sandbox' % setup,
         DELIVER_URL: 'https://%(publicDomain)s/deliver' % setup,
+        DIAGNOSTIC_URL: 'https://%(publicDomain)s/diagnostic' % setup,
+        GRADING_URL: 'https://%(publicDomain)s/ms-be' % setup,
         PROCTORING_URL: 'https://%(publicDomain)s/pr-lti-gateway/' % setup,
         PATH_PREFIX: '/portal',
         PAYMENT_URL: 'https://%(publicDomain)s/payments-be' % setup,
