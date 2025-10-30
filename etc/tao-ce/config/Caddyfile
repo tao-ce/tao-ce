@@ -136,6 +136,7 @@
 		root /var/lib/tao-ce/content-service/data
 		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
 		header Access-Control-Allow-Credentials true
+		header Content-Disposition attachment
 
 		file_server
 	}
