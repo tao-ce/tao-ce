@@ -8,14 +8,11 @@ Type=simple
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console cache:clear"
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console messenger:setup-transports"
 ExecStart=bash -c " \
-  cd ${TAO_CE_OPT}/scoring/ss \
-  && exec php -d error_reporting='E_ALL & ~E_DEPRECATED' bin/console messenger:consume -v \
-  internal \
-  grader-deliveries \
-  grader-responses \
-  grader-scores \
-  grader-statuses \
-  failures \
+  cd ${TAO_CE_OPT}/scoring/ms-be \
+  && exec php -d memory_limit=-1 bin/console messenger:consume -vvv \
+    internal \
+    grader-deliveries \
+    grader-responses \
 "
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env

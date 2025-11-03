@@ -39,7 +39,7 @@ function(setup)
         SIMPLE_REPORTS_API_URL: 'https://%(publicDomain)s/sr-be/' % setup,
         LOG_LEVEL: 'trace',
         LTI_PORTAL_AUDIENCE: 'https://%(publicDomain)s/portal-be' % setup,
-        // MANUAL_SCORING_API_URL: "http://tao-ce-tao-manual-scoring-be:80",
+        MANUAL_SCORING_API_URL: setup.apps.scoring.backend.http.url,
         NOTIFICATION_ENABLED_CHECK_CACHE_TTL_SEC: '60',
         PB_FIRESTORE_COLLECTION: setup.env.GOOGLE_APP_NAMESPACE,
         PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.url,

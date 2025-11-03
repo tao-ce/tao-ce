@@ -5,10 +5,10 @@ After=tao-ce.setup.service
 [Service]
 Type=oneshot
 ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/scoring.json"
-ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/scoring/hbl/data/cache/dev"
 ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/scoring/ss/data/cache/dev"
 ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/scoring/ms-be/data/cache/dev"
-ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/scoring/ss/data/storage/qti-compiled-deliveries"
+ExecStartPre=bash -c "ln -sfn ${TAO_CE_VARLIB}/deliver/data/storage ${TAO_CE_VARLIB}/scoring/ss/data"
+ExecStartPre=bash -c "ln -sfn ${TAO_CE_VARLIB}/deliver/data/storage ${TAO_CE_VARLIB}/scoring/hbl/data"
 ExecStart=bash -c "chmod -R 0777 ${TAO_CE_VARLIB}/scoring"
 ExecStartPost=/bin/sh -c "echo '1' > ${TAO_CE_VARLIB}/scoring/init.lock"
 EnvironmentFile=/etc/environment
