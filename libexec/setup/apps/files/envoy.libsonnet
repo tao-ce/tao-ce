@@ -245,35 +245,6 @@ function(setup)
             ],
           },
         },
-        {
-          name: 'nextgen_tao_hbl_scoring_engine_be_cluster',
-          connect_timeout: '1s',
-          type: 'strict_dns',
-          lb_policy: 'round_robin',
-          dns_failure_refresh_rate: {
-            base_interval: '1s',
-            max_interval: '5s',
-          },
-          load_assignment: {
-            cluster_name: 'nextgen_tao_hbl_scoring_engine_be_cluster',
-            endpoints: [
-              {
-                lb_endpoints: [
-                  {
-                    endpoint: {
-                      address: {
-                        socket_address: {
-                          address: setup.apps.scoring.hbl.http.host,
-                          port_value: setup.apps.scoring.hbl.http.port,
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        },
       ],
       listeners: [
         {
@@ -392,15 +363,6 @@ function(setup)
                               },
                               route: {
                                 cluster: 'nextgen_tao_manual_scoring_be_cluster',
-                                prefix_rewrite: '/',
-                              },
-                            },
-                            {
-                              match: {
-                                prefix: '/hbl-be/',
-                              },
-                              route: {
-                                cluster: 'nextgen_tao_hbl_scoring_engine_be_cluster',
                                 prefix_rewrite: '/',
                               },
                             },

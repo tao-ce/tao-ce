@@ -261,7 +261,6 @@ includes:
       CONTEXT: .
       CONTEXTS:
         map:
-          src-hbl: './src/tao-hbl-scoring-engine-be'
           src-ss: './src/tao-scoring-service-be'
           src-ms: './src/tao-manual-scoring-be'
           src-ms-fe: './src/tao-manual-scoring-fe'

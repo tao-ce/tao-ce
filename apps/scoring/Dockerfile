@@ -64,42 +64,15 @@ WORKDIR /app
 COPY --from=src-ms-fe . .
 
 RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    --mount=type=secret,id=NPM_TOKEN \
+        --mount=type=ssh \
+        --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+        --mount=type=secret,id=NPM_TOKEN \
         ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
         && ${BUILD_NPM} ci \
         && ${BUILD_NPM} run generate:locale \
         && ${BUILD_NPM} run build:static \
         && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
         && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
-
-### hbl-be ####################################################################
-FROM $BUILD_IMAGE AS hbl-be
-ARG BUILD_IMAGE
-ARG STATE_ROOT="/var/lib/tao-ce/scoring/hbl"
-
-WORKDIR /app
-COPY --from=src-hbl . .
-
-RUN     --mount=type=ssh \
-        --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        set -eux; \
-        composer install -n --classmap-authoritative --prefer-dist --no-cache; \
-        echo '<?php return [];' >.env.local.php; \
-        composer dump-env dev; \
-        rm -rf .build/ var/storage; \
-        find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
-        find /app -type f | grep '[/][.]git.*$' | xargs rm -rf ;
-
-RUN \
-    cd /app \
-    && rm -rf \
-        var \
-    && mkdir -p \
-        ${STATE_ROOT}/data \
-    && ln -s \
-        ${STATE_ROOT}/data \
-        var
 
 ### ms-be ####################################################################
 FROM $BUILD_IMAGE AS ms-be
@@ -109,11 +82,13 @@ ARG STATE_ROOT="/var/lib/tao-ce/scoring/ms-be"
 WORKDIR /app
 COPY --from=src-ms . .
 
-RUN     --mount=type=ssh \
+RUN \
+        --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+        --mount=type=secret,id=NPM_TOKEN \
         set -eux; \
-        composer install -n --classmap-authoritative --prefer-dist --no-cache; \
-        composer dump-env dev; \
+        /usr/bin/composer install -n --classmap-authoritative --prefer-dist --verbose; \
+        /usr/bin/composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
@@ -137,12 +112,13 @@ ARG STATE_ROOT="/var/lib/tao-ce/scoring/ss"
 WORKDIR /app
 COPY --from=src-ss . .
 
-RUN     --mount=type=ssh \
+RUN \
+        --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+        --mount=type=secret,id=NPM_TOKEN \
         set -eux; \
-        composer install -n --classmap-authoritative --prefer-dist --no-cache; \
-        echo '<?php return [];' >.env.local.php; \
-        composer dump-env dev; \
+        /usr/bin/composer install -n --classmap-authoritative --prefer-dist --verbose; \
+        /usr/bin/composer dump-env dev; \
         rm -rf .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
         find /app -type f | grep '[/][.]git.*$' | xargs rm -rf ;
@@ -160,8 +136,6 @@ RUN \
 ### Export #####################################################################
 FROM scratch AS export
 
-COPY --link --from=hbl-be \
-    /app /hbl
 COPY --link --from=ms-be \
     /app /ms-be
 COPY --link --from=ss-be \

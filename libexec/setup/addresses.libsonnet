@@ -116,9 +116,6 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
     frontend: {
       bootstrap: localAddress(21604),  //ms-fe:80
     },
-    hbl: {
-      http: localAddress(21606),  //hbl-be:8080
-    },
     service: {
       http: localAddress(21608),  //ss-be:8080
     },
