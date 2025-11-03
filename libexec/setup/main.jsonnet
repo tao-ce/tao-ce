@@ -10,6 +10,7 @@ local templates = {
   timers: (import './apps/timers.libsonnet'),
   construct: (import './apps/construct.libsonnet'),
   proctoring: (import './apps/proctoring.libsonnet'),
+  'content-service': (import './apps/content-service.libsonnet'),
 };
 
 local lib = import './lib.libsonnet';

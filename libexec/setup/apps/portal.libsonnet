@@ -3,6 +3,7 @@ function(setup)
     env: {
       backend: {
         AUTH_SERVER_API_URL: setup.apps['environment-management'].auth_server.http.url,
+        CONTENT_API_URL: setup.apps['content-service'].backend.http.url,
         DYNAMIC_API_URL: setup.apps.dynamic_query.api.http.url,
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
@@ -71,6 +72,7 @@ function(setup)
         NODE_ENV: 'production',
         PORT: setup.apps.portal.bootstrap.http.port,
         NODE_VERSION: '18',
+        USERPILOT_TOKEN: '',
       },
     },
     files: {},

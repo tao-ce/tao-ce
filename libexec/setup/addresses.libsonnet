@@ -104,4 +104,9 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
       socket: localAddress(21913),  //pr-realtime-api:3000
     },
   },
+  'content-service': {
+    backend: {
+      http: localAddress(21400),  //content-service:3000
+    }
+  }
 }
