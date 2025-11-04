@@ -23,6 +23,21 @@ includes:
         map:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
 
+  content-service:
+    taskfile: ../build/crystal
+    dir: content-service
+    vars:
+      APP: content-service
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
   deliver:
     taskfile: ../build/crystal
     dir: deliver
@@ -139,6 +154,30 @@ includes:
       ARGS:
         map:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  proctoring:
+    taskfile: ../build/crystal
+    dir: proctoring
+    vars:
+      APP: proctoring
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-forwarder: './src/apps/forwarder'
+          src-frontend-auth-wait: './src/apps/frontend-auth-wait'
+          src-frontend: './src/apps/frontend'
+          src-lti13-gateway: './src/apps/lti13-gateway'
+          src-realtime-service: './src/apps/realtime-service'
+          src-go-shared: './src/apps/go-shared'
+          src-protobuf: './src/apps/protobuf'
+          src-apps: './src/apps/'
+      BASES:
+        - builds/base
+        - builds/go
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
 
   task-orchestrator:
     taskfile: ../build/crystal
