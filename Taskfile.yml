@@ -16,7 +16,7 @@ vars:
   LOCAL_IMAGE: "{{.REGISTRY}}/{{ .SWIFT_IMAGE}}"
   PAYLOAD_IMAGE: "{{.REGISTRY}}/payload/{{ .SWIFT_IMAGE}}"
 
-  BUILD_COMMON_FLAGS: 
+  BUILD_COMMON_FLAGS:
     - "--ssh default"
     - "--secret type=file,id=NPM_TOKEN,src={{.ROOT_DIR}}/.secrets/npm"
   TAG: dev-latest
@@ -104,7 +104,7 @@ tasks:
     - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/start/*
 
   dev:down:
-    desc: stop all tao-ce services and clean /opt/tao-ce 
+    desc: stop all tao-ce services and clean /opt/tao-ce
     ignore_error: true
     prompt:
     - This task will wipe all code from devcontainer, do you want to continue?
