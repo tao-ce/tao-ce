@@ -451,7 +451,7 @@ function(setup)
           },
           {
             name: 'monitoringEnabled',
-            value: 'false',
+            value: 'true',
           },
           {
             name: 'MINIMAL_UI_TEST_TAKER',
@@ -520,7 +520,7 @@ function(setup)
           {
             name: 'readBehindEnabled',
             value: 'false',
-          }
+          },
         ],
         ltiPlatforms: [
           {
@@ -556,12 +556,12 @@ function(setup)
             oidcAuthenticationUrl: 'https://%s/ms-be/lti1p3/oidc/authentication' % [setup.publicDomain],
           },
           {
-            audience: 'https://%s/portal-be' % [setup.publicDomain],
             id: 'portal-platform',
-            isInternal: true,
             name: 'Portal LTI platform',
-            oauth2AccessTokenUrl: 'http://foo.bar',
+            audience: 'https://%s/portal-be' % [setup.publicDomain],
+            oauth2AccessTokenUrl: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
             oidcAuthenticationUrl: 'http://foo.bar',
+            isInternal: true,
           },
         ],
         ltiRegistrations: [
@@ -645,6 +645,7 @@ function(setup)
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
           },
+
           {
             clientId: 'portal-deliver-client-id-#tenantId#',
             deploymentIds: [
@@ -689,6 +690,21 @@ function(setup)
             toolId: 'ms-tool',
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
+          },
+          {
+            id: 'deliver--proctoring',
+            clientId: 'deliver-proctoring-client-id',
+            tenantId: '1',
+            clientSecret: 'secret',
+            platformId: 'portal-platform',
+            toolId: 'assessment-proctoring-tool',
+            platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
+            toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
+            platformKeyChain: {
+            },
+            toolKeyChain: {
+            },
+            deploymentIds: ['1'],
           },
         ],
         ltiRoleMappings: [
@@ -768,13 +784,22 @@ function(setup)
             oidcInitiationUrl: 'https://%s/auth-server/lti1p3/oidc/initiation' % [setup.publicDomain],
           },
           {
+            id: 'assessment-proctoring-tool',
+            name: 'Proctoring tool for Deliver BE',
             audience: 'https://%s/pr-lti-gateway' % [setup.publicDomain],
-            deepLinkingUrl: '',
-            id: 'proctoring-tool',
-            isInternal: true,
-            launchUrl: 'https://%s/pr-lti-gateway/api/v1/actions/proctoring/start' % [setup.publicDomain],
-            name: 'Proctoring tool',
             oidcInitiationUrl: 'https://%s/auth-server/lti1p3/oidc/initiation' % [setup.publicDomain],
+            launchUrl: 'https://%s/pr-lti-gateway/api/v1/actions/proctoring/start' % [setup.publicDomain],
+            deepLinkingUrl: '',
+            isInternal: true,
+          },
+          {
+            id: 'proctoring-tool',
+            name: 'Proctoring tool',
+            audience: 'https://%s/pr-lti-gateway' % [setup.publicDomain],
+            oidcInitiationUrl: 'https://%s/auth-server/lti1p3/oidc/initiation' % [setup.publicDomain],
+            launchUrl: 'https://%s/pr-lti-gateway/api/v1/lti1p3/launch' % [setup.publicDomain],
+            deepLinkingUrl: '',
+            isInternal: true,
           },
           {
             audience: 'https://%s/backoffice' % [setup.publicDomain],
@@ -1040,6 +1065,12 @@ function(setup)
                   'delete',
                 ],
               },
+              {
+                resource: 'portal.experimental-features',
+                scopes: [
+                  'view',
+                ],
+              },
             ],
           },
           {
@@ -1105,7 +1136,7 @@ function(setup)
                   'grade',
                   'review-grade',
                   'reopen-grade',
-                  'preview'
+                  'preview',
                 ],
               },
               {
@@ -1145,7 +1176,7 @@ function(setup)
                 scopes: [
                   'view',
                   'grade',
-                  'preview'
+                  'preview',
                 ],
               },
             ],
@@ -1185,7 +1216,7 @@ function(setup)
                 scopes: [
                   'view',
                   'review-grade',
-                  'preview'
+                  'preview',
                 ],
               },
             ],

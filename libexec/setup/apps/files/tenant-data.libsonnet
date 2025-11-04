@@ -5,6 +5,14 @@ function(setup)
       {
         configurations: [
           {
+            name: 'cookiePolicy',
+            value: std.toString({
+              display: false,
+              privacyPolicyLink: 'https://%(publicDomain)s/about/privacy/' % setup,
+              cookiePolicyLink: 'https://%(publicDomain)s/about/privacy/' % setup,
+            }),
+          },
+          {
             name: 'studio.qti.item.templates.groups',
             value: '[{"id": "choice", "title": "Choice"}, {"id": "text", "title": "Text"}]',
           },
@@ -1798,21 +1806,6 @@ function(setup)
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
           },
-          {
-            clientId: 'deliver-proctoring-client-id',
-            clientSecret: 'secret',
-            deploymentIds: [
-              '1',
-            ],
-            id: 'deliver--proctoring',
-            platformId: 'nextgen-tao-deliver-be-platform',
-            platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
-            platformKeyChain: {},
-            tenantId: '1',
-            toolId: 'proctoring-tool',
-            toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
-            toolKeyChain: {},
-          },
         ],
         ltiRoleMappings: [],
         ltiTools: [],
@@ -1856,10 +1849,10 @@ function(setup)
             ],
           },
           {
+            name: 'Proctoring Deliver OAuth2 Credentials',
             clientId: 'deliver-proctoring-client-id',
             clientSecret: 'client-secret',
             isConfidential: true,
-            name: 'Proctoring Deliver OAuth2 Credentials',
             scopes: [
               'https://purl.imsglobal.org/spec/lti-ap/scope/control.all',
             ],

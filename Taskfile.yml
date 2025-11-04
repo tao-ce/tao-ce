@@ -35,6 +35,8 @@ vars:
       task-orchestrator: "container-image://{{ .REGISTRY }}/apps/task-orchestrator:{{ .TAG }}"
       portal: "container-image://{{ .REGISTRY }}/apps/portal:{{ .TAG }}"
       timers: "container-image://{{ .REGISTRY }}/apps/timers:{{ .TAG }}"
+      proctoring: "container-image://{{ .REGISTRY }}/apps/proctoring:{{ .TAG }}"
+      content-service: "container-image://{{ .REGISTRY }}/apps/content-service:{{ .TAG }}"
 
   APPS:
     ref: keys .APPS_CONTEXTS
@@ -86,7 +88,7 @@ tasks:
     - for:
         var: APPS
       task: "apps:{{.ITEM}}:up"
-    
+
 
   dev:wipe:
     desc: Remove all persistent data and config

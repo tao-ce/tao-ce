@@ -22,6 +22,10 @@
 	path = apps/portal/src
 	url = git@github.com:oat-sa/tao-portal.git
 	branch = tao-ce-release-candidate-01
+[submodule "apps/proctoring/src"]
+	path = apps/proctoring/src
+	url = git@github.com:oat-sa/proctoring.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/dynamic-query/src"]
 	path = apps/dynamic-query/src
 	url = git@github.com:oat-sa/tao-dynamic-query-api.git
@@ -64,3 +68,6 @@
 [submodule "build/cozy/src/cockpit-tao-ce"]
 	path = build/cozy/src/cockpit-tao-ce
 	url = git@github.com:tao-ce/cockpit-tao-ce.git
+[submodule "apps/content-service/src"]
+	path = apps/content-service/src
+	url = git@github.com:oat-sa/tao-content-service.git

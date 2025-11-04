@@ -1,0 +1,21 @@
+[Unit]
+After=tao-ce.proctoring.init.service
+
+[Service]
+Type=simple
+Environment=NODE_VERSION=22
+Environment=NODE_TLS_REJECT_UNAUTHORIZED=0
+ExecStart=/bin/sh -c "\
+  cd ${TAO_CE_OPT}/proctoring/frontend-auth-wait/bootstrap && \
+  PORT=${TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_BOOTSTRAP_HTTP_PORT} \
+  exec /usr/local/libexec/nvm/nvm-exec node server.js \
+"
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
+EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
+EnvironmentFile=/etc/tao-ce/setup/envs/proctoring/frontend-auth-wait.env
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

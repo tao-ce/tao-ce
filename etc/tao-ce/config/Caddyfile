@@ -3,6 +3,10 @@
 	@envoy-endpoints path /deliver/* /backoffice/* /pr-lti-gateway/* /ms-be/* /ss-be/* /portal-be/*
 	@portal-bootstrap path /sessions/* /api/* /portal
 	@deliver-bootstrap path /deliver-fe /deliver-fe/*
+	@proctoring-static path /pr-fe-static*
+	@proctoring-bootstrap path /pr-fe*
+	@proctoring-auth-wait-bootstrap path /pr-auth-wait*
+	@proctoring-auth-wait-api path /pr-auth-wait-api*
 
 	# handle will keep prefix
 	handle @deliver-bootstrap {
@@ -27,6 +31,46 @@
 
 	handle_path /portal-static/* {
 		root {$TAO_CE_DIR_OPT}/portal/static
+		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
+		header Access-Control-Allow-Credentials true
+
+		file_server browse
+	}
+
+	handle @proctoring-bootstrap {
+		uri strip_prefix /pr-fe
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTEND_BOOTSTRAP_HTTP_ENDPOINT}
+	}
+
+	handle @proctoring-static {
+		uri strip_prefix /pr-fe-static
+		root {$TAO_CE_DIR_OPT}/proctoring/frontend/static
+		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
+		header Access-Control-Allow-Credentials true
+
+		file_server browse
+	}
+
+	handle_path /pr-realtime-socket/* {
+    	reverse_proxy {$TAO_CE_SVC_PROCTORING_REALTIMESERVICE_SOCKET_ENDPOINT}
+	}
+
+	handle_path /pr-realtime-api* {
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_REALTIMESERVICE_HTTP_ENDPOINT}
+	}
+
+	handle @proctoring-auth-wait-bootstrap {
+		uri strip_prefix /pr-auth-wait
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_BOOTSTRAP_HTTP_ENDPOINT}
+	}
+
+	handle @proctoring-auth-wait-api {
+		uri strip_prefix /pr-auth-wait-api
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_API_HTTP_ENDPOINT}
+	}
+
+	handle_path /pr-auth-wait-static/* {
+		root {$TAO_CE_DIR_OPT}/proctoring/frontend-auth-wait/static
 		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
 		header Access-Control-Allow-Credentials true
 
@@ -85,6 +129,18 @@
 	handle_path /timers/* {
 		reverse_proxy {$TAO_CE_SVC_TIMERS_BACKEND_SOCKET_ENDPOINT}
 	}
+	handle_path /content-service/* {
+		reverse_proxy {$TAO_CE_SVC_CONTENT_SERVICE_BACKEND_HTTP_ENDPOINT}
+	}
+	handle_path /content-service-storage/* {
+		root /var/lib/tao-ce/content-service/data
+		header Access-Control-Allow-Origin "https://{$TAO_CE_PUBLIC_DOMAIN}"
+		header Access-Control-Allow-Credentials true
+		header Content-Disposition attachment
+
+		file_server
+	}
+
 	# reverse_proxy will keep prefix
 	# reverse_proxy /backoffice/*     {$TAO_CE_SVC_CONSTRUCT_TAO_HTTP_ENDPOINT}
 	reverse_proxy @envoy-endpoints {$TAO_CE_SVC_ENVIRONMENT_MANAGEMENT_ENVOY_HTTP_ENDPOINT}
