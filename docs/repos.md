@@ -17,7 +17,6 @@ Each applications in apps contains:
 This folder contains building toolchain for each product, and their dependencies:
 * [`crystal`](/build/crystal/): the local deployment from sources 
 * [`swift`](/build/swift/): the deployment through pre-built container
-* [`cozy`](/build/cozy/): the Virtual Machine deployment 
 
 ### [`hack`](/hack)
 
