@@ -33,7 +33,7 @@ function(setup)
         HTTP_GRPC_GATEWAY_PORT: setup.apps['environment-management'].auth_server.gw.port,
         JWT_CLAIM_ISSUER: setup.apps['environment-management'].auth_server.http.endpoint,
         LTI1P3_SERVICE_ENCRYPTION_KEY: '235539604521e196010282fa6cf9b349',
-        // MANUAL_SCORING_URL: "http://tao-ce-tao-manual-scoring-be:8080",
+        MANUAL_SCORING_URL: setup.apps.scoring.backend.http.url,
         NAMESPACE: 'oat-dev',
         NODE_ENV: 'production',
         NODE_TLS_REJECT_UNAUTHORIZED: '0',

@@ -11,7 +11,7 @@ function(setup)
         APP_ENV: 'dev',
         APP_DEBUG: 'true',
         APP_ROUTE_PREFIX: '/',
-        APP_HOST: setup.apps.scoring.backend.http.url,
+        APP_HOST: 'https://%(publicDomain)s/ms-be' % setup,
         DATABASE_URL: 'pgsql://postgres:postgres@%(host)s:%(port)s/manual_scoring' % setup.dependencies.pgsql.address,
         CORS_ALLOW_ORIGIN: '.*',
         REDIS_CACHE_DSN: 'redis://%(host)s:%(port)s' % setup.dependencies.redis.address,
@@ -61,9 +61,10 @@ function(setup)
       },
       frontend: {
         API_URL: 'https://%(publicDomain)s/ms-be' % setup,
+        APP_NAMESPACE: '/ms-fe',
         AUTH_SERVER_URL: 'https://%(publicDomain)s/auth-server' % setup,
-        REFRESH_TOKEN_URI: '/api/v1/auth/refresh-tokens',
-        STATIC_URL: 'https://%(publicDomain)s/ms-fe-static' % setup,
+        REFRESH_TOKEN_URI: '/ms-be/api/v1/auth/refresh-tokens',
+        STATIC_URL: 'https://%(publicDomain)s/ms-fe-static/' % setup,
         TENANTS: '[{"label":"tao-ce-stack","clientId":"ms-fe-solar-client-id"}]',
       },
       service: {
@@ -131,7 +132,7 @@ function(setup)
         MESSENGER_GRADER_SCORING_EVENTS_QUEUE_TOPIC: 'grader-scoring-events',
 
         MESSENGER_GRADER_PUBLICATIONS_DSN: dsn('grader-publications-topic'),
-        MESSENGER_GRADER_PUBLICATIONS_QUEUE_TOPIC: 'grader-publications-topic',
+        MESSENGER_GRADER_PUBLICATIONS_QUEUE_TOPIC: 'grade-publications-topic',
         MESSENGER_GRADER_PUBLICATIONS_QUEUE_SUBSCRIPTION: 'ss-grader-publications-subscription',
 
         DEFAULT_RESPONSE_HANDLER: '[{"engine":"manual","schedule":"* * * * *"}]',

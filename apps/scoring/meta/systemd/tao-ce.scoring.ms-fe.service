@@ -1,7 +1,6 @@
 [Unit]
 After=tao-ce.setup.service
 After=tao-ce.scoring.ms-be.service
-After=tao-ce.scoring.hbl.service
 After=tao-ce.scoring.ss.service
 
 [Service]

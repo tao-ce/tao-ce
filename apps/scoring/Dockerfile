@@ -145,7 +145,7 @@ COPY --link --from=ext \
 COPY --link --from=ms-fe-bootstrap \
     /app /ms-fe/bootstrap
 COPY --link --from=ms-fe-static \
-    /app /ms-fe/static
+    /app/dist /ms-fe/static
 COPY ./router.php /router.php
 
 
