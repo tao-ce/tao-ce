@@ -53,7 +53,7 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}' 
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
 
   devkit:
     taskfile: ../build/crystal
@@ -68,7 +68,7 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}' 
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
 
   datastore:
     taskfile: ../build/crystal
