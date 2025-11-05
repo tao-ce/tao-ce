@@ -4,8 +4,6 @@ After=tao-ce.scoring.init.service
 
 [Service]
 Type=oneshot
-ExecStartPre=/bin/sh -c "cp ${TAO_CE_OPT}/scoring/router.php ${TAO_CE_OPT}/scoring/ms-be/"
-ExecStartPre=/bin/sh -c "cp ${TAO_CE_OPT}/scoring/router.php ${TAO_CE_OPT}/scoring/ms-be/public/"
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console cache:clear"
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console messenger:setup-transports"
 ExecStart=bash -c " \

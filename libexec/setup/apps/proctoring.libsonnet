@@ -36,6 +36,9 @@ function(setup)
         POLL_STARTTEST_PERIOD: 2000,
         POLL_STARTTEST_RETRIES_ON_ERROR: 2,
         POLL_STARTTEST_TIMEOUT: 30000,
+        NODE_VERSION: 22,
+        NODE_TLS_REJECT_UNAUTHORIZED: 0,
+        PORT: setup.apps.proctoring.frontendAuthWait.bootstrap.port,
       },
       frontend: {
         API_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
@@ -45,9 +48,11 @@ function(setup)
         LTI_BACKEND_SERVICE: 'https://%(publicDomain)s/pr-lti-gateway' % setup,
         STATIC_URL: 'https://%(publicDomain)s/pr-fe-static/' % setup,
         JWT_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS1ucnBzL2NsYWltL25hbWVzcm9sZXNlcnZpY2UiOiJmb28iLCJjb250ZXh0SWQiOjEzMzd9.Aude5UaQ_2yZF7E6uD4Z9r0jlSwCUiVJwI31wDToLw0',
+        NODE_VERSION: 22,
+        NODE_TLS_REJECT_UNAUTHORIZED: 0,
+        PORT: setup.apps.proctoring.frontend.bootstrap.port,
       },
       'lti1p3-gateway': {
-        COMPOSER_AUTH: '{"http-basic":{"github.com":{"username":"${GITHUB_USERNAME}","password":"${GITHUB_TOKEN}"}}}',
         APP_ENV: 'dev',
         APP_SECRET: 'b5dfd09528554b501a2ec69717e90e8f',
         CORS_ALLOW_ORIGIN: '*',

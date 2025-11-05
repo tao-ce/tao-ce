@@ -7,7 +7,6 @@ function(setup)
     },
     env: {
       backend: {
-        COMPOSER_AUTH: '{"http-basic":{"github.com":{"username":"${GITHUB_USERNAME}","password":"${GITHUB_TOKEN}"}}}',
         APP_ENV: 'dev',
         APP_DEBUG: 'true',
         APP_ROUTE_PREFIX: '/',
@@ -66,9 +65,11 @@ function(setup)
         REFRESH_TOKEN_URI: '/ms-be/api/v1/auth/refresh-tokens',
         STATIC_URL: 'https://%(publicDomain)s/ms-fe-static/' % setup,
         TENANTS: '[{"label":"tao-ce-stack","clientId":"ms-fe-solar-client-id"}]',
+        NODE_VERSION: 18,
+        NODE_TLS_REJECT_UNAUTHORIZED: 0,
+        PORT: setup.apps.scoring.frontend.bootstrap.port,
       },
       service: {
-        COMPOSER_AUTH: '{"http-basic":{"github.com":{"username":"${GITHUB_USERNAME}","password":"${GITHUB_TOKEN}"}}}',
         APP_ENV: 'dev',
         APP_DEBUG: 'true',
         DATABASE_URL: 'pgsql://postgres:postgres@%(host)s:%(port)s/scoring_service' % setup.dependencies.pgsql.address,

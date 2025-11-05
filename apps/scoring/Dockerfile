@@ -3,36 +3,6 @@
 ARG BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 
-### ext ####################################################################
-FROM $BUILD_IMAGE AS ext
-ARG BUILD_IMAGE
-ARG STATE_ROOT="/var/lib/tao-ce/scoring/ext"
-
-WORKDIR /app
-RUN set -eux; \
-    { \
-        echo 'upload_max_filesize=60M'; \
-        echo 'post_max_filesize=60M'; \
-        echo 'post_max_size=60M'; \
-    } > tao-hbl-scoring-engine-be.ini \
-    ;
-
-RUN set -eux; \
-    { \
-        echo 'upload_max_filesize=60M'; \
-        echo 'post_max_filesize=60M'; \
-        echo 'post_max_size=60M'; \
-    } > tao-scoring-service-be.ini \
-    ;
-
-RUN set -eux; \
-    { \
-        echo 'upload_max_filesize=60M'; \
-        echo 'post_max_filesize=60M'; \
-        echo 'post_max_size=60M'; \
-    } > tao-manual-scoring-be.ini \
-    ;
-
 ### ms-fe-bootstrap #####################################################################
 FROM $BUILD_IMAGE AS ms-fe-bootstrap
 ARG BUILD_IMAGE
@@ -140,13 +110,16 @@ COPY --link --from=ms-be \
     /app /ms-be
 COPY --link --from=ss-be \
     /app /ss
-COPY --link --from=ext \
-    /app /ext
 COPY --link --from=ms-fe-bootstrap \
     /app /ms-fe/bootstrap
 COPY --link --from=ms-fe-static \
     /app/dist /ms-fe/static
-COPY ./router.php /router.php
+
+## COPY route files
+COPY ./router.php /ms-be/router.php
+COPY ./router.php /ms-be/public/router.php
+COPY ./router.php /ss/router.php
+COPY ./router.php /ss/public/router.php
 
 
 COPY meta /meta

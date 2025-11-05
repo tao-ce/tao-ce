@@ -5,11 +5,8 @@ After=tao-ce.scoring.ss.service
 
 [Service]
 Type=simple
-Environment=NODE_TLS_REJECT_UNAUTHORIZED=0
 ExecStart=/bin/sh -c "\
   cd ${TAO_CE_OPT}/scoring/ms-fe/bootstrap && \
-  NODE_VERSION=18 \
-  PORT=${TAO_CE_SVC_SCORING_FRONTEND_BOOTSTRAP_PORT} \
   exec /usr/local/libexec/nvm/nvm-exec node server.cjs \
 "
 EnvironmentFile=/etc/environment
