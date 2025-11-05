@@ -1,6 +1,6 @@
-{"index":{"_id":"1-Root-Root","_index":"portal-hierarchy"}}
-{"disabled":false,"hierarchiesLevels":{"Root":["Root"]},"hierarchyId":"Root","hierarchyLevel":"Level1","hierarchyPath":{"Root":{"Level1":"Root"}},"nextHierarchyLevel":"Level2","organizationDescription":null,"organizationId":"Root","organizationName":"TAO CE","parentOrganizationId":null,"tenantId":"1"}
-{"index":{"_id":"1-Root","_index":"portal-config-hierarchy"}}
-{"hierarchyId":"Root","hierarchyLevels":["Level1","Level2","Level3","Level4","Level5","Level6","Level7","Level8","Level9","Level10","Level11","Level12","Level13","Level14","Level15"],"hierarchyName":"Root","tenantId":"1"}
+{"index":{"_id":"1-root-root","_index":"portal-hierarchy"}}
+{"disabled":false,"hierarchiesLevels":{"root":["root"]},"hierarchyId":"root","hierarchyLevel":"Level1","hierarchyPath":{"root":{"Level1":"root"}},"nextHierarchyLevel":"Level2","organizationDescription":null,"organizationId":"root","organizationName":"TAO CE","parentOrganizationId":null,"tenantId":"1"}
+{"index":{"_id":"1-root","_index":"portal-config-hierarchy"}}
+{"hierarchyId":"root","hierarchyLevels":["Level1","Level2","Level3","Level4","Level5","Level6","Level7","Level8","Level9","Level10","Level11","Level12","Level13","Level14","Level15"],"hierarchyName":"root","tenantId":"1"}
 {"index":{"_id":"1admin","_index":"portal-user"}}
-{"active":true,"hierarchy":{"Root":"Root"},"hierarchyLevel":{"Root":"Level1"},"login":"admin","name":"TAO Administrator","password":"$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui","tenantId":"1","workingProfiles":[{"hierarchy":{"Root":"Root"},"hierarchyLevel":{"Root":"Level1"},"name":"profile-backoffice","role":["ADMIN","SYSTEM_MANAGER"]}]}
+{"active":true,"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"login":"admin","name":"TAO Administrator","password":"$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui","tenantId":"1","workingProfiles":[{"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"name":"profile-backoffice","role":["ADMIN","SYSTEM_MANAGER"]}]}
