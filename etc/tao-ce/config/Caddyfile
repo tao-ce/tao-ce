@@ -1,5 +1,6 @@
 {$TAO_CE_PUBLIC_DOMAIN}:443 {
 	@deliver-static path /deliver/sw.js /sw.js /deliver-fe-static/*
+	@proctoring-gateway-start path /pr-lti-gateway/api/v1/assessments/start
 	@envoy-endpoints path /deliver/* /backoffice/* /pr-lti-gateway/* /ms-be/* /ss-be/* /portal-be/*
 	@portal-bootstrap path /sessions/* /api/* /portal
 	@deliver-bootstrap path /deliver-fe /deliver-fe/*
@@ -54,6 +55,11 @@
 	handle @proctoring-bootstrap {
 		uri strip_prefix /pr-fe
 		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTEND_BOOTSTRAP_HTTP_ENDPOINT}
+	}
+
+	handle @proctoring-gateway-start {
+		uri strip_prefix /pr-lti-gateway
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_LTI1P3GATEWAY_HTTP_ENDPOINT}
 	}
 
 	handle @proctoring-static {
