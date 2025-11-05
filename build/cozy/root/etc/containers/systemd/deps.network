@@ -1,9 +1,0 @@
-[Network]
-Subnet=10.247.40.0/24
-IPRange=10.247.40.0/24
-Gateway=10.247.40.254
-NetworkName=deps
-Driver=bridge
-
-[Install]
-WantedBy=multi-user.target

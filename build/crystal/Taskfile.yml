@@ -3,9 +3,6 @@ version: '3'
 vars:
   NAMESPACE: '{{ .NAMESPACE | default "apps" }}'
   DEFAULT_IMAGE: '{{.REGISTRY}}{{if ne .NAMESPACE "-" }}/{{.NAMESPACE}}{{ end }}/{{.APP}}'
-  IMAGE: '{{ default .IMAGE .DEFAULT_IMAGE }}'
-  DEFAULT_REMOTE_IMAGE: '{{.REMOTE_REGISTRY}}{{if ne .NAMESPACE "-" }}/{{.NAMESPACE}}{{ end }}/{{.APP}}'
-  REMOTE_IMAGE: '{{ default .IMAGE .DEFAULT_IMAGE }}'
   DEFAULT_TARGET: export
   SIGNAL_DIR: '{{.ROOT_SIGNAL_DIR}}/{{.NAMESPACE}}/{{.APP}}'
   BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
@@ -33,11 +30,13 @@ tasks:
     - task: start
 
   build:
+    # desc: Build {{ .IMAGE }}:{{ .TAG }}
     run: always
     vars:
       CONTEXT: '{{ .CONTEXT | default "." }}'
       SUDO: '{{ .SUDO | default "" }}'
       TARGET: '{{ .TARGET | default .DEFAULT_TARGET }}'
+      IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
     sources:
     - "{{if eq .TASK_DIR .ROOT_DIR}}@@@@@{{else}}{{.TASK_DIR}}/**{{end}}"
     # - exclude: "**/.*"
@@ -59,8 +58,11 @@ tasks:
 
     set:
     - pipefail
-    
+
     cmds:
+    - |
+      echo IMAGE: {{.IMAGE}}
+      echo TAG: {{.TAG}}
     - task: _log
       vars:
         MESSAGE: "Starting build image {{.IMAGE}}:{{.TAG}} from {{ .TASK_DIR }}"
@@ -103,6 +105,7 @@ tasks:
     aliases: [export]
     vars:
       DIR: '/opt/tao-ce/{{.APP}}'
+      IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
 
     # sources:
     #   - "{{ .BUILD_SIGNAL_FILE }}"

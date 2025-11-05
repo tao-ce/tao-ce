@@ -1,0 +1,210 @@
+version: '3'
+
+method: checksum
+output: prefixed
+interval: 1s
+
+includes:
+  builds:
+    taskfile: ../build/Taskfile.builds.yml
+
+  construct:
+    taskfile: ../build/crystal
+    dir: construct
+    vars:
+      APP: construct
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-code: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  content-service:
+    taskfile: ../build/crystal
+    dir: content-service
+    vars:
+      APP: content-service
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  deliver:
+    taskfile: ../build/crystal
+    dir: deliver
+    vars:
+      APP: deliver
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src/be'
+          src-frontend: './src/fe'
+          src-sandbox: './src/sandbox'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  devkit:
+    taskfile: ../build/crystal
+    dir: devkit
+    vars:
+      APP: devkit
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  datastore:
+    taskfile: ../build/crystal
+    dir: datastore
+    vars:
+      APP: datastore
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-worker: './src/node'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  dynamic-query:
+    taskfile: ../build/crystal
+    dir: dynamic-query
+    vars:
+      APP: dynamic-query
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-api: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+
+  environment-management:
+    aliases:
+      - em
+    taskfile: ../build/crystal
+    dir: environment-management
+    vars:
+      APP: environment-management
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-auth-server: './src/node-auth-server'
+          src-lti-gateway: './src/lti-gateway'
+          src-sidecar: './src/server'
+      BASES:
+        - builds/base
+        - builds/go
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
+
+  hierarchy:
+    taskfile: ../build/crystal
+    dir: hierarchy
+    vars:
+      APP: hierarchy
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src'
+      BASES:
+        - builds/base
+        - builds/go
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
+
+  portal:
+    taskfile: ../build/crystal
+    dir: portal
+    vars:
+      APP: portal
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src/backend'
+          src-frontend: './src/frontend'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  proctoring:
+    taskfile: ../build/crystal
+    dir: proctoring
+    vars:
+      APP: proctoring
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-forwarder: './src/apps/forwarder'
+          src-frontend-auth-wait: './src/apps/frontend-auth-wait'
+          src-frontend: './src/apps/frontend'
+          src-lti13-gateway: './src/apps/lti13-gateway'
+          src-realtime-service: './src/apps/realtime-service'
+          src-go-shared: './src/apps/go-shared'
+          src-protobuf: './src/apps/protobuf'
+          src-apps: './src/apps/'
+      BASES:
+        - builds/base
+        - builds/go
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
+
+  task-orchestrator:
+    taskfile: ../build/crystal
+    dir: task-orchestrator
+    vars:
+      APP: task-orchestrator
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
+  timers:
+    taskfile: ../build/crystal
+    dir: timers
+    vars:
+      APP: timers
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-backend: './src'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'

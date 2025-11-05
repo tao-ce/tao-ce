@@ -1,0 +1,33 @@
+version: '3'
+
+tasks:
+  _log:
+    internal: true
+    silent: true
+    ignore_error: true
+    run: always
+    cmd: |
+      logger --journald <<EOF
+      MESSAGE={{.MESSAGE}}
+      APP={{.APP | default ""}}
+      TIER={{.TIER| default "@task"}}
+      EOF
+  
+  gcloud:setup:
+    generates:
+      - /usr/local/bin/gsutil
+      - /usr/local/bin/gcloud
+
+    vars:
+      GCLOUDCLI_URL_ARCHS:
+        map:
+          arm64: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-arm.tar.gz
+          amd64: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz
+
+      GCLOUDCLI_URL: '{{index .GCLOUDCLI_URL_ARCHS ARCH}}'
+
+    cmds:
+    - |
+      curl -o- {{.GCLOUDCLI_URL}} | sudo tar xz -C /usr/local/share/ google-cloud-sdk
+      sudo ln -fs /usr/local/share/google-cloud-sdk/bin/gsutil /usr/local/bin/gsutil
+      sudo ln -fs /usr/local/share/google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
