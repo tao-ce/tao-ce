@@ -38,7 +38,7 @@ function(setup)
         POLL_STARTTEST_TIMEOUT: 30000,
         NODE_VERSION: 22,
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
-        PORT: setup.apps.proctoring.frontendAuthWait.bootstrap.port,
+        PORT: setup.apps.proctoring.frontendAuthWait.bootstrap.http.port,
       },
       frontend: {
         API_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
@@ -50,7 +50,7 @@ function(setup)
         JWT_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS1ucnBzL2NsYWltL25hbWVzcm9sZXNlcnZpY2UiOiJmb28iLCJjb250ZXh0SWQiOjEzMzd9.Aude5UaQ_2yZF7E6uD4Z9r0jlSwCUiVJwI31wDToLw0',
         NODE_VERSION: 22,
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
-        PORT: setup.apps.proctoring.frontend.bootstrap.port,
+        PORT: setup.apps.proctoring.frontend.bootstrap.http.port,
       },
       'lti1p3-gateway': {
         APP_ENV: 'dev',
