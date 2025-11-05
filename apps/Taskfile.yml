@@ -179,6 +179,23 @@ includes:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
           GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
 
+  scoring:
+    taskfile: ../build/crystal
+    dir: scoring
+    vars:
+      APP: scoring
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-ss: './src/tao-scoring-service-be'
+          src-ms: './src/tao-manual-scoring-be'
+          src-ms-fe: './src/tao-manual-scoring-fe'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+
   task-orchestrator:
     taskfile: ../build/crystal
     dir: task-orchestrator
