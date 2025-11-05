@@ -1,9 +1,0 @@
-[SddmGreeterTheme]
-Name=TAO Community Edition
-Description=TAO Community Edition
-Type=sddm-theme
-Version=0.1
-ConfigFile=theme.conf
-Theme-Id=tao-ce
-Theme-API=2.0
-QtVersion=6

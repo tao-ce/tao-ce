@@ -51,9 +51,6 @@ includes:
   swift:
     taskfile: ./build/swift
 
-  cozy:
-    taskfile: ./build/cozy
-
   utils:
     taskfile: ./build/utils
     flatten: true
