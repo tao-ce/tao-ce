@@ -5,6 +5,7 @@ After=tao-ce.proctoring.init.service
 Type=simple
 ExecStart=/bin/sh -c "\
   cd ${TAO_CE_OPT}/proctoring/frontend-auth-wait/bootstrap && \
+  PORT=${API_PORT} \
   exec /usr/local/libexec/nvm/nvm-exec node sandbox/sandboxApiServer.js \
 "
 EnvironmentFile=/etc/environment

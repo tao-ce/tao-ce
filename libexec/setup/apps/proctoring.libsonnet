@@ -30,7 +30,8 @@ function(setup)
         NAMESPACE: setup.env.GOOGLE_APP_NAMESPACE,
       },
       'frontend-auth-wait': {
-        STATIC_URL: 'https://%(publicDomain)s/pr-fe-static/' % setup,
+        STATIC_URL: 'https://%(publicDomain)s/pr-auth-wait-static/' % setup,
+        APP_NAMESPACE: 'pr-auth-wait',
         POLL_STARTTEST_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
         POLL_STARTTEST_METHOD: 'POST',
         POLL_STARTTEST_PERIOD: 2000,
@@ -39,6 +40,7 @@ function(setup)
         NODE_VERSION: 22,
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
         PORT: setup.apps.proctoring.frontendAuthWait.bootstrap.http.port,
+        API_PORT: setup.apps.proctoring.frontendAuthWait.api.http.port,
       },
       frontend: {
         API_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
