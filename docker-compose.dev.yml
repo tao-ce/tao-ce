@@ -9,6 +9,8 @@ services:
       args:
         DEVCONTAINER_USERNAME: vscode
     cgroup: host
+    extra_hosts:
+    - community.tao.internal:0.0.0.0
     tty: true
     volumes:
     - .:/workspace:cached

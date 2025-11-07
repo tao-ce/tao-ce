@@ -5,6 +5,8 @@ services:
         target: /etc/tao-ce/config/tao.yaml
         mode: 0644
     image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:latest
+    extra_hosts:
+    - community.tao.internal:0.0.0.0
     ports:
       - 443:443
     cgroup: host
