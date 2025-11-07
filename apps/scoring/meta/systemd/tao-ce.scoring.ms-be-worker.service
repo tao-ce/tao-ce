@@ -9,7 +9,7 @@ ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console 
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console messenger:setup-transports"
 ExecStart=bash -c " \
   cd ${TAO_CE_OPT}/scoring/ms-be \
-  && exec php -d memory_limit=-1 bin/console messenger:consume -vvv \
+  && exec php -d memory_limit=-1 bin/console messenger:consume --sleep=5 \
     internal \
     grader-deliveries \
     grader-responses \

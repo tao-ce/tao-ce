@@ -7,7 +7,7 @@ After=tao-ce.scoring.init.ss-be.service
 [Service]
 Type=simple
 ExecStart=bash -c " cd ${TAO_CE_OPT}/scoring/ss \
-  && exec php -d memory_limit=-1 bin/console messenger:consume -vvv \
+  && exec php -d memory_limit=-1 bin/console messenger:consume --sleep=5 \
     grader-scores \
     grader-executions \
     grader-publications \

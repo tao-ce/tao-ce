@@ -1,6 +1,6 @@
 function(setup)
   {
-    local dsn(topic) = 'gps://default/%(topic)s?client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
+    local dsn(topic) = 'gps://default/%(topic)s?subscription[pull][returnImmediately]=true&client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
       topic: topic,
       project: setup.env.GOOGLE_CLOUD_PROJECT,
       pubsubEndpoint: setup.dependencies.pubsub.address.url,
@@ -64,7 +64,6 @@ function(setup)
         OAUTH2_PUBLIC_KEY_PATH: '%s/proctoring/public.key' % setup.dirs.files,
         OAUTH2_PRIVATE_KEY_PATH: '%s/proctoring/private.key' % setup.dirs.files,
         OAUTH2_PRIVATE_KEY_PASS_PHRASE: '',
-        SCHEME_ASSESSMENT_CONTROL_URL: 'https:',
         PROCTORING_FRONTEND_URL: 'https://%(publicDomain)s/pr-fe' % setup,
         PROCTORING_AUTHORIZATION_AWAITING_URL: 'https://%(publicDomain)s/pr-auth-wait' % setup,
         MESSENGER_ASSESSMENT_STATUS_DSN: dsn('interactions') + '&subscription[pull][maxMessages]=10',
