@@ -1,6 +1,6 @@
 function(setup)
   {
-    local dsn(topic) = 'gps://default/%(topic)s?client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
+    local dsn(topic) = 'gps://default/%(topic)s?subscription[pull][returnImmediately]=true&client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
       topic: topic,
       project: setup.env.GOOGLE_CLOUD_PROJECT,
       pubsubEndpoint: setup.dependencies.pubsub.address.url,
@@ -9,7 +9,7 @@ function(setup)
 
     env: {
       backend: {
-        APP_DEBUG: 'true',
+        APP_DEBUG: 'false',
         APP_DEFAULT_LOCALE: 'en-US',
         APP_ENV: 'dev',
         APP_SECRET: '954eb3a577baa0228a0133965ab3f1f4',
@@ -20,7 +20,6 @@ function(setup)
         CORS_ALLOW_ORIGIN: '.*',
         DATASTORE_GOOGLE_CLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
         DATA_STORE_ENABLE_RESULTS_TRANSFER: 'true',
-        // DATA_STORE_ENABLE_RESULTS_TRANSFER: "false",
         DELIVER_BACKEND_URL: 'https://%s/deliver' % [setup.publicDomain],
         DELIVER_FRONTEND_URL: 'https://%s/deliver-fe' % [setup.publicDomain],
         DELIVER_LTI_DEEP_LINKING_FRONTEND_URL: 'https://%s/deep-linking' % [setup.publicDomain],

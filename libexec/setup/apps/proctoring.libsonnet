@@ -1,6 +1,6 @@
 function(setup)
   {
-    local dsn(topic) = 'gps://default/%(topic)s?client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
+    local dsn(topic) = 'gps://default/%(topic)s?subscription[pull][returnImmediately]=true&client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
       topic: topic,
       project: setup.env.GOOGLE_CLOUD_PROJECT,
       pubsubEndpoint: setup.dependencies.pubsub.address.url,
@@ -30,12 +30,17 @@ function(setup)
         NAMESPACE: setup.env.GOOGLE_APP_NAMESPACE,
       },
       'frontend-auth-wait': {
-        STATIC_URL: 'https://%(publicDomain)s/pr-fe-static/' % setup,
+        STATIC_URL: 'https://%(publicDomain)s/pr-auth-wait-static/' % setup,
+        APP_NAMESPACE: 'pr-auth-wait',
         POLL_STARTTEST_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
         POLL_STARTTEST_METHOD: 'POST',
         POLL_STARTTEST_PERIOD: 2000,
         POLL_STARTTEST_RETRIES_ON_ERROR: 2,
         POLL_STARTTEST_TIMEOUT: 30000,
+        NODE_VERSION: 22,
+        NODE_TLS_REJECT_UNAUTHORIZED: 0,
+        PORT: setup.apps.proctoring.frontendAuthWait.bootstrap.http.port,
+        API_PORT: setup.apps.proctoring.frontendAuthWait.api.http.port,
       },
       frontend: {
         API_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
@@ -45,9 +50,11 @@ function(setup)
         LTI_BACKEND_SERVICE: 'https://%(publicDomain)s/pr-lti-gateway' % setup,
         STATIC_URL: 'https://%(publicDomain)s/pr-fe-static/' % setup,
         JWT_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS1ucnBzL2NsYWltL25hbWVzcm9sZXNlcnZpY2UiOiJmb28iLCJjb250ZXh0SWQiOjEzMzd9.Aude5UaQ_2yZF7E6uD4Z9r0jlSwCUiVJwI31wDToLw0',
+        NODE_VERSION: 22,
+        NODE_TLS_REJECT_UNAUTHORIZED: 0,
+        PORT: setup.apps.proctoring.frontend.bootstrap.http.port,
       },
       'lti1p3-gateway': {
-        COMPOSER_AUTH: '{"http-basic":{"github.com":{"username":"${GITHUB_USERNAME}","password":"${GITHUB_TOKEN}"}}}',
         APP_ENV: 'dev',
         APP_SECRET: 'b5dfd09528554b501a2ec69717e90e8f',
         CORS_ALLOW_ORIGIN: '*',
@@ -57,7 +64,6 @@ function(setup)
         OAUTH2_PUBLIC_KEY_PATH: '%s/proctoring/public.key' % setup.dirs.files,
         OAUTH2_PRIVATE_KEY_PATH: '%s/proctoring/private.key' % setup.dirs.files,
         OAUTH2_PRIVATE_KEY_PASS_PHRASE: '',
-        SCHEME_ASSESSMENT_CONTROL_URL: 'https:',
         PROCTORING_FRONTEND_URL: 'https://%(publicDomain)s/pr-fe' % setup,
         PROCTORING_AUTHORIZATION_AWAITING_URL: 'https://%(publicDomain)s/pr-auth-wait' % setup,
         MESSENGER_ASSESSMENT_STATUS_DSN: dsn('interactions') + '&subscription[pull][maxMessages]=10',

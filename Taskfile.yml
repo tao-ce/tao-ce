@@ -37,6 +37,7 @@ vars:
       timers: "container-image://{{ .REGISTRY }}/apps/timers:{{ .TAG }}"
       proctoring: "container-image://{{ .REGISTRY }}/apps/proctoring:{{ .TAG }}"
       content-service: "container-image://{{ .REGISTRY }}/apps/content-service:{{ .TAG }}"
+      scoring: "container-image://{{ .REGISTRY }}/apps/scoring:{{ .TAG }}"
 
   APPS:
     ref: keys .APPS_CONTEXTS

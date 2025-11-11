@@ -79,34 +79,50 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
   proctoring: {
     frontendAuthWait: {
       bootstrap: {
-        http: localAddress(21906),  //pr-fe-auth-wait:3000
+        http: localAddress(21501),  //pr-fe-auth-wait:3000
       },
       static: {
-        http: localAddress(21907),  //pr-fe-auth-wait-static:8080
+        http: localAddress(21502),  //pr-fe-auth-wait-static:8080
       },
       api: {
-        http: localAddress(21908),  //pr-fe-auth-wait-static:8080
+        http: localAddress(21503),  //pr-fe-auth-wait-static:8080
       },
     },
     frontend: {
       bootstrap: {
-        http: localAddress(21909),  //pr-fe:3000
+        http: localAddress(21504),  //pr-fe:3000
       },
       static: {
-        http: localAddress(21910),  //pr-fe-static:8080
+        http: localAddress(21505),  //pr-fe-static:8080
       },
     },
     lti1p3Gateway: {
-      http: localAddress(21911),  //pr-lti-gateway:8080
+      http: localAddress(21506),  //pr-lti-gateway:8080
     },
     realtimeService: {
-      http: localAddress(21912),  //pr-realtime-api:8080
-      socket: localAddress(21913),  //pr-realtime-api:3000
+      http: localAddress(21507),  //pr-realtime-api:8080
+      socket: localAddress(21508),  //pr-realtime-api:3000
     },
   },
   'content-service': {
     backend: {
       http: localAddress(21400),  //content-service:3000
-    }
-  }
+    },
+  },
+  scoring: {
+    backend: {
+      http: localAddress(21601),  //ms-be:8080
+    },
+    frontend: {
+      bootstrap: localAddress(21604),  //ms-fe:80
+    },
+    service: {
+      http: localAddress(21608),  //ss-be:8080
+    },
+  },
+  ai: {
+    backend: {
+      http: localAddress(21924),  //tao-ai-api:8080
+    },
+  },
 }

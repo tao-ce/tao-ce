@@ -56,15 +56,15 @@
 [submodule "apps/scoring/src/tao-manual-scoring-be"]
 	path = apps/scoring/src/tao-manual-scoring-be
 	url = git@github.com:oat-sa/tao-manual-scoring-be.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/scoring/src/tao-manual-scoring-fe"]
 	path = apps/scoring/src/tao-manual-scoring-fe
 	url = git@github.com:oat-sa/tao-manual-scoring-fe.git
-[submodule "apps/scoring/src/tao-hbl-scoring-engine-be"]
-	path = apps/scoring/src/tao-hbl-scoring-engine-be
-	url = git@github.com:oat-sa/tao-hbl-scoring-engine-be.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/scoring/src/tao-scoring-service-be"]
 	path = apps/scoring/src/tao-scoring-service-be
 	url = git@github.com:oat-sa/tao-scoring-service-be.git
+	branch = tao-ce-release-candidate-01
 [submodule "apps/content-service/src"]
 	path = apps/content-service/src
 	url = git@github.com:oat-sa/tao-content-service.git

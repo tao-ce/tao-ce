@@ -1905,17 +1905,6 @@ function(setup)
             users: [],
           },
           {
-            clientId: 'hbl-client-id-for-ss',
-            clientSecret: 'secret',
-            isConfidential: true,
-            name: 'HBL OAuth2 Client for Scoring Service to send responses and deliveries',
-            scopes: [
-              'delivery:post',
-              'response:post',
-            ],
-            users: [],
-          },
-          {
             clientId: 'ms-client-id-for-ss',
             clientSecret: 'secret',
             isConfidential: true,

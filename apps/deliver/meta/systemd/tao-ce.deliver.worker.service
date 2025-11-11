@@ -6,7 +6,7 @@ Type=simple
 ExecStartPre=/bin/sh -c "mkdir -p ${TAO_CE_VARLIB}/deliver/data"
 ExecStartPre=/bin/sh -c "${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/deliver.json"
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/deliver/backend && exec php bin/console cache:clear --no-warmup"
-ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/deliver/backend && exec php bin/console messenger:consume -v  publication result-extraction clean-up delivery-language-attachment"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/deliver/backend && exec php bin/console messenger:consume --sleep=5 publication result-extraction clean-up delivery-language-attachment"
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env

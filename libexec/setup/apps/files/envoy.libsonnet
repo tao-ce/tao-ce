@@ -187,6 +187,64 @@ function(setup)
           name: 'nextgen_proctoring_lti13_gateway_cluster',
           type: 'strict_dns',
         },
+        {
+          name: 'nextgen_tao_scoring_service_be_cluster',
+          connect_timeout: '1s',
+          type: 'strict_dns',
+          lb_policy: 'round_robin',
+          dns_failure_refresh_rate: {
+            base_interval: '1s',
+            max_interval: '5s',
+          },
+          load_assignment: {
+            cluster_name: 'nextgen_tao_scoring_service_be_cluster',
+            endpoints: [
+              {
+                lb_endpoints: [
+                  {
+                    endpoint: {
+                      address: {
+                        socket_address: {
+                          address: setup.apps.scoring.service.http.host,
+                          port_value: setup.apps.scoring.service.http.port,
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          name: 'nextgen_tao_manual_scoring_be_cluster',
+          connect_timeout: '1s',
+          type: 'strict_dns',
+          lb_policy: 'round_robin',
+          dns_failure_refresh_rate: {
+            base_interval: '1s',
+            max_interval: '5s',
+          },
+          load_assignment: {
+            cluster_name: 'nextgen_tao_manual_scoring_be_cluster',
+            endpoints: [
+              {
+                lb_endpoints: [
+                  {
+                    endpoint: {
+                      address: {
+                        socket_address: {
+                          address: setup.apps.scoring.backend.http.host,
+                          port_value: setup.apps.scoring.backend.http.port,
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        },
       ],
       listeners: [
         {
@@ -287,6 +345,24 @@ function(setup)
                               },
                               route: {
                                 cluster: 'nextgen_tao_node_auth_server_be_cluster',
+                                prefix_rewrite: '/',
+                              },
+                            },
+                            {
+                              match: {
+                                prefix: '/ss-be/',
+                              },
+                              route: {
+                                cluster: 'nextgen_tao_scoring_service_be_cluster',
+                                prefix_rewrite: '/',
+                              },
+                            },
+                            {
+                              match: {
+                                prefix: '/ms-be/',
+                              },
+                              route: {
+                                cluster: 'nextgen_tao_manual_scoring_be_cluster',
                                 prefix_rewrite: '/',
                               },
                             },
