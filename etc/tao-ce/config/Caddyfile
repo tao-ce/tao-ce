@@ -10,6 +10,8 @@
 	@proctoring-auth-wait-api path /pr-auth-wait-api*
 	@scoring-bootstrap path /ms-fe*
 
+	redir / /portal/ 302
+
 	# handle will keep prefix
 	handle @deliver-bootstrap {
 		uri strip_prefix /deliver-fe
@@ -72,7 +74,7 @@
 	}
 
 	handle_path /pr-realtime-socket/* {
-    	reverse_proxy {$TAO_CE_SVC_PROCTORING_REALTIMESERVICE_SOCKET_ENDPOINT}
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_REALTIMESERVICE_SOCKET_ENDPOINT}
 	}
 
 	handle_path /pr-realtime-api* {
