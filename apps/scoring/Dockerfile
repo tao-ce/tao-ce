@@ -111,7 +111,7 @@ COPY --link --from=ms-be \
 COPY --link --from=ss-be \
     /app /ss
 COPY --link --from=ms-fe-bootstrap \
-    /app /ms-fe/bootstrap
+    /app/server.cjs /ms-fe/bootstrap/
 COPY --link --from=ms-fe-static \
     /app/dist /ms-fe/static
 

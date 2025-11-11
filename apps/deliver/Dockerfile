@@ -99,7 +99,7 @@ FROM scratch AS export
 COPY --link --from=build-backend  \
     /app /backend
 COPY --link --from=build-bootstrap  \
-    /app /bootstrap
+    /app/server.js /bootstrap/
 COPY --link --from=build-static     \
     /app/packages/deliver-app/dist /static
 COPY --link --from=build-sandbox    \
