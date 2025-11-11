@@ -87,6 +87,13 @@ tasks:
         var: APPS
       task: "apps:{{.ITEM}}:up"
 
+  all:gitref:
+    method: none
+    deps:
+    - for:
+        var: APPS
+      task: "apps:{{.ITEM}}:gitref"
+
 
   dev:wipe:
     desc: Remove all persistent data and config

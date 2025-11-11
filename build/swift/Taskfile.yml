@@ -7,6 +7,11 @@ vars:
   INTERNAL_REGISTRY: internal
   PUBLIC_REGISTRY: early-adopters
 
+  ENV_REMOTE_REGISTRY:
+    sh: echo $REMOTE_REGISTRY
+
+  REMOTE_REGISTRY: "{{ .ENV_REMOTE_REGISTRY | default .PUBLIC_REGISTRY }}"
+
   TAO_VERSION:
     sh: echo $TAO_VERSION
 
@@ -16,13 +21,19 @@ vars:
   CE_MAJOR:
     sh: echo $CE_MAJOR
 
+  GIT_REF_LONG:
+    sh: git rev-parse HEAD
+
+  GIT_REF_SHORT:
+    sh: git rev-parse --short HEAD
+
   ARCH: "{{ARCH}}"
 
   CE_VERSION: "v{{ .CE_MAJOR }}.{{ .CE_MINOR }}"
   MANIFEST_TAG: "{{ .TAO_VERSION }}-{{ .CE_VERSION }}"
   IMAGE_TAG: "{{ .IMAGE_TAG }}-{{ .ARCH }}"
 
-  FULL_REGISTRY: "{{ .GCR }}/{{ .GCP_PROJECT }}/{{ .PUBLIC_REGISTRY }}"
+  FULL_REGISTRY: "{{ .GCR }}/{{ .GCP_PROJECT }}/{{ .REMOTE_REGISTRY }}"
   FULL_IMAGE: "{{ .FULL_REGISTRY }}/{{ .SWIFT_IMAGE }}"
 
   FULL_MANIFEST_URL: "{{ .FULL_IMAGE }}:{{ .MANIFEST_TAG }}"
@@ -46,6 +57,7 @@ includes:
       CONTEXTS:
         map:
           tao-ce: "container-image://{{ .PAYLOAD_IMAGE }}:{{.DEV_TAG}}"
+          release: "{{.CACHE_DIR}}/swift/release"
 
   payload:
     taskfile: ../crystal
@@ -60,7 +72,32 @@ includes:
       IMAGE: '{{.PAYLOAD_IMAGE}}'
 
 tasks:
+  release:
+    preconditions:
+      - sh: test -n "$CE_MINOR"
+      - sh: test -n "$CE_MAJOR"
+      - sh: test -n "$TAO_VERSION"
+    cmds:
+    - rm -rf {{.CACHE_DIR}}/swift/release
+    - mkdir -p {{.CACHE_DIR}}/swift/release
+    - task: :all:gitref
+    - cat {{.CACHE_DIR}}/versions/* >{{.CACHE_DIR}}/swift/release/versions.yml
+    - echo {{.MANIFEST_TAG}}>{{.CACHE_DIR}}/swift/release/version
+    - echo {{ARCH}}>{{.CACHE_DIR}}/swift/release/arch
+    - date --utc -Is >{{.CACHE_DIR}}/swift/release/buildtime
+    - git rev-parse HEAD >{{.CACHE_DIR}}/swift/release/gitref
+    - git rev-parse --short HEAD >{{.CACHE_DIR}}/swift/release/gitrefshort
+    - git remote get-url origin >{{.CACHE_DIR}}/swift/release/gitorigin
+    - |
+      cat >{{.CACHE_DIR}}/swift/release/environment <<EOF
+      RELEASE_VERSION={{.MANIFEST_TAG}}-{{ARCH}}-$(cat {{.CACHE_DIR}}/swift/release/gitrefshort)
+      EOF
+
   build:
+    preconditions:
+      - sh: test -n "$CE_MINOR"
+      - sh: test -n "$CE_MAJOR"
+      - sh: test -n "$TAO_VERSION"
     desc: Build swift container {{ .LOCAL_IMAGE }} from {{ .PAYLOAD_IMAGE }}
     deps:
     - :builds:base:build
@@ -69,6 +106,7 @@ tasks:
     cmds:
     - pwd
     - task: :all:build
+    - task: release
     - mkdir -p $(dirname {{.PAYLOAD_CONTAINERFILE}})
     - | 
       cat >{{.PAYLOAD_CONTAINERFILE}} <<EOCONTAINERFILE
