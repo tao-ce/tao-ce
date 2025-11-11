@@ -37,7 +37,7 @@ function(setup)
         GCP_PUBSUB_PORTAL_SESSION_TEMPLATE_NOTIFICATION_SUBSCRIPTION_NAME: 'portal-session-template-notification-subscription',
         HIERARCHY_API_URL: setup.apps.hierarchy.backend.http.url,
         SIMPLE_REPORTS_API_URL: 'https://%(publicDomain)s/sr-be/' % setup,
-        LOG_LEVEL: 'trace',
+        LOG_LEVEL: 'info',
         LTI_PORTAL_AUDIENCE: 'https://%(publicDomain)s/portal-be' % setup,
         // MANUAL_SCORING_API_URL: setup.apps.scoring.backend.http.url,
         MANUAL_SCORING_API_URL: 'https://%(publicDomain)s/ms-be' % setup,

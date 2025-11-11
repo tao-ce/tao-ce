@@ -9,7 +9,7 @@ function(setup)
 
     env: {
       backend: {
-        APP_DEBUG: 'true',
+        APP_DEBUG: 'false',
         APP_DEFAULT_LOCALE: 'en-US',
         APP_ENV: 'dev',
         APP_SECRET: '954eb3a577baa0228a0133965ab3f1f4',

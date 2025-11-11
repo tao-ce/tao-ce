@@ -1,10 +1,9 @@
 [Unit]
 After=tao-ce.setup.service
-After=tao-ce.scoring.init.service
-After=tao-ce.scoring.init.ms-be.service
 
 [Service]
 Type=simple
+ExecStartPre=/bin/sh -c "mkdir -p ${TAO_CE_VARLIB}/scoring/ms-be/data"
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console cache:clear"
 ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/scoring/ms-be && exec php bin/console messenger:setup-transports"
 ExecStart=bash -c " \

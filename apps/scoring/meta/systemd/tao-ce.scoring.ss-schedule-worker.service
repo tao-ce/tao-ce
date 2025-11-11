@@ -1,12 +1,11 @@
 [Unit]
 After=tao-ce.setup.service
 After=tao-ce.deliver.backend.service
-After=tao-ce.scoring.init.service
-After=tao-ce.scoring.init.ss-be.service
+After=tao-ce.scoring.ss.service
 
 [Service]
 Type=simple
-ExecStart=bash -c "cd ${TAO_CE_OPT}/scoring/ss && exec php bin/console ss:delivery-execution:schedules-dispatch"
+ExecStart=bash -c "cd ${TAO_CE_OPT}/scoring/ss && while sleep 15 ; do php bin/console ss:delivery-execution:schedules-dispatch ; done"
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
