@@ -169,14 +169,16 @@ COPY --link --from=build-forwarder \
     /service /service
 
 COPY --link --from=build-frontend-auth-wait-bootstrap \
-    /app /frontend-auth-wait/bootstrap
+    /app/server.js /frontend-auth-wait/bootstrap/
+COPY --link --from=build-frontend-auth-wait-bootstrap \
+    /app/sandbox /frontend-auth-wait/bootstrap/sandbox
 COPY --link --from=build-frontend-auth-wait-static \
     /app/dist /frontend-auth-wait/static
 
 COPY --link --from=build-frontend-static     \
     /app/dist /frontend/static
 COPY --link --from=build-frontend-bootstrap  \
-    /app /frontend/bootstrap
+    /app/server.js /frontend/bootstrap/
 
 COPY --link --from=build-lti1p3-gateway     \
     /app /lti1p3-gateway
