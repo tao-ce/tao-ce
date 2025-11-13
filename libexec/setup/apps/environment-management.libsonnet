@@ -18,7 +18,7 @@ function(setup)
         APP_PUBLIC_KEY_PATH: '%s/em/public.pem' % setup.dirs.files,
         CC_USER_DATA_PRELOADER_SOURCE_PATH: '/app/preload-data/',
         CORS_ALLOW_ORIGIN: '*',
-        DEBUG: 'true',
+        DEBUG: 'false',
         ELASTICSEARCH_PREFIX: '',
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         EM_FIRESTORE_COLLECTION: 'oat-dev',
