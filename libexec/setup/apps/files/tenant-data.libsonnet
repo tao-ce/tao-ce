@@ -1842,7 +1842,7 @@ function(setup)
           {
             clientId: 'backoffice-deliver-id',
             clientSecret: 'client-secret',
-            isConfidential: true,
+            isConfidential: false,
             name: 'Publication OAuth2 Credential',
             scopes: [
               'results:post',
