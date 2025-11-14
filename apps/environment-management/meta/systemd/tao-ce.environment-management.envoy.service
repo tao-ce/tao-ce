@@ -2,7 +2,7 @@
 
 [Service]
 Type=simple
-ExecStart=/bin/sh -c "cd ${TAO_CE_OPT} && exec /usr/local/bin/envoy -c ${TAO_CE_ETC}/setup/config/em/envoy.yaml --log-level info"
+ExecStart=/bin/sh -c "cd ${TAO_CE_OPT} && exec /usr/local/bin/envoy -c ${TAO_CE_ETC}/setup/config/em/envoy.yaml --log-level error"
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
