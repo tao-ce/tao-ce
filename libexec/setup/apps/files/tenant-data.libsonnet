@@ -1934,7 +1934,7 @@ function(setup)
             clientId: 'portal-client-id_1',
             isConfidential: false,
             name: 'Portal Frontend OAuth2 Client',
-            scopes: ['admin'],
+            scopes: [],
             usersSource: 'PORTAL',
           },
           {
