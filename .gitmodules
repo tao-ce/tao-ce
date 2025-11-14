@@ -5,7 +5,7 @@
 [submodule "apps/environment-management/src"]
 	path = apps/environment-management/src
 	url = git@github.com:oat-sa/environment-management.git
-	branch = tao-ce-release-candidate-01
+	branch = feat/OCE-11/em-lite
 [submodule "apps/deliver/src/be"]
 	path = apps/deliver/src/be
 	url = git@github.com:oat-sa/tao-deliver-be.git

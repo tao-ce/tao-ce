@@ -1842,7 +1842,7 @@ function(setup)
           {
             clientId: 'backoffice-deliver-id',
             clientSecret: 'client-secret',
-            isConfidential: true,
+            isConfidential: false,
             name: 'Publication OAuth2 Credential',
             scopes: [
               'results:post',
@@ -1938,17 +1938,6 @@ function(setup)
             usersSource: 'PORTAL',
           },
           {
-            clientId: 'synchronizer-client-id',
-            isConfidential: false,
-            name: 'Synchronizer Frontend OAuth2 Client',
-            scopes: [
-              'bucket:admin',
-              'dynamic-access:*',
-            ],
-            users: [],
-            usersSource: 'PORTAL',
-          },
-          {
             clientId: 'tenant-api-client-id',
             clientSecret: 'secret',
             isConfidential: true,
@@ -1957,37 +1946,7 @@ function(setup)
               'tenant-api:full-access',
             ],
             users: [],
-          },
-          {
-            clientId: 'tenant-cc-admin-id',
-            clientSecret: 'secret',
-            isConfidential: true,
-            name: 'Tenant CC Admin',
-            scopes: [
-              'tenant:admin',
-            ],
-            users: [],
-          },
-          {
-            clientId: 'tenant-cc-viewer-id',
-            clientSecret: 'secret',
-            isConfidential: true,
-            name: 'Tenant CC Viewer',
-            scopes: [
-              'tenant:view',
-            ],
-            users: [],
-          },
-          {
-            clientId: 'payment-webhook-client-id',
-            clientSecret: 'payment-webhook-secret',
-            isConfidential: true,
-            name: 'Payment Service OAuth2 Client',
-            scopes: [
-              'payment:update',
-            ],
-            users: [],
-          },
+          }
         ],
         templates: [
           {
