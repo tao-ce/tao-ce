@@ -216,12 +216,14 @@ ENV TAO_CE_ETC=${TAO_CE_ETC}
 ENV TAO_CE_LIBEXEC=${TAO_CE_LIBEXEC}
 ENV TAO_CE_VARLIB=${TAO_CE_VARLIB}
 
+COPY --link --from=release / /etc/tao-ce/release
 COPY --link --from=tao-ce / ${TAO_CE_OPT}
 
-RUN systemctl enable \
-    ${TAO_CE_LIBEXEC}/systemd/tao-ce.target \
-    ${TAO_CE_LIBEXEC}/systemd/*.service \
-    ${TAO_CE_OPT}/*/meta/systemd/*.service
+RUN cat /etc/tao-ce/release/environment >>/etc/environment \
+    && systemctl enable \
+        ${TAO_CE_LIBEXEC}/systemd/tao-ce.target \
+        ${TAO_CE_LIBEXEC}/systemd/*.service \
+        ${TAO_CE_OPT}/*/meta/systemd/*.service
 
 ################################################################################
 FROM running AS devcontainer

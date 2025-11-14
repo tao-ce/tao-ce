@@ -5,6 +5,7 @@ vars:
   DEFAULT_IMAGE: '{{.REGISTRY}}{{if ne .NAMESPACE "-" }}/{{.NAMESPACE}}{{ end }}/{{.APP}}'
   DEFAULT_TARGET: export
   SIGNAL_DIR: '{{.ROOT_SIGNAL_DIR}}/{{.NAMESPACE}}/{{.APP}}'
+  VERSION_DIR: '{{.CACHE_DIR}}/versions'
   BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
   DEPLOY_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/deploy/done"
   START_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/start/done"
@@ -28,6 +29,31 @@ tasks:
     cmds:
     - task: deploy
     - task: start
+
+  gitref:
+    method: none
+    vars:
+      CONTEXTS_LIST:  '{{ keys .CONTEXTS | join "," }}'
+    cmds:
+    - rm -f {{.VERSION_DIR}}/{{.APP}}
+    - mkdir -p {{.VERSION_DIR}}
+    - cmd: |
+        cat  >>{{.VERSION_DIR}}/{{.APP}} <<EOF
+        {{.APP}}:
+          context: {{relPath .ROOT_DIR .TASK_DIR}}/{{.CONTEXT}}
+          contexts:
+        EOF
+    - for:
+        var: CONTEXTS_LIST
+        split: ","
+      cmd: |
+        cat  >>{{.VERSION_DIR}}/{{.APP}} <<EOF
+            {{.ITEM}}:
+              path: {{relPath .ROOT_DIR .TASK_DIR}}/{{get .CONTEXTS .ITEM}}
+              gitref: $(cd {{get .CONTEXTS .ITEM}}/ &&  git rev-parse HEAD)
+              short: $(cd {{get .CONTEXTS .ITEM}}/ &&  git rev-parse --short HEAD)
+              origin: $(cd {{get .CONTEXTS .ITEM}}/ &&  git remote get-url origin)
+        EOF
 
   build:
     # desc: Build {{ .IMAGE }}:{{ .TAG }}
