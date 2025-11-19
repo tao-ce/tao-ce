@@ -117,6 +117,13 @@ construct_replace_taoLti()  {
             $app_data_path/config/taoLti/Lti1p3RegistrationRepository.conf.php
 }   
 
+construct_disable_GuestAccess()  {
+    cd $app_path
+    sed -i \
+            "/guestaccess/d" \
+            $app_data_path/config/tao/entrypoint.conf.php
+} 
+
 construct_config() {
     construct_wait ready
     cd $app_path
@@ -128,6 +135,7 @@ construct_config() {
 
     construct_setup_taoLti
     construct_replace_taoLti
+    construct_disable_GuestAccess
 }
 
 construct_update() {
@@ -194,8 +202,9 @@ construct_install() {
     php tao/scripts/taoSetup.php \
         ${TAO_CE_ETC}/setup/config/construct/construct-seed.json
 
-    php  index.php 'oat\\tao\\scripts\\tools\\UpdateDeliverConnectConfig'
+    php index.php 'oat\\tao\\scripts\\tools\\UpdateDeliverConnectConfig'
     php index.php 'oat\\taoAdvancedSearch\\scripts\\tools\\IndexCreator'
+    php index.php 'oat\\taoDeliveryRdf\\scripts\\ToggleGuestAccess' off
 
     _sem "${app_install_sem}"
     construct_update

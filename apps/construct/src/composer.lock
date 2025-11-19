@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "808fd064e22800b41d81d122fc408664",
+    "content-hash": "39057a57c6a21a36be8b895ddd44edfd",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -4232,16 +4232,16 @@
         },
         {
             "name": "oat-sa/extension-tao-deliver-connect",
-            "version": "v5.29.2",
+            "version": "v5.30.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:oat-sa/extension-tao-deliver-connect.git",
-                "reference": "261efbdfbe5bd54fad6cd745fcf2cde181475470"
+                "reference": "3b96e1485d994b82bdc4e11b86d3d384292db70d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/extension-tao-deliver-connect/zipball/261efbdfbe5bd54fad6cd745fcf2cde181475470",
-                "reference": "261efbdfbe5bd54fad6cd745fcf2cde181475470",
+                "url": "https://api.github.com/repos/oat-sa/extension-tao-deliver-connect/zipball/3b96e1485d994b82bdc4e11b86d3d384292db70d",
+                "reference": "3b96e1485d994b82bdc4e11b86d3d384292db70d",
                 "shasum": ""
             },
             "require": {
@@ -4281,7 +4281,11 @@
                 "computer-based-assessment",
                 "tao"
             ],
-            "time": "2025-08-01T14:19:39+00:00"
+            "support": {
+                "source": "https://github.com/oat-sa/extension-tao-deliver-connect/tree/v5.30.0",
+                "issues": "https://github.com/oat-sa/extension-tao-deliver-connect/issues"
+            },
+            "time": "2025-11-18T13:39:23+00:00"
         },
         {
             "name": "oat-sa/extension-tao-deliver-pcis",
@@ -13085,5 +13089,5 @@
     "platform-overrides": {
         "php": "8.3"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
