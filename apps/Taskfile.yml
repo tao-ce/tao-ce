@@ -149,6 +149,7 @@ includes:
         map:
           src-backend: './src/backend'
           src-frontend: './src/frontend'
+          vendor: "container-image://{{ .REGISTRY }}/builds/vendor:{{ .TAG }}"
       BASES:
         - builds/base
       ARGS:
@@ -171,6 +172,7 @@ includes:
           src-go-shared: './src/apps/go-shared'
           src-protobuf: './src/apps/protobuf'
           src-apps: './src/apps/'
+          vendor: "container-image://{{ .REGISTRY }}/builds/vendor:{{ .TAG }}"
       BASES:
         - builds/base
         - builds/go

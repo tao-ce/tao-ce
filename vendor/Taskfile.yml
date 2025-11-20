@@ -1,0 +1,21 @@
+# https://taskfile.dev
+
+version: '3'
+
+includes:
+  vendor:
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: vendor
+      NAMESPACE: builds
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+      TARGET: export
+      CONTEXTS:
+        map:
+          src-deliver-fe: ../apps/deliver/src/fe
+          src-deliver-be: ../apps/deliver/src/be
