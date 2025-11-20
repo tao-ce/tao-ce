@@ -21,7 +21,7 @@
 [submodule "apps/portal/src"]
 	path = apps/portal/src
 	url = git@github.com:tao-ce/tao-portal.git
-	branch = tao-ce-release-candidate-01
+	branch = main
 [submodule "apps/proctoring/src"]
 	path = apps/proctoring/src
 	url = git@github.com:oat-sa/proctoring.git
