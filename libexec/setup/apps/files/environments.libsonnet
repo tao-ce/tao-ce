@@ -543,6 +543,15 @@ function(setup)
             ],
           },
           {
+            clientId: 'portal-proctoring-client-id-#tenantId#',
+            clientSecret: 'secret1',
+            isConfidential: false,
+            name: 'Proctoring OAuth2 Credentials',
+            scopes: [
+              'https://purl.imsglobal.org/spec/lti-ap/scope/control.all',
+            ],
+          },
+          {
             clientId: 'admin-#tenantId#',
             clientSecret: 'secret',
             isConfidential: false,
