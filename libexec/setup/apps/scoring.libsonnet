@@ -65,7 +65,7 @@ function(setup)
         REFRESH_TOKEN_URI: '/ms-be/api/v1/auth/refresh-tokens',
         STATIC_URL: 'https://%(publicDomain)s/ms-fe-static/' % setup,
         TENANTS: '[{"label":"tao-ce-stack","clientId":"ms-fe-solar-client-id"}]',
-        NODE_VERSION: 18,
+        NODE_VERSION: 22,
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
         PORT: setup.apps.scoring.frontend.bootstrap.port,
       },

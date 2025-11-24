@@ -51,7 +51,7 @@ function(setup)
         REDIS_HOST: setup.dependencies.redis.address.host,
         REDIS_PORT: setup.dependencies.redis.address.port,
         PORT: setup.apps.portal.backend.http.port,
-        NODE_VERSION: '18',
+        NODE_VERSION: '22',
         INSTALL_POPULATE: '%s/init/portal/%s.json' % [setup.dirs.libexec, setup.portal.populate],
       },
 
@@ -73,7 +73,7 @@ function(setup)
         WS_TASK_ORCHESTRATOR_URL: 'https://%(publicDomain)s/task-orchestrator-socket/' % setup,
         NODE_ENV: 'production',
         PORT: setup.apps.portal.bootstrap.http.port,
-        NODE_VERSION: '18',
+        NODE_VERSION: '22',
         USERPILOT_TOKEN: '',
       },
     },
