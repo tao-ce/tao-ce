@@ -24,7 +24,7 @@ php-pecl-apcu
 php-pecl-grpc
 php-pecl-igbinary
 php-pecl-imagick
-https://mirror.speedpartner.de/remi-archive/fedora/39/php83/@@ARCH@@/php-pecl-protobuf-4.29.3-1.fc39.remi.8.3.@@ARCH@@.rpm
+php-pecl-protobuf
 php-pecl-ssh2
 php-pecl-xlswriter
 php-pecl-yaml
