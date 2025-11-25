@@ -24,7 +24,7 @@ function(setup)
     },
     configuration: {
       global: {
-        lang: 'en-US',
+        lang: setup.defaultLocale,
         anonymous_lang: self.lang,
         mode: 'demo',
         instance_name: 'tao',

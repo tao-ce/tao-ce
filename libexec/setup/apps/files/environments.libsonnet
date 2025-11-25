@@ -17,7 +17,7 @@ function(setup)
           },
           {
             name: 'portal.configuration',
-            value: '{"backgroundImage": "assets/image.png", "backgroundImageVeil": "red2orange", "corporateText": "For education organizations who want the freedom to control and own their assessment experience, from content to technology to delivery to reporting, the TAO assessment platform delivers maximum flexibility, interoperability, and security.", "corporateTitle": "Accelerating Innovation in Assessment", "defaultCurrency": "EUR", "defaultTimeZone": "Europe/Luxembourg", "linkVisibility": true, "logoImage": "", "productName": "TAO Portal", "selfRegistrationLink": { }, "ssoProviders": [ ], "templates": [ ], "title": "Log in to TAO"}',
+            value: '{"backgroundImage": "assets/image.png","locale": "%(defaultLocale)s" ,"backgroundImageVeil": "red2orange", "corporateText": "For education organizations who want the freedom to control and own their assessment experience, from content to technology to delivery to reporting, the TAO assessment platform delivers maximum flexibility, interoperability, and security.", "corporateTitle": "Accelerating Innovation in Assessment", "defaultCurrency": "EUR", "defaultTimeZone": "Europe/Luxembourg", "linkVisibility": true, "logoImage": "", "productName": "TAO Portal", "selfRegistrationLink": { }, "ssoProviders": [ ], "templates": [ ], "title": "Log in to TAO"}' % setup,
           },
           {
             name: 'portal.backoffice.url',
