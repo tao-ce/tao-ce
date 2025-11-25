@@ -1,5 +1,6 @@
 spec:
   publicDomain: community.tao.internal
+  defaultLocale: en-US
   dependencies:
   - key: pubsub
     type: pubsub
