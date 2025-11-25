@@ -19,7 +19,7 @@ local addresses = import './addresses.libsonnet';
 
 
 local hydrateSetup(seed) = {
-  portal: { populate: 'demo-AQ' },
+  portal: { populate: 'admin-only' },
   dirs: {
     opt: '/opt/tao-ce',
     varlib: '/var/lib/tao-ce',
