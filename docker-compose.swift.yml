@@ -26,6 +26,7 @@ services:
     - pubsub:pubsub
     - firestore:firestore
 
+
 configs:
   tao_config:
     content: |
@@ -70,7 +71,3 @@ volumes:
   tao-ce-opt: {}
   tao-ce-lib: {}
   containers: {}
-
-
-x-podman:
-    in_pod: false
