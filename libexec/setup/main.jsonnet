@@ -19,6 +19,7 @@ local addresses = import './addresses.libsonnet';
 
 
 local hydrateSetup(seed) = {
+  defaultLocale: 'en-US',
   portal: { populate: 'admin-only' },
   dirs: {
     opt: '/opt/tao-ce',
