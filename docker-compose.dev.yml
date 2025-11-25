@@ -1,6 +1,6 @@
 
 services:
-   dev:
+  dev:
     build:
       context: .
       additional_contexts:
@@ -29,6 +29,22 @@ services:
     - es:es
     - pubsub:pubsub
     - firestore:firestore
+
+  pubsub-emulator-ui:
+    image: ghcr.io/neoscript/pubsub-emulator-ui:2025.02.25
+    environment:
+      - PUBSUB_EMULATOR_HOST=pubsub.deps.internal:8432
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.1
+    environment:
+    - http.tls.selfSignedCertificate.disabled=true
+    - ELASTICSEARCH_HOSTS=http://es:9200
+    - server.host=es
+    - xpack.security.authc.providers.anonymous.anonymous1.order=0
+    - xpack.security.authc.providers.anonymous.anonymous1.credentials="elasticsearch_anonymous_user"
+    links:
+      - es:es
 
 volumes:
   tao-ce-opt: {}
