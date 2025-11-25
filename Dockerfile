@@ -3,7 +3,7 @@ ARG SYFT_VERSION=latest
 
 ARG FEDORA_IMAGE=fedora
 ARG FEDORA_VERSION=42
-ARG IMAGE_NVM_VERSIONS="18,20,22"
+ARG IMAGE_NVM_VERSIONS="22"
 ARG DEVCONTAINER_USERNAME="vscode"
 
 # do not change without keeping packages.php.lst up to date
@@ -29,23 +29,6 @@ ARG TARGETARCH
 
 RUN apk add jq
 COPY hack/utils/download-release.sh /usr/local/bin/
-
-################################################################################
-# FROM download AS get-logdy
-# ARG TARGETPLATFORM
-# ARG TARGETOS
-# ARG TARGETARCH
-# ARG LOGDY_VERSION="latest"
-
-# RUN \
-#     --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-#     /usr/local/bin/download-release.sh \
-#         logdyhq/logdy-core \
-#         logdy_${TARGETOS}_${TARGETARCH}\
-#         ${LOGDY_VERSION} \
-#         ; \
-#     cd /tmp \
-#         && mv /tmp/logdy* /usr/local/bin/logdy
 
 ################################################################################
 FROM download AS get-syft
