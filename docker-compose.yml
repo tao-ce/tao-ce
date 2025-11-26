@@ -6,9 +6,9 @@ services:
       - source: tao_config
         target: /etc/tao-ce/config/tao.yaml
         mode: 0644
-    image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:latest
+    image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:${TAO_CE_VERSION:-latest}
     extra_hosts:
-    - community.tao.internal:0.0.0.0
+    - ${TAO_CE_PUBLIC_DOMAIN:-community.tao.internal}:0.0.0.0
     ports:
       - 443:443
     cgroup: host
@@ -33,8 +33,8 @@ configs:
   tao_config:
     content: |
       spec:
-        publicDomain: community.tao.internal
-        defaultLocale: en-US
+        publicDomain: ${TAO_CE_PUBLIC_DOMAIN:-community.tao.internal}
+        defaultLocale: ${TAO_CE_DEFAULT_LOCALE:-en-US}
         dependencies:
         - key: pubsub
           type: pubsub
