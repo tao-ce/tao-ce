@@ -57,7 +57,7 @@ RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         --mount=type=secret,id=NPM_TOKEN \
         set -eux; \
-        /usr/bin/composer install -n --classmap-authoritative --ignore-platform-reqs --prefer-dist --verbose; \
+        /usr/bin/composer install -n --classmap-authoritative --prefer-dist --verbose; \
         /usr/bin/composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \
@@ -87,7 +87,7 @@ RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         --mount=type=secret,id=NPM_TOKEN \
         set -eux; \
-        /usr/bin/composer install -n --classmap-authoritative --ignore-platform-reqs --prefer-dist --verbose; \
+        /usr/bin/composer install -n --classmap-authoritative --prefer-dist --verbose; \
         /usr/bin/composer dump-env dev; \
         rm -rf .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
