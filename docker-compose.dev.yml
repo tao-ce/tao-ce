@@ -1,3 +1,8 @@
+name: tao-ce
+
+include:
+- ./docker-compose.stack.yml
+- ./docker-compose.config.yml
 
 services:
   dev:
@@ -30,6 +35,17 @@ services:
     - pubsub:pubsub
     - firestore:firestore
 
+  proxy:
+    ports:
+      - 443:443
+    image: alpine/socat
+    privileged: true
+    links:
+      - dev
+    command: >
+      TCP-LISTEN:443,fork,reuseaddr TCP:dev:443
+    restart: no
+
   pubsub-emulator-ui:
     image: ghcr.io/neoscript/pubsub-emulator-ui:2025.02.25
     environment:
@@ -51,3 +67,7 @@ volumes:
   tao-ce-lib: {}
   vscode-containers: {}
   root-containers: {}
+
+networks:
+  default:
+    name: "${COMPOSE_PROJECT_NAME}-net"
