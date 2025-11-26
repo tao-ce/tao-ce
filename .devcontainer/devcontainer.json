@@ -1,7 +1,7 @@
 {
     "name": "TAO Community Edition",
     "dockerComposeFile": [
-        "../docker-compose.yml"
+        "../docker-compose.dev.yml"
     ],
 
     "service": "dev",

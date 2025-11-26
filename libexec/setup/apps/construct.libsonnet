@@ -2,6 +2,7 @@ function(setup)
   {
     env: {
       backend: {
+        CONSTRUCT_LANG: setup.defaultLocale,
         CONSTRUCT_BASE_URL: 'https://%s/backoffice/' % setup.publicDomain,
         PORTAL_BE_BASE_URL: 'https://%s/portal-be' % setup.publicDomain,
         DELIVERTENANT_0_CUSTOMER_ID: '1',

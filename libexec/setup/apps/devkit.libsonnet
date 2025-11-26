@@ -8,7 +8,7 @@ function(setup)
     },
     env: {
         backend: {
-            APP_DEBUG: "true",
+            APP_DEBUG: "false",
             APP_ENV: "prod",
             APP_HOST: "https://%s/devkit/" % [setup.publicDomain],
             REDIS_CACHE_DSN: setup.dependencies.redis.address.url,

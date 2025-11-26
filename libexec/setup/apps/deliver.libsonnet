@@ -10,7 +10,7 @@ function(setup)
     env: {
       backend: {
         APP_DEBUG: 'false',
-        APP_DEFAULT_LOCALE: 'en-US',
+        APP_DEFAULT_LOCALE: setup.defaultLocale,
         APP_ENV: 'dev',
         APP_SECRET: '954eb3a577baa0228a0133965ab3f1f4',
         ASSETS_MAX_FILE_SIZE_LIMIT: '100M',

@@ -1,6 +1,10 @@
+name: tao-ce
+
+include:
+- ./docker-compose.stack.yml
 
 services:
-   dev:
+  dev:
     build:
       context: .
       additional_contexts:
@@ -30,8 +34,39 @@ services:
     - pubsub:pubsub
     - firestore:firestore
 
+  proxy:
+    ports:
+      - 443:443
+    image: alpine/socat
+    privileged: true
+    links:
+      - dev
+    command: >
+      TCP-LISTEN:443,fork,reuseaddr TCP:dev:443
+    restart: no
+
+  pubsub-emulator-ui:
+    image: ghcr.io/neoscript/pubsub-emulator-ui:2025.02.25
+    environment:
+      - PUBSUB_EMULATOR_HOST=pubsub.deps.internal:8432
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.15.1
+    environment:
+    - http.tls.selfSignedCertificate.disabled=true
+    - ELASTICSEARCH_HOSTS=http://es:9200
+    - server.host=es
+    - xpack.security.authc.providers.anonymous.anonymous1.order=0
+    - xpack.security.authc.providers.anonymous.anonymous1.credentials="elasticsearch_anonymous_user"
+    links:
+      - es:es
+
 volumes:
   tao-ce-opt: {}
   tao-ce-lib: {}
   vscode-containers: {}
   root-containers: {}
+
+networks:
+  default:
+    name: "${COMPOSE_PROJECT_NAME}-net"
