@@ -46,6 +46,9 @@ includes:
   builds:
     taskfile: ./build/Taskfile.builds.yml
 
+  vendor:
+    taskfile: ./vendor/Taskfile.yml
+
   apps:
     taskfile: ./apps/Taskfile.yml
 
@@ -187,6 +190,7 @@ tasks:
     - task: dev:init
     - task: builds:base:build
     - task: builds:go:build
+    - task: builds:vendor:build
     cmds:
     - task: _log
       vars:

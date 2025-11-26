@@ -20,8 +20,8 @@
 	branch = tao-ce-release-candidate-01
 [submodule "apps/portal/src"]
 	path = apps/portal/src
-	url = git@github.com:oat-sa/tao-portal.git
-	branch = tao-ce-release-candidate-01
+	url = git@github.com:tao-ce/tao-portal.git
+	branch = main
 [submodule "apps/proctoring/src"]
 	path = apps/proctoring/src
 	url = git@github.com:oat-sa/proctoring.git
@@ -68,3 +68,7 @@
 [submodule "apps/content-service/src"]
 	path = apps/content-service/src
 	url = git@github.com:oat-sa/tao-content-service.git
+[submodule "vendor/live-design-system"]
+	path = vendor/live-design-system
+	url = git@github.com:tao-ce/live-design-system.git
+	branch = tao-ce
