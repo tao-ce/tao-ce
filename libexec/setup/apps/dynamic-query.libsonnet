@@ -2,7 +2,7 @@ function(setup)
   {
     env: {
       api: {
-        DEBUG: 'true',
+        DEBUG: 'false',
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         FIRESTORE_PROJECT_ID: self.GOOGLE_CLOUD_PROJECT,
         FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
