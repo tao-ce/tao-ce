@@ -1,3 +1,5 @@
+name: tao-ce
+
 services:
   tao:
     configs:
