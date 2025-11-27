@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "tao-ce",
+  "workspaces": [
+    "apps/portal/src/frontend",
+    "apps/portal/src/backend",
+    "apps/deliver/src/fe",
+    "apps/content-service/src",
+    "apps/deliver/src/sandbox",
+    "apps/datastore/src/node",
+    "apps/dynamic-query/src",
+    "apps/proctoring/src/apps/frontend-auth-wait",
+    "apps/proctoring/src/apps/frontend",
+    "apps/scoring/src/tao-manual-scoring-fe",
+    "packages/read-aloud-client",
+    "packages/live-design-system",
+    "packages/live-design-system/packages/*",
+    "apps/deliver/src/fe/packages/*"
+  ],
+  "devDependencies": {
+  "npm-run-all": "^4"
+    },
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm test --workspaces"
+  },
+    "installConfig": {
+    "hoistingLimits": "workspaces"
+  }
+}

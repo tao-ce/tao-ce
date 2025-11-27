@@ -68,3 +68,9 @@
 [submodule "apps/content-service/src"]
 	path = apps/content-service/src
 	url = git@github.com:oat-sa/tao-content-service.git
+[submodule "packages/live-design-system"]
+	path = packages/live-design-system
+	url = git@github.com:oat-sa/live-design-system.git
+[submodule "packages/read-aloud-client"]
+	path = packages/read-aloud-client
+	url = git@github.com:oat-sa/read-aloud-client-fe.git
