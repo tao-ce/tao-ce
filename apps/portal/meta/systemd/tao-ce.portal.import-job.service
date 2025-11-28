@@ -3,6 +3,7 @@ After=tao-ce.portal.backend.service
 
 [Service]
 Type=simple
+ExecStartPre=/bin/sh -c "mkdir -p -m 755 ${TAO_CE_OPT}/portal/backend/tmp"
 ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/portal/backend && exec /usr/local/libexec/nvm/nvm-exec node ./importWorker.js"
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
