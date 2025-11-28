@@ -11,7 +11,7 @@ function(setup)
         FIRESTORE_DATABASE_ID: 'default',
         GCP_PROJECT_ID: self.GOOGLE_CLOUD_PROJECT,
         GOOGLE_CLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
-        GCP_IMPORT_CONTENT_SERVICE_STORAGE_DRIVER: 'file',
+        IMPORT_CONTENT_SERVICE_STORAGE_DRIVER: 'file',
         GCP_PUBSUB_SESSION_GRADED_TOPIC_NAME: 'portal-session-graded-topic',
         GCP_PUBSUB_ACTIVITY_LOGS_TOPIC_NAME: 'activity-logs-topic',
         GCP_PUBSUB_PAYMENT_STATUS_SUBSCRIPTION_NAME: 'payment-api-payment-status-update-subscription',
