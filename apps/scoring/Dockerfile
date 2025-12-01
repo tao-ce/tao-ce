@@ -90,6 +90,18 @@ WORKDIR /app
 COPY --from=src-ss . .
 COPY --from=composer-vendor oat-sa oat-sa 
 
+RUN jq ' \
+    (.repositories[] | select(.url | test("oat-sa/(lib-em-php-|bundle-em-client)"))) |= \
+    { \
+        "type": "path", \
+        "url": ("/app/oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)) \
+    } \
+    | \
+    .require |= with_entries(if .key | test("oat-sa/(lib-em-php-|bundle-em-client)") then .value = "*" else . end) \
+    | \
+    .["minimum-stability"] = "dev" | .["prefer-stable"] = true \
+    ' composer.json > composer.tmp && mv composer.tmp composer.json
+
 RUN jq '(.repositories[] | select(.url | test("oat-sa/(lib-em-php-|bundle-em-client)"))) |= { \
         "type": "path", "url": ("/app/oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)) \
         }' composer.json > composer.tmp \
