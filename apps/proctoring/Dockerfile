@@ -11,11 +11,18 @@ ARG STATE_ROOT="/var/lib/tao-ce/proctoring/lti1p3-gateway"
 
 WORKDIR /app
 COPY --from=src-lti13-gateway . .
+COPY --from=composer-vendor oat-sa oat-sa 
 
+RUN jq '(.repositories[] | select(.url | test("oat-sa/(lib-em-php-|bundle-em-client)"))) |= { \
+        "type": "path", "url": ("/app/oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)) \
+        }' composer.json > composer.tmp \
+        && mv composer.tmp composer.json
+        
 RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
-        composer install -n --classmap-authoritative --no-dev --prefer-dist --no-cache; \
+        rm composer.lock; \
+        composer install -n --ignore-platform-reqs --classmap-authoritative --prefer-dist --no-cache; \
         composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \

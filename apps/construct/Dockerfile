@@ -23,6 +23,7 @@ RUN \
     --mount=type=secret,id=NPM_TOKEN \
         . /usr/local/libexec/nvm/nvm.sh \
         && npm config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
+        && composer update riverline/multipart-parser --no-interaction \
         && composer install \
             --no-interaction \
             --no-dev \

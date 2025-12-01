@@ -8,3 +8,4 @@ output
 **/no-commit-*
 .task
 .wip
+composer.lock

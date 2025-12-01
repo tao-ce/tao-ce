@@ -9,14 +9,21 @@ ARG STATE_ROOT="/var/lib/tao-ce/deliver"
 
 WORKDIR /app
 COPY --from=src-backend . .
+COPY --from=composer-vendor oat-sa oat-sa 
+
+RUN jq '(.repositories[] | select(.url | test("oat-sa/(lib-em-php-|bundle-em-client)"))) |= { \
+        "type": "path", "url": ("/app/oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)) \
+        }' composer.json > composer.tmp \
+        && mv composer.tmp composer.json
 
 RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
         mv .env.prod .env; \
-        composer install -n --classmap-authoritative --no-dev --prefer-dist; \
+        rm composer.lock; \
+        composer install -n --ignore-platform-reqs --classmap-authoritative --prefer-dist; \
         > .env ; \
-        composer dump-env prod; \
+        composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .env .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
