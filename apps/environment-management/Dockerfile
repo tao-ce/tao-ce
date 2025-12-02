@@ -39,7 +39,7 @@ COPY --from=src-lti-gateway . /app
 COPY src/libs /libs
 
 RUN set -eux; \
-    rm composer.lock; \
+    composer install -n --optimize-autoloader --no-dev --prefer-dist; \
     composer dump-autoload -n --optimize --no-dev --classmap-authoritative; \
     rm -rf .build/; \
     find /app -type d | grep '[/][.]git$' | xargs rm -rf ; \
