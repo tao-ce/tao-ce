@@ -9,13 +9,13 @@ ARG STATE_ROOT="/var/lib/tao-ce/deliver"
 
 WORKDIR /app
 COPY --from=src-backend . .
-COPY --from=composer-vendor oat-sa oat-sa 
+COPY --from=composer-vendor . oat-sa 
 
 RUN jq ' \
     (.repositories[] | select(.url | test("oat-sa/(lib-em-php-|bundle-em-client)"))) |= \
     { \
         "type": "path", \
-        "url": ("/app/oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)) \
+        "url": ("./oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)) \
     } \
     | \
     .require |= with_entries(if .key | test("oat-sa/(lib-em-php-|bundle-em-client)") then .value = "*" else . end) \
@@ -27,7 +27,8 @@ RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
         mv .env.prod .env; \
-        rm composer.lock; \
+        composer require symfony/console; \
+        composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client --no-install --ignore-platform-reqs; \
         composer install -n --ignore-platform-reqs --classmap-authoritative --prefer-dist; \
         > .env ; \
         composer dump-env dev; \

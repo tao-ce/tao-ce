@@ -49,7 +49,7 @@ includes:
           src-backend: './src/be'
           src-frontend: './src/fe'
           src-sandbox: './src/sandbox'
-          composer-vendor: '../../packages/composer'
+          composer-vendor: '../../apps/environment-management/src/libs'
       BASES:
         - builds/base
       ARGS:
@@ -114,7 +114,7 @@ includes:
           src-auth-server: './src/node-auth-server'
           src-lti-gateway: './src/lti-gateway'
           src-sidecar: './src/server'
-          composer-vendor: '../../packages/composer'
+          composer-vendor: '../../apps/environment-management/src/libs'
       BASES:
         - builds/base
         - builds/go
@@ -172,7 +172,7 @@ includes:
           src-go-shared: './src/apps/go-shared'
           src-protobuf: './src/apps/protobuf'
           src-apps: './src/apps/'
-          composer-vendor: '../../packages/composer'
+          composer-vendor: '../../apps/environment-management/src/libs'
       BASES:
         - builds/base
         - builds/go
@@ -192,7 +192,7 @@ includes:
           src-ss: './src/tao-scoring-service-be'
           src-ms: './src/tao-manual-scoring-be'
           src-ms-fe: './src/tao-manual-scoring-fe'
-          composer-vendor: '../../packages/composer'
+          composer-vendor: '../../apps/environment-management/src/libs'
       BASES:
         - builds/base
       ARGS:
