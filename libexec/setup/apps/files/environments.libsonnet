@@ -606,6 +606,35 @@ function(setup)
         ],
         userRoles: [
           {
+            name: 'TEST_TAKER',
+            permissions: [
+              {
+                resource: 'portal.my-session',
+                scopes: ['view', 'review', 'self-enrol'],
+              },
+              {
+                resource: 'portal.review-session',
+                scopes: ['view', 'edit'],
+              },
+              {
+                resource: 'portal.payment',
+                scopes: ['create'],
+              },
+              {
+                resource: 'portal.report',
+                scopes: ['view'],
+              },
+              {
+                resource: 'portal.organization',
+                scopes: ['searchByTargetLevel'],
+              },
+            ],
+            // NOT FOR PRODUCTION
+            label: 'Candidate',
+            global: true,
+            // NOT FOR PRODUCTION
+          },
+          {
             global: false,
             name: 'DATA_EXPLORER',
             permissions: [
