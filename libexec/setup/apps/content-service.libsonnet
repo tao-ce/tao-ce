@@ -7,7 +7,7 @@ function(setup)
           type: 'filesystem',
           config: {
             rootPath: '%s/content-service/data' % setup.dirs.varlib,
-            baseUrl: 'https://%s/content-service-storage' % setup.publicDomain
+            baseUrl: 'https://%s/content-service/storage' % setup.publicDomain
           }
         }
       }),
