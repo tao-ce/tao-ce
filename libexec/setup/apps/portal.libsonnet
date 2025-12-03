@@ -54,6 +54,7 @@ function(setup)
         PORT: setup.apps.portal.backend.http.port,
         NODE_VERSION: '22',
         INSTALL_POPULATE: '%s/init/portal/%s.json' % [setup.dirs.libexec, setup.portal.populate],
+        XLSX_TO_CSV_BIN: '/opt/xlsx2csv/venv/bin/xlsx2csv',
       },
 
       bootstrap: {
