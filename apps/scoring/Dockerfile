@@ -52,35 +52,26 @@ ARG STATE_ROOT="/var/lib/tao-ce/scoring/ms-be"
 WORKDIR /app
 COPY --from=src-ms . .
 COPY --from=composer-vendor . oat-sa 
+COPY --from=packages composer.json general-composer.json 
 
-RUN  jq ' \
-    (.repositories[] | select( \
-        (.url | test("oat-sa/(lib-em-php-|bundle-em-client)")) and \
-        (.url | contains("lib-em-php-proto") | not) \
-    )) |= \
-    { \
-        "type": "path", \
-        "url": ("./oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)), \
-        "options": {"symlink": false} \
+RUN jq ' \
+    .require["wikimedia/composer-merge-plugin"] = "^2.1" | \
+    .extra["merge-plugin"] = { \
+        "include": ["general-composer.json"], \
+        "recurse": true, \
+        "replace": true, \
+        "merge-dev": true, \
+        "merge-extra": true \
     } \
-    | \
-    .require |= with_entries(if \
-        (.key | test("oat-sa/(lib-em-php-|bundle-em-client)")) and \
-        (.key | contains("lib-em-php-proto") | not) \
-    then .value = "*" else . end) \
-    | \
-    .["minimum-stability"] = "dev" | .["prefer-stable"] = true \
-    ' composer.json > composer.tmp && mv composer.tmp composer.json
-
+    ' composer.json > composer_temp.json && mv composer_temp.json composer.json
+RUN composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client wikimedia/composer-merge-plugin --with-dependencies --no-scripts --no-interaction    
 RUN \
         --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         --mount=type=secret,id=NPM_TOKEN \
         set -eux; \
-        composer require symfony/console; \
-        composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client --no-install --ignore-platform-reqs; \
         /usr/bin/composer install -n --classmap-authoritative --prefer-dist --verbose; \
-       /usr/bin/composer dump-env dev; \
+        /usr/bin/composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
@@ -104,34 +95,24 @@ ARG STATE_ROOT="/var/lib/tao-ce/scoring/ss"
 WORKDIR /app
 COPY --from=src-ss . .
 COPY --from=composer-vendor . oat-sa 
+COPY --from=packages composer.json general-composer.json 
 
-
-RUN  jq ' \
-    (.repositories[] | select( \
-        (.url | test("oat-sa/(lib-em-php-|bundle-em-client)")) and \
-        (.url | contains("lib-em-php-proto") | not) \
-    )) |= \
-    { \
-        "type": "path", \
-        "url": ("./oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)), \
-        "options": {"symlink": false} \
+RUN jq ' \
+    .require["wikimedia/composer-merge-plugin"] = "^2.1" | \
+    .extra["merge-plugin"] = { \
+        "include": ["general-composer.json"], \
+        "recurse": true, \
+        "replace": true, \
+        "merge-dev": true, \
+        "merge-extra": true \
     } \
-    | \
-    .require |= with_entries(if \
-        (.key | test("oat-sa/(lib-em-php-|bundle-em-client)")) and \
-        (.key | contains("lib-em-php-proto") | not) \
-    then .value = "*" else . end) \
-    | \
-    .["minimum-stability"] = "dev" | .["prefer-stable"] = true \
-    ' composer.json > composer.tmp && mv composer.tmp composer.json
-
+    ' composer.json > composer_temp.json && mv composer_temp.json composer.json
+RUN composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client wikimedia/composer-merge-plugin --with-dependencies --no-scripts --no-interaction    
 RUN \
         --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         --mount=type=secret,id=NPM_TOKEN \
         set -eux; \
-        composer require symfony/console; \
-        composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client --no-install --ignore-platform-reqs; \
         /usr/bin/composer install -n --classmap-authoritative --prefer-dist --verbose; \
         /usr/bin/composer dump-env dev; \
         rm -rf .build/ var/storage; \

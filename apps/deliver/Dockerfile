@@ -10,25 +10,23 @@ ARG STATE_ROOT="/var/lib/tao-ce/deliver"
 WORKDIR /app
 COPY --from=src-backend . .
 COPY --from=composer-vendor . oat-sa 
+COPY --from=src-packages composer.json general-composer.json 
 
 RUN jq ' \
-    (.repositories[] | select(.url | test("oat-sa/(lib-em-php-|bundle-em-client)"))) |= \
-    { \
-        "type": "path", \
-        "url": ("./oat-sa/" + (.url | capture("oat-sa/(?<name>lib-em-php-[^./]+|bundle-em-client)").name)) \
+    .require["wikimedia/composer-merge-plugin"] = "^2.1" | \
+    .extra["merge-plugin"] = { \
+        "include": ["general-composer.json"], \
+        "recurse": true, \
+        "replace": true, \
+        "merge-dev": true, \
+        "merge-extra": true \
     } \
-    | \
-    .require |= with_entries(if .key | test("oat-sa/(lib-em-php-|bundle-em-client)") then .value = "*" else . end) \
-    | \
-    .["minimum-stability"] = "dev" | .["prefer-stable"] = true \
-    ' composer.json > composer.tmp && mv composer.tmp composer.json
-
+    ' composer.json > composer_temp.json && mv composer_temp.json composer.json
+RUN composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client wikimedia/composer-merge-plugin --with-dependencies --no-scripts --no-interaction    
 RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
         mv .env.prod .env; \
-        composer require symfony/console; \
-        composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client --no-install --ignore-platform-reqs; \
         composer install -n --ignore-platform-reqs --classmap-authoritative --prefer-dist; \
         > .env ; \
         composer dump-env dev; \
