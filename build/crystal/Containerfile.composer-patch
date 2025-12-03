@@ -1,0 +1,30 @@
+ARG BUILD_IMAGE
+ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+### patch ######################################################################
+FROM $BUILD_IMAGE AS patch
+
+WORKDIR /app
+COPY /composer.json ./
+
+RUN \
+    --mount=type=ssh \
+    --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+    --mount=type=secret,id=NPM_TOKEN \
+    . /usr/local/libexec/nvm/nvm.sh \
+    && npm config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
+    && composer update \
+        -Wan \
+        --prefer-install=source \
+        --ignore-platform-reqs \
+        --no-install \
+        --no-scripts \
+        --no-dev
+
+### export #####################################################################
+FROM scratch AS export
+
+COPY --from=patch \
+    /app/composer.json \
+    /app/composer.lock \
+    /
+

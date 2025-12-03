@@ -202,3 +202,57 @@ tasks:
     - task: _log
       vars:
         MESSAGE: Started {{.APP}}
+
+
+  composer-patch:
+    run: always
+    vars:
+      CONTEXT: '{{ .CONTEXT | default "." }}'
+      APP_PATH: '{{ .CLI_ARGS_LIST | first }}'
+      COMPOSER_DIR: "{{.CONTEXT}}/{{ .APP_PATH }}"
+    sources:
+    - "{{if eq .TASK_DIR .ROOT_DIR}}@@@@@{{else}}{{.TASK_DIR}}/**{{end}}"
+    generates:
+    - "{{.BUILD_SIGNAL_FILE}}"
+
+    requires:
+      vars:
+        - TAG
+        - APP
+
+    set:
+    - pipefail
+
+    cmds:
+    - task: _log
+      vars:
+        MESSAGE: "Starting composer patch {{ .TASK_DIR }}"
+
+    - |
+      buildah build \
+        -f {{ .TASKFILE_DIR }}/Containerfile.composer-patch \
+        --target export \
+        --output type=local,dest={{.COMPOSER_DIR}} \
+      {{range $name, $value := .ARGS -}}
+      {{" "}}  --build-arg {{ $name }}={{ $value }} 
+      {{- end}} \
+      {{range $ctx, $path := .CONTEXTS -}}
+      {{" "}}  --build-context {{ $ctx }}={{ $path }}
+      {{- end}} \
+      {{ .BUILD_COMMON_FLAGS | join " " }} \
+      {{.COMPOSER_DIR}} \
+      2>&1  \
+      | while read line ; do
+      logger --journald <<EOF
+      MESSAGE=$line
+      APP={{.APP}}
+      IMAGE={{.IMAGE}}
+      TIER=@composer-patch
+      EOF
+      done
+    - task: _log
+      vars:
+        MESSAGE: "Finished patch composer"
+
+
+    
