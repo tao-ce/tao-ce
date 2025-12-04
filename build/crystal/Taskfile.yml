@@ -236,11 +236,12 @@ tasks:
       {{range $name, $value := .ARGS -}}
       {{" "}}  --build-arg {{ $name }}={{ $value }} 
       {{- end}} \
-      {{range $ctx, $path := .CONTEXTS -}}
-      {{" "}}  --build-context {{ $ctx }}={{ $path }}
-      {{- end}} \
+      --build-arg COMPOSER_APP_PATH={{ .COMPOSER_DIR }} \
+      --build-context src-packages=../../packages \
+      --build-context src-apps=../../apps \
+      --build-context src-app={{ .TASK_DIR }} \
       {{ .BUILD_COMMON_FLAGS | join " " }} \
-      {{.COMPOSER_DIR}} \
+      {{ .ROOT_DIR }} \
       2>&1  \
       | while read line ; do
       logger --journald <<EOF

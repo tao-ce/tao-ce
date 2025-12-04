@@ -1,0 +1,122 @@
+{
+  "oat-sa/extension-tao-test-preview-ui-loader": {
+    "type": "path",
+    "url": "packages/extension-tao-test-preview-ui-loader",
+    "require": "*",
+    "version": "v1.33.3"
+  },
+  "oat-sa/bundle-cache-document-manager": {
+    "type": "path",
+    "url": "packages/bundle-cache-document-manager",
+    "require": "*",
+    "version": "0.4.3"
+  },
+  "oat-sa/bundle-correlation-ids": {
+    "type": "path",
+    "url": "packages/bundle-correlation-ids",
+    "require": "*"
+  },
+  "oat-sa/bundle-document-manager": {
+    "type": "path",
+    "url": "packages/bundle-document-manager",
+    "require": "*",
+    "version": "0.7.2"
+  },
+  "oat-sa/bundle-elasticsearch-document-manager": {
+    "type": "path",
+    "url": "packages/bundle-elasticsearch-document-manager",
+    "require": "*",
+    "version": "0.5.4"
+  },
+  "oat-sa/bundle-filesystem-document-manager": {
+    "type": "path",
+    "url": "packages/bundle-filesystem-document-manager",
+    "require": "*"
+  },
+  "oat-sa/bundle-grader-messenger-bridge": {
+    "type": "path",
+    "url": "packages/bundle-grader-messenger-bridge",
+    "require": "*"
+  },
+  "oat-sa/bundle-qti": {
+    "type": "path",
+    "url": "packages/bundle-qti",
+    "require": "*"
+  },
+  "oat-sa/bundle-scoring-engine": {
+    "type": "path",
+    "url": "packages/bundle-scoring-engine",
+    "require": "*"
+  },
+  "oat-sa/extension-tao-deliver-connect": {
+    "type": "path",
+    "url": "packages/extension-tao-deliver-connect",
+    "require": "*"
+  },
+  "oat-sa/extension-tao-deliver-pcis": {
+    "type": "path",
+    "url": "packages/extension-tao-deliver-pcis",
+    "require": "*"
+  },
+  "oat-sa/extension-tao-testqti-export": {
+    "type": "path",
+    "url": "packages/extension-tao-testqti-export",
+    "require": "*"
+  },
+  "oat-sa/lib-correlation-ids-http-client": {
+    "type": "path",
+    "url": "packages/lib-correlation-ids-http-client",
+    "require": "*"
+  },
+  "oat-sa/lib-correlation-ids-messenger": {
+    "type": "path",
+    "url": "packages/lib-correlation-ids-messenger",
+    "require": "*"
+  },
+  "oat-sa/lib-grader-messenger-bridge": {
+    "type": "path",
+    "url": "packages/lib-grader-messenger-bridge",
+    "require": "*",
+    "version": "3.1.0"
+  },
+  "oat-sa/lib-qti-item-json-compilation": {
+    "type": "path",
+    "url": "packages/lib-qti-item-json-compilation",
+    "require": "*"
+  },
+  "oat-sa/lib-tenant-management": {
+    "type": "path",
+    "url": "packages/lib-tenant-management",
+    "require": "*"
+  },
+  "oat-sa/tao-timers-client": {
+    "type": "path",
+    "url": "packages/tao-timers-client",
+    "require": "*"
+  },
+  "oat-sa/lib-em-php-client": {
+    "type": "path",
+    "url": "apps/environment-management/src/libs/lib-em-php-client",
+    "require": "*"
+  },
+  "oat-sa/lib-em-php-lti-client": {
+    "type": "path",
+    "url": "apps/environment-management/src/libs/lib-em-php-lti-client",
+    "require": "*"
+  },
+  "oat-sa/lib-em-php-lti-events": {
+    "type": "path",
+    "url": "apps/environment-management/src/libs/lib-em-php-lti-events",
+    "require": "*"
+  },
+  "oat-sa/bundle-em-client": {
+    "type": "path",
+    "url": "apps/environment-management/src/libs/bundle-em-client",
+    "require": "*",
+    "options": {
+      "versions": {
+        "oat-sa/bundle-em-client": ""
+      }
+    }
+  }
+}

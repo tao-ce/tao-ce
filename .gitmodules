@@ -74,3 +74,57 @@
 [submodule "packages/read-aloud-client"]
 	path = packages/read-aloud-client
 	url = git@github.com:oat-sa/read-aloud-client-fe.git
+[submodule "packages/bundle-cache-document-manager"]
+	path = packages/bundle-cache-document-manager
+	url = git@github.com:oat-sa/bundle-cache-document-manager.git
+[submodule "packages/bundle-correlation-ids"]
+	path = packages/bundle-correlation-ids
+	url = git@github.com:oat-sa/bundle-correlation-ids.git
+[submodule "packages/bundle-document-manager"]
+	path = packages/bundle-document-manager
+	url = git@github.com:oat-sa/bundle-document-manager.git
+[submodule "packages/bundle-elasticsearch-document-manager"]
+	path = packages/bundle-elasticsearch-document-manager
+	url = git@github.com:oat-sa/bundle-elasticsearch-document-manager.git
+[submodule "packages/bundle-filesystem-document-manager"]
+	path = packages/bundle-filesystem-document-manager
+	url = git@github.com:oat-sa/bundle-filesystem-document-manager.git
+[submodule "packages/bundle-grader-messenger-bridge"]
+	path = packages/bundle-grader-messenger-bridge
+	url = git@github.com:oat-sa/bundle-grader-messenger-bridge.git
+[submodule "packages/bundle-qti"]
+	path = packages/bundle-qti
+	url = git@github.com:oat-sa/bundle-qti.git
+[submodule "packages/bundle-scoring-engine"]
+	path = packages/bundle-scoring-engine
+	url = git@github.com:oat-sa/bundle-scoring-engine.git
+[submodule "packages/extension-tao-deliver-connect"]
+	path = packages/extension-tao-deliver-connect
+	url = git@github.com:oat-sa/extension-tao-deliver-connect.git
+[submodule "packages/extension-tao-deliver-pcis"]
+	path = packages/extension-tao-deliver-pcis
+	url = git@github.com:oat-sa/extension-tao-deliver-pcis.git
+[submodule "packages/extension-tao-testqti-export"]
+	path = packages/extension-tao-testqti-export
+	url = git@github.com:oat-sa/extension-tao-testqti-export.git
+[submodule "packages/lib-correlation-ids-http-client"]
+	path = packages/lib-correlation-ids-http-client
+	url = git@github.com:oat-sa/lib-correlation-ids-http-client.git
+[submodule "packages/lib-correlation-ids-messenger"]
+	path = packages/lib-correlation-ids-messenger
+	url = git@github.com:oat-sa/lib-correlation-ids-messenger.git
+[submodule "packages/lib-grader-messenger-bridge"]
+	path = packages/lib-grader-messenger-bridge
+	url = git@github.com:oat-sa/lib-grader-messenger-bridge.git
+[submodule "packages/lib-qti-item-json-compilation"]
+	path = packages/lib-qti-item-json-compilation
+	url = git@github.com:oat-sa/lib-qti-item-json-compilation.git
+[submodule "packages/lib-tenant-management"]
+	path = packages/lib-tenant-management
+	url = git@github.com:oat-sa/lib-tenant-management.git
+[submodule "packages/tao-timers-client"]
+	path = packages/tao-timers-client
+	url = git@github.com:oat-sa/tao-timers-client.git
+[submodule "packages/extension-tao-test-preview-ui-loader"]
+	path = packages/extension-tao-test-preview-ui-loader
+	url = git@github.com:oat-sa/extension-tao-test-preview-ui-loader.git

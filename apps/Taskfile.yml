@@ -16,6 +16,8 @@ includes:
       CONTEXT: .
       CONTEXTS:
         map:
+          src-packages: '../../packages'
+          src-apps: '../../apps'
           src-code: './src'
       BASES:
         - builds/base
@@ -49,8 +51,8 @@ includes:
           src-backend: './src/be'
           src-frontend: './src/fe'
           src-sandbox: './src/sandbox'
-          composer-vendor: '../../apps/environment-management/src/libs'
           src-packages: '../../packages'
+          src-apps: '../../apps'
       BASES:
         - builds/base
       ARGS:

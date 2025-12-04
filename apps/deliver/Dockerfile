@@ -9,22 +9,11 @@ ARG STATE_ROOT="/var/lib/tao-ce/deliver"
 
 WORKDIR /app
 COPY --from=src-backend . .
-COPY --from=composer-vendor . oat-sa 
-COPY --from=src-packages composer.json general-composer.json 
 
-RUN jq ' \
-    .require["wikimedia/composer-merge-plugin"] = "^2.1" | \
-    .extra["merge-plugin"] = { \
-        "include": ["general-composer.json"], \
-        "recurse": true, \
-        "replace": true, \
-        "merge-dev": true, \
-        "merge-extra": true \
-    } \
-    ' composer.json > composer_temp.json && mv composer_temp.json composer.json
-RUN composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client wikimedia/composer-merge-plugin --with-dependencies --no-scripts --no-interaction    
-RUN     --mount=type=ssh \
+RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+        --mount=type=bind,from=src-packages,target=/run/context/composer/packages \
+        --mount=type=bind,from=src-apps,target=/run/context/composer/apps \       
         set -eux; \
         mv .env.prod .env; \
         composer install -n --ignore-platform-reqs --classmap-authoritative --prefer-dist; \
