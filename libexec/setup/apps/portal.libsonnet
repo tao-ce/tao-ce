@@ -40,7 +40,6 @@ function(setup)
         SIMPLE_REPORTS_API_URL: 'https://%(publicDomain)s/sr-be/' % setup,
         LOG_LEVEL: 'debug',
         LTI_PORTAL_AUDIENCE: 'https://%(publicDomain)s/portal-be' % setup,
-        // MANUAL_SCORING_API_URL: setup.apps.scoring.backend.http.url,
         MANUAL_SCORING_API_URL: 'https://%(publicDomain)s/ms-be' % setup,
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
         NOTIFICATION_ENABLED_CHECK_CACHE_TTL_SEC: '60',

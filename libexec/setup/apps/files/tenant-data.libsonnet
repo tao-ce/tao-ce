@@ -1845,6 +1845,7 @@ function(setup)
             isConfidential: false,
             name: 'Publication OAuth2 Credential',
             scopes: [
+              'dynamic-query-api:read',
               'results:post',
             ],
           },
