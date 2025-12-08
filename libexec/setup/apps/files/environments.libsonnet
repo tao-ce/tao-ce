@@ -203,7 +203,7 @@ function(setup)
           },
           {
             name: 'publicSessionsEnabled',
-            value: 'true',
+            value: 'false',
           },
           {
             name: 'userLoginGenerationEnabled',
@@ -740,6 +740,14 @@ function(setup)
                 ],
               },
               {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
+                ],
+              },
+              {
                 resource: 'portal.tests',
                 scopes: [],
               },
@@ -775,6 +783,16 @@ function(setup)
                 scopes: ['create', 'view', 'edit', 'delete', 'list'],
               },
             ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
+                ],
+              },
+            ],
           },
           {
             global: true,
@@ -784,6 +802,16 @@ function(setup)
                 resource: 'portal.dashboard',
                 scopes: [
                   'view',
+                ],
+              },
+            ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
                 ],
               },
             ],
@@ -853,6 +881,16 @@ function(setup)
                 ],
               },
             ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
+                ],
+              },
+            ],
           },
           {
             global: false,
@@ -864,6 +902,16 @@ function(setup)
                   'view',
                   'grade',
                   'preview',
+                ],
+              },
+            ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
                 ],
               },
             ],
@@ -893,6 +941,16 @@ function(setup)
                 ],
               },
             ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
+                ],
+              },
+            ],
           },
           {
             global: false,
@@ -904,6 +962,16 @@ function(setup)
                   'view',
                   'review-grade',
                   'preview',
+                ],
+              },
+            ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
                 ],
               },
             ],
@@ -934,6 +1002,16 @@ function(setup)
                 ],
               },
             ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
+                ],
+              },
+            ],
           },
           {
             global: true,
@@ -946,6 +1024,16 @@ function(setup)
                 ],
               },
             ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
+                  'all',
+                ],
+              },
+            ],
           },
           {
             global: false,
@@ -954,6 +1042,16 @@ function(setup)
               {
                 resource: 'portal.user.working-profiles',
                 scopes: [
+                  'all',
+                ],
+              },
+            ],
+            restrictions: [
+              {
+                resource: 'portal.battery',
+                scopes: [
+                  'list',
+                  'view',
                   'all',
                 ],
               },
