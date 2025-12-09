@@ -12,6 +12,7 @@ ENV NODE_VERSION="22"
 WORKDIR /app
 
 COPY --from=src-backend . .
+COPY --from=src-init index/tenant-tags.json mappings/dev/tenant-tags.json 
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
