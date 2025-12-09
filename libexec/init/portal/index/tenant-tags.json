@@ -1,0 +1,40 @@
+{
+  "aliases": {},
+  "mappings": {
+    "dynamic_templates": [
+      {
+        "dynamic_objects_as_keywords": {
+          "match": "*",
+          "mapping": {
+            "type": "keyword",
+            "normalizer": "lowercase"
+          }
+        }
+      }
+    ],
+    "dynamic": "strict",
+    "properties": {
+      "tenantId": {
+        "type": "keyword",
+        "normalizer": "lowercase"
+      },
+      "tag": {
+        "type": "keyword",
+        "normalizer": "lowercase",
+        "fields": {
+          "search": {
+            "type": "text"
+          }
+        }
+      },
+      "entity": {
+        "type": "keyword",
+        "normalizer": "lowercase"
+      },
+      "last_update_date": {
+        "type": "date",
+        "format": "epoch_millis"
+      }
+    }
+  }
+}
