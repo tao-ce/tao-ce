@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@oat-sa-private/read-aloud-client": "file:/local-packages/packages/read-aloud-client"
+  }
+}

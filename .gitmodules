@@ -70,10 +70,8 @@
 	url = git@github.com:oat-sa/tao-content-service.git
 [submodule "packages/live-design-system"]
 	path = packages/live-design-system
-	url = git@github.com:oat-sa/live-design-system.git
-[submodule "packages/read-aloud-client"]
-	path = packages/read-aloud-client
-	url = git@github.com:oat-sa/read-aloud-client-fe.git
+	url = git@github.com:tao-ce/live-design-system.git
+	branch = main
 [submodule "packages/bundle-cache-document-manager"]
 	path = packages/bundle-cache-document-manager
 	url = git@github.com:oat-sa/bundle-cache-document-manager.git
@@ -128,3 +126,6 @@
 [submodule "packages/extension-tao-test-preview-ui-loader"]
 	path = packages/extension-tao-test-preview-ui-loader
 	url = git@github.com:oat-sa/extension-tao-test-preview-ui-loader.git
+[submodule "packages/read-aloud-client"]
+	path = packages/read-aloud-client
+	url = git@github.com:oat-sa/read-aloud-client.git
