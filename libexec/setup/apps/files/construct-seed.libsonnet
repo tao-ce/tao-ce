@@ -13,7 +13,7 @@ function(setup)
       'taoBackOffice',
       'taoTaskQueue',
       'taoMediaManager',
-      'taoTestPreviewUILoader',
+      // 'taoTestPreviewUILoader',
     ],
     'super-user': {
       lastname: 'TAOTesting',
