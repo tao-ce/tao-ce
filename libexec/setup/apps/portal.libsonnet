@@ -11,6 +11,7 @@ function(setup)
         FIRESTORE_DATABASE_ID: 'default',
         GCP_PROJECT_ID: self.GOOGLE_CLOUD_PROJECT,
         GOOGLE_CLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
+        IMPORT_CONTENT_SERVICE_STORAGE_DRIVER: 'file',
         GCP_PUBSUB_SESSION_GRADED_TOPIC_NAME: 'portal-session-graded-topic',
         GCP_PUBSUB_ACTIVITY_LOGS_TOPIC_NAME: 'activity-logs-topic',
         GCP_PUBSUB_PAYMENT_STATUS_SUBSCRIPTION_NAME: 'payment-api-payment-status-update-subscription',
@@ -37,9 +38,8 @@ function(setup)
         GCP_PUBSUB_PORTAL_SESSION_TEMPLATE_NOTIFICATION_SUBSCRIPTION_NAME: 'portal-session-template-notification-subscription',
         HIERARCHY_API_URL: setup.apps.hierarchy.backend.http.url,
         SIMPLE_REPORTS_API_URL: 'https://%(publicDomain)s/sr-be/' % setup,
-        LOG_LEVEL: 'info',
+        LOG_LEVEL: 'debug',
         LTI_PORTAL_AUDIENCE: 'https://%(publicDomain)s/portal-be' % setup,
-        // MANUAL_SCORING_API_URL: setup.apps.scoring.backend.http.url,
         MANUAL_SCORING_API_URL: 'https://%(publicDomain)s/ms-be' % setup,
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
         NOTIFICATION_ENABLED_CHECK_CACHE_TTL_SEC: '60',
@@ -53,6 +53,7 @@ function(setup)
         PORT: setup.apps.portal.backend.http.port,
         NODE_VERSION: '22',
         INSTALL_POPULATE: '%s/init/portal/%s.json' % [setup.dirs.libexec, setup.portal.populate],
+        XLSX_TO_CSV_BIN: '/opt/xlsx2csv/venv/bin/xlsx2csv',
       },
 
       bootstrap: {

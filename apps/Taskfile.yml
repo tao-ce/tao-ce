@@ -152,6 +152,7 @@ includes:
         map:
           src-backend: './src/backend'
           src-frontend: './src/frontend'
+          src-init: '../../libexec/init/portal'
       BASES:
         - builds/base
       ARGS:

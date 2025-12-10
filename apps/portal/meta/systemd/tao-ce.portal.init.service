@@ -11,8 +11,10 @@ ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELAS
 ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-enrolment"
 ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-hierarchy"
 ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-config-hierarchy"
+ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/tenant-tags"
 ExecStart=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_OPT}/portal/backend/mappings/portal-user.json  ${ELASTICSEARCH_URL}/portal-user"
 ExecStart=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_OPT}/portal/backend/mappings/portal-enrolment.json ${ELASTICSEARCH_URL}/portal-enrolment"
+ExecStart=bash -c "curl -X PUT -H 'Content-Type: application/json' -d @${TAO_CE_OPT}/portal/backend/mappings/dev/tenant-tags.json ${ELASTICSEARCH_URL}/tenant-tags"
 ExecStart=/bin/bash -c " \
   /usr/local/libexec/nvm/nvm-exec node -e \"import('${TAO_CE_OPT}/hierarchy/backend/mappings/hierarchy.js').then(m => process.stdout.write(Buffer.from(JSON.stringify(m.default ?? m)).toString('base64')))\" \
   \
