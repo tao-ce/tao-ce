@@ -91,7 +91,10 @@ RUN \
         && echo ${IMAGE_NVM_VERSIONS} | tr , "\n" | xargs -n1 | while read v ; do nvm install $v ; done  \
         && nvm install --lts \
         && nvm use --lts \
-        && nvm alias default node
+        && nvm alias default node \
+    && mkdir -p /opt/xlsx2csv \
+        && python3 -m venv /opt/xlsx2csv/venv \
+        && /opt/xlsx2csv/venv/bin/pip install --no-cache-dir xlsx2csv
 
 ################################################################################
 FROM base-fedora AS build-base
