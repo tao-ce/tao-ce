@@ -766,6 +766,13 @@ function(setup)
                   'view',
                 ],
               },
+              {
+                resource: 'portal.labs',
+                scopes: [
+                  'view',
+                  'all',
+                ],
+              },
             ],
           },
           {
@@ -792,6 +799,13 @@ function(setup)
                   'all',
                 ],
               },
+              {
+                resource: 'portal.labs',
+                scopes: [
+                  'view',
+                  'all',
+                ],
+              },
             ],
           },
           {
@@ -810,6 +824,13 @@ function(setup)
                 resource: 'portal.battery',
                 scopes: [
                   'list',
+                  'view',
+                  'all',
+                ],
+              },
+              {
+                resource: 'portal.labs',
+                scopes: [
                   'view',
                   'all',
                 ],
@@ -890,6 +911,13 @@ function(setup)
                   'all',
                 ],
               },
+              {
+                resource: 'portal.labs',
+                scopes: [
+                  'view',
+                  'all',
+                ],
+              },
             ],
           },
           {
@@ -910,6 +938,13 @@ function(setup)
                 resource: 'portal.battery',
                 scopes: [
                   'list',
+                  'view',
+                  'all',
+                ],
+              },
+              {
+                resource: 'portal.labs',
+                scopes: [
                   'view',
                   'all',
                 ],
@@ -950,6 +985,13 @@ function(setup)
                   'all',
                 ],
               },
+              {
+                resource: 'portal.labs',
+                scopes: [
+                  'view',
+                  'all',
+                ],
+              },
             ],
           },
           {
@@ -970,6 +1012,13 @@ function(setup)
                 resource: 'portal.battery',
                 scopes: [
                   'list',
+                  'view',
+                  'all',
+                ],
+              },
+              {
+                resource: 'portal.labs',
+                scopes: [
                   'view',
                   'all',
                 ],
@@ -1011,6 +1060,13 @@ function(setup)
                   'all',
                 ],
               },
+              {
+                resource: 'portal.labs',
+                scopes: [
+                  'view',
+                  'all',
+                ],
+              },
             ],
           },
           {
@@ -1033,6 +1089,13 @@ function(setup)
                   'all',
                 ],
               },
+              {
+                resource: 'portal.labs',
+                scopes: [
+                  'view',
+                  'all',
+                ],
+              },
             ],
           },
           {
@@ -1051,6 +1114,13 @@ function(setup)
                 resource: 'portal.battery',
                 scopes: [
                   'list',
+                  'view',
+                  'all',
+                ],
+              },
+              {
+                resource: 'portal.labs',
+                scopes: [
                   'view',
                   'all',
                 ],
