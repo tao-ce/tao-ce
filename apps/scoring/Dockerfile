@@ -51,7 +51,20 @@ ARG STATE_ROOT="/var/lib/tao-ce/scoring/ms-be"
 
 WORKDIR /app
 COPY --from=src-ms . .
+COPY --from=composer-vendor . oat-sa 
+COPY --from=packages composer.json general-composer.json 
 
+RUN jq ' \
+    .require["wikimedia/composer-merge-plugin"] = "^2.1" | \
+    .extra["merge-plugin"] = { \
+        "include": ["general-composer.json"], \
+        "recurse": true, \
+        "replace": true, \
+        "merge-dev": true, \
+        "merge-extra": true \
+    } \
+    ' composer.json > composer_temp.json && mv composer_temp.json composer.json
+RUN composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client wikimedia/composer-merge-plugin --with-dependencies --no-scripts --no-interaction    
 RUN \
         --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
@@ -81,7 +94,20 @@ ARG STATE_ROOT="/var/lib/tao-ce/scoring/ss"
 
 WORKDIR /app
 COPY --from=src-ss . .
+COPY --from=composer-vendor . oat-sa 
+COPY --from=packages composer.json general-composer.json 
 
+RUN jq ' \
+    .require["wikimedia/composer-merge-plugin"] = "^2.1" | \
+    .extra["merge-plugin"] = { \
+        "include": ["general-composer.json"], \
+        "recurse": true, \
+        "replace": true, \
+        "merge-dev": true, \
+        "merge-extra": true \
+    } \
+    ' composer.json > composer_temp.json && mv composer_temp.json composer.json
+RUN composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client wikimedia/composer-merge-plugin --with-dependencies --no-scripts --no-interaction    
 RUN \
         --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \

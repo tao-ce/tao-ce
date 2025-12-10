@@ -16,6 +16,8 @@ includes:
       CONTEXT: .
       CONTEXTS:
         map:
+          src-packages: '../../packages'
+          src-apps: '../../apps'
           src-code: './src'
       BASES:
         - builds/base
@@ -49,6 +51,8 @@ includes:
           src-backend: './src/be'
           src-frontend: './src/fe'
           src-sandbox: './src/sandbox'
+          src-packages: '../../packages'
+          src-apps: '../../apps'
       BASES:
         - builds/base
       ARGS:
@@ -100,7 +104,6 @@ includes:
         map:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
 
-
   environment-management:
     aliases:
       - em
@@ -114,6 +117,7 @@ includes:
           src-auth-server: './src/node-auth-server'
           src-lti-gateway: './src/lti-gateway'
           src-sidecar: './src/server'
+          composer-vendor: '../../apps/environment-management/src/libs'
       BASES:
         - builds/base
         - builds/go
@@ -171,6 +175,8 @@ includes:
           src-go-shared: './src/apps/go-shared'
           src-protobuf: './src/apps/protobuf'
           src-apps: './src/apps/'
+          composer-vendor: '../../apps/environment-management/src/libs'
+          packages: '../../packages'
       BASES:
         - builds/base
         - builds/go
@@ -190,6 +196,8 @@ includes:
           src-ss: './src/tao-scoring-service-be'
           src-ms: './src/tao-manual-scoring-be'
           src-ms-fe: './src/tao-manual-scoring-fe'
+          composer-vendor: '../../apps/environment-management/src/libs'
+          packages: '../../packages'
       BASES:
         - builds/base
       ARGS:

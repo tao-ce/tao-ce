@@ -11,11 +11,24 @@ ARG STATE_ROOT="/var/lib/tao-ce/proctoring/lti1p3-gateway"
 
 WORKDIR /app
 COPY --from=src-lti13-gateway . .
+COPY --from=composer-vendor . oat-sa 
+COPY --from=packages composer.json general-composer.json 
 
+RUN jq ' \
+    .require["wikimedia/composer-merge-plugin"] = "^2.1" | \
+    .extra["merge-plugin"] = { \
+        "include": ["general-composer.json"], \
+        "recurse": true, \
+        "replace": true, \
+        "merge-dev": true, \
+        "merge-extra": true \
+    } \
+    ' composer.json > composer_temp.json && mv composer_temp.json composer.json
+RUN composer update oat-sa/lib-em-php-\* oat-sa/bundle-em-client wikimedia/composer-merge-plugin --with-dependencies --no-scripts --no-interaction    
 RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
-        composer install -n --classmap-authoritative --no-dev --prefer-dist --no-cache; \
+        composer install -n --ignore-platform-reqs --classmap-authoritative --prefer-dist --no-cache; \
         composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \

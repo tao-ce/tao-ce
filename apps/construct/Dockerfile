@@ -12,17 +12,15 @@ ARG MATHJAX_VERSION
 WORKDIR /app
 COPY --from=src-code ./composer.json /app/
 COPY --from=src-code ./composer.lock /app/
-COPY --from=src-code ./libs /libs
 # COPY --from=src-code . .
 
         # echo '#!/bin/sh\nshift\n/usr/local/libexec/nvm/nvm-exec npm $@\n' >/usr/local/bin/npm \
         # && chmod a+x /usr/local/bin/npm \
 RUN \
-    --mount=type=ssh \
     --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-    --mount=type=secret,id=NPM_TOKEN \
+    --mount=type=bind,from=src-packages,target=/run/context/composer/packages \
+    --mount=type=bind,from=src-apps,target=/run/context/composer/apps \
         . /usr/local/libexec/nvm/nvm.sh \
-        && npm config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
         && composer install \
             --no-interaction \
             --no-dev \

@@ -10,13 +10,15 @@ ARG STATE_ROOT="/var/lib/tao-ce/deliver"
 WORKDIR /app
 COPY --from=src-backend . .
 
-RUN     --mount=type=ssh \
+RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+        --mount=type=bind,from=src-packages,target=/run/context/composer/packages \
+        --mount=type=bind,from=src-apps,target=/run/context/composer/apps \       
         set -eux; \
         mv .env.prod .env; \
-        composer install -n --classmap-authoritative --no-dev --prefer-dist; \
+        composer install -n --ignore-platform-reqs --classmap-authoritative --prefer-dist; \
         > .env ; \
-        composer dump-env prod; \
+        composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .env .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
