@@ -18,7 +18,7 @@ RUN \
         --mount=type=bind,from=src-apps,target=local-packages/apps \
         --mount=type=bind,from=hack,target=/opt/hack \
         /opt/hack/utils/composer-patch/patch.sh \
-            && composer install -van
+            && APP_ENV=dev composer install -van
 
 RUN \
     cd /app \
