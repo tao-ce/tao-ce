@@ -231,7 +231,7 @@ function(setup)
           },
           {
             name: 'ms.isSuggestedScoringEnabled',
-            value: 'true',
+            value: 'false',
           },
           {
             name: 'readBehindEnabled',
