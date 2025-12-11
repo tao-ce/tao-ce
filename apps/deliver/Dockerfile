@@ -2,7 +2,6 @@
 
 ARG BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
-ARG BUILD_NPX="/usr/local/libexec/nvm/nvm-exec node"
 ### backend ####################################################################
 FROM $BUILD_IMAGE AS build-backend
 ARG BUILD_IMAGE
@@ -41,9 +40,9 @@ EORUN
 FROM ${BUILD_IMAGE} AS build-fe
 ARG BUILD_IMAGE
 ARG BUILD_NPM
-ARG BUILD_NPX
 
 ENV NODE_VERSION="22"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 ENV NODE_ENV=dev
 
 WORKDIR /local-packages/packages/live-design-system
