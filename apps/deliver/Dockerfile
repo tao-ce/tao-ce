@@ -18,7 +18,8 @@ RUN \
         --mount=type=bind,from=hack,target=/opt/hack \
     <<EORUN
         set -eux
-        touch .env
+        grep -v 'APP_ENV' .env.prod >.env
+
         /opt/hack/utils/composer-patch/patch.sh
         composer install -van
         composer dump-env dev
@@ -115,9 +116,7 @@ RUN \
         ${BUILD_NPM} install --install-links
 
 
-RUN ls -lhrt
 COPY --exclude="**/package*.json" --from=src-sandbox . .
-RUN ls -lhrt
 
 RUN ${BUILD_NPM} run build 
 

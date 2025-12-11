@@ -175,7 +175,6 @@ includes:
           src-go-shared: './src/apps/go-shared'
           src-protobuf: './src/apps/protobuf'
           src-apps: './src/apps/'
-          composer-vendor: '../../apps/environment-management/src/libs'
           packages: '../../packages'
       BASES:
         - builds/base

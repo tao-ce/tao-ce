@@ -16,7 +16,6 @@ COPY --from=src-backend . .
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     ${BUILD_NPM} ci \
-    ## && ${BUILD_NPM} run build \
     && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
     && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
 
