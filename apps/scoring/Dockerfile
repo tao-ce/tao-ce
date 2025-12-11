@@ -26,11 +26,10 @@ COPY  --from=src-ms-fe . .
 
 RUN \
     --mount=type=bind,from=hack,target=/opt/hack \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/scoring.json \
-        && cat ./package.json 
+        /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/scoring.json
 
 RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     ${BUILD_NPM} update \
         '@oat-sa-private/ui-core' \
         '@oat-sa-private/ui-identity' \
@@ -62,7 +61,7 @@ FROM build-ms-fe AS ms-fe-static
 ARG BUILD_NPM
 
 RUN \
-        --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
         ${BUILD_NPM} run generate:locale \
         && ${BUILD_NPM} run build:static
 

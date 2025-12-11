@@ -36,10 +36,22 @@ ARG STATE_ROOT="/var/lib/tao-ce/environment-management/lti-gateway"
 WORKDIR /app
 
 COPY --from=src-lti-gateway . /app
-COPY src/libs /libs
+
+RUN \
+        --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+        --mount=type=bind,from=src-packages,target=local-packages/packages \
+        --mount=type=bind,from=src-apps,target=local-packages/apps \
+        --mount=type=bind,from=hack,target=/opt/hack \
+        /opt/hack/utils/composer-patch/patch.sh \
+            && composer update \
+                -vn \
+                --root-reqs \
+                --prefer-install=source \
+                --no-install \
+                --no-scripts \
+            && composer install -vno --no-dev
 
 RUN set -eux; \
-    composer install -n --optimize-autoloader --no-dev --prefer-dist; \
     composer dump-autoload -n --optimize --no-dev --classmap-authoritative; \
     rm -rf .build/; \
     find /app -type d | grep '[/][.]git$' | xargs rm -rf ; \
@@ -89,8 +101,8 @@ COPY --link --from=build-auth-server \
     /app/node_modules /auth-server/node_modules
 COPY --link --from=build-lti-gateway \
     /app /lti-gateway
-COPY --link --from=build-lti-gateway \
-    /libs /libs
+# COPY --link --from=build-lti-gateway \
+#     /libs /libs
 COPY ./router.php /lti-gateway/router.php
 COPY ./router.php /lti-gateway/public/router.php
 COPY --link --from=build-sidecar \
