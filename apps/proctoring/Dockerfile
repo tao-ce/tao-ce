@@ -119,7 +119,6 @@ COPY --from=src-realtime-service . .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    --mount=type=secret,id=NPM_TOKEN \
         ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
         && ${BUILD_NPM} ci \
         && ${BUILD_NPM} run build \
