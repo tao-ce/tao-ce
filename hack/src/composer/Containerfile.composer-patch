@@ -29,10 +29,8 @@ RUN \
     && composer update \
         -Wan \
         --prefer-install=source \
-        --ignore-platform-reqs \
         --no-install \
-        --no-scripts \
-        --no-dev
+        --no-scripts 
 
 ### export #####################################################################
 FROM scratch AS export

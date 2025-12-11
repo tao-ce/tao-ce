@@ -17,7 +17,6 @@ vars:
   PAYLOAD_IMAGE: "{{.REGISTRY}}/payload/{{ .SWIFT_IMAGE}}"
 
   BUILD_COMMON_FLAGS:
-    - "--secret type=file,id=NPM_TOKEN,src={{.ROOT_DIR}}/.secrets/npm"
     - "--build-context hack={{.ROOT_DIR}}/hack"
     - "--build-context src-packages={{.ROOT_DIR}}/packages"
     - "--build-context src-apps={{.ROOT_DIR}}/apps"
