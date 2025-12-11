@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "39057a57c6a21a36be8b895ddd44edfd",
+    "content-hash": "481564b5342437b0c043935bdc683844",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -5758,16 +5758,16 @@
         },
         {
             "name": "oat-sa/extension-tao-test-preview-ui-loader",
-            "version": "v1.29.9",
+            "version": "dev-tao-ce-install-npm-from-tgz",
             "source": {
                 "type": "git",
                 "url": "git@github.com:oat-sa/extension-tao-test-preview-ui-loader.git",
-                "reference": "e7cda2b475b8c0d14ed3271c68ecfdc0486ecff3"
+                "reference": "e9c18a2ef06712b36a3aea6d8133dcb7fa2e856d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/oat-sa/extension-tao-test-preview-ui-loader/zipball/e7cda2b475b8c0d14ed3271c68ecfdc0486ecff3",
-                "reference": "e7cda2b475b8c0d14ed3271c68ecfdc0486ecff3",
+                "url": "https://api.github.com/repos/oat-sa/extension-tao-test-preview-ui-loader/zipball/e9c18a2ef06712b36a3aea6d8133dcb7fa2e856d",
+                "reference": "e9c18a2ef06712b36a3aea6d8133dcb7fa2e856d",
                 "shasum": ""
             },
             "require": {
@@ -5816,7 +5816,11 @@
                 "previewer",
                 "tao"
             ],
-            "time": "2025-09-09T08:59:06+00:00"
+            "support": {
+                "source": "https://github.com/oat-sa/extension-tao-test-preview-ui-loader/tree/tao-ce-install-npm-from-tgz",
+                "issues": "https://github.com/oat-sa/extension-tao-test-preview-ui-loader/issues"
+            },
+            "time": "2025-12-11T10:32:31+00:00"
         },
         {
             "name": "oat-sa/extension-tao-testqti",
@@ -13074,6 +13078,12 @@
     ],
     "aliases": [
         {
+            "package": "oat-sa/extension-tao-test-preview-ui-loader",
+            "version": "dev-tao-ce-install-npm-from-tgz",
+            "alias": "1.29.10-dev",
+            "alias_normalized": "1.29.10.0-dev"
+        },
+        {
             "package": "phpdocumentor/reflection-docblock",
             "version": "5.3.0.0",
             "alias": "2.0.5",
@@ -13081,7 +13091,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "oat-sa/extension-tao-test-preview-ui-loader": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
