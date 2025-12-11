@@ -10,7 +10,7 @@
 ## System
 
 > [!WARNING]
-> This has been tested recent Linux only (Fedora 42 with `x86_64` or `arm64` arch). MacOS and Windows support and requirements may differ.
+> This has been tested on recent Linux and MacOS (both `x86_64` and `arm64` arch). Windows support and requirements may differ.
 
 
 * `docker` daemon is installed and running. user is member of `docker` group, and `docker compose` command is available.
@@ -23,7 +23,6 @@ sysctl net.ipv4.ip_unprivileged_port_start=0  # 443 might be enough, but we are 
 ## Credentials
 
 * `ssh-agent` is running with your GitHub key added
-* a NPM private token is required
 
 # Gather Code
 
@@ -33,8 +32,6 @@ git clone -b develop git@github.com:tao-ce/tao-ce.git
 cd tao-ce
 git submodule update --init --recursive
 ```
-2. Add credentials (will be removed once released OSS)
-  * Add NPM token in `.secrets/npm`
 
 # Run
 1. Run VS Code (or any IDE compatible with [`devcontainers`](https://containers.dev/))
@@ -48,7 +45,7 @@ task dev:init
 # build all services from sources, and deploy them locally (similar to `docker compose up`)
 task dev:up
 ```
-3. You can follow up deployement with loggy on `http://localhost:18995` ; devcontainer should automatically forward it.
+3. You can follow up deployement with logdy on `http://localhost:18995` ; devcontainer should automatically forward it.
 4. Once every service is built, its code is synced in `/opt/tao-ce` and the related `systemd` services are started. 
 
 # Use
