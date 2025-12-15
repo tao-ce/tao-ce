@@ -12,6 +12,7 @@ function(setup)
         APP_DEFAULT_LOCALE: setup.defaultLocale,
         APP_ENV: 'dev',
         APP_SECRET: '954eb3a577baa0228a0133965ab3f1f4',
+        ACS_REF_TYPE: 0,
         ASSETS_MAX_FILE_SIZE_LIMIT: '100M',
         ASSETS_URL_SIGNATURE_KEY: 'SecretK3y',
         AUTH_SERVER_TOKEN_REQUEST_URL: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
