@@ -6,7 +6,6 @@ function(setup)
       pubsubEndpoint: setup.dependencies.pubsub.address.url,
     },
 
-
     env: {
       backend: {
         APP_DEBUG: 'false',
@@ -94,6 +93,7 @@ function(setup)
         REDIS_GCP_TOKEN_CACHE_DSN: setup.dependencies.redis.address.url,
         TRUSTED_PROXIES: '0.0.0.0/0',
         XDEBUG_MODE: 'off',
+        FULLY_QUALIFIED_ASSET_URL: 'false',
         XML_RESULT_EXTRACTION_FILE_MIMETYPES: '["application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.sun.xml.writer", "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.presentationml.presentation", "application/pdf", "text/plain", "application/rtf", "text/html", "application/vnd.ms-works", "application/vnd.oasis.opendocument.text", "application/vnd.oasis.opendocument.presentation", "application/vnd.oasis.opendocument.spreadsheet", "image/tiff", "application/postscript", "application/x-hwp", "application/vnd.apple.pages"]',
 
         LISTEN_PORT: setup.apps.deliver.backend.http.port,
