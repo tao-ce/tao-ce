@@ -14,7 +14,6 @@
   - [User Guide](#user-guide)
 * [Contributing](#contributing)
   - [Building TAO Community Edition](#building-tao-community-edition)
-  - [Roadmap](#roadmap)
   - [Contribution guide](#contribution-guide)
 * [Community](#community)
   - [Community forum](https://forum.community.taotesting.com/)
@@ -48,10 +47,6 @@ You can find documentation for our products in our [user guide](https://userguid
 ### Building TAO Community Edition
 
 TAO Community Edition can be built from sources following this [developer guide](docs/dev/).
-
-### Roadmap
-
-We are currently working on a roadmap for future releases of TAO Community Edition to provide the best Open Source solutions.
 
 ### Contribution guide
 
