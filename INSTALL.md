@@ -134,9 +134,27 @@ After installation and password changes, follow these steps to create and delive
    - Add the items you created.
 4. Publish the test as a new **delivery** by selecting it and clicking **Publish**. Check the [User Guide](https://userguide.taotesting.com/user-documentation/latest/public/publishing-a-test) on how to do this.
 
+
 ---
 
-### 4.2 Create a Session
+### 4.2 Create a Group
+
+A **group** is a collection of users, each with their own role. They are typically used to group together test-takers, according to various common criteria, such as belonging to the same classroom.
+
+Steps:
+
+1. From the Portal, click on the **Groups** tile.
+2. Click **Create group**.
+3. Fill in the required field:
+   - **Name**
+4. Switch to the **Users** subtab and select from the existing list of users those to add in the group as test-takers
+5. Save the group.
+
+You can read more information about managing groups in the [User Guide](https://userguide.taotesting.com/user-documentation/latest/public/group-management).
+
+---
+
+### 4.3 Create a Session
 
 A **session** connects:
 
@@ -150,7 +168,7 @@ Steps:
 3. Click **Create session**.
 4. Fill in the required fields:
    - **Session name**
-   - **Group** (you can use the existing default group)
+   - **Group** (you can use the group you created above)
    - **Delivery** (select the delivery you published earlier)
 5. Save the session.
 
@@ -158,7 +176,7 @@ You can read more information about managing sessions in the [User Guide](https:
 
 ---
 
-### 4.3 Simulate a Test-Taker
+### 4.4 Simulate a Test-Taker
 
 1. Log out from the admin user.
 2. *For your convenience, several users are already provisioned, to be used as test-takers.* Log in as one of the test-taker users whose password you changed (e.g., fk01).
@@ -168,7 +186,7 @@ You can read more information about managing sessions in the [User Guide](https:
 
 ---
 
-### 4.4 Evaluate Test Results
+### 4.5 Evaluate Test Results
 
 1. Log out from the test-taker account.
 2. Log back in as the **admin** user.

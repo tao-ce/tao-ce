@@ -1,0 +1,7 @@
+include:
+- ./docker-compose.yml
+
+services:
+  tao:
+    image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:${TAO_CE_VERSION:-latest}
+
