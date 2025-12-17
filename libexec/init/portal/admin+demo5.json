@@ -1,0 +1,28 @@
+{"index":{"_id":"1-root-root","_index":"portal-hierarchy"}}
+{"disabled":false,"hierarchiesLevels":{"root":["root"]},"hierarchyId":"root","hierarchyLevel":"Level1","hierarchyPath":{"root":{"Level1":"root"}},"nextHierarchyLevel":"Level2","organizationDescription":null,"organizationId":"root","organizationName":"TAO CE","parentOrganizationId":null,"tenantId":"1"}
+{"index":{"_id":"1-root","_index":"portal-config-hierarchy"}}
+{"hierarchyId":"root","hierarchyLevels":["Level1","Level2","Level3","Level4","Level5","Level6","Level7","Level8","Level9","Level10","Level11","Level12","Level13","Level14","Level15"],"hierarchyName":"root","tenantId":"1"}
+{"index":{"_id":"1admin","_index":"portal-user"}}
+{"active":true,"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"login":"admin","name":"TAO Administrator","password":"$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui","tenantId":"1","workingProfiles":[{"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"name":"profile-backoffice","role":["ADMIN","SYSTEM_MANAGER"]}]}
+{"index":{"_id":"60d627d-8fd-378-a26-3fd86b38c75","_index":"portal-enrolment"}}
+{"active":true,"groupActive":true,"groupDescription":"Demo Test-Takers","groupHidden":false,"groupId":"60d627d-8fd-378-a26-3fd86b38c75","groupName":"Demo","hierarchiesLevels":{"root":["root"]},"hierarchyPath":{"Root":{"Level1":"root"}},"tenantId":"1"}
+{"index":{"_id":"1demo01","_index":"portal-user"}}
+{"active":true,"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"login":"demo01","name":"Demo 01","password":"$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui","tenantId":"1","workingProfiles":[{"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"name":"profile-test-taker-root","role":["TEST_TAKER"]}]}
+{"index":{"_id":"1demo02","_index":"portal-user"}}
+{"active":true,"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"login":"demo02","name":"Demo 02","password":"$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui","tenantId":"1","workingProfiles":[{"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"name":"profile-test-taker-root","role":["TEST_TAKER"]}]}
+{"index":{"_id":"1demo03","_index":"portal-user"}}
+{"active":true,"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"login":"demo03","name":"Demo 03","password":"$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui","tenantId":"1","workingProfiles":[{"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"name":"profile-test-taker-root","role":["TEST_TAKER"]}]}
+{"index":{"_id":"1demo04","_index":"portal-user"}}
+{"active":true,"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"login":"demo04","name":"Demo 04","password":"$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui","tenantId":"1","workingProfiles":[{"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"name":"profile-test-taker-root","role":["TEST_TAKER"]}]}
+{"index":{"_id":"1demo05","_index":"portal-user"}}
+{"active":true,"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"login":"demo05","name":"Demo 05","password":"$2a$06$rRk8eg55gva762yOCh2sHeIuuq9NynzPPPQ45JxhoOtum4ZqgTRui","tenantId":"1","workingProfiles":[{"hierarchy":{"root":"root"},"hierarchyLevel":{"root":"Level1"},"name":"profile-test-taker-root","role":["TEST_TAKER"]}]}
+{"index":{"_id":"60d627d-8fd-378-a26-3fd86b38c75TEST_TAKERdemo01","_index":"portal-enrolment"}}
+{"active":true,"groupActive":true,"groupDescription":"Demo Test-Takers","groupHidden":false,"groupId":"60d627d-8fd-378-a26-3fd86b38c75","groupName":"Demo","groupRole":"TEST_TAKER","hierarchiesLevels":{"root":["root"]},"hierarchyPath":{"root":{"Level1":"root"}},"login":"demo01","name":"Demo 01","tenantId":"1"}
+{"index":{"_id":"60d627d-8fd-378-a26-3fd86b38c75TEST_TAKERdemo02","_index":"portal-enrolment"}}
+{"active":true,"groupActive":true,"groupDescription":"Demo Test-Takers","groupHidden":false,"groupId":"60d627d-8fd-378-a26-3fd86b38c75","groupName":"Demo","groupRole":"TEST_TAKER","hierarchiesLevels":{"root":["root"]},"hierarchyPath":{"root":{"Level1":"root"}},"login":"demo02","name":"Demo 02","tenantId":"1"}
+{"index":{"_id":"60d627d-8fd-378-a26-3fd86b38c75TEST_TAKERdemo03","_index":"portal-enrolment"}}
+{"active":true,"groupActive":true,"groupDescription":"Demo Test-Takers","groupHidden":false,"groupId":"60d627d-8fd-378-a26-3fd86b38c75","groupName":"Demo","groupRole":"TEST_TAKER","hierarchiesLevels":{"root":["root"]},"hierarchyPath":{"root":{"Level1":"root"}},"login":"demo03","name":"Demo 03","tenantId":"1"}
+{"index":{"_id":"60d627d-8fd-378-a26-3fd86b38c75TEST_TAKERdemo04","_index":"portal-enrolment"}}
+{"active":true,"groupActive":true,"groupDescription":"Demo Test-Takers","groupHidden":false,"groupId":"60d627d-8fd-378-a26-3fd86b38c75","groupName":"Demo","groupRole":"TEST_TAKER","hierarchiesLevels":{"root":["root"]},"hierarchyPath":{"root":{"Level1":"root"}},"login":"demo04","name":"Demo 04","tenantId":"1"}
+{"index":{"_id":"60d627d-8fd-378-a26-3fd86b38c75TEST_TAKERdemo05","_index":"portal-enrolment"}}
+{"active":true,"groupActive":true,"groupDescription":"Demo Test-Takers","groupHidden":false,"groupId":"60d627d-8fd-378-a26-3fd86b38c75","groupName":"Demo","groupRole":"TEST_TAKER","hierarchiesLevels":{"root":["root"]},"hierarchyPath":{"root":{"Level1":"root"}},"login":"demo05","name":"Demo 05","tenantId":"1"}
