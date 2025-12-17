@@ -16,6 +16,8 @@ includes:
       CONTEXT: .
       CONTEXTS:
         map:
+          src-packages: '../../packages'
+          src-apps: '../../apps'
           src-code: './src'
       BASES:
         - builds/base
@@ -49,6 +51,8 @@ includes:
           src-backend: './src/be'
           src-frontend: './src/fe'
           src-sandbox: './src/sandbox'
+          src-packages: '../../packages'
+          src-apps: '../../apps'
       BASES:
         - builds/base
       ARGS:
@@ -99,7 +103,6 @@ includes:
       ARGS:
         map:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-
 
   environment-management:
     aliases:
@@ -172,6 +175,7 @@ includes:
           src-go-shared: './src/apps/go-shared'
           src-protobuf: './src/apps/protobuf'
           src-apps: './src/apps/'
+          packages: '../../packages'
       BASES:
         - builds/base
         - builds/go
@@ -191,6 +195,7 @@ includes:
           src-ss: './src/tao-scoring-service-be'
           src-ms: './src/tao-manual-scoring-be'
           src-ms-fe: './src/tao-manual-scoring-fe'
+
       BASES:
         - builds/base
       ARGS:

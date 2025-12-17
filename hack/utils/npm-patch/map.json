@@ -1,0 +1,46 @@
+{
+  "@oat-sa-private/ui-core": {
+    "path": "packages/core",
+    "package": "packages/live-design-system"
+  },
+  "@oat-sa-private/ui-identity": {
+    "path": "packages/identity",
+    "package": "packages/live-design-system"
+  },
+  "@oat-sa-private/ui-components": {
+    "path": "packages/components",
+    "package": "packages/live-design-system"
+  },
+  "@oat-sa-private/ui-elements": {
+    "path": "packages/elements",
+    "package": "packages/live-design-system"
+  },
+  "@oat-sa-private/read-aloud-client": {
+    "path": "",
+    "package": "packages/read-aloud-client"
+  },
+  "@oat-sa-private/tao-deliver-apps-common": {
+    "path": "packages/apps-common",
+    "package": "apps/deliver/src/fe"
+  },
+  "@oat-sa-private/tao-deep-linking-app": {
+    "path": "packages/deep-linking-app",
+    "package": "apps/deliver/src/fe"
+  },
+  "@oat-sa-private/tao-previewer-app": {
+    "path": "packages/previewer-app",
+    "package": "apps/deliver/src/fe"
+  },
+  "@oat-sa-private/tao-deliver-app": {
+    "path": "packages/deliver-app",
+    "package": "apps/deliver/src/fe"
+  },
+  "@oat-sa-private/tao-test-runner-qtinui": {
+    "path": "packages/test-runner",
+    "package": "apps/deliver/src/fe"
+  },
+  "@oat-sa-private/tao-item-runner-qtinui": {
+    "path": "packages/item-runner",
+    "package": "apps/deliver/src/fe"
+  }
+}

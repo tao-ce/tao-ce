@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+#
+
+set -e
+
+NPM_PATCH_DIR=$(dirname $0)
+
+NPM_APP_PATH=${NPM_APP_PATH:-.}
+PACKAGE_FILE=${PACKAGE_FILE:-package.json}
+REPOS_MAP_FILE_PATH=${REPOS_MAP_FILE_PATH:-${NPM_PATCH_DIR}/map.json}
+PACKAGES_PATH=${PACKAGES_PATH:-.local-packages}
+
+jsonnet \
+    -Sm ${NPM_APP_PATH} \
+    --tla-code-file src_package=${NPM_APP_PATH}/${PACKAGE_FILE} \
+    --tla-code-file repos_map=${REPOS_MAP_FILE_PATH} \
+    -A packages_path=${PACKAGES_PATH} \
+    -A app_path=${APP_PATH} \
+    ${NPM_PATCH_DIR}/patch.jsonnet

@@ -3,46 +3,67 @@
 ARG BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 
-### ms-fe-bootstrap #####################################################################
-FROM $BUILD_IMAGE AS ms-fe-bootstrap
+### fe #########################################################################
+FROM $BUILD_IMAGE AS build-ms-fe
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
-ENV NODE_VERSION="22"
-WORKDIR /app
+ENV NODE_VERSION="24"
+ENV NODE_ENV=dev
 
-COPY --from=src-ms-fe . .
+WORKDIR /local-packages/packages/live-design-system
+
+COPY --exclude="**/package-lock.json" --from=src-packages \
+    live-design-system .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    --mount=type=secret,id=NPM_TOKEN \
-        ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
-        && ${BUILD_NPM} ci \
-        && ${BUILD_NPM} run generate:locale \
-        && ${BUILD_NPM} run build:bootstrap \
-        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+    ${BUILD_NPM} install --install-links \
+    && ${BUILD_NPM} run build
 
-### ms-fe-static #####################################################################
-FROM $BUILD_IMAGE AS ms-fe-static
-ARG BUILD_IMAGE
-ARG BUILD_NPM
-
-ENV NODE_VERSION="22"
 WORKDIR /app
-
-COPY --from=src-ms-fe . .
+COPY  --from=src-ms-fe . .
 
 RUN \
-        --mount=type=ssh \
-        --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        --mount=type=secret,id=NPM_TOKEN \
-        ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
-        && ${BUILD_NPM} ci \
-        && ${BUILD_NPM} run generate:locale \
-        && ${BUILD_NPM} run build:static \
-        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+    --mount=type=bind,from=hack,target=/opt/hack \
+        /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/scoring.json
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} update \
+        '@oat-sa-private/ui-core' \
+        '@oat-sa-private/ui-identity' \
+        '@oat-sa-private/ui-components' \
+        '@oat-sa-private/ui-elements'
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+        ${BUILD_NPM} install --install-links
+
+# RUN jq  -r '.dependencies|keys|join("\n")' package.json \
+#     |  grep -v oat-sa-private | xargs ${BUILD_NPM} update
+
+# RUN jq  -r '.devDependencies|keys|join("\n")' package.json \
+#     | xargs ${BUILD_NPM} update
+
+### ms-fe-bootstrap #####################################################################
+FROM build-ms-fe AS ms-fe-bootstrap
+ARG BUILD_NPM
+
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+        ${BUILD_NPM} run generate:locale \
+        && ${BUILD_NPM} run build:bootstrap
+
+### ms-fe-static #####################################################################
+FROM build-ms-fe AS ms-fe-static
+ARG BUILD_NPM
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+        ${BUILD_NPM} run generate:locale \
+        && ${BUILD_NPM} run build:static
 
 ### ms-be ####################################################################
 FROM $BUILD_IMAGE AS ms-be
@@ -50,14 +71,19 @@ ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/scoring/ms-be"
 
 WORKDIR /app
-COPY --from=src-ms . .
+COPY --exclude="**/composer.lock" --from=src-ms . .
 
 RUN \
-        --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        --mount=type=secret,id=NPM_TOKEN \
+        --mount=type=bind,from=src-packages,target=local-packages/packages \
+        --mount=type=bind,from=src-apps,target=local-packages/apps \
+        --mount=type=bind,from=hack,target=/opt/hack \
+        /opt/hack/utils/composer-patch/patch.sh \
+            && composer install -van
+
+
+RUN \
         set -eux; \
-        /usr/bin/composer install -n --classmap-authoritative --prefer-dist --verbose; \
         /usr/bin/composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .build/ var/storage; \
@@ -80,14 +106,18 @@ ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/scoring/ss"
 
 WORKDIR /app
-COPY --from=src-ss . .
+COPY --exclude="**/composer.lock" --from=src-ss . .
 
 RUN \
-        --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        --mount=type=secret,id=NPM_TOKEN \
+        --mount=type=bind,from=src-packages,target=local-packages/packages \
+        --mount=type=bind,from=src-apps,target=local-packages/apps \
+        --mount=type=bind,from=hack,target=/opt/hack \
+        /opt/hack/utils/composer-patch/patch.sh \
+            && composer install -van
+
+RUN \
         set -eux; \
-        /usr/bin/composer install -n --classmap-authoritative --prefer-dist --verbose; \
         /usr/bin/composer dump-env dev; \
         rm -rf .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\

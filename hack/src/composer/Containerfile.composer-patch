@@ -1,0 +1,42 @@
+ARG BUILD_IMAGE
+ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+
+### patch ######################################################################
+FROM $BUILD_IMAGE AS patch
+ARG COMPOSER_APP_PATH
+
+WORKDIR /app
+
+COPY --from=src-app \
+    ${COMPOSER_APP_PATH}/composer.json \
+    ./composer.orig.json
+COPY --from=src-packages \
+    composer-patch \
+    /opt/composer-patch
+
+RUN \
+    jsonnet \
+        -m ./ \
+        --tla-code-file src_composer=./composer.orig.json \
+        -A repos_path=/run/context/composer \
+        /opt/composer-patch/patch.jsonnet
+
+RUN \
+    --mount=type=bind,from=src-packages,target=/run/context/composer/packages \
+    --mount=type=bind,from=src-apps,target=/run/context/composer/apps \
+    --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+    . /usr/local/libexec/nvm/nvm.sh \
+    && composer update \
+        -Wan \
+        --prefer-install=source \
+        --no-install \
+        --no-scripts 
+
+### export #####################################################################
+FROM scratch AS export
+
+COPY --from=patch \
+    /app/composer.* \
+    /
+
+    # /app/composer.lock \

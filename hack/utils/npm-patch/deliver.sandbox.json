@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "@oat-sa-private/tao-deliver-apps-common": "file:/local-packages/apps/deliver/src/fe/packages/apps-common",
+    "@oat-sa-private/tao-item-runner-qtinui": "file:/local-packages/apps/deliver/src/fe/packages/item-runner",
+    "@oat-sa-private/tao-test-runner-qtinui": "file:/local-packages/apps/deliver/src/fe/packages/test-runner",
+    "@oat-sa-private/ui-components": "file:/local-packages/packages/live-design-system/packages/components",
+    "@oat-sa-private/ui-core": "file:/local-packages/packages/live-design-system/packages/core",
+    "@oat-sa-private/ui-elements": "file:/local-packages/packages/live-design-system/packages/elements",
+    "@oat-sa-private/ui-identity": "file:/local-packages/packages/live-design-system/packages/identity"
+  },
+  "devDependencies":{
+    "svelte": "3.59.2",
+    "svelte-loader": "^3.1.9",
+    "svelte-preprocess": "^5.1.4"   
+  }
+}

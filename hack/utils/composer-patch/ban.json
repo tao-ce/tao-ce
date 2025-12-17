@@ -1,0 +1,8 @@
+{
+    "require": [
+        "oat-sa/bundle-bigtable-document-manager"
+    ],
+    "replace": [
+        "symfony/polyfill-php84"
+    ]
+}

@@ -61,9 +61,12 @@ ARG FEDORA_IMAGE
 ARG IMAGE_PHP_VERSION
 ARG IMAGE_NVM_VERSIONS
 
+ENV BIN_DEST=/usr/local/bin
 ENV NVM_DIR=/usr/local/libexec/nvm
 
 COPY build/packages.*.lst /run/context/
+COPY --link --from=build /go/bin/jsonnet    ${BIN_DEST}/jsonnet
+COPY --link --from=build /go/bin/yq         ${BIN_DEST}/yq
 
 RUN \
     --mount=type=cache,target=/var/cache/dnf,id=dnf-cache \
@@ -149,8 +152,6 @@ VOLUME [ "${TAO_CE_VARLIB}" ]
 
 COPY --from=ext-bin-envoy /usr/local/bin/envoy /usr/local/bin/envoy
 COPY --from=ext-bin-caddy /usr/bin/caddy /usr/local/bin/caddy
-COPY --link --from=build /go/bin/jsonnet    ${BIN_DEST}/jsonnet
-COPY --link --from=build /go/bin/yq         ${BIN_DEST}/yq
 COPY --link --from=build /go/bin/logdy-core ${BIN_DEST}/logdy
 
 COPY ./libexec      ${TAO_CE_LIBEXEC}

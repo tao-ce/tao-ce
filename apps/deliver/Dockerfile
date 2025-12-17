@@ -8,70 +8,89 @@ ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/deliver"
 
 WORKDIR /app
-COPY --from=src-backend . .
+COPY --exclude="**/composer.lock" --from=src-backend . .
 
-RUN     --mount=type=ssh \
+RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        set -eux; \
-        mv .env.prod .env; \
-        composer install -n --classmap-authoritative --no-dev --prefer-dist; \
-        > .env ; \
-        composer dump-env dev; \
-        echo '<?php return [];' >.env.local.php; \
-        rm -rf .env .build/ var/storage; \
-        find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
-        find /app -type f | grep '[/][.]git.*$' | xargs rm -rf ;
+        --mount=type=bind,from=src-packages,target=local-packages/packages \
+        --mount=type=bind,from=src-apps,target=local-packages/apps \
+        --mount=type=bind,from=hack,target=/opt/hack \
+    <<EORUN
+        set -eux
+        grep -v 'APP_ENV' .env.prod >.env
 
-RUN \
-    cd /app \
-    && rm -rf \
-        var \
-    && mkdir -p \
-        ${STATE_ROOT}/data \
-    && ln -s \
-        ${STATE_ROOT}/data \
-        var
+        /opt/hack/utils/composer-patch/patch.sh
+        composer install -van
+        composer dump-env dev
+        echo '<?php return [];' >.env.local.php
+EORUN
 
-### bootstrap ##################################################################
-FROM $BUILD_IMAGE AS build-bootstrap
+RUN <<EORUN
+    rm -rf .env .build/ var
+    {
+        find /app -type d | grep '[/][.]git$'
+        find /app -type f | grep '[/][.]git.*$'
+    } | xargs -r rm -rf
+    mkdir -p ${STATE_ROOT}/data 
+    ln -s ${STATE_ROOT}/data var
+EORUN
+
+
+### fe #########################################################################
+FROM ${BUILD_IMAGE} AS build-fe
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
 ENV NODE_VERSION="22"
-WORKDIR /app
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+ENV NODE_ENV=dev
 
-COPY --from=src-frontend ./packages/deliver-app .
+WORKDIR /local-packages/packages/live-design-system
 
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} run build:bootstrap \
-        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
-
-### static #####################################################################
-FROM $BUILD_IMAGE AS build-static
-ARG BUILD_IMAGE
-ARG BUILD_NPM
-
-ENV NODE_VERSION="22"
-WORKDIR /app
-
-COPY --from=src-frontend . .
+COPY --exclude="**/package-lock.json" --from=src-packages \
+    live-design-system .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    --mount=type=secret,id=NPM_TOKEN \
-        ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
-        && ${BUILD_NPM} ci \
-        && ${BUILD_NPM} run build:app \
-        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+    ${BUILD_NPM} install \
+    && ${BUILD_NPM} run build
 
+WORKDIR /local-packages/packages/read-aloud-client
 
+COPY --exclude="**/package-lock.json" --from=src-packages \
+    read-aloud-client .
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} install \
+    && ${BUILD_NPM} run build
+
+WORKDIR /local-packages/apps/deliver/src/fe
+
+COPY --exclude="**/package-lock.json" --from=src-apps \
+    deliver/src/fe .
+
+RUN \
+    --mount=type=bind,from=hack,target=/opt/hack \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    <<EORUN
+    set -eux
+    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/deliver.json
+    /opt/hack/utils/npm-patch/patch.sh ./packages/item-runner/package.json /opt/hack/utils/npm-patch/deliver.runner.json
+    /opt/hack/utils/npm-patch/patch.sh ./packages/test-runner/package.json /opt/hack/utils/npm-patch/deliver.runner.json 
+EORUN
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} install --install-links
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} run build:app
 
 ### sandbox ####################################################################
 
-FROM $BUILD_IMAGE AS build-sandbox
+FROM build-fe AS build-sandbox
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
@@ -81,29 +100,50 @@ ENV NODE_VERSION="22"
 ENV API_URL=/data
 ARG PORT=3000
 
-COPY --from=src-sandbox . .
+COPY --exclude="**/package-lock.json" --from=src-sandbox ./package.json .
 
 RUN \
-    --mount=type=secret,id=NPM_TOKEN \
+    --mount=type=bind,from=hack,target=/opt/hack \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
-        && ${BUILD_NPM} ci \
-        && ${BUILD_NPM} run build \
-        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+    <<EORUN
+    set -eux
+    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/deliver.sandbox.json
+EORUN
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+        ${BUILD_NPM} install --install-links
 
 
+COPY --exclude="**/package*.json" --from=src-sandbox . .
+
+RUN ${BUILD_NPM} run build 
+
+FROM ${BUILD_IMAGE} AS sandbox
+ARG BUILD_IMAGE
+ARG BUILD_NPM
+
+ENV NODE_VERSION="22"
+WORKDIR /app
+COPY --from=build-sandbox /app/package*json .
+COPY --from=build-sandbox /app/dist /app/dist
+COPY --from=build-sandbox /app/src/server /app/src/server
+COPY --from=build-sandbox /app/locale /app/locale
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+        ${BUILD_NPM} install --omit=dev
+        
 ### Export #####################################################################
 FROM scratch AS export
 
+COPY --link --from=build-fe \
+    /local-packages/apps/deliver/src/fe/packages/deliver-app/server.js /bootstrap/
+COPY --link --from=build-fe \
+    /local-packages/apps/deliver/src/fe/packages/deliver-app/dist /static
+COPY --link --from=sandbox    \
+    /app /sandbox
 COPY --link --from=build-backend  \
     /app /backend
-COPY --link --from=build-bootstrap  \
-    /app/server.js /bootstrap/
-COPY --link --from=build-static     \
-    /app/packages/deliver-app/dist /static
-COPY --link --from=build-sandbox    \
-    /app /sandbox
 
 COPY ./router.php /backend/router.php
 

@@ -13,7 +13,9 @@ WORKDIR /app
 
 COPY --from=src-worker package*.json ./
 
-RUN ${BUILD_NPM} install
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} install
 
 COPY --from=src-worker . .
 

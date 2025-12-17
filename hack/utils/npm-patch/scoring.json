@@ -1,0 +1,13 @@
+{
+    "dependencies": {
+        "@oat-sa-private/ui-components": "file:/local-packages/packages/live-design-system/packages/components",
+        "@oat-sa-private/ui-core": "file:/local-packages/packages/live-design-system/packages/core",
+        "@oat-sa-private/ui-elements": "file:/local-packages/packages/live-design-system/packages/elements",
+        "@oat-sa-private/ui-identity": "file:/local-packages/packages/live-design-system/packages/identity"
+    },
+    "devDependencies": {
+        "svelte-preprocess": "^5.1.4",
+        "rollup-plugin-svelte": "^7.1.6",
+        "rollup": "^3.29.4"
+    }
+}
