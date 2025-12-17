@@ -3,11 +3,9 @@ version: '3'
 vars:
   NAMESPACE: '{{ .NAMESPACE | default "apps" }}'
   DEFAULT_IMAGE: '{{.REGISTRY}}{{if ne .NAMESPACE "-" }}/{{.NAMESPACE}}{{ end }}/{{.APP}}'
-  IMAGE: '{{ default .IMAGE .DEFAULT_IMAGE }}'
-  DEFAULT_REMOTE_IMAGE: '{{.REMOTE_REGISTRY}}{{if ne .NAMESPACE "-" }}/{{.NAMESPACE}}{{ end }}/{{.APP}}'
-  REMOTE_IMAGE: '{{ default .IMAGE .DEFAULT_IMAGE }}'
   DEFAULT_TARGET: export
   SIGNAL_DIR: '{{.ROOT_SIGNAL_DIR}}/{{.NAMESPACE}}/{{.APP}}'
+  VERSION_DIR: '{{.CACHE_DIR}}/versions'
   BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
   DEPLOY_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/deploy/done"
   START_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/start/done"
@@ -32,12 +30,39 @@ tasks:
     - task: deploy
     - task: start
 
+  gitref:
+    method: none
+    vars:
+      CONTEXTS_LIST:  '{{ keys .CONTEXTS | join "," }}'
+    cmds:
+    - rm -f {{.VERSION_DIR}}/{{.APP}}
+    - mkdir -p {{.VERSION_DIR}}
+    - cmd: |
+        cat  >>{{.VERSION_DIR}}/{{.APP}} <<EOF
+        {{.APP}}:
+          context: {{relPath .ROOT_DIR .TASK_DIR}}/{{.CONTEXT}}
+          contexts:
+        EOF
+    - for:
+        var: CONTEXTS_LIST
+        split: ","
+      cmd: |
+        cat  >>{{.VERSION_DIR}}/{{.APP}} <<EOF
+            {{.ITEM}}:
+              path: {{relPath .ROOT_DIR .TASK_DIR}}/{{get .CONTEXTS .ITEM}}
+              gitref: $(cd {{get .CONTEXTS .ITEM}}/ &&  git rev-parse HEAD)
+              short: $(cd {{get .CONTEXTS .ITEM}}/ &&  git rev-parse --short HEAD)
+              origin: $(cd {{get .CONTEXTS .ITEM}}/ &&  git remote get-url origin)
+        EOF
+
   build:
+    # desc: Build {{ .IMAGE }}:{{ .TAG }}
     run: always
     vars:
       CONTEXT: '{{ .CONTEXT | default "." }}'
       SUDO: '{{ .SUDO | default "" }}'
       TARGET: '{{ .TARGET | default .DEFAULT_TARGET }}'
+      IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
     sources:
     - "{{if eq .TASK_DIR .ROOT_DIR}}@@@@@{{else}}{{.TASK_DIR}}/**{{end}}"
     # - exclude: "**/.*"
@@ -59,8 +84,11 @@ tasks:
 
     set:
     - pipefail
-    
+
     cmds:
+    - |
+      echo IMAGE: {{.IMAGE}}
+      echo TAG: {{.TAG}}
     - task: _log
       vars:
         MESSAGE: "Starting build image {{.IMAGE}}:{{.TAG}} from {{ .TASK_DIR }}"
@@ -103,6 +131,7 @@ tasks:
     aliases: [export]
     vars:
       DIR: '/opt/tao-ce/{{.APP}}'
+      IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
 
     # sources:
     #   - "{{ .BUILD_SIGNAL_FILE }}"

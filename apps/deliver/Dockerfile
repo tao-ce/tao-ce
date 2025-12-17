@@ -16,7 +16,7 @@ RUN     --mount=type=ssh \
         mv .env.prod .env; \
         composer install -n --classmap-authoritative --no-dev --prefer-dist; \
         > .env ; \
-        composer dump-env prod; \
+        composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \
         rm -rf .env .build/ var/storage; \
         find /app -type d | grep '[/][.]git$' | xargs rm -rf ;\
@@ -99,7 +99,7 @@ FROM scratch AS export
 COPY --link --from=build-backend  \
     /app /backend
 COPY --link --from=build-bootstrap  \
-    /app /bootstrap
+    /app/server.js /bootstrap/
 COPY --link --from=build-static     \
     /app/packages/deliver-app/dist /static
 COPY --link --from=build-sandbox    \

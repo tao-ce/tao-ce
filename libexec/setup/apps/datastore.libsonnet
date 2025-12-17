@@ -16,7 +16,7 @@ env: {
         PUBSUB_EMULATOR_HOST:  setup.dependencies.pubsub.address.url,
         PUBSUB_TASK_ORCHESTRATOR_TOPIC_NAME: "task-orchestrator-topic",
         PUBSUB_USER_DATA_MERGED_TOPIC_NAME: 'tao-diploma-generation-user-data-merged-events-topic',
-        DEBUG: 'true',
+        DEBUG: 'false',
     },
 } + std.mapWithKey(
         function(k,v) {

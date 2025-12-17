@@ -1,0 +1,182 @@
+version: '3'
+
+vars:
+  GCR: europe-west1-docker.pkg.dev
+  GCP_PROJECT: tao-ce
+  
+  INTERNAL_REGISTRY: internal
+  PUBLIC_REGISTRY: early-adopters
+
+  ENV_REMOTE_REGISTRY:
+    sh: echo $REMOTE_REGISTRY
+
+  REMOTE_REGISTRY: "{{ .ENV_REMOTE_REGISTRY | default .PUBLIC_REGISTRY }}"
+
+  TAO_VERSION:
+    sh: echo $TAO_VERSION
+
+  CE_MINOR:
+    sh: echo $CE_MINOR
+
+  CE_MAJOR:
+    sh: echo $CE_MAJOR
+
+  GIT_REF_LONG:
+    sh: git rev-parse HEAD
+
+  GIT_REF_SHORT:
+    sh: git rev-parse --short HEAD
+
+  ARCH: "{{ARCH}}"
+
+  CE_VERSION: "v{{ .CE_MAJOR }}.{{ .CE_MINOR }}"
+  MANIFEST_TAG: "{{ .TAO_VERSION }}-{{ .CE_VERSION }}"
+  IMAGE_TAG: "{{ .IMAGE_TAG }}-{{ .ARCH }}"
+
+  FULL_REGISTRY: "{{ .GCR }}/{{ .GCP_PROJECT }}/{{ .REMOTE_REGISTRY }}"
+  FULL_IMAGE: "{{ .FULL_REGISTRY }}/{{ .SWIFT_IMAGE }}"
+
+  FULL_MANIFEST_URL: "{{ .FULL_IMAGE }}:{{ .MANIFEST_TAG }}"
+  LOCAL_IMAGE_URL: "{{ .LOCAL_IMAGE }}:{{ .DEV_TAG }}"
+  FULL_IMAGE_URL: "{{ .FULL_MANIFEST_URL }}-{{ .ARCH }}"
+
+  DEV_TAG: dev-latest
+  
+
+  GOOGLE_TOKEN_FILE: .secrets/google_token
+
+includes:
+  monolith:
+    taskfile: ../crystal
+    dir: ../..
+    vars:
+      APP: tao-ce
+      IMAGE: '{{.LOCAL_IMAGE}}'
+      NAMESPACE: "-"
+      TARGET: monolith
+      CONTEXTS:
+        map:
+          tao-ce: "container-image://{{ .PAYLOAD_IMAGE }}:{{.DEV_TAG}}"
+          release: "{{.CACHE_DIR}}/swift/release"
+
+  payload:
+    taskfile: ../crystal
+    dir: ../..
+    vars:
+      APP: tao-ce
+      NAMESPACE: payload
+      CONTEXTS:
+        ref: .APPS_CONTEXTS
+      FILE:
+        ref: .PAYLOAD_CONTAINERFILE
+      IMAGE: '{{.PAYLOAD_IMAGE}}'
+
+tasks:
+  release:
+    preconditions:
+      - sh: test -n "$CE_MINOR"
+      - sh: test -n "$CE_MAJOR"
+      - sh: test -n "$TAO_VERSION"
+    cmds:
+    - rm -rf {{.CACHE_DIR}}/swift/release
+    - mkdir -p {{.CACHE_DIR}}/swift/release
+    - task: :all:gitref
+    - cat {{.CACHE_DIR}}/versions/* >{{.CACHE_DIR}}/swift/release/versions.yml
+    - echo {{.MANIFEST_TAG}}>{{.CACHE_DIR}}/swift/release/version
+    - echo {{ARCH}}>{{.CACHE_DIR}}/swift/release/arch
+    - date --utc -Is >{{.CACHE_DIR}}/swift/release/buildtime
+    - git rev-parse HEAD >{{.CACHE_DIR}}/swift/release/gitref
+    - git rev-parse --short HEAD >{{.CACHE_DIR}}/swift/release/gitrefshort
+    - git remote get-url origin >{{.CACHE_DIR}}/swift/release/gitorigin
+    - |
+      cat >{{.CACHE_DIR}}/swift/release/environment <<EOF
+      RELEASE_VERSION={{.MANIFEST_TAG}}-{{ARCH}}-$(cat {{.CACHE_DIR}}/swift/release/gitrefshort)
+      EOF
+
+  build:
+    preconditions:
+      - sh: test -n "$CE_MINOR"
+      - sh: test -n "$CE_MAJOR"
+      - sh: test -n "$TAO_VERSION"
+    desc: Build swift container {{ .LOCAL_IMAGE }} from {{ .PAYLOAD_IMAGE }}
+    deps:
+    - :builds:base:build
+    - :builds:go:build
+
+    cmds:
+    - pwd
+    - task: :all:build
+    - task: release
+    - mkdir -p $(dirname {{.PAYLOAD_CONTAINERFILE}})
+    - | 
+      cat >{{.PAYLOAD_CONTAINERFILE}} <<EOCONTAINERFILE
+      FROM scratch AS export
+      {{ range .APPS | sortAlpha  -}}
+      COPY --link --from={{ . }} / /{{ . }}
+      {{ end }}
+      EOCONTAINERFILE
+    - task: payload:build
+    - task: monolith:build
+
+  login:
+    preconditions:
+      - sh: test -f {{ .GOOGLE_TOKEN_FILE }}
+        msg: missing {{ .GOOGLE_TOKEN_FILE }}
+    cmds:
+    - |
+      podman login \
+        -u  oauth2accesstoken \
+        --password-stdin {{ .GCR }} \
+          <{{ .GOOGLE_TOKEN_FILE }}
+
+      skopeo login \
+        -u  oauth2accesstoken \
+        --password-stdin {{ .GCR }} \
+          <{{ .GOOGLE_TOKEN_FILE }}
+
+  tag:
+    preconditions:
+      - sh: test -n "$CE_MINOR"
+      - sh: test -n "$CE_MAJOR"
+      - sh: test -n "$TAO_VERSION"
+    requires:
+      vars:
+      - name: ARCH
+        enum: [arm64, amd64]
+    cmds:
+    - |
+      podman tag \
+        {{ .LOCAL_IMAGE_URL }} \
+        {{ .FULL_IMAGE_URL }}
+  
+  push:
+    requires:
+      vars:
+      - CE_MINOR
+      - CE_MAJOR
+      - TAO_VERSION
+    deps:
+      - task: login
+    cmds:
+    - |
+      podman push \
+        {{ .FULL_IMAGE_URL }}
+
+  manifest:
+    requires:
+      vars:
+      - CE_MINOR
+      - CE_MAJOR
+      - TAO_VERSION
+    deps:
+      - task: login
+    cmds:
+    - |
+      podman manifest create -a \
+        {{ .FULL_MANIFEST_URL }} \
+        {{ .FULL_MANIFEST_URL }}-amd64 \
+        {{ .FULL_MANIFEST_URL }}-arm64
+      
+      podman push \
+        {{ .FULL_MANIFEST_URL }}
+

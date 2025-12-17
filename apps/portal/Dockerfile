@@ -12,6 +12,7 @@ ENV NODE_VERSION="22"
 WORKDIR /app
 
 COPY --from=src-backend . .
+COPY --from=src-init index/tenant-tags.json mappings/dev/tenant-tags.json 
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
@@ -59,7 +60,7 @@ FROM scratch AS export
 COPY --link --from=build-backend \
     /app /backend
 COPY --link --from=build-bootstrap  \
-    /app /bootstrap
+    /app/server.js /bootstrap/
 COPY --link --from=build-static     \
     /app/dist /static
 

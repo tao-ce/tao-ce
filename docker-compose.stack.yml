@@ -29,18 +29,10 @@ services:
       start_period: 3s
 
   pubsub:
-    build:
-      context: services/pubsub-emulator
-      target: export
+    image: quay.io/tao-ce/services/pubsub-emulator:latest
 
-  pubsub-emulator-ui:
-    image: ghcr.io/neoscript/pubsub-emulator-ui:2025.02.25
-    environment:
-      - PUBSUB_EMULATOR_HOST=pubsub.deps.internal:8432
-  
   firestore:
-    build:
-      context: services/firebase
+    image: quay.io/tao-ce/services/firestore-emulator:latest
     environment:
       PROJECT_ID: demo-tao
   es:
@@ -74,17 +66,7 @@ services:
     volumes:
       - es:/usr/share/elasticsearch/data
 
-  kibana:
-    image: docker.elastic.co/kibana/kibana:8.15.1
-    environment:
-    - http.tls.selfSignedCertificate.disabled=true
-    - ELASTICSEARCH_HOSTS=http://es:9200
-    - server.host=es
-    - xpack.security.authc.providers.anonymous.anonymous1.order=0
-    - xpack.security.authc.providers.anonymous.anonymous1.credentials="elasticsearch_anonymous_user"
-
 volumes:
   pgsql: {}
   es: {}
   redis: {}
-  registry: {}

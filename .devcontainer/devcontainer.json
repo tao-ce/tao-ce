@@ -1,7 +1,7 @@
 {
     "name": "TAO Community Edition",
     "dockerComposeFile": [
-        "../docker-compose.yml"
+        "../docker-compose.dev.yml"
     ],
 
     "service": "dev",
@@ -21,7 +21,7 @@
             "configureZshAsDefaultShell": true
         }
     },
-    
+
     "customizations": {
         "vscode": {
             "extensions": [
@@ -44,7 +44,7 @@
                         "path": "${containerWorkspaceFolder}/.devcontainer/bin/devsh",
                         "env":{
                             "SYSTEMD_RUN_SHELL_PROMPT_PREFIX": "",
-                            "WORKPACE_FOLDER": "${containerWorkspaceFolder}",
+                            "WORKSPACE_FOLDER": "${containerWorkspaceFolder}",
                         }
                     }
                 },

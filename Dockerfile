@@ -3,7 +3,7 @@ ARG SYFT_VERSION=latest
 
 ARG FEDORA_IMAGE=fedora
 ARG FEDORA_VERSION=42
-ARG IMAGE_NVM_VERSIONS="18,20,22"
+ARG IMAGE_NVM_VERSIONS="22"
 ARG DEVCONTAINER_USERNAME="vscode"
 
 # do not change without keeping packages.php.lst up to date
@@ -29,23 +29,6 @@ ARG TARGETARCH
 
 RUN apk add jq
 COPY hack/utils/download-release.sh /usr/local/bin/
-
-################################################################################
-# FROM download AS get-logdy
-# ARG TARGETPLATFORM
-# ARG TARGETOS
-# ARG TARGETARCH
-# ARG LOGDY_VERSION="latest"
-
-# RUN \
-#     --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-#     /usr/local/bin/download-release.sh \
-#         logdyhq/logdy-core \
-#         logdy_${TARGETOS}_${TARGETARCH}\
-#         ${LOGDY_VERSION} \
-#         ; \
-#     cd /tmp \
-#         && mv /tmp/logdy* /usr/local/bin/logdy
 
 ################################################################################
 FROM download AS get-syft
@@ -105,7 +88,10 @@ RUN \
         && echo ${IMAGE_NVM_VERSIONS} | tr , "\n" | xargs -n1 | while read v ; do nvm install $v ; done  \
         && nvm install --lts \
         && nvm use --lts \
-        && nvm alias default node
+        && nvm alias default node \
+    && mkdir -p /opt/xlsx2csv \
+        && python3 -m venv /opt/xlsx2csv/venv \
+        && /opt/xlsx2csv/venv/bin/pip install --no-cache-dir xlsx2csv
 
 ################################################################################
 FROM base-fedora AS build-base
@@ -216,12 +202,14 @@ ENV TAO_CE_ETC=${TAO_CE_ETC}
 ENV TAO_CE_LIBEXEC=${TAO_CE_LIBEXEC}
 ENV TAO_CE_VARLIB=${TAO_CE_VARLIB}
 
+COPY --link --from=release / /etc/tao-ce/release
 COPY --link --from=tao-ce / ${TAO_CE_OPT}
 
-RUN systemctl enable \
-    ${TAO_CE_LIBEXEC}/systemd/tao-ce.target \
-    ${TAO_CE_LIBEXEC}/systemd/*.service \
-    ${TAO_CE_OPT}/*/meta/systemd/*.service
+RUN cat /etc/tao-ce/release/environment >>/etc/environment \
+    && systemctl enable \
+        ${TAO_CE_LIBEXEC}/systemd/tao-ce.target \
+        ${TAO_CE_LIBEXEC}/systemd/*.service \
+        ${TAO_CE_OPT}/*/meta/systemd/*.service
 
 ################################################################################
 FROM running AS devcontainer

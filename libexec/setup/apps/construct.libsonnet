@@ -2,6 +2,7 @@ function(setup)
   {
     env: {
       backend: {
+        CONSTRUCT_LANG: setup.defaultLocale,
         CONSTRUCT_BASE_URL: 'https://%s/backoffice/' % setup.publicDomain,
         PORTAL_BE_BASE_URL: 'https://%s/portal-be' % setup.publicDomain,
         DELIVERTENANT_0_CUSTOMER_ID: '1',
@@ -21,6 +22,8 @@ function(setup)
         DELIVERTENANT_0_OAUTH_CREDENTIALS_COUNT: '1',
         DELIVERTENANT_0_ROOT_URL: '%s/api/v1/' % setup.apps.deliver.backend.http.url,
         DELIVERTENANT_0_TOKEN_URL: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
+        DELIVERTENANT_0_DYNAMIC_QUERY_API_URL: setup.apps.dynamic_query.api.http.url + '/api/v1',
+        SCORING_SERVICE_URL: 'https://%(publicDomain)s/ss-be/api/v1/events' % setup,
         DELIVERTENANT_COUNT: '1',
         ELASTICSEARCH_HOSTS: setup.dependencies.es.address.baseUrl,
         FEATURE_FLAG_ENABLE_DATA_STORE_STORAGE: 'true',
@@ -30,6 +33,7 @@ function(setup)
         // enable new Test preview
         FEATURE_FLAG_TAO_ADVANCE_ONLY: 'true',
         FEATURE_FLAG_TAO_CG_ONLY: 'false',
+        FEATURE_FLAG_TAO_ADVANCE_ONLY_CORE: 'true',
         // FEATURE_FLAG_TRANSLATION_ENABLED: "true",
         FEATURE_FLAG_UNIQUE_NUMERIC_QTI_IDENTIFIER: 'true',
         GOOGLE_CLOUD_DELIVERY_EXECUTION_PUB_SUB_TOPIC_ID: 'ss-delivery-executions-topic',
@@ -40,8 +44,7 @@ function(setup)
         SCORING_CLIENT_SECRET: 'secret',
         SCORING_ENABLE: 'true',
         SCORING_SCOPE: 'event:post',
-        // SCORING_SERVICE_URL: "http://tao-ce-tao-scoring-service-be:8080/api/v1/events",
-        IS_QTI_PACKAGE_STORED_EXTERNALLY_ENABLED: "true",
+        IS_QTI_PACKAGE_STORED_EXTERNALLY_ENABLED: 'true',
         PUBLIC_STORAGE_URL: '%s/construct/data' % setup.dirs.varlib,
         SCORING_TOKEN_URL: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
         XDEBUG_MODE: 'off',
