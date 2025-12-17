@@ -1,8 +1,4 @@
 # TAO CE – How to Install
-
-> **Status:** Work in progress.  
-> This document is released together with the final version of TAO CE.
-
 This guide explains how to install TAO Community Edition (TAO CE) using Docker, and what to do next after installation.
 
 ---
@@ -23,13 +19,13 @@ TAO CE supports container-based deployment using Docker for local development an
 
 1. The core TAO CE resources are hosted on the `quay.io/tao-ce/tao-ce:latest` registry. Pull and configure the required container:
  - **Remove any previous TAO CE containers, volumes, and images** from Docker if you have installed TAO CE before.
- - Download the `docker-compose.yml` file:  
-   <https://drive.google.com/file/d/1wTEZEM69n40NoAI5lAh3VWUIOXg8zVc4/view>
+ - Download the `docker-compose.tao-ce.yaml` file:  
+   <https://gist.github.com/tao-community-edition/5ac924d5021aa2d7d3635064edc0e752>
  - Open a terminal/shell and go to the folder where you saved the file.
  - Run:
 
    ```bash
-   docker compose -f docker-compose.yml up -d
+   docker compose -f docker-compose.tao-ce.yaml up -d
    ```
 
  - Wait for all volumes and containers to be created and started.
@@ -83,7 +79,7 @@ You may now login with:
 Username: admin
 Password: password
 ```
-![TAO CE Login](/docs/images/login.png)
+![TAO CE Login](docs/images/login.png)
 ---
 
 ## 2. Immediate Action Required: Change Passwords
@@ -98,10 +94,10 @@ For security, you **must** change the default passwords immediately.
 4. Choose a secure password (at least 8 characters, with at least one lowercase, one uppercase, and one number or symbol).
 5. Click **Save changes**.
 
-### 2.2 Change Test-Taker Passwords (fk01–fk05)
+### 2.2 Change Test-Taker Passwords (users: `demo01` – `demo05`, default password: `password`)
 
 1. Go to the **Users** tile.
-2. Locate the users with the **Test taker** role (fk01–fk05).
+2. Locate the users with the **Test taker** role (`demo01` – `demo05`).
 3. For each user, open the context (hamburger) menu → **Edit**.
 4. Click **Change password**.
 5. Set a secure password (same criteria as above).
@@ -132,11 +128,11 @@ After installation and password changes, follow these steps to create and delive
 
 1. From the Portal, click the **Content bank** tile.
 2. Go to the **Items** tab.
-   - Create folders and items as needed.
+   - Create folders and items as needed. Check the [User Guide](https://userguide.taotesting.com/user-documentation/latest/public/creating-a-test-item) on how to do this.
 3. Switch to the **Tests** tab.
-   - Create a new test.
+   - Create a new test. Check the [User Guide](https://userguide.taotesting.com/user-documentation/latest/public/creating-a-test) on how to do this.
    - Add the items you created.
-4. Publish the test as a new **delivery** by selecting it and clicking **Publish**.
+4. Publish the test as a new **delivery** by selecting it and clicking **Publish**. Check the [User Guide](https://userguide.taotesting.com/user-documentation/latest/public/publishing-a-test) on how to do this.
 
 ---
 
@@ -158,12 +154,14 @@ Steps:
    - **Delivery** (select the delivery you published earlier)
 5. Save the session.
 
+You can read more information about managing sessions in the [User Guide](https://userguide.taotesting.com/user-documentation/latest/public/sessions-management).
+
 ---
 
 ### 4.3 Simulate a Test-Taker
 
 1. Log out from the admin user.
-2. Log in as one of the test-taker users whose password you changed (e.g., fk01).
+2. *For your convenience, several users are already provisioned, to be used as test-takers.* Log in as one of the test-taker users whose password you changed (e.g., fk01).
 3. In the session list, find your newly created session.
 4. Click **Start**.
 5. Take the test to completion.
@@ -182,38 +180,18 @@ Steps:
 
 ## 5. Other Relevant Resources
 
-- **TAO User Guide**  
-- **TAO Knowledge Base**  
-- **TAO Community Forum**  
-
-(Links to be filled in with the official URLs.)
+- [TAO User Guide](https://userguide.taotesting.com/user-documentation/latest/public/)
+- [TAO Knowledge Base](https://knowledge.taotesting.com/)
+- [TAO Community Forum](https://forum.community.taotesting.com/)
 
 ---
 
-## 6. Known Issues
+## 6. Known Issues for version `2025.10`
 
-The following issues are known in the current TAO CE version. They are planned to be addressed for the final release.
+The following issues are known in the current TAO CE version (`2025.10`). They are planned to be addressed in one of the following releases.
 
-| Issue                                                                 | Workaround / Notes                                                                                  |
-| --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Files uploaded via a **File Upload** interaction cannot be downloaded | In the window opened when clicking such a file, manually add `https://` in front of the URL.        |
-| Recordings from the **Audio PCI** cannot be played after submission  | No workaround available yet.                                                                         |
-| Reports do not work (links lead to “Page not found”).                | Not yet available in this version.                                                                  |
-| CSV results cannot be downloaded for a session.                      | Not yet available in this version.                                                                  |
-| Bulk data import in **TAO Portal** does not work.                    | Not yet available in this version.                                                                  |
-| A user with the **Group Manager** role cannot create a session.      | Create sessions using an **admin** user as a workaround.                                            |
-
----
-
-## 7. Source Code
-
-> **Note**  
-> At this time, the supported way to install TAO CE is via the container-based method described above.
-
-We are working on providing:
-
-- full access to the source code,
-- an installer, and
-- a detailed installation guide.
-
-These will be made available later as part of the TAO CE release.
+| Issue | Workaround / Notes |
+| - | - |
+| Text-to-speech is not working for the test-taker | No workaround available yet.|
+| **Usage** tab for items is not working | No workaround available yet. |
+| **Item statistics** tab for items is not working | No workaround available yet. |
