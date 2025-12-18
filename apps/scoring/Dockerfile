@@ -8,25 +8,26 @@ FROM $BUILD_IMAGE AS build-ms-fe
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
-ENV NODE_VERSION="24"
+ENV NODE_VERSION="22"
 ENV NODE_ENV=dev
 
 WORKDIR /local-packages/packages/live-design-system
 
-COPY --exclude="**/package-lock.json" --from=src-packages \
-    live-design-system .
+COPY --from=src-packages live-design-system .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} install --install-links \
-    && ${BUILD_NPM} run build
+    ${BUILD_NPM} ci
 
 WORKDIR /app
 COPY  --from=src-ms-fe . .
 
 RUN \
     --mount=type=bind,from=hack,target=/opt/hack \
-        /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/scoring.json
+    <<EORUN
+    set -eux
+    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/scoring-fe.json
+EORUN
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
@@ -40,16 +41,10 @@ RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
         ${BUILD_NPM} install --install-links
 
-# RUN jq  -r '.dependencies|keys|join("\n")' package.json \
-#     |  grep -v oat-sa-private | xargs ${BUILD_NPM} update
-
-# RUN jq  -r '.devDependencies|keys|join("\n")' package.json \
-#     | xargs ${BUILD_NPM} update
 
 ### ms-fe-bootstrap #####################################################################
 FROM build-ms-fe AS ms-fe-bootstrap
 ARG BUILD_NPM
-
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \

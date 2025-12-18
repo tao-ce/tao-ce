@@ -19,6 +19,7 @@ RUN \
         ${BUILD_NPM} ci \
         && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
         && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+
 ### fe #########################################################################
 FROM $BUILD_IMAGE AS build-fe
 ARG BUILD_IMAGE
@@ -28,24 +29,30 @@ ENV NODE_VERSION="22"
 
 WORKDIR /local-packages/packages/live-design-system
 
-COPY --exclude="**/package-lock.json" --from=src-packages \
-    live-design-system .
+COPY --from=src-packages live-design-system .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} install \
-    && ${BUILD_NPM} run build
+    ${BUILD_NPM} ci
 
 WORKDIR /app
-COPY --exclude="**/package-lock.json" --from=src-frontend . .
+
+COPY --from=src-frontend . .
 
 RUN \
     --mount=type=bind,from=hack,target=/opt/hack \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     <<EORUN
     set -eux
-    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/deliver.json
+    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/portal-fe.json
 EORUN
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} update \
+        '@oat-sa-private/ui-core' \
+        '@oat-sa-private/ui-identity' \
+        '@oat-sa-private/ui-components' \
+        '@oat-sa-private/ui-elements'
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
