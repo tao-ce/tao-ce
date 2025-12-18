@@ -2,6 +2,7 @@
 
 ARG BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+ARG BUILD_NPX="/usr/local/libexec/nvm/nvm-exec npx"
 ### backend ####################################################################
 FROM $BUILD_IMAGE AS build-backend
 ARG BUILD_IMAGE
@@ -40,6 +41,7 @@ EORUN
 FROM ${BUILD_IMAGE} AS build-fe
 ARG BUILD_IMAGE
 ARG BUILD_NPM
+ARG BUILD_NPX
 
 ENV NODE_VERSION="22"
 ENV NODE_OPTIONS="--max-old-space-size=4096"
@@ -79,8 +81,11 @@ RUN \
         '@oat-sa-private/ui-core' \
         '@oat-sa-private/ui-identity' \
         '@oat-sa-private/ui-components' \
-        '@oat-sa-private/ui-elements' \
-        '@oat-sa-private/read-aloud-client'
+        '@oat-sa-private/ui-elements'
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPX} lerna bootstrap
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
