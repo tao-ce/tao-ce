@@ -19,9 +19,9 @@ TAO CE supports container-based deployment using Docker for local development an
 
 1. The core TAO CE resources are hosted on the `quay.io/tao-ce/tao-ce:latest` registry. Pull and configure the required container:
  - **Remove any previous TAO CE containers, volumes, and images** from Docker if you have installed TAO CE before.
- - Download the `docker-compose.tao-ce.yaml` file:  
-   <https://gist.github.com/tao-community-edition/5ac924d5021aa2d7d3635064edc0e752>
- - Open a terminal/shell and go to the folder where you saved the file.
+ - Download a .ZIP archive with the `docker-compose.tao-ce.yaml` file:  
+   <https://gist.github.com/tao-community-edition/5ac924d5021aa2d7d3635064edc0e752/archive/eb21e720043a3278655516ae1e5993ef6ca2e3f4.zip> and unzip it
+ - Open a terminal/shell and go to the folder where you unzipped the file.
  - Run:
 
    ```bash
@@ -179,7 +179,7 @@ You can read more information about managing sessions in the [User Guide](https:
 ### 4.4 Simulate a Test-Taker
 
 1. Log out from the admin user.
-2. *For your convenience, several users are already provisioned, to be used as test-takers.* Log in as one of the test-taker users whose password you changed (e.g., fk01).
+2. *For your convenience, several users are already provisioned, to be used as test-takers.* Log in as one of the test-taker users whose password you changed (e.g., `demo01`).
 3. In the session list, find your newly created session.
 4. Click **Start**.
 5. Take the test to completion.
@@ -198,6 +198,7 @@ You can read more information about managing sessions in the [User Guide](https:
 
 ## 5. Other Relevant Resources
 
+- [TAO Community website](https://taotesting.com/community)
 - [TAO User Guide](https://userguide.taotesting.com/user-documentation/latest/public/)
 - [TAO Knowledge Base](https://knowledge.taotesting.com/)
 - [TAO Community Forum](https://forum.community.taotesting.com/)
