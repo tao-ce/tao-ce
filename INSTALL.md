@@ -17,7 +17,7 @@ TAO CE supports container-based deployment using Docker for local development an
 
 ### 1.2 Retrieve and Deploy the TAO CE Container
 
-1. The core TAO CE resources are hosted on the `quay.io/tao-ce/tao-ce:latest` registry. Pull and configure the required container:
+Pull and configure the required container:
  - **Remove any previous TAO CE containers, volumes, and images** from Docker if you have installed TAO CE before.
  - Download a .ZIP archive with the `docker-compose.tao-ce.yaml` file:  
    <https://gist.github.com/tao-community-edition/5ac924d5021aa2d7d3635064edc0e752/archive/eb21e720043a3278655516ae1e5993ef6ca2e3f4.zip> and unzip it
@@ -92,7 +92,9 @@ For security, you **must** change the default passwords immediately.
 2. Under **My account**, click **My user**.
 3. Click **Change password**.
 4. Choose a secure password (at least 8 characters, with at least one lowercase, one uppercase, and one number or symbol).
-5. Click **Save changes**.
+5. Click **Save changes**. 
+
+*Note that you may see a warning that your password is not safe enough, despite following the recommended constraints. You can ignore it, as this is a known issue which will be resolved in a future version.*
 
 ### 2.2 Change Test-Taker Passwords (users: `demo01` – `demo05`, default password: `password`)
 
@@ -214,3 +216,4 @@ The following issues are known in the current TAO CE version (`2025.10`). They a
 | Text-to-speech is not working for the test-taker | No workaround available yet.|
 | **Usage** tab for items is not working | No workaround available yet. |
 | **Item statistics** tab for items is not working | No workaround available yet. |
+| **Changing the password for the current user** throws an error about constraints not being met, despite following the constraints | Ignore the warning, as the password is actually updated successfully if the constraints are met |
