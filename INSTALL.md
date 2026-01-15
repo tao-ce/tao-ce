@@ -20,7 +20,7 @@ TAO CE supports container-based deployment using Docker for local development an
 Pull and configure the required container:
  - **Remove any previous TAO CE containers, volumes, and images** from Docker if you have installed TAO CE before.
  - Download a .ZIP archive with the `docker-compose.tao-ce.yaml` file:  
-   <https://gist.github.com/tao-community-edition/5ac924d5021aa2d7d3635064edc0e752/archive/eb21e720043a3278655516ae1e5993ef6ca2e3f4.zip> and unzip it
+   <https://gist.github.com/tao-community-edition/5ac924d5021aa2d7d3635064edc0e752/archive/bee47da97a1811b6b89568e00221fe22d62a1748.zip> and unzip it
  - Open a terminal/shell and go to the folder where you unzipped the file.
  - Run:
 
