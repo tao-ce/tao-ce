@@ -1,0 +1,85 @@
+site_name: TAO Community Edition
+repo_url: https://github.com/tao-ce/tao-ce
+
+extra_css:
+  - stylesheets/extra.css
+
+extra: 
+  status:
+    todo: This document is under construction.
+
+theme:
+  name: material
+  font:
+    text: Roboto
+
+
+
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.path
+    - navigation.expand
+    - toc.follow
+    - toc.integrate
+    - content.code.copy
+
+  palette:
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: red
+      accent: pink
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      primary: red
+      accent: pink
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate 
+      primary: red
+      accent: pink
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+plugins: 
+  - search
+  - awesome-nav
+  - typeset
+
+markdown_extensions:
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+docs_dir: ../../docs
+use_directory_urls: true

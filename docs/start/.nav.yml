@@ -1,0 +1,13 @@
+title: Getting started
+
+nav:
+- index.md
+- Installation:
+  - install.md
+  - Container based: container
+  # - Appliance based: appliance
+  # - Cloud: cloud
+- Preparation: prepare.md
+- First steps: first.md
+# - Configure storage: storage
+
