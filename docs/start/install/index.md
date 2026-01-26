@@ -1,3 +1,6 @@
+---
+icon: material/download
+---
 # Installation methods
 
 To start using *TAO Community Edition*, you may use one of the following methods.
@@ -9,8 +12,6 @@ To start using *TAO Community Edition*, you may use one of the following methods
     ---
 
     Deploy and start using *TAO Community Edition* in few clicks!
-
-    [:fontawesome-brands-docker: Using Docker Desktop](./container/docker-desktop.md)
 
     [:fontawesome-brands-docker: Using Docker Compose](./container/docker-compose.md)
 

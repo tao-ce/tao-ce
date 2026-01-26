@@ -7,11 +7,29 @@ extra_css:
 extra: 
   status:
     todo: This document is under construction.
+  social:
+  - icon: fontawesome/brands/github
+    link: https://github.com/tao-ce
+  - icon: fontawesome/brands/linkedin
+    link: https://www.linkedin.com/company/open-assessment-technologies-s-a-/
+  - icon: fontawesome/brands/youtube
+    link: https://www.youtube.com/@openassessmenttechnologies7347
+  - icon: fontawesome/brands/discourse
+    link: https://forum.community.taotesting.com/
+    name: Join the community, and get support from our Forum
+  - icon: tao/logo
+    link: https://www.taotesting.com
+    name: Home of TAO
+
 
 theme:
   name: material
+  custom_dir: ./custom
+  logo: images/logo-w.svg
+  favicon: images/logo.svg
   font:
-    text: Roboto
+    text: Noto
+  
 
 
 
@@ -26,13 +44,16 @@ theme:
     - toc.follow
     - toc.integrate
     - content.code.copy
+    - search.suggest
+
 
   palette:
 
     # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
-      primary: red
-      accent: pink
+      primary: &primary "red"
+      accent: &accent "pink"
+      # accent: pink
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
@@ -40,8 +61,8 @@ theme:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default 
-      primary: red
-      accent: pink
+      primary: *primary
+      accent: *accent
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
@@ -49,8 +70,8 @@ theme:
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate 
-      primary: red
-      accent: pink
+      primary: *primary
+      accent: *accent
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
@@ -74,12 +95,17 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-
+      options:
+        custom_icons:
+          - custom/.icons
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+
+
+copyright: Copyright &copy; 2012 - 2026 Open Assessment Technologies S.A.
 
 docs_dir: ../../docs
 use_directory_urls: true

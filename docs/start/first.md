@@ -1,4 +1,8 @@
-# First steps with *TAO Community Edition*
+---
+icon: octicons/rocket-24
+---
+
+# First steps
 
 
 ## Login
@@ -8,7 +12,7 @@
 
 Open your browser and go to [`https://community.tao.internal/`](https://community.tao.internal/).
 
-![TAO Login page](../../images/login.png){width="400"}
+![TAO Login page](../images/login.png){width="400"}
 
 Default credentials for Administrator account are:
 
@@ -17,6 +21,15 @@ Default credentials for Administrator account are:
 
 ## Change password
 
+!!! abstract inline end "About secure password"
+    
+    Password must contain:
+
+     * at least 8 characters
+     * at least one lowercase
+     * at least one uppercase
+     * at least one number or symbol
+
 ### From user profile
 
 Once logged in in *TAO Community Edition*, any user can change their password in their account page.
@@ -24,11 +37,7 @@ Once logged in in *TAO Community Edition*, any user can change their password in
 1. Click on user avatar in the top right of the screen
 2. Under `My account` section, click `My user`
 3. Click on `Change password`
-4. Choose a secure password, containing:
-    * at least 8 characters
-    * at least one lowercase
-    * at least one uppercase
-    * at least one number or symbol
+4. Choose a secure password
 5. Click on `Save changes`.
 
 ### For other user, as administrator
@@ -51,7 +60,10 @@ An administrator can change passwords for other users.
 ### Prepare users and groups
 
 !!! example inline end "Demo users"
-    By default, few users are already created, so you can skip user creation. Their usernames are `demo01` up to `demo05`, with password `password`. 
+
+    By default, few users are already created, so you can skip user creation. 
+    
+    Their usernames are `demo01` up to `demo05`, with password `password`. 
 
 1. in *TAO Community Edition* main menu, click `Users`
 2. click on `Create user`
@@ -80,7 +92,8 @@ Finally, you can enjoy the test-taker experience in *TAO Community Edition*.
 1. If you are still logged in with an administrator account, log out in your account menu
 2. In log in page, enter test-taker username and password and submit
 3. Select an assigned session and click `Start`
-4. You can now pass your test, Good luck!
+
+- [x] You can now pass your test, Good luck! :four_leaf_clover:
 
 ## Get test results
 
@@ -88,3 +101,5 @@ Finally, you can enjoy the test-taker experience in *TAO Community Edition*.
 2. in *TAO Community Edition* main menu, click `Sessions`
 3. Find your session and click `Enter session`
 4. Find a completed session from test-takers list, and click `Review test` to see results.
+
+

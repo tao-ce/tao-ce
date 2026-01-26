@@ -4,7 +4,7 @@ icon: fontawesome/brands/docker
 
 # Using Docker Compose
 
-!!! abstract "About this guide"
+!!! abstract inline end "About this guide"
 
     This guide will explain how to deploy *TAO Community Edition* using [Docker Compose](https://docs.docker.com/compose/).
 
@@ -30,8 +30,8 @@ You can install *TAO Community Edition* with Docker Compose with one of the foll
 
 Docker Compose need a template file, usually called `docker-compose.yml`. This file is available for *TAO Community Edition* as two formats:
 
-* A standalone `docker-compose.yml` file attached in a release on GitHub
-* A composite [`docker-compose.yml`](https://github.com/tao-ce/tao-ce/blob/main/docker-compose.yml) file in [`tao-ce/tao-ce`](https://github.com/tao-ce/tao-ce) repository
+* A standalone [`docker-compose.yml`](https://github.com/tao-ce/tao-ce/releases/latest/download/docker-compose.yml) file attached in a release on GitHub
+* A composite [`docker-compose.yml`](https://github.com/tao-ce/tao-ce/blob/main/docker-compose.yml) file in [`tao-ce/tao-ce`](https://github.com/tao-ce/tao-ce) repository.
 
 
 === "From release assets"
@@ -61,8 +61,8 @@ docker compose up -d
 
 ## What's next?
 
-- [x] As *TAO Community Edition* has been successfully installed on your system, you can now proceed with [Preparation](../prepare.md) steps.
-- [x] You can also explore [Configuration guide](../../config) and check additional settings.
+- [x] As *TAO Community Edition* has been successfully installed on your system, you can now proceed with [Preparation](../../prepare.md) steps.
+- [x] You can also explore [Configuration guide](../../../config/index.md) and check additional settings.
 
 ## Uninstallation
 

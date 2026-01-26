@@ -1,4 +1,10 @@
-# Prepare your experience with *TAO Community Edition*
+---
+description: Prepare your experience with *TAO Community Edition*
+icon: material/tune-vertical
+---
+
+# Prepartion
+
 Depending on your system and browser configuration, *TAO Community Edition* may requires additional step to run successfully.
 
 In this guide, we will check:
@@ -107,7 +113,7 @@ This alert is expected, and you may need to confirm in your browser that you wan
 
 :   ??? tip "How to prevent this alert?"
 
-        For more information, and methods to prevent such alert for your users, read [this documentation](../../config/network/tls.md).
+        For more information, and methods to prevent such alert for your users, read [this documentation](../config/network/tls.md).
 
 
 === "Mozilla Firefox"
@@ -120,7 +126,7 @@ This alert is expected, and you may need to confirm in your browser that you wan
     2. In the section appearing below, click `Accept the Risk and Continue` button
     </div>
     <div markdown>
-    ![Confirm TLS alert on Firefox](../../images/firefox-proceed.png)
+    ![Confirm TLS alert on Firefox](../images/firefox-proceed.png)
     </div>
     </div>
 
@@ -134,7 +140,7 @@ This alert is expected, and you may need to confirm in your browser that you wan
     2. In the section appearing below, click `Proceed to community.tao.internal (unsafe)` link
     </div>
     <div markdown>
-    ![Confirm TLS alert on Chrome](../../images/chrome-proceed.png)
+    ![Confirm TLS alert on Chrome](../images/chrome-proceed.png)
     </div>
     </div>
 
@@ -142,4 +148,4 @@ This alert is expected, and you may need to confirm in your browser that you wan
 ## What's next?
 
 - [x] You are almost there! You can now [login and start](./first.md) using *TAO Community Edition*!
-- [x] You can also explore [Configuration guide](../config) and check additional settings.
+- [x] You can also explore [Configuration guide](../config/index.md) and check additional settings.

@@ -1,5 +1,5 @@
 nav:
-- Welcome: index.md
+- Home: index.md
 - start
 - "User Guide": https://userguide.taotesting.com/
 - config

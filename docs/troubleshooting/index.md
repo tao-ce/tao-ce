@@ -1,18 +1,4 @@
 
-<details open="open">
-<summary>Table of Contents</summary>
-
-* [Operations](#operations)
-  - [Install](#install)
-  - [Uninstall](#uninstall)
-  - [Re-install](#reinstall)
-  - [Console](#console)
-  - [Logs](#logs)
-* [Known issues](#known-issues)
-  - [related to installation](#installation-issues)
-* [Support](#support)
-
-</details>
 
 # Operations
 

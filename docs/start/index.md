@@ -4,7 +4,7 @@ Let's start your journey with *TAO Community Edition*
 
 <div class="grid cards single-column" markdown>
 
--   [:material-download:{ .lg .middle } __Choose an installation method__](./install)
+-   [:material-download:{ .lg .middle } __Choose an installation method__](./install/index.md)
     
     ---
     *TAO Community Edition* can be deployed on your computer in few minutes!
@@ -12,13 +12,13 @@ Let's start your journey with *TAO Community Edition*
     Try it, it's very simple!
 
 -   [:material-tune-vertical:{ .lg .middle }
-    __Prepare your experience__](./prepare)
+    __Prepare your experience__](./prepare.md)
 
     ---
     Let's check your system is ready to offer your the optimal conditions.
 
 -   [:octicons-rocket-24:{ .lg .middle }
-    __Enjoy *TAO Community Edition*__](./first)
+    __Enjoy *TAO Community Edition*__](./first.md)
 
     ---
     Discover test authoring, and basic features.
