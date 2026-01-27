@@ -1,0 +1,2184 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../dev/troubleshooting/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../images/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Operations - TAO Community Edition</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="pink">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#operations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="TAO Community Edition" class="md-header__button md-logo" aria-label="TAO Community Edition" data-md-component="logo">
+      
+  <img src="../images/logo-w.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            TAO Community Edition
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Operations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="pink"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="pink"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tao-ce/tao-ce" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../start/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="https://userguide.taotesting.com/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  User Guide
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../config/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Configuration Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../dev/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Development Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Troubleshooting
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="TAO Community Edition" class="md-nav__button md-logo" aria-label="TAO Community Edition" data-md-component="logo">
+      
+  <img src="../images/logo-w.svg" alt="logo">
+
+    </a>
+    TAO Community Edition
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tao-ce/tao-ce" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../start/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../start/install/" class="md-nav__link ">
+              
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Installation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Container based
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Container based
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../start/install/container/docker-compose/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M349.9 236.3h-66.1v-59.4h66.1zm0-204.3h-66.1v60.7h66.1zm78.2 144.8H362v59.4h66.1zm-156.3-72.1h-66.1v60.1h66.1zm78.1 0h-66.1v60.1h66.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1zm78.1 0h-66.1v59.4h66.1zm-78.1-72.1h-66.1v60.1h66.1z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Using Docker Compose
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../start/install/container/k8s/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.95 13.5h-.23c-.18.11-.26.32-.18.5l.86 2.11c.83-.53 1.46-1.32 1.79-2.25l-2.23-.36zm-3.45.29a.415.415 0 0 0-.38-.29h-.08l-2.22.37c.33.92.96 1.7 1.79 2.23l.85-2.07V14c.04-.05.04-.14.04-.21m1.83.81a.38.38 0 0 0-.51-.15c-.07.05-.12.08-.15.15h-.01l-1.09 1.97c.78.26 1.62.31 2.43.12.14-.03.29-.07.43-.12l-1.09-1.97zm3.45-4.57L14.1 11.5l.01.03a.37.37 0 0 0-.04.53q.075.09.18.12l.01.01 2.17.62c.07-.97-.14-1.95-.65-2.78m-3.11.16c.01.21.18.37.39.36.08 0 .15-.02.21-.05h.01l1.83-1.31a4.45 4.45 0 0 0-2.57-1.24zm-1.94.31c.17.11.4.08.52-.09.05-.06.07-.13.08-.21h.01l.12-2.25c-.15.02-.3.05-.46.08-.8.18-1.54.58-2.12 1.16l1.84 1.31zm-.99 1.69c.2-.05.32-.26.26-.46 0-.08-.05-.14-.11-.19v-.01L8.21 10c-.52.86-.74 1.84-.63 2.82l2.16-.62zm1.64.66.62.3.62-.3.15-.67-.43-.53h-.69l-.43.53zm10.89 1.32L20.5 6.5c-.09-.42-.37-.76-.74-.94l-7.17-3.43c-.37-.17-.81-.17-1.19 0L4.24 5.56c-.37.18-.65.52-.74.94l-1.77 7.67c-.05.2-.05.4 0 .59.01.06.03.12.05.18.03.09.08.19.13.27.03.04.05.08.09.11l4.95 6.18c.02 0 .05.04.05.06.1.09.19.16.28.22.12.08.26.14.4.17.11.05.23.05.32.05h8.12c.07 0 .14-.03.2-.05.05-.01.1-.03.14-.04.04-.02.07-.03.11-.05.05-.02.1-.05.15-.08.12-.08.23-.18.33-.28l.15-.2 4.8-5.98c.1-.12.17-.25.22-.38.02-.06.04-.12.05-.18.05-.19.05-.4 0-.59m-7.43 2.99c.02.06.04.12.07.17-.04.08-.06.17-.03.26.12.24.23.46.38.68.08.11.16.23.24.34 0 .03.03.08.04.12.12.2.06.46-.15.59s-.47.05-.59-.15c-.01-.03-.02-.05-.03-.08-.02-.03-.04-.09-.06-.09-.05-.15-.09-.28-.12-.41-.09-.25-.17-.49-.3-.72a.38.38 0 0 0-.21-.14l-.08-.16c-1.29.48-2.7.48-3.97-.01l-.1.18c-.07.01-.14.04-.19.09-.14.24-.24.49-.33.77-.03.13-.07.26-.12.4-.02 0-.04.07-.06.1a.43.43 0 0 1-.81-.29c.01-.03.03-.05.04-.08.04-.03.04-.08.04-.11.09-.12.16-.23.24-.35.16-.21.29-.45.39-.69a.54.54 0 0 0-.03-.25l.07-.18a5.6 5.6 0 0 1-2.47-3.09l-.2.03a.4.4 0 0 0-.23-.09c-.27.05-.51.13-.77.22-.11.06-.24.11-.37.15-.03.01-.07.02-.13.03a.44.44 0 0 1-.54-.27c-.07-.23.04-.47.28-.55.02 0 .05-.01.08-.01v-.01h.01l.11-.02c.14-.04.28-.04.41-.04.26 0 .52-.06.77-.12.08-.05.14-.11.19-.19l.19-.05c-.21-1.36.1-2.73.86-3.87l-.14-.12c0-.09-.03-.18-.08-.25-.2-.17-.41-.32-.64-.45q-.18-.09-.36-.21c-.02-.02-.06-.05-.08-.07l-.01-.01c-.2-.16-.25-.42-.11-.63.09-.1.21-.15.35-.15q.165.015.3.12l.09.07c.1.09.19.2.28.3.18.19.37.37.58.52.08.04.17.05.26.03l.15.11c.75-.8 1.73-1.36 2.8-1.6.25-.06.52-.1.78-.12l.01-.18a.45.45 0 0 0 .14-.23c.01-.26-.01-.52-.05-.77-.03-.13-.05-.27-.06-.41V5.1c-.02-.24.15-.45.39-.48s.44.15.47.38v.22c-.01.14-.03.28-.06.41-.04.25-.06.51-.05.77.02.1.07.17.14.22l.01.19c1.36.12 2.62.73 3.56 1.72l.16-.12c.09.02.18.01.26-.03.21-.15.41-.33.58-.52.09-.1.18-.2.28-.3.03-.02.07-.06.1-.06.17-.18.44-.18.59 0 .19.16.18.43 0 .6 0 .02-.03.04-.06.06a2.495 2.495 0 0 1-.44.28c-.23.13-.45.28-.64.45-.06.07-.09.15-.08.24l-.16.14a5.44 5.44 0 0 1 .88 3.86l.19.05c.04.08.11.14.19.18.25.07.51.11.77.14h.41c.03.03.08.04.12.05.24.03.4.25.37.49-.05.23-.24.4-.48.37-.03-.01-.07-.01-.07-.02v-.01c-.06 0-.1-.01-.14-.02q-.195-.06-.36-.15c-.26-.1-.5-.17-.77-.21-.09 0-.17 0-.23.08-.07-.01-.13-.02-.19-.03-.41 1.31-1.31 2.41-2.47 3.11"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Deploy on Kubernetes
+    </span>
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--todo" title="This document is under construction.">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../start/install/container/quadlet/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.2.275 6.75.308a.26.26 0 0 0-.203.098L.056 8.602a.26.26 0 0 0-.05.219l2.356 10.194a.26.26 0 0 0 .14.174l9.43 4.511a.26.26 0 0 0 .224-.002l9.401-4.566a.26.26 0 0 0 .141-.175L23.993 8.75a.26.26 0 0 0-.051-.22L17.403.374A.26.26 0 0 0 17.2.275m-.123.517 6.385 7.966-2.242 9.964-9.177 4.457-9.205-4.402L.54 8.827 6.875.824zM11.46 2.857c-.933 0-1.84.1-2.426.332h-.002c-1.554.569-2.725 2.105-3.074 3.952v.004c-.309 1.463-.392 2.703-.556 3.824-.07.481-.159.94-.283 1.387-.628.497-1.079 1.263-1.244 2.138v.004c-.116.547-.181 1.04-.237 1.5h-.644v.518h8.891c-.061.464-.122.996-.181 1.42H7.596v.517h7.939c-.242-.078-.486-.218-.756-.502h-.697l-.85.488-.232-.396.162-.092h-1.069c.113-.776.17-1.601.373-2.564v-.004c.22-1.164.96-2.112 1.895-2.453l.004-.002h.002c.318-.127.928-.205 1.543-.205.613 0 1.244.075 1.622.207.935.341 1.676 1.29 1.895 2.453v.004c.204.963.26 1.788.373 2.564h-.742l.162.092-.233.396-.85-.488h-.75c-.219.25-.474.412-.747.502h4.392v-.518h-.842c-.103-.743-.181-1.67-.382-2.623v-.002a4 4 0 0 0-.264-.863h1.863v-.517h-2.13a3.5 3.5 0 0 0-.8-.906h1.8v-.518H17.95a9 9 0 0 1-.193-.775h1.484v-.518h-1.576q-.02-.12-.039-.244c-.164-1.12-.246-2.36-.555-3.824v-.004c-.348-1.848-1.52-3.383-3.075-3.952l-.002-.002h-.002c-.65-.227-1.596-.33-2.531-.33zm0 .386c.904 0 1.833.11 2.404.309h.002c1.4.514 2.5 1.934 2.826 3.666v.003c.303 1.436.385 2.66.552 3.805.076.515.173 1.013.315 1.505-.449-.135-1.05-.197-1.648-.197q-.179 0-.352.008l-1.863-1.865a2 2 0 0 0 .11-.246l2.13 1.23.13-.224-2.185-1.262q.023-.104.036-.21l2.302.616.068-.248-2.354-.63c-.02-1.153-1.008-2.078-2.208-2.078-1.205 0-2.196.931-2.206 2.091l-2.303.617.066.25 2.252-.605q.015.114.041.224L7.436 11.24l.129.222 2.087-1.207q.051.134.12.258l-1.266 1.266a7 7 0 0 0-1.045-.075c-.603 0-1.186.064-1.578.22a3 3 0 0 0-.285.124q.113-.502.187-1.021c.168-1.144.248-2.37.551-3.805l.002-.001v-.002c.326-1.733 1.426-3.153 2.828-3.666h.002l.004-.002c.488-.194 1.381-.307 2.287-.307zM8.473 5.194a1.3 1.3 0 0 0-.965.502l-.117.153.306.236.12-.152a.92.92 0 0 1 .673-.352.92.92 0 0 1 .67.262l.139.134.271-.275-.136-.137a1.3 1.3 0 0 0-.961-.37zm6.39 0a1.3 1.3 0 0 0-.96.371l-.138.137.274.275.136-.134a.92.92 0 0 1 .672-.262.92.92 0 0 1 .674.352l.119.152.307-.236-.12-.153c-.23-.3-.587-.486-.964-.502M8.53 6.708c-.642 0-1.164.538-1.164 1.19 0 .65.522 1.187 1.164 1.187.643 0 1.164-.536 1.164-1.188s-.521-1.19-1.164-1.19zm6.273 0c-.643 0-1.162.538-1.162 1.19 0 .65.52 1.187 1.162 1.187.643 0 1.164-.536 1.164-1.188s-.521-1.19-1.164-1.19zm-6.273.387c.428 0 .776.355.776.802s-.348.8-.776.8a.785.785 0 0 1-.775-.8q0-.053.006-.103c.07.191.248.318.445.318a.487.487 0 0 0 .477-.496.49.49 0 0 0-.383-.486.8.8 0 0 1 .23-.035m6.273 0c.428 0 .777.355.777.802s-.349.8-.777.8a.785.785 0 0 1-.77-.9c.072.19.248.315.444.315a.486.486 0 0 0 .479-.496.49.49 0 0 0-.383-.484.8.8 0 0 1 .23-.037m-3.08.716c1.012 0 1.819.775 1.819 1.723 0 .947-.807 1.722-1.819 1.722s-1.82-.775-1.82-1.722c0-.948.808-1.723 1.82-1.723m-.002.528c-.142 0-.258.043-.355.076a.8.8 0 0 1-.232.054c-.107 0-.2.047-.268.127a.6.6 0 0 0-.104.207c-.04.134-.062.268-.08.315a.28.28 0 0 0 .032.25c.033.056.071.1.117.146.09.092.206.183.322.268.12.088.237.166.326.224l-.008.09c-.043.036-.14.102-.324.178a.53.53 0 0 1-.299.025.43.43 0 0 1-.236-.172c.015-.138.044-.293.068-.449l-.376-.095c-.05.238-.067.43-.094.64l.037.059c.143.224.318.344.506.392a.9.9 0 0 0 .52-.033 1.6 1.6 0 0 0 .444-.242c.088.067.244.174.446.242a.9.9 0 0 0 .52.033.87.87 0 0 0 .507-.392l.037-.059a6 6 0 0 0-.096-.637l-.377.092c.032.148.051.32.07.451a.43.43 0 0 1-.237.17.53.53 0 0 1-.3-.025c-.178-.068-.272-.14-.325-.178l-.006-.084c.09-.058.209-.137.336-.23.115-.085.231-.176.322-.268a.7.7 0 0 0 .117-.146.27.27 0 0 0 .031-.25c-.018-.047-.039-.181-.08-.315a.6.6 0 0 0-.103-.207.34.34 0 0 0-.268-.127.8.8 0 0 1-.234-.054c-.097-.033-.212-.076-.354-.076zm.002.386c.057 0 .134.024.23.057.09.03.208.07.337.076.04.102.06.237.09.338a.4.4 0 0 1-.041.045 3 3 0 0 1-.276.228c-.165.122-.271.188-.342.233a5 5 0 0 1-.34-.233 3 3 0 0 1-.275-.228.3.3 0 0 1-.04-.047c.035-.119.046-.234.089-.34.08.012.246-.042.336-.072a.8.8 0 0 1 .232-.057m-3.234.61a.635.635 0 0 0-.611.517l1.084-.289a.61.61 0 0 0-.473-.228m6.336 0a.6.6 0 0 0-.436.187c.352.096.69.184 1.033.275a.63.63 0 0 0-.597-.462m-.623.607c-.007.035-.002.07-.002.103l.921.532a.65.65 0 0 0 .276-.313zm-5.086.05-1.18.315c.078.15.207.264.362.316l.797-.46c.018-.059.015-.12.021-.17zm4.441.714 1.656 1.658a4.2 4.2 0 0 0-.826.146l-.95-1.647a3 3 0 0 0 .12-.157m-3.646.03c.04.055.083.118.129.169l-.658 1.134a3 3 0 0 0-.276-.119l-.002-.002a3 3 0 0 0-.292-.082zm3.338.317.892 1.547c-.623.251-1.149.725-1.523 1.33h-1.652c-.262-.75-.741-1.38-1.358-1.764l.623-1.082c.394.347.919.559 1.492.559a2.25 2.25 0 0 0 1.526-.59M7.46 12.09c.574 0 1.167.073 1.518.195.867.319 1.555 1.203 1.76 2.285l.001.002v.002c.109.513.173.98.227 1.424H9.86a.386.386 0 0 0-.494 0H9.11a1.4 1.4 0 0 0-.078-.418.8.8 0 0 0 .569.238c.45 0 .814-.375.814-.828a.824.824 0 0 0-.814-.828.822.822 0 0 0-.791 1.016 1.5 1.5 0 0 0-1.18-.559c-.798 0-1.46.611-1.48 1.38h-.342a.386.386 0 0 0-.494 0H4.028c.054-.445.116-.912.224-1.425l.002-.002v-.002c.205-1.084.894-1.97 1.764-2.287h.002l.004-.002c.295-.117.863-.191 1.437-.19zm-1.91 1.105a.9.9 0 0 0-.67.348l-.119.154.307.237.119-.155a.53.53 0 0 1 .379-.197.52.52 0 0 1 .377.147l.138.136.272-.275-.137-.137a.9.9 0 0 0-.666-.258m4.094 0a.9.9 0 0 0-.668.258l-.137.137.273.275.137-.136a.52.52 0 0 1 .377-.147.53.53 0 0 1 .379.197l.119.155.307-.237-.12-.154a.9.9 0 0 0-.667-.348m4.222.735a.95.95 0 0 0-.707.365l-.117.154.306.237.12-.155a.57.57 0 0 1 .413-.213.57.57 0 0 1 .414.159l.14.136.27-.275-.138-.137a.94.94 0 0 0-.701-.271m4.374 0a.94.94 0 0 0-.7.271l-.14.137.272.275.139-.136a.57.57 0 0 1 .414-.159.57.57 0 0 1 .414.213l.119.155.306-.237-.117-.154a.95.95 0 0 0-.707-.365m-12.65.232a.824.824 0 0 0-.815.828c0 .453.365.828.814.828.45 0 .815-.375.815-.828a.824.824 0 0 0-.815-.828zm5.518.285h1.242a4 4 0 0 0-.263.864v.002q-.075.354-.127.685h-.602a17 17 0 0 0-.236-1.5l-.002-.002q-.006-.024-.012-.049m-5.519.102a.43.43 0 0 1 .426.441.43.43 0 0 1-.426.442c-.22 0-.4-.171-.422-.397a.3.3 0 0 0 .215.092.31.31 0 0 0 .305-.316.32.32 0 0 0-.129-.258q.015-.003.031-.004m4.014 0c.235 0 .427.193.427.441a.433.433 0 0 1-.427.442.427.427 0 0 1-.422-.405.3.3 0 0 0 .256.145.31.31 0 0 0 .304-.317.31.31 0 0 0-.207-.298q.034-.007.069-.008m4.304.414a.865.865 0 0 0-.856.87c0 .478.382.874.856.874a.87.87 0 0 0 .857-.873.867.867 0 0 0-.857-.871m4.292 0a.867.867 0 0 0-.814 1.14 1.6 1.6 0 0 0-1.295-.652c-.846 0-1.546.65-1.568 1.463l-1.525.408.066.248 1.477-.394c.004.028.009.06.015.087l-1.418.817.131.222 1.367-.789c.235.552.801.94 1.455.94.66 0 1.233-.397 1.463-.957l1.398.806.13-.222-1.45-.836q.007-.039.012-.078l1.511.404.067-.248-1.563-.418a1.4 1.4 0 0 0-.107-.5c.157.186.39.303.648.303a.867.867 0 0 0 .856-.873.865.865 0 0 0-.856-.871m-10.567.043c.598 0 1.071.444 1.092.992h-.41q.011-.014.023-.033a.24.24 0 0 0 .025-.22c-.005-.016-.021-.102-.05-.196a.4.4 0 0 0-.078-.156.28.28 0 0 0-.225-.108.5.5 0 0 1-.129-.031c-.062-.021-.142-.05-.248-.05s-.188.029-.25.05a.5.5 0 0 1-.127.031.29.29 0 0 0-.225.108.4.4 0 0 0-.08.156c-.029.094-.043.18-.048.195a.24.24 0 0 0 .023.22q.012.02.025.034h-.41c.02-.548.494-.992 1.092-.992m6.275.344c.259 0 .47.211.47.484a.477.477 0 0 1-.47.486.47.47 0 0 1-.467-.453.32.32 0 0 0 .246.115c.18 0 .326-.15.326-.338a.34.34 0 0 0-.156-.289q.025-.004.05-.005zm4.292 0c.26 0 .469.211.469.484 0 .272-.21.486-.469.486a.477.477 0 0 1-.47-.486q0-.024.004-.047a.33.33 0 0 0 .312.24c.18 0 .326-.15.326-.338a.34.34 0 0 0-.256-.332 1 1 0 0 1 .084-.007m-10.567.24q.032 0 .125.031c.086.03.117.039.186.049.012.041.022.088.033.129a1.5 1.5 0 0 1-.168.138c-.038.028-.064.045-.088.061h-.176c-.024-.016-.052-.033-.09-.06a2 2 0 0 1-.168-.14l.034-.128c.107-.014.146-.04.185-.049a.5.5 0 0 1 .127-.031m8.458.25c.661 0 1.184.502 1.184 1.113 0 .156-.035.304-.096.44l-.002-.024-.022-.156a2 2 0 0 0-.04-.24l-.377.093.044.274a.24.24 0 0 1-.115.074.3.3 0 0 1-.168-.014c-.087-.03-.132-.063-.18-.094.057-.037.13-.084.198-.134.08-.06.16-.123.226-.19a.5.5 0 0 0 .092-.111.25.25 0 0 0 .026-.225c-.008-.019-.022-.112-.053-.21a.44.44 0 0 0-.084-.163.29.29 0 0 0-.23-.107.6.6 0 0 1-.14-.037c-.065-.022-.152-.055-.263-.055-.11 0-.195.032-.262.055a.6.6 0 0 1-.14.037.3.3 0 0 0-.23.107.4.4 0 0 0-.083.162c-.03.1-.045.192-.052.211a.25.25 0 0 0 .025.225.5.5 0 0 0 .09.111c.066.067.146.13.226.19.068.05.138.095.194.132a.6.6 0 0 1-.18.096.3.3 0 0 1-.17.014.24.24 0 0 1-.111-.076c.008-.09.026-.177.04-.272l-.376-.094c-.032.146-.045.286-.063.409a1.05 1.05 0 0 1-.09-.428c0-.611.521-1.113 1.182-1.113m0 .623q.04 0 .14.033c.066.025.169.052.206.055l.035.156c-.04.04-.112.1-.184.152-.095.07-.14.095-.197.131-.056-.036-.1-.061-.195-.13a1.2 1.2 0 0 1-.184-.157l.035-.152a1 1 0 0 0 .206-.055.5.5 0 0 1 .138-.033m-2.22.353a.43.43 0 0 0-.385.272l.656-.176a.42.42 0 0 0-.271-.096m4.333 0a.4.4 0 0 0-.22.07l.603.16a.43.43 0 0 0-.383-.23m-4.054.567-.607.162a.4.4 0 0 0 .125.113zm3.925.002.407.234a.4.4 0 0 0 .087-.102zm-1.986.234c.067.047.165.108.285.148a.7.7 0 0 0 .389.024.6.6 0 0 0 .232-.121 1.2 1.2 0 0 1-.904.394c-.356 0-.67-.145-.885-.375a.6.6 0 0 0 .207.102c.144.036.28.014.391-.024.12-.04.218-.1.285-.148m-9.524 1.61v.517h6.214v-.518zm3.619 1.292v.517H15.3v-.517z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Deploy with Quadlet
+    </span>
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--todo" title="This document is under construction.">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_3" id="__nav_2_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Appliance based
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Appliance based
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../start/install/appliance/rpi/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="m392.5 232.5-3.7-6.5c.1-46.4-21.4-65.3-46.5-79.7 7.6-2 15.4-3.6 17.6-13.2 13.1-3.3 15.8-9.4 17.1-15.8 3.4-2.3 14.8-8.7 13.6-19.7 6.4-4.4 10-10.1 8.1-18.1 6.9-7.5 8.7-13.7 5.8-19.4 8.3-10.3 4.6-15.6 1.1-20.9C411.8 28 406.3 16 389 18c-6.9-10.1-21.9-7.8-24.2-7.8-2.6-3.2-6-6-16.5-4.7-6.8-6.1-14.4-5-22.3-2.1-9.3-7.3-15.5-1.4-22.6.8C292.1.6 289.5 5.5 284 7.6c-12.3-2.6-16.1 3-22 8.9l-6.9-.1c-18.6 10.8-27.8 32.8-31.1 44.1-3.3-11.3-12.5-33.3-31.1-44.1l-6.9.1c-5.9-5.9-9.7-11.5-22-8.9-5.6-2-8.1-7-19.4-3.4-4.6-1.4-8.9-4.4-13.9-4.3-2.6.1-5.5 1-8.7 3.5-7.9-3-15.5-4-22.3 2.1-10.5-1.3-14 1.4-16.5 4.7-2.3 0-17.3-2.3-24.2 7.8-17.3-2-22.7 10-16.5 21.2-3.5 5.4-7.2 10.7 1.1 20.9-2.9 5.7-1.1 11.9 5.8 19.4-1.8 8 1.8 13.7 8.1 18.1-1.2 11 10.2 17.4 13.6 19.7 1.3 6.4 4 12.4 17.1 15.8 2.2 9.5 10 11.2 17.6 13.2-25.1 14.4-46.6 33.3-46.5 79.7l-3.7 6.5C26.8 249.7.9 305.2 41.4 350.2c2.6 14.1 7.1 24.2 11 35.4 5.9 45.2 44.5 66.3 54.6 68.8 14.9 11.2 30.8 21.8 52.2 29.2 20.3 20.6 42.3 28.4 64.3 28.4h1c22.1 0 44-7.8 64.2-28.4 21.5-7.4 37.3-18 52.2-29.2 10.2-2.5 48.7-23.6 54.6-68.8 3.9-11.2 8.4-21.3 11-35.4 40.6-45.1 14.7-100.5-14-117.7m-22.2-8c-1.5 18.7-98.9-65.1-82.1-67.9 45.7-7.5 83.6 19.2 82.1 67.9m-43 93.1c-24.5 15.8-59.8 5.6-78.8-22.8s-14.6-64.2 9.9-80 59.8-5.6 78.8 22.8 14.6 64.2-9.9 80M259.4 29.3c.8 4.2 1.8 6.8 2.9 7.6 5.4-5.8 9.8-11.7 16.8-17.3 0 3.3-1.7 6.8 2.5 9.4 3.7-5 8.8-9.5 15.5-13.3-3.2 5.6-.6 7.3 1.2 9.6 5.1-4.4 10-8.8 19.4-12.3-2.6 3.1-6.2 6.2-2.4 9.8 5.3-3.3 10.6-6.6 23.1-8.9-2.8 3.1-8.7 6.3-5.1 9.4 6.6-2.5 14-4.4 22.1-5.4-3.9 3.2-7.1 6.3-3.9 8.8 7.1-2.2 16.9-5.1 26.4-2.6l-6 6.1c-.7.8 14.1.6 23.9.8-3.6 5-7.2 9.7-9.3 18.2 1 1 5.8.4 10.4 0-4.7 9.9-12.8 12.3-14.7 16.6 2.9 2.2 6.8 1.6 11.2.1-3.4 6.9-10.4 11.7-16 17.3 1.4 1 3.9 1.6 9.7.9-5.2 5.5-11.4 10.5-18.8 15 1.3 1.5 5.8 1.5 10 1.6-6.7 6.5-15.3 9.9-23.4 14.2 4 2.7 6.9 2.1 10 2.1-5.7 4.7-15.4 7.1-24.4 10 1.7 2.7 3.4 3.4 7.1 4.1-9.5 5.3-23.2 2.9-27 5.6.9 2.7 3.6 4.4 6.7 5.8-15.4.9-57.3-.6-65.4-32.3 15.7-17.3 44.4-37.5 93.7-62.6-38.4 12.8-73 30-102 53.5-34.3-15.9-10.8-55.9 5.8-71.8M225 143.9c24.2-.3 54.1 17.8 54 34.7-.1 15-21 27.1-53.8 26.9-32.1-.4-53.7-15.2-53.6-29.8 0-11.9 26.2-32.5 53.4-31.8m-123-12.8c3.7-.7 5.4-1.5 7.1-4.1-9-2.8-18.7-5.3-24.4-10 3.1 0 6 .7 10-2.1-8.1-4.3-16.7-7.7-23.4-14.2 4.2-.1 8.7 0 10-1.6-7.4-4.5-13.6-9.5-18.8-15 5.8.7 8.3.1 9.7-.9-5.6-5.6-12.7-10.4-16-17.3 4.3 1.5 8.3 2 11.2-.1-1.9-4.2-10-6.7-14.7-16.6 4.6.4 9.4 1 10.4 0-2.1-8.5-5.8-13.3-9.3-18.2 9.8-.1 24.6 0 23.9-.8l-6-6.1c9.5-2.5 19.3.4 26.4 2.6 3.2-2.5-.1-5.6-3.9-8.8 8.1 1.1 15.4 2.9 22.1 5.4 3.5-3.1-2.3-6.3-5.1-9.4 12.5 2.3 17.8 5.6 23.1 8.9 3.8-3.6.2-6.7-2.4-9.8 9.4 3.4 14.3 7.9 19.4 12.3 1.7-2.3 4.4-4 1.2-9.6 6.7 3.8 11.8 8.3 15.5 13.3 4.1-2.6 2.5-6.2 2.5-9.4 7 5.6 11.4 11.5 16.8 17.3 1.1-.8 2-3.4 2.9-7.6 16.6 15.9 40.1 55.9 6 71.8-29-23.5-63.6-40.7-102-53.5 49.3 25 78 45.3 93.7 62.6-8 31.8-50 33.2-65.4 32.3 3.1-1.4 5.8-3.2 6.7-5.8-4-2.8-17.6-.4-27.2-5.6m60.1 24.1c16.8 2.8-80.6 86.5-82.1 67.9-1.5-48.7 36.5-75.5 82.1-67.9M58.7 342c-23.7-18.8-31.3-73.7 12.6-98.3 26.5-7 9 107.8-12.6 98.3m91 98.2c-13.3 7.9-45.8 4.7-68.8-27.9-15.5-27.4-13.5-55.2-2.6-63.4 16.3-9.8 41.5 3.4 60.9 25.6 16.9 20 24.6 55.3 10.5 65.7m-26.4-119.7c-24.5-15.8-28.9-51.6-9.9-80s54.3-38.6 78.8-22.8 28.9 51.6 9.9 80c-19.1 28.4-54.4 38.6-78.8 22.8M225.5 496c-29.4 1.2-58.2-23.7-57.8-32.3-.4-12.7 35.8-22.6 59.3-22 23.7-1 55.6 7.5 55.7 18.9.5 11-28.8 35.9-57.2 35.4m58.9-124.9c.2 29.7-26.2 53.8-58.8 54s-59.2-23.8-59.4-53.4v-.6c-.2-29.7 26.2-53.8 58.8-54s59.2 23.8 59.4 53.4zm82.2 42.7c-25.3 34.6-59.6 35.9-72.3 26.3-13.3-12.4-3.2-50.9 15.1-72 20.9-23.3 43.3-38.5 58.9-26.6 10.5 10.3 16.7 49.1-1.7 72.3m22.9-73.2c-21.5 9.4-39-105.3-12.6-98.3 43.9 24.7 36.3 79.6 12.6 98.3"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Deploy on Raspberry Pi
+    </span>
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--todo" title="This document is under construction.">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../start/install/appliance/vm/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.876.64V.639l8.25 4.763c.541.313.875.89.875 1.515v9.525a1.75 1.75 0 0 1-.875 1.516l-8.25 4.762a1.75 1.75 0 0 1-1.75 0l-8.25-4.763a1.75 1.75 0 0 1-.875-1.515V6.917c0-.625.334-1.202.875-1.515L11.126.64a1.75 1.75 0 0 1 1.75 0m-1 1.298L4.251 6.34l7.75 4.474 7.75-4.474-7.625-4.402a.25.25 0 0 0-.25 0m.875 19.123 7.625-4.402a.25.25 0 0 0 .125-.216V7.639l-7.75 4.474ZM3.501 7.64v8.803c0 .09.048.172.125.216l7.625 4.402v-8.947Z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Deploy on Virtual Machine
+    </span>
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--todo" title="This document is under construction.">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../start/prepare/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 3H5v6h2zm12 0h-2v10h2zM3 13h2v8h2v-8h2v-2H3zm12-6h-2V3h-2v4H9v2h6zm-4 14h2V11h-2zm4-6v2h2v4h2v-4h2v-2z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Preparation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../start/first/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.322.75h1.176a1.75 1.75 0 0 1 1.75 1.749v1.177a10.75 10.75 0 0 1-2.925 7.374l-1.228 1.304a24 24 0 0 1-1.596 1.542v5.038c0 .615-.323 1.184-.85 1.5l-4.514 2.709a.75.75 0 0 1-1.12-.488l-.963-4.572a1.3 1.3 0 0 1-.14-.129L8.04 15.96l-1.994-1.873a1.3 1.3 0 0 1-.129-.14l-4.571-.963a.75.75 0 0 1-.49-1.12l2.71-4.514c.316-.527.885-.85 1.5-.85h5.037a24 24 0 0 1 1.542-1.594l1.304-1.23A10.75 10.75 0 0 1 20.321.75Zm-6.344 4.018v-.001l-1.304 1.23a22.3 22.3 0 0 0-3.255 3.851l-2.193 3.29 1.859 1.744.034.034 1.743 1.858 3.288-2.192a22.3 22.3 0 0 0 3.854-3.257l1.228-1.303a9.25 9.25 0 0 0 2.517-6.346V2.5a.25.25 0 0 0-.25-.25h-1.177a9.25 9.25 0 0 0-6.344 2.518M6.5 21c-1.209 1.209-3.901 1.445-4.743 1.49a.24.24 0 0 1-.18-.067.24.24 0 0 1-.067-.18c.045-.842.281-3.534 1.49-4.743.9-.9 2.6-.9 3.5 0s.9 2.6 0 3.5m-.592-8.588L8.17 9.017q.346-.519.717-1.017H5.066a.25.25 0 0 0-.214.121l-2.167 3.612ZM16 15.112q-.5.372-1.018.718l-3.393 2.262.678 3.223 3.612-2.167a.25.25 0 0 0 .121-.214ZM17.5 8a1.5 1.5 0 1 1-3.001-.001A1.5 1.5 0 0 1 17.5 8"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    First steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://userguide.taotesting.com/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../config/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Configuration Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dependencies
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dependencies
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/dependencies/external/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Use external dependencies
+    </span>
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--todo" title="This document is under construction.">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Network
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/network/fqdn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Custom Domain name
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/network/public-lan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Access from LAN
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/network/public-wan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Access from Internet
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/network/tls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      TLS Certificate
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Settings
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Settings
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/settings/lang/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Default Language
+    </span>
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--todo" title="This document is under construction.">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config/settings/timezone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Timezone
+    </span>
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--todo" title="This document is under construction.">
+    </span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../dev/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dev/build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Build instructions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dev/environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Overview
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dev/remote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Remote development environment
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dev/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Troubleshooting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href=".." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Troubleshooting
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="operations">Operations</h1>
+<blockquote>
+<p>[!TIP]
+Operations descriped in this section will assume you are deploying TAO Community Edition containers using <code>docker compose</code>.</p>
+<p>If you are using a different toolchain (e.g. <code>podman compose</code> or Docker Desktop), please update commands accordingly.</p>
+</blockquote>
+<h2 id="install">Install</h2>
+<h3 id="install-tao-ce-from-command-line">Install TAO CE from command-line</h3>
+<p>The following command will deploy TAO Community Edition, start all services, and leave.</p>
+<div class="highlight"><pre><span></span><code>docker compose up -d
+</code></pre></div>
+<h2 id="uninstall">Uninstall</h2>
+<h3 id="uninstall-tao-ce-from-command-line">Uninstall TAO CE from command-line</h3>
+<blockquote>
+<p>[!CAUTION]
+This operation will whipe all TAO CE data (including users, tests and results).</p>
+</blockquote>
+<p>If you are sure to remove TAO Community Edition, you may run the following command:</p>
+<div class="highlight"><pre><span></span><code>docker compose down -v
+</code></pre></div>
+<p>(<code>-v</code> flag will ensure all data from volumes are removed. If this flag is skipped, TAO Community Edition may fail to re-install, as some volumes contains semaphores which could prevent complete installation to run).</p>
+<h2 id="reinstall">Reinstall</h2>
+<h3 id="reinstall-tao-ce-from-command-line">Reinstall TAO CE from command-line</h3>
+<blockquote>
+<p>[!CAUTION]
+This operation will whipe all TAO CE data (including users, tests and results).</p>
+</blockquote>
+<p>If you are sure to reinstall TAO Community Edition, you may run the following command:</p>
+<div class="highlight"><pre><span></span><code>docker compose down -v
+docker compose up -d
+</code></pre></div>
+<h2 id="console">Console</h2>
+<h3 id="open-shell-from-command-line">Open shell from command-line</h3>
+<p>If you want to access a shell inside TAO Community Edition container, you can run the following command:</p>
+<div class="highlight"><pre><span></span><code>docker compose exec -it tao /usr/bin/bash
+</code></pre></div>
+<p>Type <code>exit</code> to return to host shell.</p>
+<h2 id="logs">Logs</h2>
+<h3 id="stream-logs-from-command-line">Stream logs from command-line</h3>
+<p>You may run the following command to access its logs:</p>
+<div class="highlight"><pre><span></span><code>docker compose exec -it tao journalctl -f
+</code></pre></div>
+<p>Press <kbd>Ctrl</kbd>+<kbd>C</kbd> to quit log stream.</p>
+<h1 id="known-issues">Known issues</h1>
+<h2 id="installation-issues">Installation issues</h2>
+<p>This section gather common issue during installation or just after it finishes.</p>
+<h3 id="username-cannot-login-loginpassword-incorrect">Username cannot login (login/password incorrect)</h3>
+<p>We consider user has double-checked login and password.</p>
+<p>In rare cases, installation may face race-condition which would attempt users provisioning while the stack is not properly ready. This would mean the <code>tao-ce.portal.init.service</code> initialization service would consider the work done ; while it fails.</p>
+<p>You may try one of the following solutions:</p>
+<h4 id="solution-a-re-run-initialization-script">Solution A: Re-run initialization script</h4>
+<blockquote>
+<p>[!CAUTION]
+This solution will delete users and groups in TAO Community Edition, and restore defaults data.</p>
+</blockquote>
+<p>In such case, you may have to re-run this initialization script.</p>
+<ol>
+<li>Enter container shell (cf. <a href="#console">this guide</a>)</li>
+<li>Run the following commands in <code>tao</code> container</li>
+</ol>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-f<span class="w"> </span><span class="nv">$TAO_CE_VARLIB</span>/portal/users_loaded.json
+systemctl<span class="w"> </span>restart<span class="w"> </span>tao-ce.portal.init.service
+</code></pre></div>
+<h4 id="solution-b-re-install-tao-community-edition">Solution B: Re-install TAO Community Edition</h4>
+<p>Follow <a href="#reinstall">re-install</a> procedure to clean all data and re-install TAO Community Edition.</p>
+<h1 id="support">Support</h1>
+<h2 id="get-more-help">Get more help</h2>
+<p>In the situation:
+* you face an issue which is not described in this guide
+* you have technical questions regarding TAO Community Edition</p>
+<p>Feel free to contact support on our <a href="https://forum.opensource.taotesting.com">forum</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2012 - 2026 Open Assessment Technologies S.A.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/tao-ce" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/company/open-assessment-technologies-s-a-/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.youtube.com/@openassessmenttechnologies7347" target="_blank" rel="noopener" title="www.youtube.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M549.7 124.1c-6.2-23.7-24.8-42.3-48.3-48.6C458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5c-23.5 6.3-42 24.9-48.3 48.6C15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8C117.3 448 288.1 448 288.1 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6V175.2l142.7 81.2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://forum.community.taotesting.com/" target="_blank" rel="noopener" title="Join the community, and get support from our Forum" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M225.9 32C103.3 32 0 130.5 0 252.1 0 256 .1 480 .1 480l225.8-.2c122.7 0 222.1-102.3 222.1-223.9S348.6 32 225.9 32M224 384c-19.4 0-37.9-4.3-54.4-12.1L88.5 392l22.9-75c-9.8-18.1-15.4-38.9-15.4-61 0-70.7 57.3-128 128-128s128 57.3 128 128-57.3 128-128 128"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.taotesting.com" target="_blank" rel="noopener" title="Home of TAO" class="md-social__link">
+      <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0px"
+    y="0px"
+    viewBox="0 0 90 57"
+    class="tao-logo red"
+    style="enable-background:new 0 0 90 57;fill:#BA2027;"
+    xml:space="preserve"
+    role="img"
+    aria-label="Tao Logo"
+>
+    <g id="logo">
+        <path
+            d="M37.13,32.18c-1.76,0.63-2.67,2.56-2.03,4.31c0.64,1.75,2.59,2.65,4.36,2.01
+            c1.77-0.63,2.67-2.57,2.03-4.31C40.85,32.45,38.9,31.54,37.13,32.18z" />
+        <path
+            d="M40.46,16.07c-1.7-0.78-3.73-0.06-4.52,1.63c-0.8,1.68-0.06,3.69,1.64,4.47
+            c1.7,0.79,3.72,0.06,4.52-1.63C42.9,18.86,42.17,16.86,40.46,16.07z" />
+        <path
+            d="M49.96,5c-1.77,0.64-2.68,2.57-2.03,4.31c0.64,1.75,2.6,2.65,4.36,2.01
+            c1.77-0.64,2.68-2.57,2.03-4.31C53.68,5.26,51.72,4.36,49.96,5z" />
+        <path
+            d="M68.95,5.82c-1.7-0.78-3.73-0.06-4.52,1.63c-0.79,1.68-0.06,3.69,1.65,4.47
+            c1.7,0.79,3.73,0.06,4.52-1.63C71.39,8.6,70.65,6.6,68.95,5.82z" />
+        <path
+            d="M77.44,17.67c-1.77,0.64-2.68,2.57-2.03,4.32c0.64,1.74,2.59,2.64,4.36,2.01
+            c1.76-0.63,2.67-2.56,2.03-4.31C81.15,17.93,79.2,17.04,77.44,17.67z" />
+        <path
+            d="M50.83,44.25c-1.7-0.78-3.73-0.05-4.52,1.63c-0.79,1.68-0.06,3.68,1.64,4.47
+            c1.7,0.79,3.73,0.06,4.52-1.62C53.27,47.04,52.54,45.04,50.83,44.25z" />
+        <path
+            d="M64.62,44.85c-1.76,0.63-2.67,2.56-2.03,4.31c0.64,1.75,2.59,2.64,4.36,2.01
+            c1.76-0.64,2.68-2.57,2.04-4.31C68.34,45.12,66.39,44.22,64.62,44.85z" />
+        <path
+            d="M79.32,34c-1.71-0.78-3.73-0.06-4.52,1.63c-0.79,1.68-0.06,3.69,1.65,4.47
+            c1.7,0.78,3.72,0.06,4.52-1.63C81.76,36.79,81.02,34.78,79.32,34z" />
+        <path
+            d="M46.94,20.4c-1.09-0.5-2.38-0.04-2.89,1.04c-0.51,1.08-0.04,2.36,1.05,2.86
+            c1.09,0.5,2.38,0.03,2.89-1.04C48.5,22.18,48.03,20.9,46.94,20.4z" />
+        <path
+            d="M53.02,13.31c-1.13,0.41-1.71,1.64-1.3,2.76c0.41,1.12,1.66,1.69,2.79,1.28
+            c1.13-0.41,1.71-1.64,1.3-2.76C55.4,13.48,54.15,12.9,53.02,13.31z" />
+        <path
+            d="M70.6,21.42c-1.13,0.41-1.71,1.64-1.3,2.76c0.41,1.12,1.66,1.69,2.79,1.29
+            c1.13-0.41,1.71-1.64,1.3-2.76C72.98,21.59,71.73,21.01,70.6,21.42z" />
+        <path
+            d="M53.58,38.44c-1.09-0.5-2.39-0.04-2.89,1.04c-0.51,1.08-0.04,2.36,1.05,2.86
+            c1.09,0.5,2.39,0.04,2.89-1.04C55.14,40.22,54.67,38.94,53.58,38.44z" />
+        <path
+            d="M71.81,31.87c-1.09-0.5-2.39-0.04-2.89,1.04c-0.51,1.08-0.04,2.36,1.05,2.86
+            c1.09,0.5,2.38,0.04,2.89-1.04C73.37,33.65,72.9,32.38,71.81,31.87z" />
+        <path
+            d="M49.73,29.76c-0.72,0.26-1.1,1.05-0.83,1.77c0.26,0.72,1.06,1.08,1.79,0.82
+            c0.72-0.26,1.09-1.05,0.83-1.77C51.25,29.87,50.45,29.5,49.73,29.76z" />
+        <path
+            d="M51.09,23.17c-0.7-0.32-1.53-0.03-1.85,0.67c-0.33,0.69-0.03,1.51,0.67,1.83
+            c0.7,0.32,1.53,0.02,1.86-0.67C52.09,24.31,51.79,23.49,51.09,23.17z" />
+        <path
+            d="M54.98,18.63c-0.72,0.26-1.1,1.05-0.84,1.77c0.26,0.71,1.06,1.08,1.78,0.83
+            c0.73-0.26,1.1-1.05,0.84-1.77C56.5,18.74,55.7,18.37,54.98,18.63z" />
+        <path
+            d="M62.76,18.96c-0.7-0.32-1.52-0.02-1.85,0.67c-0.33,0.69-0.02,1.51,0.67,1.84
+            c0.7,0.32,1.53,0.02,1.85-0.67C63.75,20.1,63.45,19.29,62.76,18.96z" />
+        <path
+            d="M66.23,23.82c-0.72,0.26-1.1,1.05-0.83,1.77c0.26,0.71,1.06,1.09,1.79,0.82
+            c0.72-0.26,1.1-1.05,0.83-1.77C67.75,23.93,66.95,23.56,66.23,23.82z" />
+        <path
+            d="M55.33,34.71c-0.7-0.32-1.53-0.02-1.85,0.67c-0.33,0.69-0.03,1.51,0.67,1.83
+            c0.7,0.32,1.53,0.02,1.85-0.66C56.33,35.85,56.03,35.03,55.33,34.71z" />
+        <path
+            d="M60.98,34.96c-0.72,0.26-1.1,1.05-0.83,1.76c0.26,0.71,1.06,1.08,1.78,0.82
+            c0.72-0.26,1.1-1.05,0.83-1.77C62.5,35.06,61.71,34.69,60.98,34.96z" />
+        <path
+            d="M67,30.51c-0.7-0.32-1.53-0.02-1.85,0.67c-0.33,0.69-0.03,1.51,0.67,1.83
+            c0.7,0.32,1.53,0.02,1.85-0.67C68,31.65,67.7,30.83,67,30.51z" />
+        <path
+            d="M52.87,29.16c-0.46,0.17-0.7,0.67-0.53,1.13c0.17,0.46,0.68,0.7,1.14,0.53
+            c0.46-0.17,0.7-0.68,0.53-1.13C53.85,29.23,53.33,28.99,52.87,29.16z" />
+        <path
+            d="M53.74,24.94c-0.45-0.21-0.98-0.02-1.18,0.42c-0.21,0.44-0.02,0.97,0.43,1.18
+            c0.45,0.2,0.98,0.01,1.19-0.43C54.38,25.67,54.19,25.14,53.74,24.94z" />
+        <path
+            d="M56.23,22.03c-0.47,0.17-0.7,0.67-0.53,1.13c0.17,0.46,0.68,0.69,1.14,0.53
+            c0.46-0.17,0.7-0.67,0.53-1.13C57.2,22.1,56.69,21.87,56.23,22.03z" />
+        <path
+            d="M61.21,22.25c-0.45-0.21-0.98-0.02-1.18,0.43c-0.21,0.44-0.02,0.97,0.43,1.17
+            c0.44,0.2,0.98,0.01,1.18-0.43C61.85,22.98,61.65,22.45,61.21,22.25z" />
+        <path
+            d="M63.43,25.36c-0.46,0.17-0.7,0.67-0.53,1.13c0.17,0.46,0.68,0.69,1.14,0.53
+            c0.46-0.17,0.7-0.67,0.53-1.13C64.41,25.42,63.9,25.19,63.43,25.36z" />
+        <path
+            d="M56.46,32.33c-0.45-0.21-0.98-0.02-1.19,0.43c-0.21,0.44-0.01,0.97,0.43,1.17
+            c0.45,0.21,0.98,0.02,1.19-0.43C57.1,33.05,56.9,32.53,56.46,32.33z" />
+        <path
+            d="M60.07,32.48c-0.46,0.17-0.7,0.67-0.53,1.13c0.17,0.46,0.68,0.69,1.14,0.52
+            c0.46-0.17,0.7-0.67,0.53-1.13C61.05,32.55,60.54,32.32,60.07,32.48z" />
+        <path
+            d="M63.92,29.64c-0.45-0.21-0.98-0.02-1.18,0.43c-0.21,0.44-0.01,0.96,0.43,1.17
+            c0.45,0.21,0.98,0.02,1.18-0.43C64.56,30.37,64.37,29.84,63.92,29.64z" />
+        <path
+            d="M67.32,0.88c-4.56,0-8.07,3.88-8.07,8.19c0,2.46,1.17,4.63,2.93,6.09
+            c-0.31,1.01,0.16,2.12,1.15,2.58c0.99,0.46,2.14,0.11,2.73-0.77c0.46,0.08,0.93,0.13,1.41,0.13c4.81,0,8.35-3.75,8.35-8.06
+            C75.83,4.46,72.38,0.88,67.32,0.88z M67.58,14.2c-3.04,0-5.26-2.38-5.26-5.21c0-2.66,2.2-5.21,5.11-5.21
+            c3.04,0,5.37,2.38,5.37,5.28C72.79,11.84,70.38,14.2,67.58,14.2z" />
+        <path
+            d="M65.5,39.9c-0.13,0-0.26,0.01-0.39,0.02c-0.48-0.99-1.64-1.49-2.7-1.1
+            c-1.04,0.37-1.6,1.44-1.37,2.48c-2.19,1.51-3.61,4.06-3.61,6.79c0,4.48,3.87,8.03,8.22,8.03c4.81,0,8.35-3.75,8.35-8.06
+            C74,43.48,70.56,39.9,65.5,39.9z
+            M65.75,53.22c-3.04,0-5.27-2.38-5.27-5.21c0-2.65,2.2-5.21,5.11-5.21c3.03,0,5.36,2.38,5.36,5.28
+            C70.96,50.87,68.56,53.22,65.75,53.22z" />
+        <path
+            d="M88.5,17.08c0-0.53-0.4-0.81-1.2-0.81h-1.08v2.93h0.54v-1.25h0.54l0.58,1.25h0.61l-0.64-1.34
+            C88.26,17.78,88.5,17.5,88.5,17.08z
+            M87.22,17.6h-0.46v-0.97h0.44c0.51,0,0.74,0.14,0.74,0.5C87.94,17.48,87.71,17.6,87.22,17.6z" />
+        <path
+            d="M89.04,15.97c-0.49-0.5-1.12-0.77-1.81-0.77c-0.68,0-1.29,0.25-1.76,0.73
+            c-0.49,0.51-0.77,1.17-0.77,1.85c0,0.68,0.26,1.32,0.74,1.81c0.49,0.5,1.11,0.78,1.79,0.78c0.66,0,1.3-0.27,1.8-0.77
+            c0.48-0.48,0.74-1.11,0.74-1.82C89.77,17.1,89.51,16.45,89.04,15.97z
+            M88.8,19.37c-0.44,0.43-0.98,0.66-1.58,0.66
+            c-0.57,0-1.12-0.24-1.53-0.67c-0.42-0.43-0.65-0.98-0.65-1.57c0-0.59,0.24-1.16,0.67-1.61c0.4-0.42,0.94-0.64,1.53-0.64
+            c0.61,0,1.15,0.23,1.57,0.67c0.41,0.42,0.63,0.98,0.63,1.6C89.44,18.41,89.21,18.96,88.8,19.37z" />
+        <path
+            d="M47.61,31.99c-0.38-1.04-1.49-1.6-2.55-1.35c-1.45-2.07-3.86-3.42-6.75-3.42
+            c-4.73,0-8.24,3.69-8.24,8.15v0.06c0,4.43,3.48,8.06,8.18,8.06c4.76,0,8.27-3.69,8.27-8.12v-0.06c0-0.22-0.02-0.44-0.03-0.65
+            C47.5,34.2,48,33.05,47.61,31.99z M43.37,35.43c0,2.69-1.96,4.96-5.06,4.96c-2.97,0-5.09-2.3-5.09-5.02v-0.06
+            c0-2.72,1.96-4.96,5.03-4.96c3,0,5.12,2.27,5.12,5.02V35.43z" />
+        <path
+            d="M20.44,27.32c-2.57,0-4.27,0.53-6,1.3l0.99,2.86c1.43-0.59,2.75-0.97,4.51-0.97
+            c2.51,0,3.88,1.18,3.88,3.33v0.29c-1.22-0.38-2.45-0.65-4.36-0.65c-3.67,0-6.39,1.65-6.39,5.11v0.06c0,3.13,2.63,4.81,5.61,4.81
+            c2.39,0,4.03-0.97,5.1-2.24v1.92h3.58V33.9C27.36,29.73,25.09,27.32,20.44,27.32z
+            M23.59,37.5c0,1.95-1.79,3.28-4.18,3.28
+            c-1.7,0-3.04-0.83-3.04-2.3v-0.06c0-1.5,1.34-2.42,3.61-2.42c1.4,0,2.69,0.26,3.61,0.62V37.5z" />
+        <path
+            d="M5.78,23.27H2.17v4.28h-2v3.07h2v8.21c0,3.42,1.88,4.58,4.54,4.58c1.35,0,2.36-0.3,3.25-0.8v-2.92
+            c-0.71,0.35-1.43,0.53-2.24,0.53c-1.22,0-1.94-0.56-1.94-1.95v-7.65h4.24v-3.07H5.78V23.27z" />
+    </g>
+</svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "navigation.expand", "toc.follow", "toc.integrate", "content.code.copy", "search.suggest"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
