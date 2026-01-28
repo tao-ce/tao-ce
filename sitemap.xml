@@ -1,119 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/config/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/config/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/config/network/fqdn/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/config/network/fqdn/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/config/network/public-lan/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/config/network/public-lan/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/config/network/public-wan/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/config/network/public-wan/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/config/network/tls/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/config/network/tls/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/config/settings/config_file/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/config/settings/config_file/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/config/settings/lang/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/config/settings/lang/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/config/settings/timezone/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/config/settings/timezone/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/dev/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/dev/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/dev/build/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/dev/build/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/dev/environment/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/dev/environment/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/dev/remote/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/dev/remote/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/dev/snippets/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/dev/snippets/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/dev/start/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/dev/start/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/first/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/first/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/prepare/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/prepare/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/troubleshooting/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/troubleshooting/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/install/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/install/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/install/appliance/rpi/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/install/appliance/rpi/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/install/appliance/vm/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/install/appliance/vm/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/install/cloud/aws/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/install/cloud/aws/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/install/cloud/gcp/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/install/cloud/gcp/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/install/container/docker-compose/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/install/container/docker-compose/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/install/container/k8s/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/install/container/k8s/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/install/container/quadlet/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/install/container/quadlet/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/storage/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/storage/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
-         <loc>https://tao-ce.github.com/tao-ce/start/storage/persist-data/</loc>
+         <loc>https://tao-ce.github.io/tao-ce/start/storage/persist-data/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
 </urlset>
