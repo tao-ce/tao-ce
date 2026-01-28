@@ -63,7 +63,10 @@ Other machines on your network may need now to know how to resolve *TAO Communit
 
 *TAO Community Edition* requires HTTPS communication to support advanced features, and HTTPS protocol relies on trust relationship between server and browser.
 
-__On a local network, it is not possible (by design) to rely on public certificate signature solution.__
+
+!!! important "Keep in mind"
+    __On a local network, it is not possible (by design) to rely on public certificate signature solution.__
+
 
 Most of local services relies on self-signed certificate, which [trigger security warning](../../start/prepare.md#certificate-warning) in browsers.
 

@@ -1,4 +1,5 @@
 site_name: TAO Community Edition
+site_url: https://tao-ce.github.com/tao-ce/
 repo_url: https://github.com/tao-ce/tao-ce
 
 extra_css:
@@ -28,7 +29,8 @@ theme:
   logo: images/logo-w.svg
   favicon: images/logo.svg
   font:
-    text: Noto
+    text: Open Sans
+    code: Inconsolata
   
 
 
@@ -44,6 +46,7 @@ theme:
     - toc.follow
     - toc.integrate
     - content.code.copy
+    - content.code.annotate # 
     - search.suggest
 
 
@@ -80,6 +83,7 @@ plugins:
   - search
   - awesome-nav
   - typeset
+  - social
 
 markdown_extensions:
   - attr_list

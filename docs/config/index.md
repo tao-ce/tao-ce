@@ -4,11 +4,11 @@ In this guide, you can find some advanced configuration for *TAO Community Editi
 
 <div class="grid cards" markdown>
 
--   ## :octicons-database-24:{ .lg .middle } Dependencies
+<!-- -   ## :octicons-database-24:{ .lg .middle } Dependencies
 
     ---
 
-    * How to [use external dependencies](./dependencies/external.md)
+    * How to [use external dependencies](./dependencies/external.md) -->
 
 -   ## :material-check-network-outline:{.lg .middle} Network
 
@@ -24,11 +24,8 @@ In this guide, you can find some advanced configuration for *TAO Community Editi
 
     ---
 
+    * Know more about [`tao.yaml` config file](./settings/config_file.md)
     * How to change [default language](./settings/lang.md)
-    * How to configure [timezone](./settings/timezone.md)
-
-
-
 
 
 </div>

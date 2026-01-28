@@ -17,7 +17,7 @@ To start using *TAO Community Edition*, you may use one of the following methods
 
     <!-- [:simple-podman: Using Podman Desktop](./container/podman-desktop.md) -->
 
--   :material-car-cruise-control:{ .lg .middle } __Take control__
+<!-- -   :material-car-cruise-control:{ .lg .middle } __Take control__
 
     ---
 
@@ -45,7 +45,7 @@ To start using *TAO Community Edition*, you may use one of the following methods
 
     [:material-google: Deploy on GCP](./cloud/gcp.md)
 
-    [:material-aws: Deploy on AWS](./cloud/aws.md)
+    [:material-aws: Deploy on AWS](./cloud/aws.md) -->
 
 </div>
 

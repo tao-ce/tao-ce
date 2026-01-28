@@ -57,12 +57,50 @@ Run the following command
 docker compose up -d
 ```
 
+In the next minutes, Docker Compose will:
+
+* download and start dependencies containers
+* download and unpack `tao-ce` container image
+* start `tao` container
+
 ## Check installation
+
+!!! warning "Under construction"
+
+    *TAO Community Edition* is still in active development, and there is no evident method now to confirm readiness status.
+
+    However, you can connect to [container console]() and [browse logs]().
+
+
+## Uninstallation
+
+!!! danger inline end "Be careful"
+    
+    This operation will remove all data (including users, tests and results).
+
+If you are sure to remove *TAO Community Edition*, you may run the following command:
+
+```
+docker compose down -v
+```
+
+`-v` flag will ensure all data from volumes are removed. If this flag is skipped, TAO Community Edition may fail to re-install, as some volumes contains semaphores which could prevent complete installation to run.
+
+## Reinstallation
+
+!!! danger inline end "Be careful"
+    
+    This operation will remove all data (including users, tests and results).
+
+
+If you are sure to reinstall *TAO Community Edition*, you may run the following command:
+
+```
+docker compose down -v
+docker compose up -d
+```
 
 ## What's next?
 
 - [x] As *TAO Community Edition* has been successfully installed on your system, you can now proceed with [Preparation](../../prepare.md) steps.
 - [x] You can also explore [Configuration guide](../../../config/index.md) and check additional settings.
-
-## Uninstallation
-

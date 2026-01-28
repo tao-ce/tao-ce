@@ -5,8 +5,9 @@ nav:
 - Installation:
   - Installation: install/index.md
   - Container based: install/container
-  - Appliance based: install/appliance
+  # - Appliance based: install/appliance
   # - Cloud: install/cloud
 - Preparation: prepare.md
 - First steps: first.md
+- troubleshooting.md
 

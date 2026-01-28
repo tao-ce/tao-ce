@@ -1,1 +1,9 @@
 title: Development Guide
+
+nav:
+- index.md
+- start.md
+- build.md
+- environment.md
+- remote.md
+- snippets.md

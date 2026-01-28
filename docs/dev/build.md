@@ -1,5 +1,5 @@
 ---
-title: Build instructions
+title: Build artifacts
 ---
 
 ## Build container

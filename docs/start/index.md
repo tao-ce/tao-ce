@@ -29,3 +29,8 @@ Let's start your journey with *TAO Community Edition*
 
 ## Go beyond!
 
+- [x] If you face any issue, check [troubleshooting guide](./troubleshooting.md) 
+
+- [x] [Expose and tune](../config/index.md) *TAO Community Edition* to support your testing campaign
+
+- [x] [Build your own](../dev/index.md) from sources!

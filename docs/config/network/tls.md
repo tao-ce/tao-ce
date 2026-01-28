@@ -12,7 +12,7 @@ Depending how you want to expose *TAO Community Edition*, you may choose from di
 
 * for a [public usage](./public-wan.md#tls-certificate-signature), [Caddy](https://caddyserver.com/) can attempt to automatically submit a certificate for signature.
 
-Here is a comparaison of those methods:
+Here is a short comparaison of those methods:
 
 
 |              | Local self-signed | Local CA | Public CA |
@@ -23,6 +23,9 @@ Here is a comparaison of those methods:
 | Setup complexity | low | high[^h] | medium[^m] | 
 | Requires public DNS zone | ❌ | ❌ | ✅ |
 
+!!! important "Keep in mind"
+
+    Using a public domain for a local host may introduce [additional risks](https://letsencrypt.org/docs/certificates-for-localhost/) for your users.
 
 [^h]: Local CA requires a [public key infrastructure](https://en.wikipedia.org/wiki/Public_key_infrastructure)
 [^m]: Relying on Public CA requires a public DNS zone

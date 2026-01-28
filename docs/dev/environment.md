@@ -1,9 +1,13 @@
-> [!NOTICE]
-> This document is deprecated, new version to be published
+# Technical stack
 
-# Overview
+## Overview
 
-## Service deployment
+### Build & deployment toolchain
+
+![img](../images/devcontainer-tao-ce.png)
+
+
+### Service deployment
 
 ```mermaid
 flowchart TB
@@ -22,7 +26,7 @@ subgraph docker-compose
         taoo[...]
         end
     end
-        tilt[/tilt/]
+        go-task[/go-task/]
     end
     subgraph dependencies
         pgsql
@@ -32,53 +36,56 @@ subgraph docker-compose
         firestore-emulator
         depso[...]
     end
-    tilt --> tao-ce
+    go-task --> tao-ce
 end
 vscode -- provision --> docker-compose
 vscode -- attach --> devcontainer
 ```
 
-## Build & deployment toolchain
+## Repository structure
 
-```mermaid
-flowchart TB
-subgraph dev["devcontainer"]
-    subgraph podman
-    buildah[/buildah/] --> imagestore[(imagestore)]
-    end
-    imagestore -- local output--> tao-ce[(/opt/tao-ce)]
-    tilt -- run --> buildah
-    tilt -- (re)start --> taosvc[tao-ce.*.service] -- run from --> tao-ce
-    tilt --> init
-    static --> tao-ce
-    taosvc -- use --> conf
-    setup -- generate --> conf[(configuration)]
-    conf --> static
-    init[devcontainer
-    init process] -- initialize service --> static[tao-ce.static.service]
-    init -- initialize service --> setup[tao-ce.setup.service]
-end
-```
+### `apps`
+
+Each applications in apps contains:
+
+* a `src` folder containing sources and/or submodules pointing to sources
+* a `Dockerfile` to build each application
+* a `meta` folder
+  - a `systemd` directory containing services units to be deployed
+
+### `build`
+
+This folder contains building toolchain for each product, and their dependencies:
+
+* `crystal`: the local deployment from sources 
+* `swift`: the deployment through pre-built container
+* `docs`: the present documentation toolchain
+
+### `hack`
+
+This folder contains some quick-win used in development. They should be removed soon or later and replaced by more suitable solution.
+
+### `services`
+
+Some external dependencies need to be built and run in order to have TAO Community working.
+
+### `.devcontainer`
+
+This container is used for active development to run all essential services.
+
+### `etc` and `libexec`
+
+Configuration and resources to be used for image building.
+
+* `systemd`: common units for setup and static resources.
+* `setup`: some `jsonnet` templates to generate applications config.
+* `init`: initialization data.
+* `pubsub`: Python script to provision PubSub topics and subscriptions.
 
 
-# Components
+## `Taskfile` workflow
 
-## Dependencies
+[go-task](https://taskfile.dev/docs/guide) is used to organize appliation build and local deployement of the TAO Community ecosystem in devcontainer.
 
-Those services are deployed from [`docker-compose.stack.yml`](/docker-compose.stack.yml) with pre-configuration of volumes to keep persistent data.
 
-## Dev container
-
-### podman
-
-Podman is used to build images in isolated context, and can be used also to locally test images.
-
-`buildah` is used as building frontend.
-
-### tilt
-
-Tilt is main entrypoint to build locally all the applications and run them in a Devcontainer.
-
-### systemd
-
-All applications are deployed through `systemd` units.
+Once in `devcontainer` environment, running `task dev:up` will build all dependencies and start local application deployment.

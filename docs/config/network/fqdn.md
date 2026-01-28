@@ -11,39 +11,52 @@
 *TAO Community Edition* publishes itself as [`https://community.tao.internal`](https://community.tao.internal); which is right when you just want a quick tour of its features, however, you may want to customize TAO domain name to an address more relevant for your organization.
 
 
+To support a custom domain name, we will have to:
+
+* update `tao.yaml` file
+* update `/etc/hosts` in container
+* re-install *TAO Community Edition*
+
 ## How-to
 
-### Update `tao.yaml` file
+### Update `tao.yaml` and `/etc/hosts` file
 
-Using container deployment, you may have notice [`docker-compose.yml`](https://github.com/tao-ce/tao-ce/blob/main/docker-compose.yml) declare a [`tao_config`](https://github.com/tao-ce/tao-ce/blob/f29c3483cb1963307878caa822c0bda2fc241929/docker-compose.yml#L31-L66) YAML content, which is mounted as `/etc/tao-ce/tao.yaml` in `tao-ce` container.
+In [config file documentation](../settings/config_file.md), we describe the role of this file, and how to update it.
 
+You can update `tao.yaml` file with one of the following methods to support custom domain:
 
 === "Using `TAO_CE_PUBLIC_DOMAIN` env. variable"
     
-    If you are [`docker-compose.yml`](https://github.com/tao-ce/tao-ce/blob/main/docker-compose.yml) file from [`tao-ce/tao-ce`](https://github.com/tao-ce/tao-ce) repository, the easiest way to configure your domain is by declaring `TAO_CE_PUBLIC_DOMAIN` environment variable while starting containers.
+    If you are using [`docker-compose.yml`](https://github.com/tao-ce/tao-ce/blob/main/docker-compose.yml) file from [`tao-ce/tao-ce`](https://github.com/tao-ce/tao-ce) repository, the easiest way to configure your domain is by declaring `TAO_CE_PUBLIC_DOMAIN` environment variable while starting containers.
 
 
     ``` bash
     export TAO_CE_PUBLIC_DOMAIN="tao.is-awesome.example.org"
     ```
 
-    Environment variable will override default value `community.tao.internal` while reading `docker-compose.yaml`.
+    Environment variable will override default value `community.tao.internal` while reading `docker-compose.yaml`,  and also update `/etc/hosts` file in container.
 
 === "Custom `tao.yaml` file"
 
-    This `tao.yaml` file gathers settings which are used to generate application configuration.
+    You need to update `tao.yaml` file to change `publicDomain`:
 
-    You can edit this file and override it, either:
-
-    * change content from `docker-compose.yml` in `configs` > `tao_config` 
-    ``` yaml
+    ``` yaml hl_lines="2"
     spec:
       publicDomain: tao.is-awesome.example.org
     ...
     ```
-    * or mount your [own local file](https://github.com/tao-ce/tao-ce/blob/main/etc/tao-ce/config/tao.yaml) as a volume. In `services` > `tao` > `volumes`, add a line with:
-    ``` yaml
-    - ./path/to/my/tao.yaml:/etc/tao-ce/tao.yaml:ro
+
+    Also, if you use [`docker-compose.yml`](https://github.com/tao-ce/tao-ce/blob/main/docker-compose.yml) file, you need to ensure `tao` service has correct `extra_hosts`:
+
+    ``` yaml hl_lines="4-5"
+    services:
+        tao:
+            # [...]
+            extra_hosts:
+            - tao.is-awesome.example.org:0.0.0.0
+            ports:
+            - 443:443
+            # [...]
     ```
 
 ### Re-install *TAO Community Edition*
