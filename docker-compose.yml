@@ -6,7 +6,7 @@ services:
       - source: tao_config
         target: /etc/tao-ce/config/tao.yaml
         mode: 0644
-    image: quay.io/tao-ce/tao-ce:${TAO_CE_VERSION:-latest}
+    image: tao.docker.scarf.sh/tao-ce/tao-ce:${TAO_CE_VERSION:-latest}
     extra_hosts:
     - ${TAO_CE_PUBLIC_DOMAIN:-community.tao.internal}:0.0.0.0
     ports:
