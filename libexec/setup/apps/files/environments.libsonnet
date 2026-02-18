@@ -443,6 +443,7 @@ function(setup)
               {
                 internalRoles: [
                   'ADMIN',
+                  'GROUP_MANAGER',
                 ],
                 ltiRole: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
               },
@@ -866,6 +867,10 @@ function(setup)
                 resource: 'portal.session',
                 scopes: [
                   'create',
+                  'details',
+                  'enrol',
+                  'validate-identity',
+                  'invalidate-results',
                   'view',
                   'edit',
                   'delete',
@@ -873,6 +878,7 @@ function(setup)
                   'review-grade',
                   'reopen-grade',
                   'preview',
+                  'monitor',
                 ],
               },
               {
