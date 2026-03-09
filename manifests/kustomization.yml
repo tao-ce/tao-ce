@@ -1,0 +1,12 @@
+
+resources:
+- ./dependencies/es.yml
+- ./dependencies/firestore.yml
+- ./dependencies/pgsql.yml
+- ./dependencies/redis.yml
+- ./dependencies/pubsub.yml
+- ./tao-ce/config.yml
+- ./tao-ce/pvc.yml
+- ./tao-ce/tao.yml
+
+

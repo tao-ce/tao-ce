@@ -1,0 +1,62 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: tao
+  name: tao
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: tao
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: tao
+    spec:
+      containers:
+        - image: quay.io/tao-ce/tao-ce:latest
+          name: tao
+          ports:
+            - containerPort: 443
+              protocol: TCP
+          securityContext:
+            privileged: true
+          volumeMounts:
+            # - mountPath: /sys/fs/cgroup
+            #   name: tao-cgroup
+            - mountPath: /var/lib/tao-ce
+              name: tao-ce-data
+            - mountPath: /etc/tao-ce/config/tao.yaml
+              subPath: "tao.yaml"
+              name: tao-ce-config
+      restartPolicy: Always
+      volumes:
+        - persistentVolumeClaim:
+            claimName: tao-ce-data
+          name: tao-ce-data
+        # - hostPath:
+        #     path: /sys/fs/cgroup
+          # name: tao-cgroup
+        - name: tao-ce-config
+          configMap:
+            name: tao-ce-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: tao
+  name: tao
+spec:
+  ports:
+    - name: "443"
+      port: 443
+      targetPort: 443
+  selector:
+    io.kompose.service: tao

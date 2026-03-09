@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: firestore
+  name: firestore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: firestore
+  template:
+    metadata:
+      labels:
+        io.kompose.service: firestore
+    spec:
+      containers:
+        - env:
+            - name: PROJECT_ID
+              value: demo-tao
+          image: quay.io/tao-ce/services/firestore-emulator:latest
+          name: firestore
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: firestore
+  name: firestore
+spec:
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 8080
+  selector:
+    io.kompose.service: firestore

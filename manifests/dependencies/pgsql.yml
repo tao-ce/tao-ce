@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: pgsql
+  name: pgsql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: pgsql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: pgsql
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+          image: docker.io/postgres:17-alpine
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready -q -t 2 -U $POSTGRES_USER
+            failureThreshold: 5
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 30
+          name: pgsql
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: pgsql-data
+      restartPolicy: Always
+      volumes:
+        - persistentVolumeClaim:
+            claimName: pgsql-data
+          name: pgsql-data
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: pgsql
+  name: pgsql
+spec:
+  ports:
+    - name: "5432"
+      port: 5432
+      targetPort: 5432
+  selector:
+    io.kompose.service: pgsql
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pgsql-data
+spec:
+  resources:
+    requests:
+      storage: 2G
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce

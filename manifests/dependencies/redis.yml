@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: redis
+  name: redis
+spec:
+  ports:
+    - name: "6379"
+      port: 6379
+      targetPort: 6379
+  selector:
+    io.kompose.service: redis
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: redis
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: redis
+    spec:
+      containers:
+        - args:
+            - valkey-server
+            - --save
+            - "60"
+            - "1"
+            - --loglevel
+            - warning
+          image: docker.io/valkey/valkey:8-alpine
+          livenessProbe:
+            exec:
+              command:
+                - valkey-cli ping
+            failureThreshold: 5
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 30
+          name: redis
+          ports:
+            - containerPort: 6379
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /data
+              name: redis-data
+      restartPolicy: Always
+      volumes:
+        - persistentVolumeClaim:
+            claimName: redis-data
+          name: redis-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data
+spec:
+  resources:
+    requests:
+      storage: 2G
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
