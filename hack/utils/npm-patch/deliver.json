@@ -4,5 +4,12 @@
     "@oat-sa-private/ui-core": "file:/local-packages/packages/live-design-system/packages/core",
     "@oat-sa-private/ui-elements": "file:/local-packages/packages/live-design-system/packages/elements",
     "@oat-sa-private/ui-identity": "file:/local-packages/packages/live-design-system/packages/identity"
+  },
+  "overrides": {
+    "@oat-sa-private/ui-components": "file:/local-packages/packages/live-design-system/packages/components",
+    "@oat-sa-private/ui-core": "file:/local-packages/packages/live-design-system/packages/core",
+    "@oat-sa-private/ui-elements": "file:/local-packages/packages/live-design-system/packages/elements",
+    "@oat-sa-private/ui-identity": "file:/local-packages/packages/live-design-system/packages/identity",
+    "@oat-sa-private/read-aloud-client": "file:/local-packages/packages/read-aloud-client"
   }
 }

@@ -39,13 +39,11 @@ ENV NODE_VERSION="22"
 
 WORKDIR /local-packages/packages/live-design-system
 
-COPY --exclude="**/package-lock.json" --from=src-packages \
-    live-design-system .
+COPY --from=src-packages live-design-system .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} install \
-    && ${BUILD_NPM} run build
+    ${BUILD_NPM} ci
 
 WORKDIR /app
 
@@ -53,11 +51,22 @@ WORKDIR /app
 FROM build-fe-base AS build-fe-wait
 ARG BUILD_NPM
 
-COPY --exclude="**/package-lock.json" --from=src-frontend-auth-wait . .
+COPY --from=src-frontend-auth-wait . .
 
 RUN \
     --mount=type=bind,from=hack,target=/opt/hack \
-    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/deliver.json
+    <<EORUN
+    set -eux
+    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/proctoring-fe.json
+EORUN
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} update \
+        '@oat-sa-private/ui-core' \
+        '@oat-sa-private/ui-identity' \
+        '@oat-sa-private/ui-components' \
+        '@oat-sa-private/ui-elements'
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
@@ -82,11 +91,22 @@ RUN \
 ### fe #########################################################################
 FROM build-fe-base AS build-fe
 
-COPY --exclude="**/package-lock.json" --from=src-frontend . .
+COPY --from=src-frontend . .
 
 RUN \
     --mount=type=bind,from=hack,target=/opt/hack \
-    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/deliver.json
+    <<EORUN
+    set -eux
+    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/proctoring-fe.json
+EORUN
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} update \
+        '@oat-sa-private/ui-core' \
+        '@oat-sa-private/ui-identity' \
+        '@oat-sa-private/ui-components' \
+        '@oat-sa-private/ui-elements'
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
