@@ -15,7 +15,9 @@ COPY --from=src-backend package*.json ./
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} ci && ${BUILD_NPM} cache clean --force
+    ln -s /bin/true /bin/simple-git-hooks \
+    && ${BUILD_NPM} ci --omit=dev \
+    && ${BUILD_NPM} cache clean --force
 
 COPY --from=src-backend . .
 

@@ -15,7 +15,7 @@ COPY --from=src-worker package*.json ./
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} install
+    ${BUILD_NPM} install --omit=dev
 
 COPY --from=src-worker . .
 

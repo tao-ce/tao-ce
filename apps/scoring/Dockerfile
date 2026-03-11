@@ -74,7 +74,7 @@ RUN \
         --mount=type=bind,from=src-apps,target=local-packages/apps \
         --mount=type=bind,from=hack,target=/opt/hack \
         /opt/hack/utils/composer-patch/patch.sh \
-            && composer install -van
+            && composer install -van --no-dev --no-scripts
 
 
 RUN \
@@ -109,7 +109,7 @@ RUN \
         --mount=type=bind,from=src-apps,target=local-packages/apps \
         --mount=type=bind,from=hack,target=/opt/hack \
         /opt/hack/utils/composer-patch/patch.sh \
-            && composer install -van
+            && composer install -van --no-dev --no-scripts
 
 RUN \
         set -eux; \

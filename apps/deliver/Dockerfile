@@ -21,7 +21,7 @@ RUN \
         grep -v 'APP_ENV' .env.prod >.env
 
         /opt/hack/utils/composer-patch/patch.sh
-        composer install -van
+        composer install -van --no-dev
         composer dump-env dev
         echo '<?php return [];' >.env.local.php
 EORUN

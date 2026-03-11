@@ -4,6 +4,22 @@ ARG BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 
 ### backend ####################################################################
+FROM $BUILD_IMAGE AS build-backend-ci
+ARG BUILD_IMAGE
+ARG BUILD_NPM
+
+ENV NODE_VERSION="22"
+WORKDIR /app
+
+COPY --from=src-backend package*json ./
+
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} ci
+
+COPY --from=src-backend . .
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} run build
+
 FROM $BUILD_IMAGE AS build-backend
 ARG BUILD_IMAGE
 ARG BUILD_NPM
@@ -11,11 +27,15 @@ ARG BUILD_NPM
 ENV NODE_VERSION="22"
 WORKDIR /app
 
-COPY --from=src-backend . .
+COPY --from=src-backend package*json ./
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} ci && ${BUILD_NPM} run build \
-    && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+    ${BUILD_NPM} ci --omit=dev
+
+COPY --from=src-backend . .
+COPY --from=build-backend-ci /app/dist dist
+
+RUN find /app -type d | grep '[/][.]git$' | xargs rm -rf \
     && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
 
 ### Export #####################################################################

@@ -5,7 +5,7 @@ ARG GO_BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 
 ### auth-server ################################################################
-FROM $BUILD_IMAGE AS build-auth-server
+FROM $BUILD_IMAGE AS build-auth-server-ci
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
@@ -16,15 +16,32 @@ WORKDIR /app
 COPY --from=src-auth-server *.json /app/
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} install && ${BUILD_NPM} install typescript -g && rm -rf /app/logs/*
+    ${BUILD_NPM} install
 
 COPY --from=src-auth-server types /app/types
 COPY --from=src-auth-server src /app/src
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    rm -rf /app/src/dist/test /app/src/dist/configs/keys \
-    && ${BUILD_NPM} run build \
-    && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+    rm -rf /app/logs/* /app/src/dist/test /app/src/dist/configs/keys \
+    && ${BUILD_NPM} run build
+
+FROM $BUILD_IMAGE AS build-auth-server
+ARG BUILD_IMAGE
+ARG BUILD_NPM
+
+ENV NODE_VERSION="22"
+
+WORKDIR /app
+
+COPY --from=src-auth-server *.json /app/
+
+
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    ${BUILD_NPM} install --omit=dev
+
+COPY --from=build-auth-server-ci /app/dist /app/dist
+
+RUN find /app -type d | grep '[/][.]git$' | xargs rm -rf \
     && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
     
 
@@ -35,7 +52,7 @@ ARG STATE_ROOT="/var/lib/tao-ce/environment-management/lti-gateway"
 
 WORKDIR /app
 
-COPY --from=src-lti-gateway . /app
+COPY --from=src-lti-gateway --exclude="**/composer.lock" . /app
 
 RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
@@ -43,12 +60,6 @@ RUN \
         --mount=type=bind,from=src-apps,target=local-packages/apps \
         --mount=type=bind,from=hack,target=/opt/hack \
         /opt/hack/utils/composer-patch/patch.sh \
-            && composer update \
-                -vn \
-                --root-reqs \
-                --prefer-install=source \
-                --no-install \
-                --no-scripts \
             && composer install -vno --no-dev
 
 RUN set -eux; \

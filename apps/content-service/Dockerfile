@@ -10,12 +10,13 @@ ARG BUILD_NPM
 ARG STATE_ROOT="/var/lib/tao-ce/content-service"
 
 ENV NODE_VERSION="22"
+ENV NODE_ENV="production"
 WORKDIR /app
 
 COPY --from=src-backend . .
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} ci \
+    ${BUILD_NPM} ci --omit=dev --no-audit --no-fund \
     && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
     && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
 

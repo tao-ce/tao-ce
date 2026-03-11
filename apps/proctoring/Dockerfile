@@ -10,6 +10,7 @@ ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/proctoring/lti1p3-gateway"
 
 WORKDIR /app
+# COPY --from=src-lti13-gateway . .
 COPY --exclude="**/composer.lock" --from=src-lti13-gateway . .
 
 RUN \
@@ -18,11 +19,22 @@ RUN \
         --mount=type=bind,from=src-apps,target=local-packages/apps \
         --mount=type=bind,from=hack,target=/opt/hack \
         /opt/hack/utils/composer-patch/patch.sh \
-            && APP_ENV=dev composer install -van
+            # && cat composer.json \
+            # && composer update \
+            #     -vn \
+            #     --root-reqs \
+            #     --prefer-install=source \
+            #     --no-install \
+            #     --no-scripts \
+            #     --no-dev \
+            && APP_ENV=dev composer install -van --no-dev --prefer-dist \
+            && composer dump-env dev \
+            && echo '<?php return [];' >.env.local.php
 
 RUN \
-    cd /app \
-    && rm -rf \
+    find . -type d | grep '[/][.]git$' | xargs rm -rf ;\
+    find . -type f | grep '[/][.]git.*$' | xargs rm -rf ;\
+    rm -rf \
         var .build/ \
     && mkdir -p \
         ${STATE_ROOT}/data \
@@ -128,22 +140,43 @@ RUN \
         ${BUILD_NPM} run build:static
 
 ### realtime-service #####################################################################
-FROM $BUILD_IMAGE AS build-realtime-service
+FROM $BUILD_IMAGE AS build-realtime-service-ci
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
 ENV NODE_VERSION="22"
 WORKDIR /app
 
-COPY --from=src-realtime-service . .
+COPY --from=src-realtime-service package*json ./
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
-        && ${BUILD_NPM} ci \
-        && ${BUILD_NPM} run build \
-        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
+        ${BUILD_NPM} ci
+
+COPY --from=src-realtime-service . .
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+       ${BUILD_NPM} run build
+
+FROM $BUILD_IMAGE AS build-realtime-service
+ARG BUILD_NPM
+
+ENV NODE_VERSION="22"
+WORKDIR /app
+
+COPY --from=src-realtime-service package*json ./
+
+RUN \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+        ${BUILD_NPM} ci --omit=dev
+
+
+COPY --from=build-realtime-service-ci /app/dist ./dist
+
+RUN \
+        find /app -type d | grep '[/][.]git$' | xargs rm -rf \
         && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+
 
 ### forwarder ##################################################################
 FROM $GO_BUILD_IMAGE AS build-forwarder

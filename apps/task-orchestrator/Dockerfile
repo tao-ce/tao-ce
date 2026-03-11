@@ -14,7 +14,7 @@ WORKDIR /app
 COPY --from=src-backend ./package*.json .
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} ci
+    ${BUILD_NPM} ci --omit=dev
 
 COPY --from=src-backend . .
 

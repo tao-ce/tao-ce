@@ -112,12 +112,18 @@ ARG STATE_ROOT="/var/lib/tao-ce/construct"
 RUN \
     cd /app \
     && rm -rf \
-        ./tao/views/locales \
+        ./*/views/js \
+        ./*/views/css \
+        ./*/views/cypress \
+        ./*/views/node_modules \
+        ./*/views/scss \
+        ./*/views/build \
         ./config \
         ./data \
     && mkdir -p \
         ${STATE_ROOT}/config \
         ${STATE_ROOT}/locales \
+        tao/views \
         ${STATE_ROOT}/state/data \
     && ln -s \
         ${STATE_ROOT}/config \
