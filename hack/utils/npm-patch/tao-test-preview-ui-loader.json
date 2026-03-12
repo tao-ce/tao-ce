@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@oat-sa-private/tao-test-runner-qtinui": "file:/packs/oat-sa-private-tao-test-runner-qtinui.tgz",
+    "@oat-sa-private/ui-identity": "file:/packs/oat-sa-private-ui-identity.tgz"
+  },
+  "overrides": {
+    "@oat-sa-private/tao-test-runner-qtinui": {
+      "@oat-sa-private/read-aloud-client": "file:/packs/oat-sa-private-read-aloud-client.tgz",
+      "@oat-sa-private/tao-item-runner-qtinui": "file:/packs/oat-sa-private-tao-item-runner-qtinui.tgz"
+    },
+    "@oat-sa-private/ui-identity": {
+      "@oat-sa-private/ui-core": "file:/packs/oat-sa-private-ui-core.tgz"
+    }
+  }
+}

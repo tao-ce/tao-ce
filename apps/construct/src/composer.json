@@ -75,11 +75,12 @@
     "oat-sa/extension-tao-backoffice": "7.1.0",
     "oat-sa/extension-tao-eventlog": "3.6.2",
     "oat-sa/extension-tao-task-queue": "6.9.2",
-    "oat-sa/extension-tao-testqti-previewer": "3.12.2",
+    "oat-sa/extension-tao-testqti-previewer": "3.14.0",
     "oat-sa/lib-generis-search": "2.3.1",
     "oat-sa/extension-tao-deliver-connect": "5.30.0",
     "oat-sa/extension-tao-deliver-pcis": "0.4.4",
     "oat-sa/extension-tao-testqti-export": "1.1.3",
+    "oat-sa/extension-tao-test-preview-ui-loader": "*",
     "oat-sa/extension-lti-test-review": "^3.9"
   },
   "require-dev": {

@@ -1,0 +1,22 @@
+# https://taskfile.dev
+
+version: '3'
+
+includes:
+  packages:
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: packages
+      NAMESPACE: packages
+      TARGET: "export"
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          src-packages: '.'
+          src-apps: '../../apps'
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'

@@ -46,6 +46,9 @@ vars:
 includes:
   builds:
     taskfile: ./build/Taskfile.builds.yml
+  
+  packages:
+    taskfile: ./packages/Taskfile.yml
 
   apps:
     taskfile: ./apps/Taskfile.yml
