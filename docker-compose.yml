@@ -6,7 +6,7 @@ services:
       - source: tao_config
         target: /etc/tao-ce/config/tao.yaml
         mode: 0644
-    image: europe-west1-docker.pkg.dev/tao-ce/internal/tao-ce:${TAO_CE_VERSION:-latest}
+    image: quay.io/tao-ce/tao-ce:${TAO_CE_VERSION:-latest}
     extra_hosts:
     - ${TAO_CE_PUBLIC_DOMAIN:-community.tao.internal}:0.0.0.0
     ports:
@@ -14,7 +14,6 @@ services:
     cgroup: host
     volumes:
     - /sys/fs/cgroup:/sys/fs/cgroup:rw
-    - containers:/home/vscode/.local/share/containers:rw
     - tao-ce-lib:/var/lib/tao-ce:rw
     privileged: true
     depends_on:
