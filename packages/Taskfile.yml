@@ -3,11 +3,11 @@
 version: '3'
 
 includes:
-  packages:
+  npm:
     taskfile: ../build/crystal
     dir: .
     vars:
-      APP: packages
+      APP: npm
       NAMESPACE: packages
       TARGET: "export"
       CONTEXT: .

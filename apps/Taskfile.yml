@@ -19,7 +19,7 @@ includes:
           src-packages: '../../packages'
           src-apps: '../../apps'
           src-code: './src'
-          build-packages: 'container-image://{{.REGISTRY}}/packages/packages:{{.TAG}}'
+          build-packages: 'container-image://{{.REGISTRY}}/packages/npm:{{.TAG}}'
 
       BASES:
         - builds/base
@@ -55,7 +55,7 @@ includes:
           src-sandbox: './src/sandbox'
           src-packages: '../../packages'
           src-apps: '../../apps'
-          build-packages: 'container-image://{{.REGISTRY}}/packages/packages:{{.TAG}}'
+          build-packages: 'container-image://{{.REGISTRY}}/packages/npm:{{.TAG}}'
       BASES:
         - builds/base
       ARGS:

@@ -191,6 +191,7 @@ tasks:
     - task: dev:init
     - task: builds:base:build
     - task: builds:go:build
+    - task: packages:npm:build
     cmds:
     - task: _log
       vars:

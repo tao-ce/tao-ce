@@ -42,7 +42,8 @@ RUN \
         find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
         rm -rf \
             /app/*/test/ \
-            /app/*/views/{js,cypress}/{test,tests} \
+            /app/*/views/js/{test,tests} \
+            /app/*/views/cypress \
             /app/vendor/*/*/{test,tests,test_files}
 EORUN
 
@@ -59,6 +60,7 @@ RUN \
         ./*/views/node_modules \
         ./*/views/scss \
         ./*/views/build \
+        ./tao/views/locales \
         ./config \
         ./data \
     && mkdir -p \

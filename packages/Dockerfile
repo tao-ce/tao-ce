@@ -108,7 +108,7 @@ RUN \
         '@oat-sa-private/ui-identity' \
         '@oat-sa-private/ui-core' \
         '@oat-sa-private/read-aloud-client'
-    ${BUILD_NPM} install --install-links --package-lock-only
+    ${BUILD_NPM} install --install-links --package-lock-only --omit=dev
 EORUN
 
 
