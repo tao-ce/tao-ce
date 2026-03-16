@@ -79,8 +79,16 @@ jobs:
       - name: Push manifest
         run: |
           podman manifest create -a \
+            ${{ env.MANIFEST_URL }}
+
+          podman manifest add \
+            --os linux --arch arm64 \
             ${{ env.MANIFEST_URL }} \
-            ${{ env.MANIFEST_URL }}-arm64 \
+            ${{ env.MANIFEST_URL }}-arm64
+          
+          podman manifest add \
+            --os linux --arch amd64 \
+            ${{ env.MANIFEST_URL }} \
             ${{ env.MANIFEST_URL }}-amd64
 
           podman push \
