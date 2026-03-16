@@ -48,9 +48,10 @@ jobs:
         with:
           push: true
           target: build-base
+          provenance: false
           context: .
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=build-base-${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=build-base-${{ matrix.arch }}
           tags: |
             ghcr.io/tao-ce/tao-ce/build-base:${{ github.sha }}-${{ matrix.arch }}
 
