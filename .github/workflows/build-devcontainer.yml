@@ -7,13 +7,12 @@ on: # rebuild any PRs and main branch changes
 
 jobs:
   build:
-    # strategy:
-      # fail-fast: yes
-      # matrix:
-        # arch: [amd64, arm64]
-    # runs-on: |
-      # ${{ fromJSON('{ "amd64": "ubuntu-24.04", "arm64": "ubuntu-24.04-arm" }')[matrix.arch] }}
-    runs-on: "ubuntu-24.04"
+    strategy:
+      fail-fast: yes
+      matrix:
+        arch: [amd64, arm64]
+    runs-on: |
+      ${{ fromJSON('{ "amd64": "ubuntu-24.04", "arm64": "ubuntu-24.04-arm" }')[matrix.arch] }}
     steps:
 
       - name: Checkout (GitHub)
@@ -37,13 +36,10 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           push: true
-          target: devcontainer
+          target: build-base
           context: .
-          platforms: linux/amd64,linux/arm64
           tags: |
-            tao-ce/devcontainer:${{ github.sha }}
-          build-contexts: |
-            src-devcontainer=.
-          meta-images: tao-ce/devcontainer
+            tao-ce/devcontainer:${{ github.sha }}-${{ matrix.arch }}
+          meta-images: tao-ce/build-base
 
 
