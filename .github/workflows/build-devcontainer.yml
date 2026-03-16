@@ -38,7 +38,9 @@ jobs:
           push: true
           target: build-base
           context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           tags: |
-            tao-ce/tao-ce/devcontainer:${{ github.sha }}-${{ matrix.arch }}
+            ghcr.io/tao-ce/tao-ce/build-base:${{ github.sha }}-${{ matrix.arch }}
 
 
