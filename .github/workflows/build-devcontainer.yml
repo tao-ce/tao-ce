@@ -7,10 +7,18 @@ on: # rebuild any PRs and main branch changes
 
 jobs:
   build:
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
     strategy:
       fail-fast: true
       matrix:
         arch: [amd64, arm64]
+        image: [build-base]
     runs-on: |
       ${{ fromJSON('{ "amd64": "ubuntu-24.04", "arm64": "ubuntu-24.04-arm" }')[matrix.arch] }}
     steps:
