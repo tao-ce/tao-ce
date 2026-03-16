@@ -1,9 +1,12 @@
-name: 'build-devcontainer' 
+name: 'build-devcontainer'
+
 on: # rebuild any PRs and main branch changes
   # pull_request:
   push:
     # branches:
       # - main
+
+
 
 jobs:
   build:
@@ -52,3 +55,36 @@ jobs:
             ghcr.io/tao-ce/tao-ce/build-base:${{ github.sha }}-${{ matrix.arch }}
 
 
+  manifest:
+    needs: [build]
+    env:
+      MANIFEST_URL: ghcr.io/tao-ce/tao-ce/build-base:${{ github.sha }}
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
+
+    steps:
+      - name: Log in to ghcr.io
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+        
+      - name: Push manifest
+        run: |
+          podman manifest create -a \
+            ${{ env.MANIFEST_URL }} \
+            ${{ env.MANIFEST_URL }}-arm64 \
+            ${{ env.MANIFEST_URL }}-amd64
+
+          podman push \
+            ${{ env.MANIFEST_URL }}
+
+
+        
