@@ -8,7 +8,7 @@ on: # rebuild any PRs and main branch changes
 jobs:
   build:
     strategy:
-      fail-fast: yes
+      fail-fast: true
       matrix:
         arch: [amd64, arm64]
     runs-on: |
