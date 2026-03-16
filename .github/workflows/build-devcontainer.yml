@@ -39,7 +39,6 @@ jobs:
           target: build-base
           context: .
           tags: |
-            tao-ce/devcontainer:${{ github.sha }}-${{ matrix.arch }}
-          meta-images: tao-ce/build-base
+            tao-ce/tao-ce/devcontainer:${{ github.sha }}-${{ matrix.arch }}
 
 
