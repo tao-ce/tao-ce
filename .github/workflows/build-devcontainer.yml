@@ -69,29 +69,21 @@ jobs:
       id-token: write
 
     steps:
-      - name: Log in to ghcr.io
-        uses: redhat-actions/podman-login@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2 
         with:
+          registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
         
       - name: Push manifest
         run: |
-          podman manifest create -a \
-            ${{ env.MANIFEST_URL }}
-
-          podman manifest add \
-            --os linux --arch arm64 \
+          docker manifest create -a \
             ${{ env.MANIFEST_URL }} \
-            ${{ env.MANIFEST_URL }}-arm64
-          
-          podman manifest add \
-            --os linux --arch amd64 \
-            ${{ env.MANIFEST_URL }} \
+            ${{ env.MANIFEST_URL }}-arm64 \
             ${{ env.MANIFEST_URL }}-amd64
 
-          podman push \
+          docker push \
             ${{ env.MANIFEST_URL }}
 
 
