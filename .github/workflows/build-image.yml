@@ -29,8 +29,8 @@ on:
         type: string
         default: 'false'
     outputs:
-      tags:
-        value: ${{ jobs.manifest.outputs.tags }}
+      json:
+        value: ${{ jobs.manifest.outputs.json }}
 
 env:
   IMAGE_URL: |-
