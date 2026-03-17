@@ -87,7 +87,7 @@ jobs:
           target: ${{ inputs.target }}
           provenance: false
           context: ${{ inputs.context }}
-          contexts: ${{ inputs.contexts }}
+          # contexts: ${{ inputs.contexts }}
           cache-from: type=gha,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
           cache-to: type=gha,mode=max,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
 
