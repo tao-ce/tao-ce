@@ -156,11 +156,11 @@ jobs:
         
       - name: Push manifest
         run: |
-          docker manifest create -a \
-            ${{ fromJSON(steps.meta.outputs.json).tags[0] }} \
+          for t in ${{ join(fromJSON(steps.meta.outputs.json).tags, ' ') }} ; do
+          docker buildx imagetools create -a \
+            -t $t \
             ${{ fromJSON(needs.build.outputs.meta-amd64).tags[0] }} \
             ${{ fromJSON(needs.build.outputs.meta-arm64).tags[0] }}
+          done 
 
-          docker manifest push \
-            ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
 
