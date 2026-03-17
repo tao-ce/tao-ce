@@ -121,7 +121,7 @@ jobs:
         src-packages=./packages
         src-apps=./apps
         hack=./hack
-        build-packages=${{ fromJSON(needs.build-packages.outputs.json).tags[0] }}
+        build-packages=docker://${{ fromJSON(needs.build-packages.outputs.json).tags[0] }}
         ${{ matrix.build-contexts }}
       build-args: |
         BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
@@ -149,19 +149,19 @@ jobs:
         COPY --link --from=content-service / /content-service
         COPY --link --from=scoring / /scoring
       build-contexts: |
-        construct=ghcr.io/${{ github.repository }}/apps/construct:${{ github.sha }}
-        datastore=ghcr.io/${{ github.repository }}/apps/datastore:${{ github.sha }}
-        deliver=ghcr.io/${{ github.repository }}/apps/deliver:${{ github.sha }}
-        devkit=ghcr.io/${{ github.repository }}/apps/devkit:${{ github.sha }}
-        environment-management=ghcr.io/${{ github.repository }}/apps/environment-management:${{ github.sha }}
-        dynamic-query=ghcr.io/${{ github.repository }}/apps/dynamic-query:${{ github.sha }}
-        hierarchy=ghcr.io/${{ github.repository }}/apps/hierarchy:${{ github.sha }}
-        task-orchestrator=ghcr.io/${{ github.repository }}/apps/task-orchestrator:${{ github.sha }}
-        portal=ghcr.io/${{ github.repository }}/apps/portal:${{ github.sha }}
-        timers=ghcr.io/${{ github.repository }}/apps/timers:${{ github.sha }}
-        proctoring=ghcr.io/${{ github.repository }}/apps/proctoring:${{ github.sha }}
-        content-service=ghcr.io/${{ github.repository }}/apps/content-service:${{ github.sha }}
-        scoring=ghcr.io/${{ github.repository }}/apps/scoring:${{ github.sha }}
+        construct=docker://ghcr.io/${{ github.repository }}/apps/construct:${{ github.sha }}
+        datastore=docker://ghcr.io/${{ github.repository }}/apps/datastore:${{ github.sha }}
+        deliver=docker://ghcr.io/${{ github.repository }}/apps/deliver:${{ github.sha }}
+        devkit=docker://ghcr.io/${{ github.repository }}/apps/devkit:${{ github.sha }}
+        environment-management=docker://ghcr.io/${{ github.repository }}/apps/environment-management:${{ github.sha }}
+        dynamic-query=docker://ghcr.io/${{ github.repository }}/apps/dynamic-query:${{ github.sha }}
+        hierarchy=docker://ghcr.io/${{ github.repository }}/apps/hierarchy:${{ github.sha }}
+        task-orchestrator=docker://ghcr.io/${{ github.repository }}/apps/task-orchestrator:${{ github.sha }}
+        portal=docker://ghcr.io/${{ github.repository }}/apps/portal:${{ github.sha }}
+        timers=docker://ghcr.io/${{ github.repository }}/apps/timers:${{ github.sha }}
+        proctoring=docker://ghcr.io/${{ github.repository }}/apps/proctoring:${{ github.sha }}
+        content-service=docker://ghcr.io/${{ github.repository }}/apps/content-service:${{ github.sha }}
+        scoring=docker://ghcr.io/${{ github.repository }}/apps/scoring:${{ github.sha }}
 
   build-release:
     uses: ./.github/workflows/build-image.yml
@@ -176,7 +176,7 @@ jobs:
     with:
       image: monolith
       build-contexts: |
-        tao-ce=${{ fromJSON(needs.build-payload.outputs.json).tags[0] }}
-        release=${{ fromJSON(needs.build-release.outputs.json).tags[0] }}
+        tao-ce=docker://${{ fromJSON(needs.build-payload.outputs.json).tags[0] }}
+        release=docker://${{ fromJSON(needs.build-release.outputs.json).tags[0] }}
 
 
