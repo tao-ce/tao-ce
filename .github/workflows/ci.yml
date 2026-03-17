@@ -61,6 +61,8 @@ jobs:
             src-lti-gateway=./apps/environment-management/src/lti-gateway
             src-sidecar=./apps/environment-management/src/server
             src-packages=./packages
+            src-apps=./apps
+            hack=./hack
     uses: ./.github/workflows/build-image.yml
     with:
       image: "${{ matrix.app }}"
