@@ -177,6 +177,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     with:
       image: monolith
+      target: monolith
       build-contexts: |
         tao-ce=docker-image://${{ fromJSON(needs.build-payload.outputs.json).tags[0] }}
         release=docker-image://${{ fromJSON(needs.build-release.outputs.json).tags[0] }}
