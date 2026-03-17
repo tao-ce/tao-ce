@@ -23,10 +23,8 @@ on:
         type: string
 
 env:
-  REGISTRY_URL: ghcr.io/${{ github.repository }}
-  NAMESPACE_URL: ${{ env.REGISTRY_URL }}/${{ inputs.namespace }}
   IMAGE_URL: |-
-    ${{ env.NAMESPACE_URL }}${{ case(endsWith(env.NAMESPACE_URL, '/'),'','/') }}${{ inputs.image}}
+    ghcr.io/${{ github.repository }}${{ inputs.namespace }}${{ case(endsWith(env.NAMESPACE_URL, '/'),'','/') }}${{ inputs.image}}
   
 
 jobs:

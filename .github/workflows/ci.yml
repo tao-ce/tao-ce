@@ -5,8 +5,7 @@ on: # rebuild any PRs and main branch changes
 
 jobs:
   build-base:
-    uses: ./build-image.yml
+    uses: ./.github/workflows/build-image.yml
     with:
       image: build-base
       target: build-base
-      
