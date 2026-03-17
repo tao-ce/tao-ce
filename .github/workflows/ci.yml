@@ -51,7 +51,6 @@ jobs:
         src-apps=./apps
       build-args: |
             BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
-            GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.json).tags[0] }}
 
   build-apps:
     needs: [build-base, build-go, build-packages]
