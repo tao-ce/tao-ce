@@ -1,8 +1,8 @@
 name: 'build-devcontainer'
 
-on: # rebuild any PRs and main branch changes
+on: {} # rebuild any PRs and main branch changes
   # pull_request:
-  push:
+  # push:
     # branches:
       # - main
 

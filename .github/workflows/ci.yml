@@ -1,0 +1,12 @@
+on: # rebuild any PRs and main branch changes
+  push:
+
+
+
+jobs:
+  build-base:
+    uses: ./build-image.yml
+    with:
+      image: build-base
+      target: build-base
+      
