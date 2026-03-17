@@ -24,38 +24,38 @@ jobs:
       namespace: "builds"
       target: "build-go"
 
-  build-packages:
-    needs: [build-base]
-    uses: ./.github/workflows/build-image.yml
-    with:
-      image: npm
-      namespace: packages
-      submodules: recursive
-      context: ./packages
-      build-contexts: |
-        src-packages=./packages
-        src-apps=./apps
-        hack=./hack
-      build-args: |
-            BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
+  # build-packages:
+  #   needs: [build-base]
+  #   uses: ./.github/workflows/build-image.yml
+  #   with:
+  #     image: npm
+  #     namespace: packages
+  #     submodules: recursive
+  #     context: ./packages
+  #     build-contexts: |
+  #       src-packages=./packages
+  #       src-apps=./apps
+  #       hack=./hack
+  #     build-args: |
+  #           BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
 
   build-apps:
-    needs: [build-base, build-go, build-packages]
+    needs: [build-base, build-go]
     strategy:
       fail-fast: true
       matrix:
         include:
         - app: construct
           context: ./apps/construct
-          build-contexts:
+          build-contexts: |
             src-code=./apps/construct/src
         - app: content-service
           context: ./apps/content-service
-          build-contexts:
+          build-contexts: |
             src-backend=./apps/content-service/src
         - app: deliver
           context: ./apps/deliver
-          build-contexts:
+          build-contexts: |
             src-backend=./apps/deliver/src/be
             src-frontend=./apps/deliver/src/fe
         - app: datastore
@@ -121,11 +121,13 @@ jobs:
         src-packages=./packages
         src-apps=./apps
         hack=./hack
-        build-packages=docker-image://${{ fromJSON(needs.build-packages.outputs.json).tags[0] }}
+        build-packages=docker-image://ghcr.io/tao-ce/tao-ce/packages/npm:sha-e0ad684
         ${{ matrix.build-contexts }}
       build-args: |
         BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
         GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.json).tags[0] }}
+  
+      # build-packages=docker-image://${{ fromJSON(needs.build-packages.outputs.json).tags[0] }}
 
   build-payload:
     needs: [build-apps]
