@@ -46,7 +46,7 @@ jobs:
       namespace: packages
       submodules: recursive
       context: ./packages
-      build-contexts:
+      build-contexts: |
         src-packages=./packages
         src-apps=./apps
       build-args: |
