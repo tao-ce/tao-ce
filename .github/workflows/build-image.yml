@@ -65,7 +65,9 @@ jobs:
       
       - id: out
         run: |
-          echo "meta_${{ matrix.arch }}=${{ steps.meta.outputs.json }}"
+          cat <<EOF >>"$GITHUB_OUTPUT"
+          meta_${{ matrix.arch }}=${{ steps.meta.outputs.json }}
+          EOF
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2 
@@ -96,9 +98,6 @@ jobs:
 
   manifest:
     needs: [build]
-    env:
-      MANIFEST_URL: ghcr.io/tao-ce/tao-ce/build-base:${{ github.sha }}
-
     runs-on: ubuntu-latest
 
     permissions:
@@ -108,27 +107,29 @@ jobs:
       id-token: write
 
     steps:
-      - run: |
-          cat <<EOF
-          ${{ needs.build.outputs.meta-amd64 }}
-          ${{ needs.build.outputs.meta-arm64 }}
-          EOF
-      # - name: Login to GitHub Container Registry
-      #   uses: docker/login-action@v2 
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.repository_owner }}
-      #     password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: |
+            ${{ env.IMAGE_URL }}
+          tags:
+            type=sha,format=short
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2 
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
         
-      # - name: Push manifest
-      #   run: |
-      #     docker manifest create -a \
-      #       ${{ env.MANIFEST_URL }} \
-      #       ${{ env.MANIFEST_URL }}-arm64 \
-      #       ${{ env.MANIFEST_URL }}-amd64
+      - name: Push manifest
+        run: |
+          docker manifest create -a \
+            ${{ fromJSON(steps.meta.outputs.json).tags[0] }} \
+            ${{ join(fromJSON(needs.build.outputs.meta-amd64).tags, " ") }} \
+            ${{ join(fromJSON(needs.build.outputs.meta-arm64).tags, " ") }}
 
-      #     docker manifest push \
-      #       ${{ env.MANIFEST_URL }}
-
-
-        
+          docker manifest push \
+            ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+            
