@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      tags: ${{ fromJSON(steps.meta.outputs.json).tags }}
+      json: ${{ steps.meta.outputs.json }}
 
     permissions:
       contents: read

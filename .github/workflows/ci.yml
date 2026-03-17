@@ -68,5 +68,5 @@ jobs:
       context: "${{ matrix.context }}"
       build-contexts: "${{ matrix.build-contexts }}"
       build-args: |
-            BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.tags)[0] }}
-            GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.tags)[0] }}
+            BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
+            GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.json).tags[0] }}
