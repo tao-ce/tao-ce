@@ -26,18 +26,35 @@ jobs:
     needs: [code]
     uses: ./.github/workflows/build-image.yml
     with:
-      image: "build-base"
+      image: "base"
+      namespace: "builds"
       target: "build-base"
 
   build-go:
     needs: [code]
     uses: ./.github/workflows/build-image.yml
     with:
-      image: "build-go"
+      image: "go"
+      namespace: "builds"
       target: "build-go"
 
+  build-packages:
+    needs: [build-base]
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image: npm
+      namespace: packages
+      submodules: recursive
+      context: ./packages
+      build-contexts:
+        src-packages=./packages
+        src-apps=./apps
+      build-args: |
+            BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
+            GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.json).tags[0] }}
+
   build-apps:
-    needs: [build-base, build-go]
+    needs: [build-base, build-go, build-packages]
     strategy:
       fail-fast: true
       matrix:
