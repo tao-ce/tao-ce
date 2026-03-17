@@ -10,20 +10,7 @@ permissions:
   id-token: write
 
 jobs:
-  code:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          submodules: ${{ inputs.submodules }}
-          path: code
-
-      - uses: actions/upload-artifact@v4
-        with:
-          path: code
-
   build-base:
-    needs: [code]
     uses: ./.github/workflows/build-image.yml
     with:
       image: "base"
@@ -31,7 +18,6 @@ jobs:
       target: "build-base"
 
   build-go:
-    needs: [code]
     uses: ./.github/workflows/build-image.yml
     with:
       image: "go"
@@ -59,34 +45,138 @@ jobs:
       fail-fast: true
       matrix:
         include:
-        - app: hierarchy
-          context: ./apps/hierarchy
+        - app: construct
+          context: ./apps/construct
+          build-contexts:
+            src-code=./apps/construct/src
+        - app: content-service
+          context: ./apps/content-service
+          build-contexts:
+            src-backend=./apps/content-service/src
+        - app: deliver
+          context: ./apps/deliver
+          build-contexts:
+            src-backend=./apps/deliver/src/be
+            src-frontend=./apps/deliver/src/fe
+        - app: datastore
+          context: ./apps/datastore
           build-contexts: |
-            src-backend=./apps/hierarchy/src
-        - app: timers
-          context: ./apps/timers
-          build-contexts: |
-            src-backend=./apps/timers/src
+            src-worker=./apps/datastore/src/node
         - app: devkit
           context: ./apps/devkit
           build-contexts: |
             src-backend=./apps/devkit/src
+        - app: dynamic-query
+          context: ./apps/dynamic-query
+          build-contexts: |
+            src-api=./apps/dynamic-query/src
+        - app: hierarchy
+          context: ./apps/hierarchy
+          build-contexts: |
+            src-backend=./apps/hierarchy/src
         - app: environment-management
           context: ./apps/environment-management
           build-contexts: |
             src-auth-server=./apps/environment-management/src/node-auth-server
             src-lti-gateway=./apps/environment-management/src/lti-gateway
             src-sidecar=./apps/environment-management/src/server
-            src-packages=./packages
-            src-apps=./apps
-            hack=./hack
+        - app: portal
+          context: ./apps/portal
+          build-contexts: |
+            src-backend=./apps/portal/src/backend
+            src-frontend=./apps/portal/src/frontend
+            src-init=./libexec/init/portal
+        - app: proctoring
+          context: ./apps/proctoring
+          build-contexts: |
+            src-forwarder=./apps/proctoring/src/apps/forwarder
+            src-frontend=./apps/proctoring/src/apps/frontend
+            src-frontend-auth-wait=./apps/proctoring/src/apps/frontend-auth-wait
+            src-lti13-gateway=./apps/proctoring/src/apps/lti13-gateway
+            src-realtime-service=./apps/proctoring/src/apps/realtime-service
+            src-go-shared=./apps/proctoring/src/apps/go-shared
+            src-protobuf=./apps/proctoring/src/apps/protobuf
+        - app: scoring
+          context: ./apps/scoring
+          build-contexts: |
+            src-ss=./apps/scoring/src/tao-scoring-service-be
+            src-ms=./apps/scoring/src/tao-manual-scoring-be
+            src-ms-fe=./apps/scoring/src/tao-manual-scoring-fe
+        - app: task-orchestrator
+          context: ./apps/task-orchestrator
+          build-contexts: |
+            src-backend=./apps/task-orchestrator/src
+        - app: timers
+          context: ./apps/timers
+          build-contexts: |
+            src-backend=./apps/timers/src
+        
     uses: ./.github/workflows/build-image.yml
     with:
       image: "${{ matrix.app }}"
       submodules: 'recursive'
       namespace: "apps"
       context: "${{ matrix.context }}"
-      build-contexts: "${{ matrix.build-contexts }}"
+      build-contexts: |
+        src-packages=./packages
+        src-apps=./apps
+        hack=./hack
+        build-packages=${{ fromJSON(needs.build-packages.outputs.json).tags[0] }}
+        ${{ matrix.build-contexts }}
       build-args: |
-            BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
-            GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.json).tags[0] }}
+        BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
+        GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.json).tags[0] }}
+
+  build-payload:
+    needs: [build-apps]
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image: payload
+      namespace: builds
+      inline-dockerfile: |
+        FROM scratch AS export
+        COPY --link --from=construct / /construct
+        COPY --link --from=datastore / /datastore
+        COPY --link --from=deliver / /deliver
+        COPY --link --from=environment-management / /environment-management
+        COPY --link --from=devkit / /devkit
+        COPY --link --from=dynamic-query / /dynamic-query
+        COPY --link --from=hierarchy / /hierarchy
+        COPY --link --from=task-orchestrator / /task-orchestrator
+        COPY --link --from=portal / /portal
+        COPY --link --from=timers / /timers
+        COPY --link --from=proctoring / /proctoring
+        COPY --link --from=content-service / /content-service
+        COPY --link --from=scoring / /scoring
+      build-contexts: |
+        construct=ghcr.io/${{ github.repository }}/apps/construct:${{ github.sha }}
+        datastore=ghcr.io/${{ github.repository }}/apps/datastore:${{ github.sha }}
+        deliver=ghcr.io/${{ github.repository }}/apps/deliver:${{ github.sha }}
+        devkit=ghcr.io/${{ github.repository }}/apps/devkit:${{ github.sha }}
+        environment-management=ghcr.io/${{ github.repository }}/apps/environment-management:${{ github.sha }}
+        dynamic-query=ghcr.io/${{ github.repository }}/apps/dynamic-query:${{ github.sha }}
+        hierarchy=ghcr.io/${{ github.repository }}/apps/hierarchy:${{ github.sha }}
+        task-orchestrator=ghcr.io/${{ github.repository }}/apps/task-orchestrator:${{ github.sha }}
+        portal=ghcr.io/${{ github.repository }}/apps/portal:${{ github.sha }}
+        timers=ghcr.io/${{ github.repository }}/apps/timers:${{ github.sha }}
+        proctoring=ghcr.io/${{ github.repository }}/apps/proctoring:${{ github.sha }}
+        content-service=ghcr.io/${{ github.repository }}/apps/content-service:${{ github.sha }}
+        scoring=ghcr.io/${{ github.repository }}/apps/scoring:${{ github.sha }}
+
+  build-release:
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image: builds/release
+      inline-dockerfile: |
+        FROM scratch AS export
+
+  build-monolith:
+    needs: [build-payload, build-release]
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image: monolith
+      build-contexts: |
+        tao-ce=${{ fromJSON(needs.build-payload.outputs.json).tags[0] }}
+        release=${{ fromJSON(needs.build-release.outputs.json).tags[0] }}
+
+

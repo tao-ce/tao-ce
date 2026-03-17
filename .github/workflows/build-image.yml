@@ -24,6 +24,10 @@ on:
       build-contexts:
         required: false
         type: string
+      inline-dockerfile:
+        required: false
+        type: string
+        default: ''
       submodules:
         required: false
         type: string
@@ -63,6 +67,12 @@ jobs:
         with:
           submodules: ${{ inputs.submodules }}
 
+      - if: ${{ inputs.inline-dockerfile != '' }}
+        run: |
+          cat >Dockerfile <<EODOCKERFILE
+          ${{ inputs.inline-dockerfile }}
+          EODOCKERFILE
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v6
@@ -70,6 +80,7 @@ jobs:
           images: |
             ${{ env.IMAGE_URL }}
           tags:
+            type=sha
             type=sha,format=short
           flavor: |
             latest=false
@@ -103,8 +114,10 @@ jobs:
           context: ${{ inputs.context }}
           build-contexts: ${{ inputs.build-contexts }}
           build-args: ${{ inputs.build-args }}
-          cache-from: type=gha,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
-          cache-to: type=gha,mode=max,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
+          cache-from: type=registry,ref=${{ env.IMAGE_URL }}:buildcache-${{ matrix.arch }}
+          cache-to: type=registry,mode=max,ref=${{ env.IMAGE_URL }}:buildcache-${{ matrix.arch }}
+          # cache-from: type=gha,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
+          # cache-to: type=gha,mode=max,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
           tags: ${{ steps.meta.outputs.tags }}
           annotations: ${{ steps.meta.outputs.annotations }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -131,6 +144,7 @@ jobs:
           images: |
             ${{ env.IMAGE_URL }}
           tags:
+            type=sha
             type=sha,format=short
 
       - name: Login to GitHub Container Registry
@@ -144,9 +158,9 @@ jobs:
         run: |
           docker manifest create -a \
             ${{ fromJSON(steps.meta.outputs.json).tags[0] }} \
-            ${{ join(fromJSON(needs.build.outputs.meta-amd64).tags, ' ') }} \
-            ${{ join(fromJSON(needs.build.outputs.meta-arm64).tags, ' ') }}
+            ${{ fromJSON(needs.build.outputs.meta-amd64).tags[0] }} \
+            ${{ fromJSON(needs.build.outputs.meta-arm64).tags[0] }}
 
           docker manifest push \
             ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
-            
+
