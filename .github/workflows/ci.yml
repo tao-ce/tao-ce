@@ -151,19 +151,19 @@ jobs:
         COPY --link --from=content-service / /content-service
         COPY --link --from=scoring / /scoring
       build-contexts: |
-        construct=docker-image://ghcr.io/${{ github.repository }}/apps/construct:${{ github.sha }}
-        datastore=docker-image://ghcr.io/${{ github.repository }}/apps/datastore:${{ github.sha }}
-        deliver=docker-image://ghcr.io/${{ github.repository }}/apps/deliver:${{ github.sha }}
-        devkit=docker-image://ghcr.io/${{ github.repository }}/apps/devkit:${{ github.sha }}
-        environment-management=docker-image://ghcr.io/${{ github.repository }}/apps/environment-management:${{ github.sha }}
-        dynamic-query=docker-image://ghcr.io/${{ github.repository }}/apps/dynamic-query:${{ github.sha }}
-        hierarchy=docker-image://ghcr.io/${{ github.repository }}/apps/hierarchy:${{ github.sha }}
-        task-orchestrator=docker-image://ghcr.io/${{ github.repository }}/apps/task-orchestrator:${{ github.sha }}
-        portal=docker-image://ghcr.io/${{ github.repository }}/apps/portal:${{ github.sha }}
-        timers=docker-image://ghcr.io/${{ github.repository }}/apps/timers:${{ github.sha }}
-        proctoring=docker-image://ghcr.io/${{ github.repository }}/apps/proctoring:${{ github.sha }}
-        content-service=docker-image://ghcr.io/${{ github.repository }}/apps/content-service:${{ github.sha }}
-        scoring=docker-image://ghcr.io/${{ github.repository }}/apps/scoring:${{ github.sha }}
+        construct=docker-image://ghcr.io/${{ github.repository }}/apps/construct:sha-${{ github.sha }}
+        datastore=docker-image://ghcr.io/${{ github.repository }}/apps/datastore:sha-${{ github.sha }}
+        deliver=docker-image://ghcr.io/${{ github.repository }}/apps/deliver:sha-${{ github.sha }}
+        devkit=docker-image://ghcr.io/${{ github.repository }}/apps/devkit:sha-${{ github.sha }}
+        environment-management=docker-image://ghcr.io/${{ github.repository }}/apps/environment-management:sha-${{ github.sha }}
+        dynamic-query=docker-image://ghcr.io/${{ github.repository }}/apps/dynamic-query:sha-${{ github.sha }}
+        hierarchy=docker-image://ghcr.io/${{ github.repository }}/apps/hierarchy:sha-${{ github.sha }}
+        task-orchestrator=docker-image://ghcr.io/${{ github.repository }}/apps/task-orchestrator:sha-${{ github.sha }}
+        portal=docker-image://ghcr.io/${{ github.repository }}/apps/portal:sha-${{ github.sha }}
+        timers=docker-image://ghcr.io/${{ github.repository }}/apps/timers:sha-${{ github.sha }}
+        proctoring=docker-image://ghcr.io/${{ github.repository }}/apps/proctoring:sha-${{ github.sha }}
+        content-service=docker-image://ghcr.io/${{ github.repository }}/apps/content-service:sha-${{ github.sha }}
+        scoring=docker-image://ghcr.io/${{ github.repository }}/apps/scoring:sha-${{ github.sha }}
 
   build-release:
     uses: ./.github/workflows/build-image.yml

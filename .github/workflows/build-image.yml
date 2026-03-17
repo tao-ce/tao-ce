@@ -80,7 +80,7 @@ jobs:
           images: |
             ${{ env.IMAGE_URL }}
           tags: |
-            type=sha
+            type=sha,format=long
             type=sha,format=short
           flavor: |
             latest=false
