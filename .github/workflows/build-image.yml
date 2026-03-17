@@ -28,10 +28,13 @@ on:
         required: false
         type: string
         default: 'false'
+    outputs:
+      tags:
+        value: ${{ jobs.manifest.outputs.tags }}
 
 env:
   IMAGE_URL: |-
-    ghcr.io/${{ github.repository }}${{ inputs.namespace }}${{ case(endsWith(inputs.namespace, '/'),'','/') }}${{ inputs.image}}
+    ghcr.io/${{ github.repository }}${{ case( inputs.namespace == '','','/') }}${{ inputs.namespace }}${{ case(endsWith(inputs.namespace, '/'),'','/') }}${{ inputs.image}}
   
 
 jobs:
@@ -110,6 +113,9 @@ jobs:
   manifest:
     needs: [build]
     runs-on: ubuntu-latest
+
+    outputs:
+      tags: ${{ fromJSON(steps.meta.outputs.json).tags }}
 
     permissions:
       contents: read

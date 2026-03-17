@@ -10,18 +10,34 @@ permissions:
   id-token: write
 
 jobs:
-  build-env:
-    strategy:
-      fail-fast: true
-      matrix:
-        image: [build-base, build-go]
+  code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: ${{ inputs.submodules }}
+          path: code
+
+      - uses: actions/upload-artifact@v4
+        with:
+          path: code
+
+  build-base:
+    needs: [code]
     uses: ./.github/workflows/build-image.yml
     with:
-      image: "${{ matrix.image }}"
-      target: "${{ matrix.image }}"
+      image: "build-base"
+      target: "build-base"
+
+  build-go:
+    needs: [code]
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image: "build-go"
+      target: "build-go"
 
   build-apps:
-    needs: [build-env]
+    needs: [build-base, build-go]
     strategy:
       fail-fast: true
       matrix:
@@ -30,8 +46,20 @@ jobs:
           context: ./apps/hierarchy
           build-contexts: |
             src-backend=./apps/hierarchy/src
-          build-args: |
-            BUILD_IMAGE=ghcr.io/tao-ce/tao-ce/build-base:sha-9dcb8b7
+        - app: timers
+          context: ./apps/timers
+          build-contexts: |
+            src-backend=./apps/timers/src
+        - app: devkit
+          context: ./apps/devkit
+          build-contexts: |
+            src-backend=./apps/devkit/src
+        - app: environment-management
+          context: ./apps/environment-management
+          build-contexts: |
+            src-auth-server=./apps/environment-management/src/node-auth-server
+            src-lti-gateway=./apps/environment-management/src/lti-gateway
+            src-sidecar=./apps/environment-management/src/server
     uses: ./.github/workflows/build-image.yml
     with:
       image: "${{ matrix.app }}"
@@ -39,4 +67,6 @@ jobs:
       namespace: "apps"
       context: "${{ matrix.context }}"
       build-contexts: "${{ matrix.build-contexts }}"
-      build-args: "${{ matrix.build-args }}"
+      build-args: |
+            BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.tags)[0] }}
+            GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.tags)[0] }}
