@@ -108,8 +108,8 @@ jobs:
     steps:
       - run: |
           cat <<EOF
-          ${{ jobs.build.outputs.meta-amd64 }}
-          ${{ jobs.build.outputs.meta-arm64 }}
+          ${{ needs.build.outputs.meta-amd64 }}
+          ${{ needs.build.outputs.meta-arm64 }}
           EOF
       # - name: Login to GitHub Container Registry
       #   uses: docker/login-action@v2 
