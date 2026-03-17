@@ -49,6 +49,7 @@ jobs:
       build-contexts: |
         src-packages=./packages
         src-apps=./apps
+        hack=./hack
       build-args: |
             BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
 
