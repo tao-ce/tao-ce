@@ -127,8 +127,8 @@ jobs:
         run: |
           docker manifest create -a \
             ${{ fromJSON(steps.meta.outputs.json).tags[0] }} \
-            ${{ join(fromJSON(needs.build.outputs.meta-amd64).tags, " ") }} \
-            ${{ join(fromJSON(needs.build.outputs.meta-arm64).tags, " ") }}
+            ${{ join(fromJSON(needs.build.outputs.meta-amd64).tags, ' ') }} \
+            ${{ join(fromJSON(needs.build.outputs.meta-arm64).tags, ' ') }}
 
           docker manifest push \
             ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
