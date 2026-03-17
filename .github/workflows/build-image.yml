@@ -18,6 +18,9 @@ on:
         required: false
         type: string
         default: .
+      build-args:
+        required: false
+        type: string
       build-contexts:
         required: false
         type: string
@@ -96,6 +99,7 @@ jobs:
           provenance: false
           context: ${{ inputs.context }}
           build-contexts: ${{ inputs.build-contexts }}
+          build-args: ${{ inputs.build-args }}
           cache-from: type=gha,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
           cache-to: type=gha,mode=max,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
           tags: ${{ steps.meta.outputs.tags }}

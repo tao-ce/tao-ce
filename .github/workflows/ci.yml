@@ -1,16 +1,7 @@
 on: # rebuild any PRs and main branch changes
   push:
 
-env:
-  APPS: |
-    {
-      "hierarchy": {
-        "context": "./apps/hierarchy",
-        "build-contexts": {
-          "src-backend": "./src"
-        }
-      } 
-    }
+
 
 permissions:
   contents: read
@@ -34,11 +25,18 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        app: [hierarchy]
+        include:
+        - app: hierarchy
+          context: ./apps/hierarchy
+          build-contexts: |
+            src-backend=./src
+          build-args: |
+            BUILD_IMAGE=ghcr.io/tao-ce/tao-ce/build-base:sha-9dcb8b7
     uses: ./.github/workflows/build-image.yml
     with:
       image: "${{ matrix.app }}"
       submodules: 'recursive'
       namespace: "apps"
-      context: "${{ fromJSON(env.APPS)[matrix.app].context }}"
-      build-contexts: "${{ fromJSON(env.APPS)[matrix.app].build-contexts }}"
+      context: "${{ matrix.context }}"
+      build-contexts: "${{ matrix.build-contexts }}"
+      build-args: "${{ matrix.build-args }}"
