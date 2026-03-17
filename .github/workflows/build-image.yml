@@ -24,7 +24,7 @@ on:
 
 env:
   IMAGE_URL: |-
-    ghcr.io/${{ github.repository }}${{ inputs.namespace }}${{ case(endsWith(env.NAMESPACE_URL, '/'),'','/') }}${{ inputs.image}}
+    ghcr.io/${{ github.repository }}${{ inputs.namespace }}${{ case(endsWith(inputs.namespace, '/'),'','/') }}${{ inputs.image}}
   
 
 jobs:
