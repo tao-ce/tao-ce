@@ -29,7 +29,7 @@ jobs:
         - app: hierarchy
           context: ./apps/hierarchy
           build-contexts: |
-            src-backend=./src
+            src-backend=./apps/hierarchy/src
           build-args: |
             BUILD_IMAGE=ghcr.io/tao-ce/tao-ce/build-base:sha-9dcb8b7
     uses: ./.github/workflows/build-image.yml
