@@ -2,6 +2,11 @@ on: # rebuild any PRs and main branch changes
   push:
 
 
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
 
 jobs:
   build-base:
