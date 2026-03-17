@@ -60,6 +60,7 @@ jobs:
             src-auth-server=./apps/environment-management/src/node-auth-server
             src-lti-gateway=./apps/environment-management/src/lti-gateway
             src-sidecar=./apps/environment-management/src/server
+            src-packages=./packages
     uses: ./.github/workflows/build-image.yml
     with:
       image: "${{ matrix.app }}"
