@@ -24,7 +24,7 @@ function(setup)
         },
         'devkit--backoffice'+: {
           platform_jwks_url: '%s/lti1p3/.well-known/jwks/primaryKeySet.json' % setup.apps.devkit.backend.http.url,
-          tool_jwks_url: '%s/taoLti/Security/jwks' % setup.apps.construct.backend.http.url,
+          tool_jwks_url: 'https://%s/backoffice/taoLti/Security/jwks' % setup.publicDomain,
         },
         'devkit--deliver'+: {
           platform_jwks_url: '%s/lti1p3/.well-known/jwks/primaryKeySet.json' % setup.apps.devkit.backend.http.url,
