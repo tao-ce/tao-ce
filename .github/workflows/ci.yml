@@ -171,6 +171,7 @@ jobs:
     with:
       image: builds/release
       inline-dockerfile: |
+        ARG BUILD_IMAGE
         FROM $BUILD_IMAGE AS build-release
         ARG TARGETARCH
         RUN <<"EOF"
