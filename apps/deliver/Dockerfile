@@ -2,7 +2,6 @@
 
 ARG BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
-ARG BUILD_NPX="/usr/local/libexec/nvm/nvm-exec npx"
 ### backend ####################################################################
 FROM $BUILD_IMAGE AS build-backend
 ARG BUILD_IMAGE
