@@ -52,7 +52,6 @@ includes:
         map:
           src-backend: './src/be'
           src-frontend: './src/fe'
-          src-sandbox: './src/sandbox'
           src-packages: '../../packages'
           src-apps: '../../apps'
           build-packages: 'container-image://{{.REGISTRY}}/packages/npm:{{.TAG}}'

@@ -22,9 +22,6 @@
 [submodule "apps/dynamic-query/src"]
 	path = apps/dynamic-query/src
 	url = git@github.com:tao-ce/tao-dynamic-query-api.git
-[submodule "apps/deliver/src/sandbox"]
-	path = apps/deliver/src/sandbox
-	url = git@github.com:tao-ce/test-runner-sandbox.git
 [submodule "apps/construct/src/libs/oat-sa/extension-tao-deliver-connect"]
 	path = apps/construct/src/libs/oat-sa/extension-tao-deliver-connect
 	url = git@github.com:tao-ce/extension-tao-deliver-connect.git

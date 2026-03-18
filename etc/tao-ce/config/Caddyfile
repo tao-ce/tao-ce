@@ -121,17 +121,11 @@
 	}
 
 	# handle_path will strip prefix
-	handle_path /sandbox/* {
-		reverse_proxy {$TAO_CE_SVC_DELIVER_SANDBOX_HTTP_ENDPOINT}
-	}
 	handle_path /portal/* {
 		reverse_proxy {$TAO_CE_SVC_PORTAL_BOOTSTRAP_HTTP_ENDPOINT}
 	}
 	handle_path /devkit/* {
 		reverse_proxy {$TAO_CE_SVC_DEVKIT_BACKEND_HTTP_ENDPOINT}
-	}
-	handle_path /sandbox/* {
-		reverse_proxy {$TAO_CE_SVC_SANDBOX_BACKEND_HTTP_ENDPOINT}
 	}
 	handle_path /devkit-fe/* {
 		reverse_proxy {$TAO_CE_SVC_DEVKIT_BOOTSTRAP_HTTP_ENDPOINT}

@@ -107,11 +107,6 @@ function(setup)
         NODE_VERSION: '22',
         PORT: setup.apps.deliver.bootstrap.http.port,
       },
-
-      sandbox: {
-        NODE_VERSION: '22',
-        PORT: setup.apps.deliver.sandbox.http.port,
-      },
     },
     files: {},
 
