@@ -69,7 +69,7 @@ jobs:
 
       - if: ${{ inputs.inline-dockerfile != '' }}
         run: |
-          cat >Dockerfile <<EODOCKERFILE
+          cat >Dockerfile <<"EODOCKERFILE"
           ${{ inputs.inline-dockerfile }}
           EODOCKERFILE
 
