@@ -167,10 +167,29 @@ jobs:
 
   build-release:
     uses: ./.github/workflows/build-image.yml
+    needs: [build-base]
     with:
       image: builds/release
       inline-dockerfile: |
+        FROM ${BUILD_IMAGE} AS build-release
+        ARG TARGETARCH
+        RUN <<EOF
+        mkdir -p /tmp/release
+        echo ${TARGETARCH} >/tmp/release/arch
+        date --utc -Is >/tmp/release/buildtime
+        git rev-parse HEAD >/tmp/release/gitref
+        git rev-parse --short HEAD >/tmp/release/gitrefshort
+        git remote get-url origin >/tmp/release/gitorigin
+        cat >/tmp/release/environment <<EOR
+        RELEASE_VERSION=edge-${TARGETARCH}-${{ github.sha }}
+        EOR
+        EOF
+
         FROM scratch AS export
+        COPY --from=build-release .cache/build/swift/release/ /
+      context: .
+      build-args: |
+        BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
 
   build-monolith:
     needs: [build-payload, build-release]
