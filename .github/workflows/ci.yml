@@ -171,16 +171,14 @@ jobs:
     with:
       image: builds/release
       inline-dockerfile: |
-        ARG BUILD_IMAGE
-        FROM $BUILD_IMAGE AS build-release
+        FROM alpine:latest AS build-release
         ARG TARGETARCH
         RUN <<"EOF"
         mkdir -p /tmp/release
         echo $TARGETARCH >/tmp/release/arch
         date --utc -Is >/tmp/release/buildtime
-        git rev-parse HEAD >/tmp/release/gitref
-        git rev-parse --short HEAD >/tmp/release/gitrefshort
-        git remote get-url origin >/tmp/release/gitorigin
+        echo ${{ github.sha }} >/tmp/release/gitref
+        echo ${{ github.sha }} | cut -c1-7 >/tmp/release/gitrefshort
         cat >/tmp/release/environment <<EOR
         RELEASE_VERSION=edge-$TARGETARCH-${{ github.sha }}
         EOR
@@ -189,8 +187,6 @@ jobs:
         FROM scratch AS export
         COPY --from=build-release /tmp/release/ /
       context: .
-      build-args: |
-        BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
 
   build-monolith:
     needs: [build-payload, build-release]
