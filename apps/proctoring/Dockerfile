@@ -19,14 +19,6 @@ RUN \
         --mount=type=bind,from=src-apps,target=local-packages/apps \
         --mount=type=bind,from=hack,target=/opt/hack \
         /opt/hack/utils/composer-patch/patch.sh \
-            # && cat composer.json \
-            # && composer update \
-            #     -vn \
-            #     --root-reqs \
-            #     --prefer-install=source \
-            #     --no-install \
-            #     --no-scripts \
-            #     --no-dev \
             && APP_ENV=dev composer install -van --no-dev --prefer-dist \
             && composer dump-env dev \
             && echo '<?php return [];' >.env.local.php
