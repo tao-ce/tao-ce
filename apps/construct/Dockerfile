@@ -3,29 +3,24 @@
 ARG BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
 ARG MATHJAX_VERSION="2.6.1"
+ARG COMPOSER_REGISTRY="https://tao-ce.github.io/registry-composer/main"
 
 ### code #######################################################################
 FROM $BUILD_IMAGE AS code
 ARG BUILD_IMAGE
 ARG MATHJAX_VERSION
+ARG COMPOSER_REGISTRY
 
 WORKDIR /app
 COPY --from=src-code ./composer.json /app/
 
 RUN \
     --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-    --mount=type=bind,from=src-packages,target=local-packages/packages \
-    --mount=type=bind,from=src-apps,target=local-packages/apps \
-    --mount=type=bind,from=build-packages,src=local-packages/packages/tao-test-preview-ui-loader,target=local-packages/packages/extension-tao-test-preview-ui-loader/views \
-    --mount=type=bind,from=build-packages,src=local-packages,target=/local-packages \
-    --mount=type=bind,from=build-packages,src=packs,target=/packs \
-    --mount=type=bind,from=hack,target=/opt/hack \
     <<EORUN
         set -eux
         . /usr/local/libexec/nvm/nvm.sh
-        /opt/hack/utils/composer-patch/patch.sh
+        composer repository -g add tao-ce composer ${COMPOSER_REGISTRY}
         composer install -vn \
-            --no-interaction \
             --no-dev \
             --no-ansi --no-progress \
             --ignore-platform-reqs

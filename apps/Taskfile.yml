@@ -19,7 +19,6 @@ includes:
           src-packages: '../../packages'
           src-apps: '../../apps'
           src-code: './src'
-          build-packages: 'container-image://{{.REGISTRY}}/packages/npm:{{.TAG}}'
 
       BASES:
         - builds/base
@@ -51,10 +50,6 @@ includes:
       CONTEXTS:
         map:
           src-backend: './src/be'
-          src-frontend: './src/fe'
-          src-packages: '../../packages'
-          src-apps: '../../apps'
-          build-packages: 'container-image://{{.REGISTRY}}/packages/npm:{{.TAG}}'
       BASES:
         - builds/base
       ARGS:

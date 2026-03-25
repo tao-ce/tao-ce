@@ -2,6 +2,7 @@
 
 ARG BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+ARG COMPOSER_REGISTRY="https://tao-ce.github.io/registry-composer/main"
 
 ### fe #########################################################################
 FROM $BUILD_IMAGE AS build-ms-fe
@@ -9,38 +10,13 @@ ARG BUILD_IMAGE
 ARG BUILD_NPM
 
 ENV NODE_VERSION="22"
-ENV NODE_ENV=dev
-
-WORKDIR /local-packages/packages/live-design-system
-
-COPY --from=src-packages live-design-system .
-
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} ci
 
 WORKDIR /app
 COPY  --from=src-ms-fe . .
 
 RUN \
-    --mount=type=bind,from=hack,target=/opt/hack \
-    <<EORUN
-    set -eux
-    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/scoring-fe.json
-EORUN
-
-RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} update \
-        '@oat-sa-private/ui-core' \
-        '@oat-sa-private/ui-identity' \
-        '@oat-sa-private/ui-components' \
-        '@oat-sa-private/ui-elements'
-
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} install --install-links
-
+    ${BUILD_NPM} ci
 
 ### ms-fe-bootstrap #####################################################################
 FROM build-ms-fe AS ms-fe-bootstrap
@@ -64,16 +40,14 @@ RUN \
 FROM $BUILD_IMAGE AS ms-be
 ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/scoring/ms-be"
+ARG COMPOSER_REGISTRY
 
 WORKDIR /app
 COPY --exclude="**/composer.lock" --from=src-ms . .
 
 RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        --mount=type=bind,from=src-packages,target=local-packages/packages \
-        --mount=type=bind,from=src-apps,target=local-packages/apps \
-        --mount=type=bind,from=hack,target=/opt/hack \
-        /opt/hack/utils/composer-patch/patch.sh \
+            composer repository -g add tao-ce composer ${COMPOSER_REGISTRY} \
             && composer install -van --no-dev --no-scripts
 
 
@@ -99,16 +73,14 @@ RUN \
 FROM $BUILD_IMAGE AS ss-be
 ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/scoring/ss"
+ARG COMPOSER_REGISTRY
 
 WORKDIR /app
 COPY --exclude="**/composer.lock" --from=src-ss . .
 
 RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        --mount=type=bind,from=src-packages,target=local-packages/packages \
-        --mount=type=bind,from=src-apps,target=local-packages/apps \
-        --mount=type=bind,from=hack,target=/opt/hack \
-        /opt/hack/utils/composer-patch/patch.sh \
+            composer repository -g add tao-ce composer ${COMPOSER_REGISTRY} \
             && composer install -van --no-dev --no-scripts
 
 RUN \

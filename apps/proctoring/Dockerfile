@@ -3,22 +3,21 @@
 ARG BUILD_IMAGE
 ARG GO_BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+ARG COMPOSER_REGISTRY="https://tao-ce.github.io/registry-composer/main"
 
 ### lti1p3-gateway ####################################################################
 FROM $BUILD_IMAGE AS build-lti1p3-gateway
 ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/proctoring/lti1p3-gateway"
+ARG COMPOSER_REGISTRY
 
 WORKDIR /app
-# COPY --from=src-lti13-gateway . .
+
 COPY --exclude="**/composer.lock" --from=src-lti13-gateway . .
 
 RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        --mount=type=bind,from=src-packages,target=local-packages/packages \
-        --mount=type=bind,from=src-apps,target=local-packages/apps \
-        --mount=type=bind,from=hack,target=/opt/hack \
-        /opt/hack/utils/composer-patch/patch.sh \
+        composer repository -g add tao-ce composer ${COMPOSER_REGISTRY} \
             && APP_ENV=dev composer install -van --no-dev --prefer-dist \
             && composer dump-env dev \
             && echo '<?php return [];' >.env.local.php
@@ -34,47 +33,20 @@ RUN \
         ${STATE_ROOT}/data \
         var
 
-### fe-base ####################################################################
-FROM $BUILD_IMAGE AS build-fe-base
+### fe-wait ####################################################################
+FROM $BUILD_IMAGE AS build-fe-wait
 ARG BUILD_IMAGE
 ARG BUILD_NPM
 
 ENV NODE_VERSION="22"
-
-WORKDIR /local-packages/packages/live-design-system
-
-COPY --from=src-packages live-design-system .
-
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} ci
-
-WORKDIR /app
-
-### fe-wait ####################################################################
-FROM build-fe-base AS build-fe-wait
 ARG BUILD_NPM
 
+WORKDIR /app
 COPY --from=src-frontend-auth-wait . .
 
 RUN \
-    --mount=type=bind,from=hack,target=/opt/hack \
-    <<EORUN
-    set -eux
-    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/proctoring-fe.json
-EORUN
-
-RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} update \
-        '@oat-sa-private/ui-core' \
-        '@oat-sa-private/ui-identity' \
-        '@oat-sa-private/ui-components' \
-        '@oat-sa-private/ui-elements'
-
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} install --install-links
+        ${BUILD_NPM} ci
 
 ### frontend-auth-wait-bootstrap #####################################################################
 FROM build-fe-wait AS build-frontend-auth-wait-bootstrap
@@ -93,28 +65,20 @@ RUN \
         ${BUILD_NPM} run build:static
 
 ### fe #########################################################################
-FROM build-fe-base AS build-fe
+FROM $BUILD_IMAGE AS build-fe
+ARG BUILD_IMAGE
+ARG BUILD_NPM
+
+ENV NODE_VERSION="22"
+ARG BUILD_NPM
+
+WORKDIR /app
 
 COPY --from=src-frontend . .
 
 RUN \
-    --mount=type=bind,from=hack,target=/opt/hack \
-    <<EORUN
-    set -eux
-    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/proctoring-fe.json
-EORUN
-
-RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} update \
-        '@oat-sa-private/ui-core' \
-        '@oat-sa-private/ui-identity' \
-        '@oat-sa-private/ui-components' \
-        '@oat-sa-private/ui-elements'
-
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} install --install-links
+        ${BUILD_NPM} ci
 
 ### frontend-bootstrap #####################################################################
 FROM build-fe AS build-frontend-bootstrap

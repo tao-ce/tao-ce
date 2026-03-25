@@ -27,36 +27,13 @@ ARG BUILD_NPM
 
 ENV NODE_VERSION="22"
 
-WORKDIR /local-packages/packages/live-design-system
-
-COPY --from=src-packages live-design-system .
-
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} ci
-
 WORKDIR /app
 
 COPY --from=src-frontend . .
 
 RUN \
-    --mount=type=bind,from=hack,target=/opt/hack \
-    <<EORUN
-    set -eux
-    /opt/hack/utils/npm-patch/patch.sh ./package.json /opt/hack/utils/npm-patch/portal-fe.json
-EORUN
-
-RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} update \
-        '@oat-sa-private/ui-core' \
-        '@oat-sa-private/ui-identity' \
-        '@oat-sa-private/ui-components' \
-        '@oat-sa-private/ui-elements'
-
-RUN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} install --install-links
+        ${BUILD_NPM} ci
 
 ### bootstrap ##################################################################
 FROM build-fe AS build-bootstrap
