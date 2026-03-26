@@ -169,7 +169,7 @@ includes:
           src-realtime-service: './src/apps/realtime-service'
           src-go-shared: './src/apps/go-shared'
           src-protobuf: './src/apps/protobuf'
-          src-proctoring: './src'
+          src-apps: './src/apps'
       BASES:
         - builds/base
         - builds/go

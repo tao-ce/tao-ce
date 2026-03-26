@@ -156,7 +156,7 @@ WORKDIR /build
 COPY --from=src-forwarder . /build/forwarder
 COPY --from=src-go-shared . go-shared/
 COPY --from=src-protobuf . protobuf/
-COPY --from=src-proctoring apps/go.* . 
+COPY --from=src-apps go.* . 
 WORKDIR /build/forwarder
 
 

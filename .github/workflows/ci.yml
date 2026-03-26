@@ -10,12 +10,22 @@ permissions:
   id-token: write
 
 jobs:
+  base:
+    uses: ./.github/workflows/build-image.yml
+    with:
+      image: "fedora"
+      namespace: "base"
+      target: "base-fedora"
+
   build-base:
     uses: ./.github/workflows/build-image.yml
+    needs: [base]
     with:
       image: "base"
       namespace: "builds"
       target: "build-base"
+      build-contexts: |
+        base-fedora=docker-image://${{ fromJSON(needs.base.outputs.json).tags[0] }}
 
   build-go:
     uses: ./.github/workflows/build-image.yml
@@ -175,6 +185,7 @@ jobs:
       image: monolith
       target: monolith
       build-contexts: |
+        base-fedora=docker-image://${{ fromJSON(needs.base.outputs.json).tags[0] }}
         tao-ce=docker-image://${{ fromJSON(needs.build-payload.outputs.json).tags[0] }}
         release=docker-image://${{ fromJSON(needs.build-release.outputs.json).tags[0] }}
 
