@@ -1,7 +1,12 @@
 on: # rebuild any PRs and main branch changes
   push:
-
-
+    tags:
+      - '*'
+    branches:
+      - main
+      - develop
+      - release-*
+      - build/**
 
 permissions:
   contents: read
@@ -91,7 +96,7 @@ jobs:
             src-realtime-service=./apps/proctoring/src/apps/realtime-service
             src-go-shared=./apps/proctoring/src/apps/go-shared
             src-protobuf=./apps/proctoring/src/apps/protobuf
-            src-proctoring=./apps/proctoring/src
+            src-apps=./apps/proctoring/src
         - app: scoring
           context: ./apps/scoring
           build-contexts: |
