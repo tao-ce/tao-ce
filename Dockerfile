@@ -122,14 +122,15 @@ RUN apk add --no-cache gcc musl-dev
 ################################################################################
 FROM base-fedora AS running
 
-LABEL org.opencontainers.image.name "TAO Community Edition"
-LABEL name "TAO Community Edition"
-LABEL org.opencontainers.image.vendor "Open Assessment Technologies S.A."
-LABEL vendor "Open Assessment Technologies S.A."
-LABEL org.opencontainers.image.license "TBD"
-LABEL license "TBD"
-LABEL org.opencontainers.image.url "https://github.com/tao-ce/tao-ce"
-LABEL org.opencontainers.image.authors "opensource-support@taotesting.com"
+LABEL org.opencontainers.image.name="TAO Community Edition"
+LABEL name="TAO Community Edition"
+LABEL org.opencontainers.image.vendor="Open Assessment Technologies S.A."
+LABEL vendor="Open Assessment Technologies S.A."
+LABEL org.opencontainers.image.licenses="AGPL-3.0"
+LABEL licenses="AGPL-3.0"
+LABEL maintainer="opensource-support@taotesting.com"
+LABEL org.opencontainers.image.url="https://github.com/tao-ce/tao-ce"
+LABEL org.opencontainers.image.authors="opensource-support@taotesting.com"
 
 ARG TARGETPLATFORM
 ARG TARGETOS

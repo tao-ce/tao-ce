@@ -166,11 +166,7 @@ function(setup)
                     },
                   },
                   readAloud: {
-                    providerConfig: {
-                      license: '4aodh0myv6rypg4cd0na',
-                      url: 'https://speech.leseweb.dk/script',
-                    },
-                    providerId: 'readweb',
+                    providerId: 'native',
                   },
                   scratchpad: {
                     enableStateActions: true,
@@ -1800,7 +1796,7 @@ function(setup)
             ],
             id: 'backoffice--deliver',
             platformId: 'backoffice-platform',
-            platformJwksUrl: '%s/taoLti/Security/jwks' % setup.apps.construct.backend.http.url,
+            platformJwksUrl: 'https://%s/backoffice/taoLti/Security/jwks' % setup.publicDomain,
             platformKeyChain: {},
             toolId: 'nextgen-tao-deliver-be-tool',
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,

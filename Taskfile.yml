@@ -17,9 +17,7 @@ vars:
   PAYLOAD_IMAGE: "{{.REGISTRY}}/payload/{{ .SWIFT_IMAGE}}"
 
   BUILD_COMMON_FLAGS:
-    - "--build-context hack={{.ROOT_DIR}}/hack"
-    - "--build-context src-packages={{.ROOT_DIR}}/packages"
-    - "--build-context src-apps={{.ROOT_DIR}}/apps"
+    - "--secret=id=github_token,src={{.ROOT_DIR}}/.secrets/github_token"
   TAG: dev-latest
 
   PAYLOAD_CONTAINERFILE: "{{ .CACHE_DIR }}/artifacts/tao-ce.payload.Containerfile"
@@ -47,9 +45,6 @@ includes:
   builds:
     taskfile: ./build/Taskfile.builds.yml
   
-  packages:
-    taskfile: ./packages/Taskfile.yml
-
   apps:
     taskfile: ./apps/Taskfile.yml
 
@@ -191,7 +186,6 @@ tasks:
     - task: dev:init
     - task: builds:base:build
     - task: builds:go:build
-    - task: packages:npm:build
     cmds:
     - task: _log
       vars:

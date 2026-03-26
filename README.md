@@ -4,8 +4,10 @@
 <img src="https://www.taotesting.com/wp-content/uploads/2013/03/TAO_cmyk_NewRED-e1563201301764.png" alt="TAO logo" title="TAO" align="right" height="60" />
 </a>
 
+[![.github/workflows/ci.yml](https://github.com/tao-ce/tao-ce/actions/workflows/ci.yml/badge.svg)](https://github.com/tao-ce/tao-ce/actions/workflows/ci.yml)
 
 <details open="open">
+
 <summary>Table of Contents</summary>
 
 * [About](#about)

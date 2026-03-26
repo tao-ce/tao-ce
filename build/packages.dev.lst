@@ -4,6 +4,7 @@ podman
 buildah
 fuse-overlayfs
 patch
+rsync
 zsh
 ps
 opentofu

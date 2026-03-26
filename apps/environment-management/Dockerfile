@@ -3,6 +3,7 @@
 ARG BUILD_IMAGE
 ARG GO_BUILD_IMAGE
 ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+ARG COMPOSER_REGISTRY="https://tao-ce.github.io/registry-composer/main"
 
 ### auth-server ################################################################
 FROM $BUILD_IMAGE AS build-auth-server-ci
@@ -49,6 +50,7 @@ RUN find /app -type d | grep '[/][.]git$' | xargs rm -rf \
 FROM $BUILD_IMAGE AS build-lti-gateway
 ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/environment-management/lti-gateway"
+ARG COMPOSER_REGISTRY
 
 WORKDIR /app
 
@@ -56,10 +58,8 @@ COPY --from=src-lti-gateway --exclude="**/composer.lock" . /app
 
 RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
-        --mount=type=bind,from=src-packages,target=local-packages/packages \
-        --mount=type=bind,from=src-apps,target=local-packages/apps \
-        --mount=type=bind,from=hack,target=/opt/hack \
-        /opt/hack/utils/composer-patch/patch.sh \
+        --mount=type=bind,src=src/libs,target=/libs \
+            composer repository -g add tao-ce composer ${COMPOSER_REGISTRY} \
             && composer install -vno --no-dev
 
 RUN set -eux; \
@@ -112,8 +112,7 @@ COPY --link --from=build-auth-server \
     /app/node_modules /auth-server/node_modules
 COPY --link --from=build-lti-gateway \
     /app /lti-gateway
-# COPY --link --from=build-lti-gateway \
-#     /libs /libs
+
 COPY ./router.php /lti-gateway/router.php
 COPY ./router.php /lti-gateway/public/router.php
 COPY --link --from=build-sidecar \
