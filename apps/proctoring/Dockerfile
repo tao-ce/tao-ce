@@ -46,7 +46,10 @@ COPY --from=src-frontend-auth-wait . .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} ci
+    --mount=type=secret,id=github_token \
+        ${BUILD_NPM} config set @tao-ce:registry=https://npm.pkg.github.com \
+        && ${BUILD_NPM} config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/github_token) \
+        && ${BUILD_NPM} ci
 
 ### frontend-auth-wait-bootstrap #####################################################################
 FROM build-fe-wait AS build-frontend-auth-wait-bootstrap
@@ -78,7 +81,10 @@ COPY --from=src-frontend . .
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} ci
+    --mount=type=secret,id=github_token \
+        ${BUILD_NPM} config set @tao-ce:registry=https://npm.pkg.github.com \
+        && ${BUILD_NPM} config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/github_token) \
+        && ${BUILD_NPM} ci
 
 ### frontend-bootstrap #####################################################################
 FROM build-fe AS build-frontend-bootstrap
@@ -107,7 +113,10 @@ COPY --from=src-realtime-service package*json ./
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} ci
+    --mount=type=secret,id=github_token \
+        ${BUILD_NPM} config set @tao-ce:registry=https://npm.pkg.github.com \
+        && ${BUILD_NPM} config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/github_token) \
+        && ${BUILD_NPM} ci
 
 COPY --from=src-realtime-service . .
 RUN \
@@ -124,7 +133,10 @@ COPY --from=src-realtime-service package*json ./
 
 RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} ci --omit=dev
+    --mount=type=secret,id=github_token \
+        ${BUILD_NPM} config set @tao-ce:registry=https://npm.pkg.github.com \
+        && ${BUILD_NPM} config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/github_token) \
+        && ${BUILD_NPM} ci --omit=dev
 
 
 COPY --from=build-realtime-service-ci /app/dist ./dist
@@ -144,7 +156,7 @@ WORKDIR /build
 COPY --from=src-forwarder . /build/forwarder
 COPY --from=src-go-shared . go-shared/
 COPY --from=src-protobuf . protobuf/
-COPY --from=src-apps proctoring/src/apps/go.* . 
+COPY --from=src-proctoring apps/go.* . 
 WORKDIR /build/forwarder
 
 

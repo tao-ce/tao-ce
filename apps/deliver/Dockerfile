@@ -45,6 +45,7 @@ WORKDIR /app
 
 RUN \
     --mount=type=secret,id=github_token \
+    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     <<"EOR"
     set -eu
     $BUILD_NPM config set -g @tao-ce:registry=https://npm.pkg.github.com

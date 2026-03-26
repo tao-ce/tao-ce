@@ -10,13 +10,20 @@ ARG BUILD_IMAGE
 ARG BUILD_NPM
 
 ENV NODE_VERSION="22"
+ENV NODE_ENV=dev
 
 WORKDIR /app
 COPY  --from=src-ms-fe . .
 
 RUN \
+    --mount=type=secret,id=github_token \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    <<"EOR"
+    set -eu
+    $BUILD_NPM config set -g @tao-ce:registry=https://npm.pkg.github.com
+    $BUILD_NPM config set -g //npm.pkg.github.com/:_authToken $(cat /run/secrets/github_token)
     ${BUILD_NPM} ci
+EOR
 
 ### ms-fe-bootstrap #####################################################################
 FROM build-ms-fe AS ms-fe-bootstrap

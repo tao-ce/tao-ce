@@ -58,6 +58,7 @@ COPY --from=src-lti-gateway --exclude="**/composer.lock" . /app
 
 RUN \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+        --mount=type=bind,src=src/libs,target=/libs \
             composer repository -g add tao-ce composer ${COMPOSER_REGISTRY} \
             && composer install -vno --no-dev
 
@@ -111,8 +112,7 @@ COPY --link --from=build-auth-server \
     /app/node_modules /auth-server/node_modules
 COPY --link --from=build-lti-gateway \
     /app /lti-gateway
-# COPY --link --from=build-lti-gateway \
-#     /libs /libs
+
 COPY ./router.php /lti-gateway/router.php
 COPY ./router.php /lti-gateway/public/router.php
 COPY --link --from=build-sidecar \

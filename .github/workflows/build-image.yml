@@ -116,6 +116,8 @@ jobs:
           build-args: ${{ inputs.build-args }}
           cache-from: type=registry,ref=${{ env.IMAGE_URL }}:buildcache-${{ matrix.arch }}
           cache-to: type=registry,mode=max,ref=${{ env.IMAGE_URL }}:buildcache-${{ matrix.arch }}
+          secrets: |
+            github_token=${{ secrets.GITHUB_TOKEN }}
           # cache-from: type=gha,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
           # cache-to: type=gha,mode=max,scope=build-${{ env.IMAGE_URL }}-${{ matrix.arch }}
           tags: ${{ steps.meta.outputs.tags }}

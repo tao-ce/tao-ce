@@ -58,7 +58,7 @@
     "oat-sa/extension-tao-deliver-connect": "*",
     "oat-sa/extension-tao-deliver-pcis": "*",
     "oat-sa/extension-tao-testqti-export": "*",
-    "oat-sa/extension-tao-test-preview-ui-loader": "*",
+    "oat-sa/extension-tao-test-preview-ui-loader": "dev-release-2026-S",
     "oat-sa/extension-lti-test-review": "^3.9"
   },
   "require-dev": {

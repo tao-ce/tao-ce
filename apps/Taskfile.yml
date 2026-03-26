@@ -16,8 +16,6 @@ includes:
       CONTEXT: .
       CONTEXTS:
         map:
-          src-packages: '../../packages'
-          src-apps: '../../apps'
           src-code: './src'
 
       BASES:
@@ -171,8 +169,7 @@ includes:
           src-realtime-service: './src/apps/realtime-service'
           src-go-shared: './src/apps/go-shared'
           src-protobuf: './src/apps/protobuf'
-          src-apps: './src/apps/'
-          packages: '../../packages'
+          src-proctoring: './src'
       BASES:
         - builds/base
         - builds/go

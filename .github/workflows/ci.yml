@@ -24,21 +24,6 @@ jobs:
       namespace: "builds"
       target: "build-go"
 
-  # build-packages:
-  #   needs: [build-base]
-  #   uses: ./.github/workflows/build-image.yml
-  #   with:
-  #     image: npm
-  #     namespace: packages
-  #     submodules: recursive
-  #     context: ./packages
-  #     build-contexts: |
-  #       src-packages=./packages
-  #       src-apps=./apps
-  #       hack=./hack
-  #     build-args: |
-  #           BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
-
   build-apps:
     needs: [build-base, build-go]
     strategy:
@@ -96,6 +81,7 @@ jobs:
             src-realtime-service=./apps/proctoring/src/apps/realtime-service
             src-go-shared=./apps/proctoring/src/apps/go-shared
             src-protobuf=./apps/proctoring/src/apps/protobuf
+            src-proctoring=./apps/proctoring/src
         - app: scoring
           context: ./apps/scoring
           build-contexts: |
@@ -118,17 +104,11 @@ jobs:
       namespace: "apps"
       context: "${{ matrix.context }}"
       build-contexts: |
-        src-packages=./packages
-        src-apps=./apps
-        hack=./hack
-        build-packages=docker-image://ghcr.io/tao-ce/tao-ce/packages/npm:sha-e0ad684
         ${{ matrix.build-contexts }}
       build-args: |
         BUILD_IMAGE=${{ fromJSON(needs.build-base.outputs.json).tags[0] }}
         GO_BUILD_IMAGE=${{ fromJSON(needs.build-go.outputs.json).tags[0] }}
   
-      # build-packages=docker-image://${{ fromJSON(needs.build-packages.outputs.json).tags[0] }}
-
   build-payload:
     needs: [build-apps]
     uses: ./.github/workflows/build-image.yml

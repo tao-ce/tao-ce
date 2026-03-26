@@ -16,9 +16,12 @@ COPY --from=src-code ./composer.json /app/
 
 RUN \
     --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
+    --mount=type=secret,id=github_token \
     <<EORUN
         set -eux
         . /usr/local/libexec/nvm/nvm.sh
+        npm config set @tao-ce:registry=https://npm.pkg.github.com
+        npm config set //npm.pkg.github.com/:_authToken $(cat /run/secrets/github_token)
         composer repository -g add tao-ce composer ${COMPOSER_REGISTRY}
         composer install -vn \
             --no-dev \
