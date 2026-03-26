@@ -96,7 +96,7 @@ jobs:
             src-realtime-service=./apps/proctoring/src/apps/realtime-service
             src-go-shared=./apps/proctoring/src/apps/go-shared
             src-protobuf=./apps/proctoring/src/apps/protobuf
-            src-apps=./apps/proctoring/src
+            src-apps=./apps/proctoring/src/apps
         - app: scoring
           context: ./apps/scoring
           build-contexts: |
