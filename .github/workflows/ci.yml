@@ -1,10 +1,10 @@
+name: 'CI'
+
 on: # rebuild any PRs and main branch changes
   push:
     tags:
       - '*'
     branches:
-      - main
-      - develop
       - release-*
       - build/**
 
@@ -184,7 +184,7 @@ jobs:
       context: .
 
   build-monolith:
-    needs: [build-payload, build-release]
+    needs: [base, build-payload, build-release]
     uses: ./.github/workflows/build-image.yml
     with:
       image: monolith
