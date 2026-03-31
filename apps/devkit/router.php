@@ -5,6 +5,7 @@ $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $path = preg_replace('@^/devkit@','/',$path);
 
 if (preg_match('@^/css/@',$path)) {
+    header('Content-Type: text/css');
     die(file_get_contents($_SERVER['DOCUMENT_ROOT'] . $path));
 }
 
