@@ -29,23 +29,33 @@ spec:
 
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   labels:
     io.kompose.service: es
   name: es
 spec:
+  serviceName: es
   replicas: 1
   selector:
     matchLabels:
       io.kompose.service: es
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         io.kompose.service: es
     spec:
+      initContainers:
+        - name: fix-ownership
+          image: alpine
+          command:
+            - /bin/sh
+            - -c
+            - |
+              chown -R 1000:1000 /usr/share/elasticsearch/data
+          volumeMounts:
+            - mountPath: /usr/share/elasticsearch/data
+              name: es-data
       containers:
         - env:
             - name: DISABLE_SECURITY_PLUGIN

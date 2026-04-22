@@ -1,3 +1,9 @@
+namespace: tao-ce
+
+images:
+  - name: quay.io/tao-ce/tao-ce:latest
+    newName: europe-west1-docker.pkg.dev/tao-ce/ghcr/tao-ce/tao-ce/monolith
+    newTag: sha-d9f748f
 
 resources:
 - ./dependencies/es.yml
@@ -8,5 +14,6 @@ resources:
 - ./tao-ce/config.yml
 - ./tao-ce/pvc.yml
 - ./tao-ce/tao.yml
+- ./tao-ce/vs.yml
 
 

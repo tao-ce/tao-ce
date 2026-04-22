@@ -18,19 +18,38 @@ spec:
       labels:
         io.kompose.service: tao
     spec:
+      initContainers:
+      - name: init-es
+        image: alpine/curl:latest
+        command: ['sh', '-c', 'echo -e "Checking for the availability of es"; while ! curl "http://es:9200/_cluster/health?wait_for_status=yellow&timeout=5s" ; do sleep 1; printf "-"; done; echo -e "es ready";']
+      - name: init-pgsql
+        image: busybox:1.28
+        command: ['sh', '-c', 'echo -e "checking for the availability of redis"; while ! nc -z pgsql 5432 ; do sleep 1; printf "-"; done; echo -e "pgsql ready";']
+      - name: init-redis
+        image: busybox:1.28
+        command: ['sh', '-c', 'echo -e "checking for the availability of redis"; while ! nc -z redis 6379 ; do sleep 1; printf "-"; done; echo -e "redis ready";']
+
       containers:
         - image: quay.io/tao-ce/tao-ce:latest
           name: tao
           ports:
+            - containerPort: 80
+              protocol: TCP
             - containerPort: 443
               protocol: TCP
+          env:
+          - name: TAO_CE_PUBLIC_DOMAIN
+            value: tao-ce.k8s.local
           securityContext:
             privileged: true
           volumeMounts:
-            # - mountPath: /sys/fs/cgroup
-            #   name: tao-cgroup
+            - mountPath: /sys/fs/cgroup
+              name: tao-cgroup
             - mountPath: /var/lib/tao-ce
               name: tao-ce-data
+            - mountPath: /etc/tao-ce/config/Caddyfile
+              subPath: Caddyfile
+              name: tao-ce-config
             - mountPath: /etc/tao-ce/config/tao.yaml
               subPath: "tao.yaml"
               name: tao-ce-config
@@ -39,9 +58,10 @@ spec:
         - persistentVolumeClaim:
             claimName: tao-ce-data
           name: tao-ce-data
-        # - hostPath:
-        #     path: /sys/fs/cgroup
-          # name: tao-cgroup
+        - hostPath:
+            path: /sys/fs/cgroup
+        # - emptyDir: {}
+          name: tao-cgroup
         - name: tao-ce-config
           configMap:
             name: tao-ce-config
@@ -55,8 +75,8 @@ metadata:
   name: tao
 spec:
   ports:
-    - name: "443"
-      port: 443
-      targetPort: 443
+    - name: http
+      port: 80
+      targetPort: 80
   selector:
     io.kompose.service: tao

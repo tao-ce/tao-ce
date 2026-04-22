@@ -34,22 +34,7 @@ spec:
         io.kompose.service: redis
     spec:
       containers:
-        - args:
-            - valkey-server
-            - --save
-            - "60"
-            - "1"
-            - --loglevel
-            - warning
-          image: docker.io/valkey/valkey:8-alpine
-          livenessProbe:
-            exec:
-              command:
-                - valkey-cli ping
-            failureThreshold: 5
-            initialDelaySeconds: 3
-            periodSeconds: 10
-            timeoutSeconds: 30
+        - image: docker.io/valkey/valkey:8-alpine
           name: redis
           ports:
             - containerPort: 6379

@@ -1,0 +1,43 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: tao-ce
+  namespace: tao-ce
+spec:
+  gateways:
+  - default
+  - mesh
+  hosts:
+  - tao-ce.k8s.local
+  http:
+  - route:
+    - destination:
+        host: tao
+        port:
+          number: 80
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: tao-ce
+  namespace: tao-ce
+spec:
+  host: tao
+
+---
+
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: default
+  namespace: tao-ce
+spec:
+  servers:
+  - hosts:
+    - tao-ce.k8s.local
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
