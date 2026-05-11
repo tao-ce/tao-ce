@@ -11,7 +11,7 @@ function(setup)
         FIRESTORE_ROOT_DOC: 'stores',
         GCP_PROJECT_ID: self.GOOGLE_CLOUD_PROJECT,
         GOOGLE_CLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
-        HIERARCHY_API_URL: setup.apps.hierarchy.backend.http.url,
+        HIERARCHY_API_URL: setup.apps['environment-management'].auth_server.http.url,
         LOG_LEVEL: 'trace',
         REQUEST_SIZE_LIMIT: '100Mb',
         FIRESTORE_HIERARCHY_WATCH_ENABLED: 'true',

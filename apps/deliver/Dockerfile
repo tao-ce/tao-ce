@@ -69,30 +69,6 @@ RUN \
 
 
 
-### sandbox ####################################################################
-
-FROM $BUILD_IMAGE AS build-sandbox
-ARG BUILD_IMAGE
-ARG BUILD_NPM
-
-WORKDIR /app
-
-ENV NODE_VERSION="22"
-ENV API_URL=/data
-ARG PORT=3000
-
-COPY --from=src-sandbox . .
-
-RUN \
-    --mount=type=secret,id=NPM_TOKEN \
-    --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-        ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
-        && ${BUILD_NPM} ci \
-        && ${BUILD_NPM} run build \
-        && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-        && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
-
-
 ### Export #####################################################################
 FROM scratch AS export
 
@@ -102,8 +78,6 @@ COPY --link --from=build-bootstrap  \
     /app/server.js /bootstrap/
 COPY --link --from=build-static     \
     /app/packages/deliver-app/dist /static
-COPY --link --from=build-sandbox    \
-    /app /sandbox
 
 COPY ./router.php /backend/router.php
 

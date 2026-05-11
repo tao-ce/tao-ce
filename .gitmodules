@@ -30,10 +30,6 @@
 	path = apps/dynamic-query/src
 	url = git@github.com:oat-sa/tao-dynamic-query-api.git
 	branch = tao-ce/main
-[submodule "apps/deliver/src/sandbox"]
-	path = apps/deliver/src/sandbox
-	url = git@github.com:oat-sa/test-runner-sandbox.git
-	branch = tao-ce/main
 [submodule "apps/construct/src/libs/oat-sa/extension-tao-deliver-connect"]
 	path = apps/construct/src/libs/oat-sa/extension-tao-deliver-connect
 	url = git@github.com:oat-sa/extension-tao-deliver-connect.git
@@ -49,10 +45,6 @@
 [submodule "apps/datastore/src"]
 	path = apps/datastore/src
 	url = git@github.com:oat-sa/tao-datastore-pipeline.git
-[submodule "apps/hierarchy/src"]
-	path = apps/hierarchy/src
-	url = git@github.com:oat-sa/tao-hierarchy-be.git
-	branch = tao-ce/main
 [submodule "apps/scoring/src/tao-manual-scoring-be"]
 	path = apps/scoring/src/tao-manual-scoring-be
 	url = git@github.com:oat-sa/tao-manual-scoring-be.git

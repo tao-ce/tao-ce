@@ -773,6 +773,15 @@ function(setup)
                   'all',
                 ],
               },
+              {
+                resource: 'portal.organization',
+                scopes: [
+                  'create',
+                  'edit',
+                  'view',
+                  'all',
+                ],
+              },
             ],
           },
           {

@@ -1,4 +1,5 @@
 [
+    {"topic": "interactions", "subscription": "interactions"},
     {"topic": "acs-log", "subscription": "acs-log"},
     {"topic": "acs-log", "subscription": "acs-log-portal"},
     {"topic": "clean-up", "subscription": "clean-up"},
@@ -15,17 +16,21 @@
     {"topic": "delivery-topic", "subscription": "deliveries-ds"},
     {"topic": "delivery-execution", "subscription": "delivery-execution-portal"},
     {"topic": "delivery-execution", "subscription": "delivery-execution-ds"},
+    {"topic": "grader-manual-results-topic", "subscription": "grader-manual-results-topic"},
     {"topic": "grader-manual-results-topic", "subscription": "grader-manual-results-portal"},
     {"topic": "grader-manual-results-topic", "subscription": "manual-delivery-results-ds"},
+    {"topic": "grader-scoring-events-topic", "subscription": "grader-scoring-events-portal"},
     {"topic": "grader-statuses-topic", "subscription": "grader-statuses-portal"},
     {"topic": "ui-events-topic", "subscription": "ui-events-ds"},
     {"topic": "task-orchestrator-topic", "subscription": "task-orchestrator-ds"},
-    {"topic": "tao-diploma-generation-user-data-merged-events-topic", "subscription": "tao-diploma-generation-user-data-merged-events-subscription"},
     {"topic": "start-export-csv-topic", "subscription": "start-export-csv-ds"},
+    {"topic": "submit-grading-project-topic", "subscription": "submit-grading-project-ds"},
     {"topic": "tao-ai-topic", "subscription": "tao-ai-subscription"},
     {"topic": "tenant-api-topic", "subscription": "tenant-api-subscription"},
     {"topic": "tenant-api-construct-topic", "subscription": "tenant-api-construct-subscription"},
     {"topic": "tags-propagation", "subscription": "tags-propagation"},
+    {"topic": "proctor-action", "subscription": "proctor-action"},
+    {"topic": "activity-logs-topic", "subscription": "activity-logs-ds"},
     {"topic": "metadata-propagation-topic", "subscription": "metadata-propagation-ds"},
     {"topic": "tao-templates-email-topic", "subscription": "tao-templates-email-ds"},
     {"topic": "delivery-language-attachment", "subscription": "delivery-language-attachment"},
@@ -48,5 +53,7 @@
     {"topic": "rostering-import-topic", "subscription": "rostering-import-subscription"},
     {"topic": "user-data-sync-topic", "subscription": "user-data-sync-subscription"},
     {"topic": "portal-session-template-notification-topic", "subscription": "portal-session-template-notification-subscription"},
-    {"topic": "payment-api-payment-status-update", "subscription": "payment-api-payment-status-update-subscription"}
+    {"topic": "portal-campaign-notification-topic", "subscription": "portal-campaign-notification-subscription"},
+    {"topic": "payment-api-payment-status-update", "subscription": "payment-api-payment-status-update-subscription"},
+    {"topic": "grader-scores-topic", "subscription": "scoring-statistics-ds-subscription"}
 ]

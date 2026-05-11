@@ -7,7 +7,7 @@ ARG IMAGE_NVM_VERSIONS="22"
 ARG DEVCONTAINER_USERNAME="vscode"
 
 # do not change without keeping packages.php.lst up to date
-ARG IMAGE_PHP_VERSION="8.3"
+ARG IMAGE_PHP_VERSION="8.4"
 
 # External binaries images
 FROM docker.io/envoyproxy/envoy:v1.30-latest AS ext-bin-envoy
@@ -173,11 +173,24 @@ RUN \
     && cd ${TAO_CE_LIBEXEC}/pubsub \
     && python3 -m venv .venv \
     && . .venv/bin/activate \
-    && pip install -r requirements.txt
+    && pip install -r requirements.txt \
+    && systemctl mask \
+        systemd-rfkill.service \
+        console-getty.service \
+        systemd-udevd.service \
+        systemd-initctl.service \
+        rc-local.service \
+        systemd-bsod.service \
+        pcscd.service \
+        rescue.service \
+        emergency.service \
+        getty.target
+        
+        #systemd-logind.service \
 
 # required for systemd
 ENV container=docker
-VOLUME [ "/sys/fs/cgroup", "/run", "/run/lock", "/tmp", "/workspace" ]
+VOLUME [ "/workspace" ]
 STOPSIGNAL SIGRTMIN+3
 CMD [ "/sbin/init" ]
 

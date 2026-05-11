@@ -5,7 +5,7 @@ function(setup)
         DEBUG: '1',
         LOG_LEVEL: 'debug',
         NODE_ENV: 'production',
-        PORT: setup.apps.hierarchy.backend.http.port,
+        PORT: setup.apps['environment-management'].auth_server.http.port,
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         ELASTICSEARCH_PREFIX: '',
         LOG_TYPE: 'file',

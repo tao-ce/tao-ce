@@ -31,7 +31,7 @@ vars:
       devkit: "container-image://{{ .REGISTRY }}/apps/devkit:{{ .TAG }}"
       environment-management: "container-image://{{ .REGISTRY }}/apps/environment-management:{{ .TAG }}"
       dynamic-query: "container-image://{{ .REGISTRY }}/apps/dynamic-query:{{ .TAG }}"
-      hierarchy: "container-image://{{ .REGISTRY }}/apps/hierarchy:{{ .TAG }}"
+      # hierarchy: "container-image://{{ .REGISTRY }}/apps/hierarchy:{{ .TAG }}"
       task-orchestrator: "container-image://{{ .REGISTRY }}/apps/task-orchestrator:{{ .TAG }}"
       portal: "container-image://{{ .REGISTRY }}/apps/portal:{{ .TAG }}"
       timers: "container-image://{{ .REGISTRY }}/apps/timers:{{ .TAG }}"

@@ -48,7 +48,6 @@ includes:
         map:
           src-backend: './src/be'
           src-frontend: './src/fe'
-          src-sandbox: './src/sandbox'
       BASES:
         - builds/base
       ARGS:
@@ -79,6 +78,7 @@ includes:
       CONTEXTS:
         map:
           src-worker: './src/node'
+          src-assets: './assets'
       BASES:
         - builds/base
       ARGS:
@@ -122,22 +122,22 @@ includes:
           BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
           GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
 
-  hierarchy:
-    taskfile: ../build/crystal
-    dir: hierarchy
-    vars:
-      APP: hierarchy
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-backend: './src'
-      BASES:
-        - builds/base
-        - builds/go
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
+  # hierarchy:
+  #   taskfile: ../build/crystal
+  #   dir: hierarchy
+  #   vars:
+  #     APP: hierarchy
+  #     CONTEXT: .
+  #     CONTEXTS:
+  #       map:
+  #         src-backend: './src'
+  #     BASES:
+  #       - builds/base
+  #       - builds/go
+  #     ARGS:
+  #       map:
+  #         BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+  #         GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
 
   portal:
     taskfile: ../build/crystal

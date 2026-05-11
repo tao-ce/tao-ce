@@ -29,7 +29,7 @@ function(setup)
         GCP_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         GCP_PUBSUB_TASK_ORCHESTRATOR_TOPIC_NAME: 'task-orchestrator-topic',
         GRPC_PORT: setup.apps['environment-management'].auth_server.grpc.port,
-        HIERARCHY_API_URL: setup.apps.hierarchy.backend.http.baseUrl,
+        HIERARCHY_API_URL: setup.apps['environment-management'].auth_server.http.url,
         HTTP_GRPC_GATEWAY_PORT: setup.apps['environment-management'].auth_server.gw.port,
         JWT_CLAIM_ISSUER: setup.apps['environment-management'].auth_server.http.endpoint,
         LTI1P3_SERVICE_ENCRYPTION_KEY: '235539604521e196010282fa6cf9b349',

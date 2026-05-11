@@ -12,21 +12,29 @@ services:
       target: devcontainer
       args:
         DEVCONTAINER_USERNAME: vscode
-    cgroup: host
     extra_hosts:
     - community.tao.internal:0.0.0.0
     tty: true
+    tmpfs:
+    - /run
+    - /run/lock
+    - /tmp
     volumes:
     - .:/workspace:cached
-    # Required for systemd init
-    - /sys/fs/cgroup:/sys/fs/cgroup:rw
     # Use native filesystem from volumes rather than tmpfs/overlayfs for building performance
     - vscode-containers:/home/vscode/.local/share/containers:rw
     - root-containers:/var/lib/containers:rw
     # For data persistence
     - tao-ce-opt:/opt/tao-ce:rw
     - tao-ce-lib:/var/lib/tao-ce:rw
-    privileged: true
+    cap_add:
+    - SYS_ADMIN
+    devices:
+      - /dev/fuse:rw
+    security_opt:
+      - writable-cgroups=true
+      - label=disable
+      - seccomp=unconfined
     links:
     - redis:redis
     - pgsql:pgsql

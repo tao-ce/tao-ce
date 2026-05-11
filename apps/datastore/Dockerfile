@@ -28,4 +28,5 @@ FROM scratch AS export
 
 COPY --link --from=build-worker  \
     /app /worker
+COPY --from=src-assets ./compact-test.xml /worker/config/compact-test.xml
 COPY meta /meta
