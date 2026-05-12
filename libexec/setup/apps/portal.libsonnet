@@ -66,6 +66,7 @@ function(setup)
         API_URL: 'https://%(publicDomain)s/portal-be' % setup,
         AUTH_SERVER_URL: 'https://%(publicDomain)s/auth-server' % setup,
         DELIVER_URL: 'https://%(publicDomain)s/deliver' % setup,
+        DELIVER_FE_URL: 'https://%(publicDomain)s/deliver-fe' % setup,
         DIAGNOSTIC_URL: 'https://%(publicDomain)s/diagnostic' % setup,
         GRADING_URL: 'https://%(publicDomain)s/ms-be' % setup,
         PROCTORING_URL: 'https://%(publicDomain)s/pr-lti-gateway/' % setup,

@@ -133,7 +133,7 @@ function(setup)
         MESSENGER_GRADER_SCORING_EVENTS_QUEUE_TOPIC: 'grader-scoring-events',
 
         MESSENGER_GRADER_PUBLICATIONS_DSN: dsn('grader-publications-topic'),
-        MESSENGER_GRADER_PUBLICATIONS_QUEUE_TOPIC: 'grade-publications-topic',
+        MESSENGER_GRADER_PUBLICATIONS_QUEUE_TOPIC: 'grader-publications-topic',
         MESSENGER_GRADER_PUBLICATIONS_QUEUE_SUBSCRIPTION: 'ss-grader-publications-subscription',
 
         DEFAULT_RESPONSE_HANDLER: '[{"engine":"manual","schedule":"* * * * *"}]',
