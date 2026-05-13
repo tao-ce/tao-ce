@@ -1,7 +1,6 @@
 local templates = {
   portal: (import './apps/portal.libsonnet'),
   em: (import './apps/environment-management.libsonnet'),
-  hierarchy: (import './apps/hierarchy.libsonnet'),
   datastore: (import './apps/datastore.libsonnet'),
   deliver: (import './apps/deliver.libsonnet'),
   devkit: (import './apps/devkit.libsonnet'),
