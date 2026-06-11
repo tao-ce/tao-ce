@@ -26,17 +26,18 @@ To start using *TAO Community Edition*, you may use one of the following methods
     [:simple-podman: Using Quadlet](./container/quadlet.md)
 
     [:simple-kubernetes: Using Kubernetes](./container/k8s.md)
-
+-->
 -   :material-chip:{ .lg .middle } __Build an appliance__
 
     ---
 
     Secure *TAO Community Edition* with an air-gapped appliance.
 
-    [:octicons-package-24: Deploy on Virtual Machine](./appliance/vm.md)
+    <!-- [:octicons-package-24: Deploy on Virtual Machine](./appliance/vm.md) -->
 
     [:fontawesome-brands-raspberry-pi: Deploy on Raspberry Pi](./appliance/rpi.md)
 
+<!--
 -   :material-cloud-upload:{ .lg .middle } __To the clouds__
 
     ---
