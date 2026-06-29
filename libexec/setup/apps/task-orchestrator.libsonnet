@@ -2,13 +2,13 @@ function(setup)
   {
     env: {
       backend: {
-        ADMIN_CLIENT_SECRET: 'secret',
+        ADMIN_CLIENT_SECRET: setup.lib.hash('admin'),
         AUTH_SERVER_API_URL: setup.apps['environment-management'].auth_server.http.url,
         DEBUG: 'false',
         DYNAMIC_API_URL: setup.apps.dynamic_query.api.http.url,
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         EMAIL_SUBSCRIPTION_PORTAL_DOMAIN: setup.publicDomain,
-        EMAIL_SUBSCRIPTION_TOKEN_SECRET: 'verySecretString',
+        EMAIL_SUBSCRIPTION_TOKEN_SECRET: setup.lib.hash('task-orchestrator/env/EMAIL_SUBSCRIPTION_TOKEN_SECRET'),
         FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
         FIRESTORE_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         FIRESTORE_DATABASE_ID: 'default',

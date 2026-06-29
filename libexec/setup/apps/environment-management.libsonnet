@@ -11,6 +11,7 @@ function(setup)
     },
     env: {
       'auth-server': {
+        LTI_PLATFORM_AUDIENCE: 'https://%s/platformless' % [setup.publicDomain],
         ACCESS_TOKEN_TTL: '3600',
         APP_PRIMARY_KEY_KD: 'primaryKeyPair',
         APP_PRIVATE_KEY_PASSPHRASE: '123456',
@@ -32,7 +33,7 @@ function(setup)
         HIERARCHY_API_URL: setup.apps['environment-management'].auth_server.http.url,
         HTTP_GRPC_GATEWAY_PORT: setup.apps['environment-management'].auth_server.gw.port,
         JWT_CLAIM_ISSUER: setup.apps['environment-management'].auth_server.http.endpoint,
-        LTI1P3_SERVICE_ENCRYPTION_KEY: '235539604521e196010282fa6cf9b349',
+        LTI1P3_SERVICE_ENCRYPTION_KEY: setup.lib.hash('environment-management/env/LTI1P3_SERVICE_ENCRYPTION_KEY'),
         MANUAL_SCORING_URL: setup.apps.scoring.backend.http.url,
         NAMESPACE: 'oat-dev',
         NODE_ENV: 'production',
@@ -44,11 +45,10 @@ function(setup)
         REDIS_CACHE_DSN: setup.dependencies.redis.address.url,
         REFRESH_TOKEN_TTL: '86400',
         TENANT_DATA_PRELOADER_SOURCE_PATH: '%s/em/tenant-data/' % setup.dirs.files,
-        // TENANT_DATA_PRELOADER_SOURCE_PATH: "%s/environment-management/tenant-data/" % setup.dirs.files,
       },
       'lti-gateway': {
         APP_ENV: 'dev',
-        APP_SECRET: '5c796f2ca45012243a63d55d9f78771d',
+        APP_SECRET: setup.lib.hash('environment-management/env/APP_SECRET'),
         DEBUG: 'true',
         GOOGLE_APPLICATION_CREDENTIALS: '%s/em/key.json' % setup.dirs.files,
         EM_AUTH_SERVER_GRPC_GATEWAY_HOST: setup.apps['environment-management'].auth_server.gw.url,
@@ -57,7 +57,7 @@ function(setup)
         GOOGLE_CLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
         GCP_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         GOOGLE_CLOUD_SUBSCRIPTION_WORKER: 'lti-events-subscription',
-        LTI1P3_SERVICE_ENCRYPTION_KEY: '3feca5c091026487889a20e5a7ddd98e',
+        LTI1P3_SERVICE_ENCRYPTION_KEY: setup.lib.hash('environment-management/env/LTI1P3_SERVICE_ENCRYPTION_KEY'),
         MESSENGER_FAILED_QUEUE_SUBSCRIPTION: 'failed-subscription',
         MESSENGER_FAILED_QUEUE_TOPIC: 'failed-topic',
         MESSENGER_LTI_EVENTS_QUEUE_SUBSCRIPTION: 'lti-events-subscription',

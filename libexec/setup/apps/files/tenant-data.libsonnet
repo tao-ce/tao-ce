@@ -5,62 +5,6 @@ function(setup)
       {
         configurations: [
           {
-            name: 'cookiePolicy',
-            value: std.toString({
-              display: false,
-              privacyPolicyLink: 'https://%(publicDomain)s/about/privacy/' % setup,
-              cookiePolicyLink: 'https://%(publicDomain)s/about/privacy/' % setup,
-            }),
-          },
-          {
-            name: 'studio.qti.item.templates.groups',
-            value: '[{"id": "choice", "title": "Choice"}, {"id": "text", "title": "Text"}]',
-          },
-          {
-            name: 'studio.qti.item.templates',
-            value: '[{"group": "choice", "id": "studio.qti.item.templates.choice.trueFalse", "preview": "https://cdn-dev.gcp-eu.taocloud.org/studio/qti-templates/screenshots/trueFalseItem.png", "title": "TrueFalse Choice"}, {"group": "choice", "id": "studio.qti.item.templates.choice.singleChoice", "preview": "https://cdn-dev.gcp-eu.taocloud.org/studio/qti-templates/screenshots/singleChoiceItem.png", "title": "Single Choice"}, {"group": "choice", "id": "studio.qti.item.templates.choice.multipleChoice", "preview": "https://cdn-dev.gcp-eu.taocloud.org/studio/qti-templates/screenshots/multipleChoiceItem.png", "title": "Multiple Choice"}, {"group": "choice", "id": "studio.qti.item.templates.choice.inlineChoice", "preview": "https://cdn-dev.gcp-eu.taocloud.org/studio/qti-templates/screenshots/inlineChoiceItem.png", "title": "Inline Choice"}, {"group": "text", "id": "studio.qti.item.templates.text.essay", "preview": "https://cdn-dev.gcp-eu.taocloud.org/studio/qti-templates/screenshots/essayItem.png", "title": "Essay"}, {"group": "text", "id": "studio.qti.item.templates.text.textEntry", "preview": "https://cdn-dev.gcp-eu.taocloud.org/studio/qti-templates/screenshots/textEntryItem.png", "title": "Text Entry"}]' % setup,
-          },
-          {
-            name: 'studio.qti.item.templates.choice.inlineChoice',
-            value: '{"baseUrl": "/", "itemData": {"assets": [ ], "data": {"apipAccessibility": "", "attributes": {"adaptive": false, "class": "", "identifier": "i64ac07ca71e8f1018f0c665e7f0b59a", "label": "Inline Choice", "timeDependent": false, "title": "Inline Choice", "toolName": "TAO Studio", "toolVersion": "2024.09", "xml:lang": "%(defaultLocale)s"}, "body": {"attributes": [ ], "body": "<div class=\\"grid-row\\"><div class=\\"col-12\\"><p> Lorem ipsum {{interaction_inlinechoiceinteraction_64ac086d4c76a929403353}} dolor sit amet, consectetur adipiscing {{interaction_inlinechoiceinteraction_64ac086d4c76a929403354}} elit...</p></div></div>", "elements": {"interaction_inlinechoiceinteraction_64ac086d4c76a929403353": {"attributes": {"required": false, "responseIdentifier": "RESPONSE", "shuffle": false}, "choices": {"choice_inlinechoice_64ac086d500a8901331826": {"attributes": {"fixed": false, "identifier": "choice_1", "showHide": "show"}, "body": {"attributes": [ ], "body": "Option 1", "elements": { }, "serial": "container_containerstatic_64ac086d53a0d117121383"}, "identifier": "choice_1", "qtiClass": "inlineChoice", "serial": "choice_inlinechoice_64ac086d500a8901331826"}, "choice_inlinechoice_64ac086d53ac7332410401": {"attributes": {"fixed": false, "identifier": "choice_2", "showHide": "show"}, "body": {"attributes": [ ], "body": "Option 2", "elements": { }, "serial": "container_containerstatic_64ac086d53aeb822597960"}, "identifier": "choice_2", "qtiClass": "inlineChoice", "serial": "choice_inlinechoice_64ac086d53ac7332410401"}, "choice_inlinechoice_64ac086d53b41793352633": {"attributes": {"fixed": false, "identifier": "choice_3", "showHide": "show"}, "body": {"attributes": [ ], "body": "Option 3", "elements": { }, "serial": "container_containerstatic_64ac086d53b58519665940"}, "identifier": "choice_3", "qtiClass": "inlineChoice", "serial": "choice_inlinechoice_64ac086d53b41793352633"}}, "qtiClass": "inlineChoiceInteraction", "serial": "interaction_inlinechoiceinteraction_64ac086d4c76a929403353"}, "interaction_inlinechoiceinteraction_64ac086d4c76a929403354": {"attributes": {"required": false, "responseIdentifier": "RESPONSE_1", "shuffle": false}, "choices": {"choice_inlinechoice_64ac086d500a8901331827": {"attributes": {"fixed": false, "identifier": "choice_1", "showHide": "show"}, "body": {"attributes": [ ], "body": "Option 1", "elements": { }, "serial": "container_containerstatic_64ac086d53a0d117121384"}, "identifier": "choice_1", "qtiClass": "inlineChoice", "serial": "choice_inlinechoice_64ac086d500a8901331827"}, "choice_inlinechoice_64ac086d53ac7332410402": {"attributes": {"fixed": false, "identifier": "choice_2", "showHide": "show"}, "body": {"attributes": [ ], "body": "Option 2", "elements": { }, "serial": "container_containerstatic_64ac086d53aeb822597961"}, "identifier": "choice_2", "qtiClass": "inlineChoice", "serial": "choice_inlinechoice_64ac086d53ac7332410402"}, "choice_inlinechoice_64ac086d53b41793352634": {"attributes": {"fixed": false, "identifier": "choice_3", "showHide": "show"}, "body": {"attributes": [ ], "body": "Option 3", "elements": { }, "serial": "container_containerstatic_64ac086d53b58519665941"}, "identifier": "choice_3", "qtiClass": "inlineChoice", "serial": "choice_inlinechoice_64ac086d53b41793352634"}}, "qtiClass": "inlineChoiceInteraction", "serial": "interaction_inlinechoiceinteraction_64ac086d4c76a929403354"}}, "serial": "container_containeritembody_64ac086d2a989896243171"}, "feedbacks": { }, "identifier": "<itemId>", "namespaces": {"<empty>": "http://www.imsglobal.org/xsd/imsqti_v2p2", "m": "http://www.w3.org/1998/Math/MathML", "xsi": "http://www.w3.org/2001/XMLSchema-instance"}, "outcomes": {"outcomedeclaration_64ac086d39c1e954805365": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "SCORE", "normalMaximum": 0, "normalMinimum": 0}, "defaultValue": null, "identifier": "SCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_64ac086d39c1e954805365"}, "outcomedeclaration_64ac086d416b9873066243": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "MAXSCORE"}, "defaultValue": "0", "identifier": "MAXSCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_64ac086d416b9873066243"}}, "qtiClass": "assessmentItem", "responseProcessing": {"attributes": { }, "processingType": "templateDriven", "qtiClass": "responseProcessing", "responseRules": [{"qtiClass": "responseCondition", "responseIf": {"expression": {"expressions": [{"attributes": {"identifier": "RESPONSE"}, "qtiClass": "variable"}, {"attributes": {"identifier": "RESPONSE"}, "qtiClass": "correct"}], "qtiClass": "match"}, "qtiClass": "responseIf", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"expressions": [{"attributes": {"identifier": "SCORE"}, "qtiClass": "variable"}, {"attributes": {"baseType": "integer"}, "qtiClass": "baseValue", "value": "1"}], "qtiClass": "sum"}, "qtiClass": "setOutcomeValue"}]}}, {"qtiClass": "responseCondition", "responseIf": {"expression": {"expressions": [{"attributes": {"identifier": "RESPONSE_1"}, "qtiClass": "variable"}, {"attributes": {"identifier": "RESPONSE_1"}, "qtiClass": "correct"}], "qtiClass": "match"}, "qtiClass": "responseIf", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"expressions": [{"attributes": {"identifier": "SCORE"}, "qtiClass": "variable"}, {"attributes": {"baseType": "integer"}, "qtiClass": "baseValue", "value": "1"}], "qtiClass": "sum"}, "qtiClass": "setOutcomeValue"}]}}], "serial": "responseprocessing_i66d05ec19ef21"}, "responses": {"responsedeclaration_64ac086d39267577477750": {"areaMapping": [ ], "attributes": {"baseType": "identifier", "cardinality": "single", "identifier": "RESPONSE"}, "correctResponses": [ ], "defaultValue": [ ], "feedbackRules": { }, "howMatch": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct", "identifier": "RESPONSE", "mapping": [ ], "mappingAttributes": {"defaultValue": 0}, "qtiClass": "responseDeclaration", "serial": "responsedeclaration_64ac086d39267577477750"}, "responsedeclaration_64ac086d39267577477751": {"areaMapping": [ ], "attributes": {"baseType": "identifier", "cardinality": "single", "identifier": "RESPONSE_1"}, "correctResponses": [ ], "defaultValue": [ ], "feedbackRules": { }, "howMatch": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct", "identifier": "RESPONSE_1", "mapping": [ ], "mappingAttributes": {"defaultValue": 0}, "qtiClass": "responseDeclaration", "serial": "responsedeclaration_64ac086d39267577477751"}}, "schemaLocations": {"http://www.imsglobal.org/xsd/imsqti_v2p2": "http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"}, "serial": "item_64ac086d2a999416314796", "stylesheets": { }}, "type": "qti"}, "itemIdentifier": "<itemId>"}' % setup,
-          },
-          {
-            name: 'studio.qti.item.templates.choice.multipleChoice',
-            value: '{"baseUrl": "/", "itemData": {"assets": [ ], "data": {"apipAccessibility": "", "attributes": {"adaptive": false, "class": "", "identifier": "<itemId>", "label": "Multiple Choice", "timeDependent": false, "title": "Multiple Choice", "toolName": "TAO Studio", "toolVersion": "2024.09", "xml:lang": "%(defaultLocale)s"}, "body": {"body": "<div class=\\"grid-row\\"><div class=\\"col-12\\">{{interaction_choiceinteraction_i653bcdd052831}}</div></div>", "elements": {"interaction_choiceinteraction_i653bcdd052831": {"attributes": {"maxChoices": 0, "minChoices": 0, "orientation": "vertical", "responseIdentifier": "RESPONSE", "shuffle": false}, "choices": {"choice_simplechoice_i653bcdd052955": {"attributes": {"fixed": false, "identifier": "choice_1", "showHide": "show"}, "body": {"body": "Choice 1", "elements": { }, "serial": "container_containerstatic_i653bcdd052961"}, "identifier": "choice_1", "qtiClass": "simpleChoice", "serial": "choice_simplechoice_i653bcdd052955"}, "choice_simplechoice_i653bcdd0529f6": {"attributes": {"fixed": false, "identifier": "choice_2", "showHide": "show"}, "body": {"body": "Choice 2", "elements": { }, "serial": "container_containerstatic_i653bcdd0529fe"}, "identifier": "choice_2", "qtiClass": "simpleChoice", "serial": "choice_simplechoice_i653bcdd0529f6"}, "choice_simplechoice_i653bcdd0529f7": {"attributes": {"fixed": false, "identifier": "choice_3", "showHide": "show"}, "body": {"body": "Choice 3", "elements": { }, "serial": "container_containerstatic_i653bcdd0529fe"}, "identifier": "choice_3", "qtiClass": "simpleChoice", "serial": "choice_simplechoice_i653bcdd0529f7"}}, "prompt": {"body": "", "elements": { }, "serial": "container_containerstatic_i653bcdd052896"}, "qtiClass": "choiceInteraction", "serial": "interaction_choiceinteraction_i653bcdd052831"}}, "serial": "container_containeritembody_i653bcdd0524ab"}, "feedbacks": [ ], "identifier": "<itemId>", "namespaces": {"<empty>": "http://www.imsglobal.org/xsd/imsqti_v2p2", "m": "http://www.w3.org/1998/Math/MathML", "xsi": "http://www.w3.org/2001/XMLSchema-instance"}, "outcomes": {"outcomedeclaration_i653bcdd0525d6": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "SCORE", "normalMaximum": 1, "normalMinimum": 0}, "defaultValue": null, "identifier": "SCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_i653bcdd0525d6"}, "outcomedeclaration_i653bcdd0526c6": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "MAXSCORE"}, "defaultValue": "0", "identifier": "MAXSCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_i653bcdd0526c6"}}, "qtiClass": "assessmentItem", "responseProcessing": {"attributes": { }, "processingType": "templateDriven", "qtiClass": "responseProcessing", "responseRules": [{"qtiClass": "responseCondition", "responseElse": {"qtiClass": "responseElse", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"attributes": {"baseType": "float"}, "qtiClass": "baseValue", "value": "0"}, "qtiClass": "setOutcomeValue"}]}, "responseIf": {"expression": {"expressions": [{"attributes": {"identifier": "RESPONSE"}, "qtiClass": "variable"}, {"attributes": {"identifier": "RESPONSE"}, "qtiClass": "correct"}], "qtiClass": "match"}, "qtiClass": "responseIf", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"attributes": {"baseType": "float"}, "qtiClass": "baseValue", "value": "1"}, "qtiClass": "setOutcomeValue"}]}}], "serial": "responseprocessing_i66d05e01a18c4"}, "responses": {"responsedeclaration_i653bcdd052578": {"areaMapping": [ ], "attributes": {"baseType": "identifier", "cardinality": "multiple", "identifier": "RESPONSE"}, "correctResponses": [ ], "defaultValue": [ ], "feedbackRules": { }, "howMatch": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct", "identifier": "RESPONSE", "mapping": [ ], "mappingAttributes": {"defaultValue": 0}, "qtiClass": "responseDeclaration", "serial": "responsedeclaration_i653bcdd052578"}}, "schemaLocations": {"http://www.imsglobal.org/xsd/imsqti_v2p2": "http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"}, "serial": "item_i653bcdd0524b0", "stylesheets": [ ]}, "type": "qti"}, "itemIdentifier": "<itemId>"}' % setup,
-          },
-          {
-            name: 'studio.qti.item.templates.choice.singleChoice',
-            value: '{"baseUrl": "/", "itemData": {"assets": [ ], "data": {"apipAccessibility": "", "attributes": {"adaptive": false, "class": "", "identifier": "<itemId>", "label": "Single Choice", "timeDependent": false, "title": "Single Choice", "toolName": "TAO Studio", "toolVersion": "2024.09", "xml:lang": "%(defaultLocale)s"}, "body": {"body": "<div class=\\"grid-row\\"><div class=\\"col-12\\">{{interaction_choiceinteraction_i653bcdd052831}}</div></div>", "elements": {"interaction_choiceinteraction_i653bcdd052831": {"attributes": {"maxChoices": 1, "minChoices": 0, "orientation": "vertical", "responseIdentifier": "RESPONSE", "shuffle": false}, "choices": {"choice_simplechoice_i653bcdd052955": {"attributes": {"fixed": false, "identifier": "choice_1", "showHide": "show"}, "body": {"body": "Choice 1", "elements": { }, "serial": "container_containerstatic_i653bcdd052961"}, "identifier": "choice_1", "qtiClass": "simpleChoice", "serial": "choice_simplechoice_i653bcdd052955"}, "choice_simplechoice_i653bcdd0529f6": {"attributes": {"fixed": false, "identifier": "choice_2", "showHide": "show"}, "body": {"body": "Choice 2", "elements": { }, "serial": "container_containerstatic_i653bcdd0529fe"}, "identifier": "choice_2", "qtiClass": "simpleChoice", "serial": "choice_simplechoice_i653bcdd0529f6"}, "choice_simplechoice_i653bcdd0529f7": {"attributes": {"fixed": false, "identifier": "choice_3", "showHide": "show"}, "body": {"body": "Choice 3", "elements": { }, "serial": "container_containerstatic_i653bcdd0529fe"}, "identifier": "choice_3", "qtiClass": "simpleChoice", "serial": "choice_simplechoice_i653bcdd0529f7"}}, "prompt": {"body": "", "elements": { }, "serial": "container_containerstatic_i653bcdd052896"}, "qtiClass": "choiceInteraction", "serial": "interaction_choiceinteraction_i653bcdd052831"}}, "serial": "container_containeritembody_i653bcdd0524ab"}, "feedbacks": [ ], "identifier": "<itemId>", "namespaces": {"<empty>": "http://www.imsglobal.org/xsd/imsqti_v2p2", "m": "http://www.w3.org/1998/Math/MathML", "xsi": "http://www.w3.org/2001/XMLSchema-instance"}, "outcomes": {"outcomedeclaration_i653bcdd0525d6": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "SCORE", "normalMaximum": 1, "normalMinimum": 0}, "defaultValue": null, "identifier": "SCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_i653bcdd0525d6"}, "outcomedeclaration_i653bcdd0526c6": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "MAXSCORE"}, "defaultValue": "0", "identifier": "MAXSCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_i653bcdd0526c6"}}, "qtiClass": "assessmentItem", "responseProcessing": {"attributes": { }, "processingType": "templateDriven", "qtiClass": "responseProcessing", "responseRules": [{"qtiClass": "responseCondition", "responseElse": {"qtiClass": "responseElse", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"attributes": {"baseType": "float"}, "qtiClass": "baseValue", "value": "0"}, "qtiClass": "setOutcomeValue"}]}, "responseIf": {"expression": {"expressions": [{"attributes": {"identifier": "RESPONSE"}, "qtiClass": "variable"}, {"attributes": {"identifier": "RESPONSE"}, "qtiClass": "correct"}], "qtiClass": "match"}, "qtiClass": "responseIf", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"attributes": {"baseType": "float"}, "qtiClass": "baseValue", "value": "1"}, "qtiClass": "setOutcomeValue"}]}}], "serial": "responseprocessing_i66d05d7c87b77"}, "responses": {"responsedeclaration_i653bcdd052578": {"areaMapping": [ ], "attributes": {"baseType": "identifier", "cardinality": "single", "identifier": "RESPONSE"}, "correctResponses": [ ], "defaultValue": [ ], "feedbackRules": { }, "howMatch": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct", "identifier": "RESPONSE", "mapping": [ ], "mappingAttributes": {"defaultValue": 0}, "qtiClass": "responseDeclaration", "serial": "responsedeclaration_i653bcdd052578"}}, "schemaLocations": {"http://www.imsglobal.org/xsd/imsqti_v2p2": "http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"}, "serial": "item_i653bcdd0524b0", "stylesheets": [ ]}, "type": "qti"}, "itemIdentifier": "<itemId>"}' % setup,
-          },
-          {
-            name: 'studio.qti.item.templates.choice.trueFalse',
-            value: '{"baseUrl": "/", "itemData": {"assets": [ ], "data": {"apipAccessibility": "", "attributes": {"adaptive": false, "class": "", "identifier": "<itemId>", "label": "True/False", "timeDependent": false, "title": "True/False", "toolName": "TAO Studio", "toolVersion": "2024.09", "xml:lang": "%(defaultLocale)s"}, "body": {"body": "<div class=\\"grid-row\\"><div class=\\"col-12\\">{{interaction_choiceinteraction_i653bcdd052831}}</div></div>", "elements": {"interaction_choiceinteraction_i653bcdd052831": {"attributes": {"maxChoices": 1, "minChoices": 0, "orientation": "vertical", "responseIdentifier": "RESPONSE", "shuffle": false}, "choices": {"choice_simplechoice_i653bcdd052955": {"attributes": {"fixed": false, "identifier": "choice_1", "showHide": "show"}, "body": {"body": "True", "elements": { }, "serial": "container_containerstatic_i653bcdd052961"}, "identifier": "choice_1", "qtiClass": "simpleChoice", "serial": "choice_simplechoice_i653bcdd052955"}, "choice_simplechoice_i653bcdd0529f6": {"attributes": {"fixed": false, "identifier": "choice_2", "showHide": "show"}, "body": {"body": "False", "elements": { }, "serial": "container_containerstatic_i653bcdd0529fe"}, "identifier": "choice_2", "qtiClass": "simpleChoice", "serial": "choice_simplechoice_i653bcdd0529f6"}}, "prompt": {"body": "", "elements": { }, "serial": "container_containerstatic_i653bcdd052896"}, "qtiClass": "choiceInteraction", "serial": "interaction_choiceinteraction_i653bcdd052831"}}, "serial": "container_containeritembody_i653bcdd0524ab"}, "feedbacks": [ ], "identifier": "<itemId>", "namespaces": {"<empty>": "http://www.imsglobal.org/xsd/imsqti_v2p2", "m": "http://www.w3.org/1998/Math/MathML", "xsi": "http://www.w3.org/2001/XMLSchema-instance"}, "outcomes": {"outcomedeclaration_i653bcdd0525d6": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "SCORE", "normalMaximum": 1, "normalMinimum": 0}, "defaultValue": null, "identifier": "SCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_i653bcdd0525d6"}, "outcomedeclaration_i653bcdd0526c6": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "MAXSCORE"}, "defaultValue": "0", "identifier": "MAXSCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_i653bcdd0526c6"}}, "qtiClass": "assessmentItem", "responseProcessing": {"attributes": { }, "processingType": "templateDriven", "qtiClass": "responseProcessing", "responseRules": [{"qtiClass": "responseCondition", "responseElse": {"qtiClass": "responseElse", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"attributes": {"baseType": "float"}, "qtiClass": "baseValue", "value": "0"}, "qtiClass": "setOutcomeValue"}]}, "responseIf": {"expression": {"expressions": [{"attributes": {"identifier": "RESPONSE"}, "qtiClass": "variable"}, {"attributes": {"identifier": "RESPONSE"}, "qtiClass": "correct"}], "qtiClass": "match"}, "qtiClass": "responseIf", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"attributes": {"baseType": "float"}, "qtiClass": "baseValue", "value": "1"}, "qtiClass": "setOutcomeValue"}]}}], "serial": "responseprocessing_i66d045578013a"}, "responses": {"responsedeclaration_i653bcdd052578": {"areaMapping": [ ], "attributes": {"baseType": "identifier", "cardinality": "single", "identifier": "RESPONSE"}, "correctResponses": [ ], "defaultValue": [ ], "feedbackRules": { }, "howMatch": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct", "identifier": "RESPONSE", "mapping": [ ], "mappingAttributes": {"defaultValue": 0}, "qtiClass": "responseDeclaration", "serial": "responsedeclaration_i653bcdd052578"}}, "schemaLocations": {"http://www.imsglobal.org/xsd/imsqti_v2p2": "http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"}, "serial": "item_i653bcdd0524b0", "stylesheets": [ ]}, "type": "qti"}, "itemIdentifier": "<itemId>"}' % setup,
-          },
-          {
-            name: 'studio.qti.item.templates.text.essay',
-            value: '{"baseUrl": "/", "itemData": {"assets": [ ], "data": {"apipAccessibility": "", "attributes": {"adaptive": false, "class": "", "identifier": "i63588079c014f150940a4a872e9e1f1074", "label": "Essay", "timeDependent": false, "title": "Essay", "toolName": "TAO Studio", "toolVersion": "2024.09", "xml:lang": "%(defaultLocale)s"}, "body": {"attributes": [ ], "body": "<div class=\\"grid-row\\"><div class=\\"col-12\\">{{interaction_extendedtextinteraction_5f2a5eb8ceebe473077640}}</div></div>", "elements": {"interaction_extendedtextinteraction_5f2a5eb8ceebe473077640": {"attributes": {"data-math-entry": "true", "format": "xhtml", "responseIdentifier": "RESPONSE"}, "choices": { }, "prompt": {"body": "", "elements": { }, "serial": "container_containerstatic_5f2a5eb8cefdb394933941"}, "qtiClass": "extendedTextInteraction", "serial": "interaction_extendedtextinteraction_5f2a5eb8ceebe473077640"}}, "serial": "container_containeritembody_64ac0ab61c595244463900"}, "feedbacks": { }, "identifier": "i63588079c014f150940a4a872e9e1f1074", "namespaces": {"<empty>": "http://www.imsglobal.org/xsd/imsqti_v2p2", "m": "http://www.w3.org/1998/Math/MathML", "xi": "http://www.w3.org/2001/XInclude", "xsi": "http://www.w3.org/2001/XMLSchema-instance"}, "outcomes": {"outcomedeclaration_64ac0ab631c48199456641": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "SCORE", "normalMaximum": 0, "normalMinimum": 0}, "defaultValue": null, "identifier": "SCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_64ac0ab631c48199456641"}, "outcomedeclaration_64ac0ab63afb5611983523": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "MAXSCORE"}, "defaultValue": "10", "identifier": "MAXSCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_64ac0ab63afb5611983523"}, "outcomedeclaration_i66d060b87f98b": {"attributes": {"baseType": "float", "cardinality": "single", "externalScored": "human", "identifier": "GRADE", "longInterpretation": "", "normalMaximum": 10, "normalMinimum": 0}, "defaultValue": null, "identifier": "GRADE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_i66d060b87f98b"}}, "qtiClass": "assessmentItem", "responseProcessing": {"attributes": { }, "processingType": "templateDriven", "qtiClass": "responseProcessing", "responseRules": [ ], "serial": "responseprocessing_i66d060b87fab3"}, "responses": {"responsedeclaration_5f2a5eb8ceb0e720152439": {"areaMapping": [ ], "attributes": {"baseType": "string", "cardinality": "single", "identifier": "RESPONSE"}, "correctResponses": [ ], "defaultValue": [ ], "feedbackRules": { }, "howMatch": "no_response_processing", "identifier": "RESPONSE", "mapping": [ ], "mappingAttributes": {"defaultValue": 0}, "qtiClass": "responseDeclaration", "serial": "responsedeclaration_5f2a5eb8ceb0e720152439"}}, "schemaLocations": {"http://www.imsglobal.org/xsd/imsqti_v2p2": "http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"}, "serial": "item_64ac0ab61c5b1166550178", "stylesheets": { }}, "type": "qti"}, "itemIdentifier": "<itemId>"}' % setup,
-          },
-          {
-            name: 'studio.qti.item.templates.text.textEntry',
-            value: '{"baseUrl": "/", "itemData": {"assets": [ ], "data": {"apipAccessibility": "", "attributes": {"adaptive": false, "class": "", "identifier": "i64ac07ca71e8f1018f0c665e7f0b59a", "label": "Text Entry", "timeDependent": false, "title": "Text Entry", "toolName": "TAO Studio", "toolVersion": "2024.09", "xml:lang": "%(defaultLocale)s"}, "body": {"attributes": [ ], "body": "<div class=\\"grid-row\\"><div class=\\"col-12\\"> <p>Lorem ipsum {{interaction_textentryinteraction_64ac086d439a4113198124}} dolor sit amet, consectetur adipiscing {{interaction_textentryinteraction_64ac086d439a4113198125}} elit...</p> </div></div>", "elements": {"interaction_textentryinteraction_64ac086d439a4113198124": {"attributes": {"responseIdentifier": "RESPONSE"}, "qtiClass": "textEntryInteraction", "serial": "interaction_textentryinteraction_64ac086d439a4113198124"}, "interaction_textentryinteraction_64ac086d439a4113198125": {"attributes": {"responseIdentifier": "RESPONSE_1"}, "qtiClass": "textEntryInteraction", "serial": "interaction_textentryinteraction_64ac086d439a4113198125"}}, "serial": "container_containeritembody_64ac086d2a989896243171"}, "feedbacks": { }, "identifier": "i64ac07ca71e8f1018f0c665e7f0b59a", "namespaces": {"<empty>": "http://www.imsglobal.org/xsd/imsqti_v2p2", "m": "http://www.w3.org/1998/Math/MathML", "xsi": "http://www.w3.org/2001/XMLSchema-instance"}, "outcomes": {"outcomedeclaration_64ac086d39c1e954805365": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "SCORE", "normalMaximum": 0, "normalMinimum": 0}, "defaultValue": null, "identifier": "SCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_64ac086d39c1e954805365"}, "outcomedeclaration_64ac086d416b9873066243": {"attributes": {"baseType": "float", "cardinality": "single", "identifier": "MAXSCORE"}, "defaultValue": "0", "identifier": "MAXSCORE", "qtiClass": "outcomeDeclaration", "serial": "outcomedeclaration_64ac086d416b9873066243"}}, "qtiClass": "assessmentItem", "responseProcessing": {"attributes": { }, "processingType": "templateDriven", "qtiClass": "responseProcessing", "responseRules": [{"qtiClass": "responseCondition", "responseIf": {"expression": {"expressions": [{"attributes": {"identifier": "RESPONSE"}, "qtiClass": "variable"}, {"attributes": {"identifier": "RESPONSE"}, "qtiClass": "correct"}], "qtiClass": "match"}, "qtiClass": "responseIf", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"expressions": [{"attributes": {"identifier": "SCORE"}, "qtiClass": "variable"}, {"attributes": {"baseType": "integer"}, "qtiClass": "baseValue", "value": "1"}], "qtiClass": "sum"}, "qtiClass": "setOutcomeValue"}]}}, {"qtiClass": "responseCondition", "responseIf": {"expression": {"expressions": [{"attributes": {"identifier": "RESPONSE_1"}, "qtiClass": "variable"}, {"attributes": {"identifier": "RESPONSE_1"}, "qtiClass": "correct"}], "qtiClass": "match"}, "qtiClass": "responseIf", "responseRules": [{"attributes": {"identifier": "SCORE"}, "expression": {"expressions": [{"attributes": {"identifier": "SCORE"}, "qtiClass": "variable"}, {"attributes": {"baseType": "integer"}, "qtiClass": "baseValue", "value": "1"}], "qtiClass": "sum"}, "qtiClass": "setOutcomeValue"}]}}], "serial": "responseprocessing_i66d05f6331b10"}, "responses": {"responsedeclaration_64ac086d35c82670856455": {"areaMapping": [ ], "attributes": {"baseType": "string", "cardinality": "single", "identifier": "RESPONSE"}, "correctResponses": [ ], "defaultValue": [ ], "feedbackRules": { }, "howMatch": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct", "identifier": "RESPONSE", "mapping": [ ], "mappingAttributes": {"defaultValue": 0}, "qtiClass": "responseDeclaration", "serial": "responsedeclaration_64ac086d35c82670856455"}, "responsedeclaration_64ac086d35c82670856456": {"areaMapping": [ ], "attributes": {"baseType": "string", "cardinality": "single", "identifier": "RESPONSE_1"}, "correctResponses": [ ], "defaultValue": [ ], "feedbackRules": { }, "howMatch": "http://www.imsglobal.org/question/qti_v2p1/rptemplates/match_correct", "identifier": "RESPONSE_1", "mapping": [ ], "mappingAttributes": {"defaultValue": 0}, "qtiClass": "responseDeclaration", "serial": "responsedeclaration_64ac086d35c82670856456"}}, "schemaLocations": {"http://www.imsglobal.org/xsd/imsqti_v2p2": "http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd"}, "serial": "item_64ac086d2a999416314796", "stylesheets": { }}, "type": "qti"}, "itemIdentifier": "<itemId>"}' % setup,
-          },
-          {
-            name: 'hierarchy.auto-assignment-tool.config',
-            value: '{"targetUserField": "email", "targetUserRoles": ["GROUP_MANAGER"], "targetUsersFieldFilters": [{"field": "addresses.zipCode", "path": "addresses", "type": "terms", "values": ["{{targetUserFieldValue}}"]}, {"field": "addresses.type", "path": "addresses", "type": "terms", "values": ["residential"]}]}' % setup,
-          },
-          {
-            name: 'service_type',
-            value: 'nextgen-tao-deliver-be-service',
-          },
-          {
-            name: 'diagnostic_$(defaultLocale)s' % setup,
-            value: "{\"components.AudioCheckResultItem.no\": \"No\", \"components.AudioCheckResultItem.yes\": \"Yes\", \"components.BrowserCheckResultItem.unsupported\": \"Unsupported\", \"components.WebSocketCheckResultItem.no\": \"No\", \"components.WebSocketCheckResultItem.yes\": \"Yes\", \"pages.Login.country\": \"Country\", \"pages.Login.enter\": \"Enter\", \"pages.Login.enter_country\": \"Enter your current country\", \"pages.Login.enter_school_name\": \"Enter your school name\", \"pages.Login.enter_workstation_name\": \"Enter your workstation name\", \"pages.Login.is_audio\": \"Is your school taking the Foreign Language Assessment (FLA)?\", \"pages.Login.loading\": \"Loading...\", \"pages.Login.no\": \"No\", \"pages.Login.school_name\": \"School name\", \"pages.Login.welcome\": \"Welcome to the diagnostic tool\", \"pages.Login.welcome2\": \"Your system will undergo a test to ensure it is ready for any session.\", \"pages.Login.workstation_name\": \"Workstation name\", \"pages.Login.yes\": \"Yes\", \"pages.Login.your_ip\": \"Your IP address\", \"pages.diagnostic.AudioCapability.access_mic_required\": \"Access to your microphone is required to test your audio. Please allow microphone access through your browser's settings.\", \"pages.diagnostic.AudioCapability.audio_check\": \"Audio check\", \"pages.diagnostic.AudioCapability.continue_to_syscheck\": \"Continue to system check\", \"pages.diagnostic.AudioCapability.diagnostic_tool\": \"Diagnostic tool\", \"pages.diagnostic.AudioCapability.input_level\": \"Input level\", \"pages.diagnostic.AudioCapability.mic\": \"microphone\", \"pages.diagnostic.AudioCapability.no\": \"No\", \"pages.diagnostic.AudioCapability.output_level\": \"Output level\", \"pages.diagnostic.AudioCapability.recording_test\": \"To test your microphone and speaker please begin by recording a short audio. Once complete you can playback your recording.\", \"pages.diagnostic.AudioCapability.select_mic\": \"Select a microphone\", \"pages.diagnostic.AudioCapability.step_of\": \"Step {{step}} of {{of}}: \", \"pages.diagnostic.AudioCapability.unable_access_mic\": \"Unable to access the microphone\", \"pages.diagnostic.AudioCapability.was_playback_clear\": \"Was the playback of your recording clear?\", \"pages.diagnostic.AudioCapability.yes\": \"Yes\", \"pages.diagnostic.Results.audio\": \"Audio\", \"pages.diagnostic.Results.bandwidth\": \"Bandwidth\", \"pages.diagnostic.Results.bandwidth_result_based\": \"The bandwidth pass or fail result is based on supporting {{d}} concurrent test takers.\", \"pages.diagnostic.Results.browser\": \"Browser\", \"pages.diagnostic.Results.diagnostic_tool\": \"Diagnostic tool\", \"pages.diagnostic.Results.download\": \"Download\", \"pages.diagnostic.Results.latency\": \"Latency\", \"pages.diagnostic.Results.playback\": \"Playback\", \"pages.diagnostic.Results.results\": \"Results\", \"pages.diagnostic.Results.results_core\": \"PISA Core Assessment\", \"pages.diagnostic.Results.results_fla\": \"Foreign Language Assessment (FLA)\", \"pages.diagnostic.Results.retest\": \"Retest system\", \"pages.diagnostic.Results.system_meets_specs\": \"Your system meets the technical specifications\", \"pages.diagnostic.Results.system_not_meet_specs\": \"Your system does not meet the technical specifications and is not suited to run this assessment.\", \"pages.diagnostic.Results.upload\": \"Upload\", \"pages.diagnostic.Results.version\": \"Version\", \"pages.diagnostic.Results.webSocketConnection\": \"Web socket compatibility\", \"pages.diagnostic.SaveResults.cancel_button\": \"Cancel\", \"pages.diagnostic.SaveResults.progress\": \"Saving diagnostic results\", \"pages.diagnostic.SaveResults.retry_save_button\": \"Try again\", \"pages.diagnostic.SaveResults.retry_save_heading\": \"Error! We could not save diagnostic results.\", \"pages.diagnostic.SaveResults.retry_save_message\": \"Please, try again. If the problem persists, contact the support service\", \"pages.diagnostic.SaveResults.save_error\": \"We failed to save diagnostic data. Please, contact the support service.\", \"pages.diagnostic.SaveResults.saving_failure_remediation\": \"Please, contact the support service.\", \"pages.diagnostic.SaveResults.saving_failure_title\": \"Failed to save diagnostic data.\", \"pages.diagnostic.SystemCompatibility.check_browser\": \"Checking browser compatibility... ({{progress}}%)\", \"pages.diagnostic.SystemCompatibility.check_connection\": \"Checking connection compatibility... ({{progress}}%)\", \"pages.diagnostic.SystemCompatibility.check_system\": \"Checking Foreign language assessment compatibility... ({{progress}}%)\", \"pages.diagnostic.SystemCompatibility.diagnostic_tool\": \"Diagnostic tool\", \"pages.diagnostic.SystemCompatibility.no_internet_remediation\": \"Please check your Internet connection and try again\", \"pages.diagnostic.SystemCompatibility.no_internet_title\": \"No Internet Connection\", \"pages.diagnostic.SystemCompatibility.step_of\": \"Step {{step}} of {{of}}: \", \"pages.diagnostic.SystemCompatibility.system_check\": \"System Compatibility Check\", \"pages.diagnostic.WebSocketCompatibility.check_connection\": \"Checking websockets compatibility... ({{progress}}%)\"}",
-          },
-          {
-            name: 'diagnostic_fields',
-            value: '{"additionalData": [{"name": "workstation_name", "type": "input"}, {"name": "school_name", "required": true, "type": "input"}, {"name": "country", "type": "dropdown", "values": ["Norway", "Great Britain", "Japan"]}], "audioTest": true}',
-          },
-          {
             name: 'testRunnerConfiguration',
             value: {
               exportProviders: {
@@ -346,11 +290,15 @@ function(setup)
           },
           {
             name: 'deliver-launch-claims',
-            value: '{"https://purl.imsglobal.org/spec/lti/claim/custom": {"deliverySettings.item.id": "<<itemRefId>>", "deliverySettings.navigation": "none", "deliverySettings.review.deliveryExecutionId": "<<deliveryExecutionId>>", "deliverySettings.review.enabled": "true", "deliverySettings.review.showQuestion": "false"}, "https://purl.imsglobal.org/spec/lti/claim/roles": "[\\"http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor\\"]"}',
-          },
-          {
-            name: 'battery-launch-claims',
-            value: '{"https://purl.imsglobal.org/spec/lti/claim/custom": { }, "https://purl.imsglobal.org/spec/lti/claim/roles": "[\\"http://purl.imsglobal.org/vocab/lis/v2/membership#Learner\\"]"}',
+            value: std.toString({
+              "https://purl.imsglobal.org/spec/lti/claim/roles": [
+                "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+              ],
+              "https://purl.imsglobal.org/spec/lti/claim/custom": {
+                "deliverySettings.review.deliveryExecutionId": "<<deliveryExecutionId>>",
+              },
+              "sub": "<<sub>>",
+            }),
           },
           {
             name: 'editorConfiguration',
@@ -425,40 +373,16 @@ function(setup)
                   type: 'image/x-icon',
                 },
               },
-              testRunner: [
-                'testRunner',
-              ],
+              testRunner: {
+                showUserMenu: true,
+              },
             },
-          },
-          {
-            name: 'deliver_type',
-            value: 'DeliverSolar',
           },
           {
             name: 'MSConfiguration',
             value: {
               static_url: 'https://%s/ms-fe' % [setup.publicDomain],
             },
-          },
-          {
-            name: 'portal.lti_claims.delivery_launch',
-            value: '{}',
-          },
-          {
-            name: 'portal.lti_claims.delivery_review',
-            value: '{}',
-          },
-          {
-            name: 'portal.lti_claims.proctoring_launch',
-            value: '{}',
-          },
-          {
-            name: 'portal.lti_claims.grader_launch',
-            value: '{}',
-          },
-          {
-            name: 'user-integration.configuration',
-            value: '{}',
           },
           {
             name: 'portal.support',
@@ -531,59 +455,6 @@ function(setup)
                 },
               },
             },
-          },
-          {
-            name: 'portal.test_categories',
-            value: [
-              {
-                id: 'a1-b2-listening',
-                title: 'A1-B2 Listening',
-              },
-              {
-                id: 'a1-b2-reading',
-                title: 'A1-B2 Reading',
-              },
-              {
-                id: 'a1-b2-speaking',
-                title: 'A1-B2 Speaking',
-              },
-              {
-                id: 'a1-b2-writing',
-                title: 'A1-B2 Writing',
-              },
-              {
-                id: 'a1-b1-sign-language-comprehension',
-                title: 'A1-B1 sign language comprehension',
-              },
-              {
-                id: 'a1-b2-sign-language-communication',
-                title: 'A1-B2 sign language communication',
-              },
-              {
-                id: 'c1-listening-and-writing',
-                title: 'C1 listening and writing',
-              },
-              {
-                id: 'c1-reading-and-speaking',
-                title: 'C1 reading and speaking',
-              },
-              {
-                id: 'social-studies-knowledge-of-society',
-                title: 'Social studies (knowledge of society)',
-              },
-              {
-                id: 'citizenship',
-                title: 'Citizenship',
-              },
-            ],
-          },
-          {
-            name: 'portal.user_fields',
-            value: {},
-          },
-          {
-            name: 'portal.user_readonly_fields',
-            value: '{"default": [ ]}',
           },
           {
             name: 'portal.countries',
@@ -1770,35 +1641,20 @@ function(setup)
               'ro-RO': 'Română',
             },
           },
-          {
-            name: 'proctoring.expiration.ttl',
-            value: '5',
-          },
-          {
-            name: 'auth-server.lockout',
-            value: '{"attempts":6,"retryAfterSeconds":360}',
-          },
-          {
-            name: 'auth-server.hierarchy',
-            value: '{"restrictAccessForDisabledHierarchy":true}',
-          },
         ],
-        diagnostic_locales: {
-          ['diagnostic_%(defaultLocale)s' % setup]: "{\"components.AudioCheckResultItem.no\": \"No\", \"components.AudioCheckResultItem.yes\": \"Yes\", \"components.BrowserCheckResultItem.unsupported\": \"Unsupported\", \"components.WebSocketCheckResultItem.no\": \"No\", \"components.WebSocketCheckResultItem.yes\": \"Yes\", \"pages.Login.country\": \"Country\", \"pages.Login.enter\": \"Enter\", \"pages.Login.enter_country\": \"Enter your current country\", \"pages.Login.enter_school_name\": \"Enter your school name\", \"pages.Login.enter_workstation_name\": \"Enter your workstation name\", \"pages.Login.is_audio\": \"Is your school taking the Foreign Language Assessment (FLA)?\", \"pages.Login.loading\": \"Loading...\", \"pages.Login.no\": \"No\", \"pages.Login.school_name\": \"School name\", \"pages.Login.welcome\": \"Welcome to the diagnostic tool\", \"pages.Login.welcome2\": \"Your system will undergo a test to ensure it is ready for any session.\", \"pages.Login.workstation_name\": \"Workstation name\", \"pages.Login.yes\": \"Yes\", \"pages.Login.your_ip\": \"Your IP address\", \"pages.diagnostic.AudioCapability.access_mic_required\": \"Access to your microphone is required to test your audio. Please allow microphone access through your browser's settings.\", \"pages.diagnostic.AudioCapability.audio_check\": \"Audio check\", \"pages.diagnostic.AudioCapability.continue_to_syscheck\": \"Continue to system check\", \"pages.diagnostic.AudioCapability.diagnostic_tool\": \"Diagnostic tool\", \"pages.diagnostic.AudioCapability.input_level\": \"Input level\", \"pages.diagnostic.AudioCapability.mic\": \"microphone\", \"pages.diagnostic.AudioCapability.no\": \"No\", \"pages.diagnostic.AudioCapability.output_level\": \"Output level\", \"pages.diagnostic.AudioCapability.recording_test\": \"To test your microphone and speaker please begin by recording a short audio. Once complete you can playback your recording.\", \"pages.diagnostic.AudioCapability.select_mic\": \"Select a microphone\", \"pages.diagnostic.AudioCapability.step_of\": \"Step {{step}} of {{of}}: \", \"pages.diagnostic.AudioCapability.unable_access_mic\": \"Unable to access the microphone\", \"pages.diagnostic.AudioCapability.was_playback_clear\": \"Was the playback of your recording clear?\", \"pages.diagnostic.AudioCapability.yes\": \"Yes\", \"pages.diagnostic.Results.audio\": \"Audio\", \"pages.diagnostic.Results.bandwidth\": \"Bandwidth\", \"pages.diagnostic.Results.bandwidth_result_based\": \"The bandwidth pass or fail result is based on supporting {{d}} concurrent test takers.\", \"pages.diagnostic.Results.browser\": \"Browser\", \"pages.diagnostic.Results.diagnostic_tool\": \"Diagnostic tool\", \"pages.diagnostic.Results.download\": \"Download\", \"pages.diagnostic.Results.latency\": \"Latency\", \"pages.diagnostic.Results.playback\": \"Playback\", \"pages.diagnostic.Results.results\": \"Results\", \"pages.diagnostic.Results.results_core\": \"PISA Core Assessment\", \"pages.diagnostic.Results.results_fla\": \"Foreign Language Assessment (FLA)\", \"pages.diagnostic.Results.retest\": \"Retest system\", \"pages.diagnostic.Results.system_meets_specs\": \"Your system meets the technical specifications\", \"pages.diagnostic.Results.system_not_meet_specs\": \"Your system does not meet the technical specifications and is not suited to run this assessment.\", \"pages.diagnostic.Results.upload\": \"Upload\", \"pages.diagnostic.Results.version\": \"Version\", \"pages.diagnostic.Results.webSocketConnection\": \"Web socket compatibility\", \"pages.diagnostic.SaveResults.cancel_button\": \"Cancel\", \"pages.diagnostic.SaveResults.progress\": \"Saving diagnostic results\", \"pages.diagnostic.SaveResults.retry_save_button\": \"Try again\", \"pages.diagnostic.SaveResults.retry_save_heading\": \"Error! We could not save diagnostic results.\", \"pages.diagnostic.SaveResults.retry_save_message\": \"Please, try again. If the problem persists, contact the support service\", \"pages.diagnostic.SaveResults.save_error\": \"We failed to save diagnostic data. Please, contact the support service.\", \"pages.diagnostic.SaveResults.saving_failure_remediation\": \"Please, contact the support service.\", \"pages.diagnostic.SaveResults.saving_failure_title\": \"Failed to save diagnostic data.\", \"pages.diagnostic.SystemCompatibility.check_browser\": \"Checking browser compatibility... ({{progress}}%)\", \"pages.diagnostic.SystemCompatibility.check_connection\": \"Checking connection compatibility... ({{progress}}%)\", \"pages.diagnostic.SystemCompatibility.check_system\": \"Checking Foreign language assessment compatibility... ({{progress}}%)\", \"pages.diagnostic.SystemCompatibility.diagnostic_tool\": \"Diagnostic tool\", \"pages.diagnostic.SystemCompatibility.no_internet_remediation\": \"Please check your Internet connection and try again\", \"pages.diagnostic.SystemCompatibility.no_internet_title\": \"No Internet Connection\", \"pages.diagnostic.SystemCompatibility.step_of\": \"Step {{step}} of {{of}}: \", \"pages.diagnostic.SystemCompatibility.system_check\": \"System Compatibility Check\", \"pages.diagnostic.WebSocketCompatibility.check_connection\": \"Checking websockets compatibility... ({{progress}}%)\"}",
-        },
         featureFlags: [],
         ltiPlatforms: [],
         ltiRegistrations: [
           {
-            clientId: 'backoffice-deliver-id',
+            clientId: 'lti-backoffice-deliver',
             deploymentIds: [
               '1',
             ],
-            id: 'backoffice--deliver',
+            id: 'lti-backoffice-deliver',
             platformId: 'backoffice-platform',
             platformJwksUrl: 'https://%s/backoffice/taoLti/Security/jwks' % setup.publicDomain,
             platformKeyChain: {},
-            toolId: 'nextgen-tao-deliver-be-tool',
+            toolId: 'deliver-tool',
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
           },
@@ -1812,19 +1668,17 @@ function(setup)
           instanceId: 'nextgen-stack-local',
           label: 'nextgen-stack',
           msClientId: 'ms-fe-solar-client-id',
-          portalClientId: 'portal-client-id_1',
+          portalClientId: 'portal-client-id-1',
           subdomainDiagnostic: 'diagnostic',
           subdomainManualScoring: std.split(setup.publicDomain, '.')[0],
-          // "subdomainManualScoring": "community",
           subdomainPortal: std.split(setup.publicDomain, '.')[0],
-          // "subdomainPortal": "community",
           tenantId: '1',
         },
         metadataSchemas: [],
         oauth2Clients: [
           {
             clientId: 'dynamic-query-api-client-id',
-            clientSecret: 'client-secret',
+            clientSecret: setup.lib.hash('dynamic-query-api-client-id'),
             isConfidential: true,
             name: 'Dynamic Query api OAuth2 Credentials',
             scopes: [
@@ -1836,8 +1690,8 @@ function(setup)
             ],
           },
           {
-            clientId: 'backoffice-deliver-id',
-            clientSecret: 'client-secret',
+            clientId: 'lti-backoffice-deliver',
+            clientSecret: setup.lib.hash('lti-backoffice-deliver'),
             isConfidential: false,
             name: 'Publication OAuth2 Credential',
             scopes: [
@@ -1847,8 +1701,8 @@ function(setup)
           },
           {
             name: 'Proctoring Deliver OAuth2 Credentials',
-            clientId: 'deliver-proctoring-client-id',
-            clientSecret: 'client-secret',
+            clientId: 'lti-deliver-proctoring',
+            clientSecret: setup.lib.hash('lti-deliver-proctoring'),
             isConfidential: true,
             scopes: [
               'https://purl.imsglobal.org/spec/lti-ap/scope/control.all',
@@ -1856,7 +1710,7 @@ function(setup)
           },
           {
             clientId: 'deliver-be-devkit',
-            clientSecret: 'client-secret',
+            clientSecret: setup.lib.hash('deliver-be-devkit'),
             isConfidential: true,
             name: 'Proctoring OAuth2 Credentials',
             scopes: [
@@ -1865,7 +1719,7 @@ function(setup)
           },
           {
             clientId: 'ss-solar-client-id-for-response-handlers',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('ss-solar-client-id-for-response-handlers'),
             isConfidential: true,
             name: 'Scoring Service OAuth2 Client to manage response handlers',
             scopes: [
@@ -1875,7 +1729,7 @@ function(setup)
           },
           {
             clientId: 'ss-solar-client-id-for-tao',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('ss-solar-client-id-for-tao'),
             isConfidential: true,
             name: 'Scoring Service OAuth2 Client for TAO to post events',
             scopes: [
@@ -1885,7 +1739,7 @@ function(setup)
           },
           {
             clientId: 'ss-solar-client-id-for-ms',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('ss-solar-client-id-for-ms'),
             isConfidential: true,
             name: 'Scoring Service OAuth2 Client for Manual Scoring to post scores',
             scopes: [
@@ -1895,7 +1749,7 @@ function(setup)
           },
           {
             clientId: 'ss-solar-client-id-for-ms-lti',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('ss-solar-client-id-for-ms-lti'),
             isConfidential: true,
             name: 'Scoring Service OAuth2 Client for Manual Scoring LTI Launch',
             scopes: [],
@@ -1903,7 +1757,7 @@ function(setup)
           },
           {
             clientId: 'ms-client-id-for-ss',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('ms-client-id-for-ss'),
             isConfidential: true,
             name: 'MS OAuth2 Client for Scoring Service to send responses and deliveries',
             scopes: [
@@ -1921,14 +1775,14 @@ function(setup)
           },
           {
             clientId: 'deliver-client-id-for-ss',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('deliver-client-id-for-ss'),
             isConfidential: true,
             name: 'Deliver OAuth2 Client for Scoring Service to download results',
             scopes: [],
             users: [],
           },
           {
-            clientId: 'portal-client-id_1',
+            clientId: 'portal-client-id-1',
             isConfidential: false,
             name: 'Portal Frontend OAuth2 Client',
             scopes: [],
@@ -1936,51 +1790,13 @@ function(setup)
           },
           {
             clientId: 'tenant-api-client-id',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('tenant-api-client-id'),
             isConfidential: true,
             name: 'Tenant API Client',
             scopes: [
               'tenant-api:full-access',
             ],
             users: [],
-          },
-        ],
-        templates: [
-          {
-            name: 'email-verification',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n    </head>\n\n    <body style=\"font-size: 16px; color: #121212; font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif\">\n        {{#if name}}\n        <h3>Hello {{ name}},</h3>\n        {{else}}\n        <h3>Hello,</h3>\n        {{/if}}\n        <p>\n            we just need to confirm that this is you. If you did not sign up for a TAO account, simply ignore this\n            email.\n        </p>\n        <p>Click below to verify your email address and finish setting up your account:</p>\n        <a\n            tracking=\"off\"\n            title=\"Verify my email\"\n            aria-label=\"Verify my email\"\n            target=\"_blank\"\n            style=\"\n                box-sizing: inherit;\n                border: 2px solid;\n                cursor: pointer;\n                align-items: center;\n                border-radius: 30px;\n                display: table-cell;\n                font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                justify-content: center;\n                letter-spacing: inherit;\n                margin: 4px;\n                text-transform: uppercase;\n                vertical-align: middle;\n                white-space: nowrap;\n                word-spacing: inherit;\n                position: relative;\n                background: #006dcc;\n                border-color: #006dcc;\n                color: #fff !important;\n                font-size: 14px;\n                height: 40px;\n                min-width: 80px;\n                padding: 0 12px;\n                flex-direction: row;\n                text-decoration: none;\n            \"\n            href=\"{{emailVerificationUrl}}\"\n            >Verify my email</a\n        >\n        <p>Bear in mind this link will be <b>valid for {{verificationUrlValidityTime}}</b> only.</p>\n        <p>Thank you,<br />'TAO'</p>\n    </body>\n</html>\n",
-          },
-          {
-            name: 'mfa-code-email',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n    </head>\n\n    <body\n        style=\"\n            width: 600px;\n            font-size: 16px;\n            color: #121212;\n            font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n        \">\n        {{#if name}}\n        <h3>Hello {{ name}},</h3>\n        {{else}}\n        <h3>Hello,</h3>\n        {{/if}}\n        <p>Please enter the verification code to complete the login.</p>\n        <p\n            style=\"\n                display: table;\n                margin: 0;\n                height: 72px;\n                background-color: #f2f2f2;\n                width: 400px;\n                align-content: center;\n                text-align: center;\n            \">\n            <span\n                style=\"\n                    display: table-cell;\n                    vertical-align: middle;\n                    font-size: 30px;\n                    color: #121212;\n                    font-weight: 600;\n                    line-height: 40px;\n                    line-height: normal;\n                \"\n                class=\"mfaCode\"\n                >{{mfaCode}}</span\n            >\n        </p>\n        <p>This code is <b>valid for {{validityTime}}</b> only.</p>\n        <p>If you didn't request a code, you can safely ignore this email.</p>\n        <p>Thank you,<br />'TAO'</p>\n    </body>\n</html>\n",
-          },
-          {
-            name: 'profile-registered',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n    </head>\n\n    <body\n        style=\"\n            width: 600px;\n            font-size: 16px;\n            color: #121212;\n            font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n        \">\n        {{#if name}}\n        <h3>Hello {{ name}},</h3>\n        {{else}}\n        <h3>Hello,</h3>\n        {{/if}}\n        <p>Use the username below together with the password you have created to access your account.</p>\n        <p><b>Username:</b></p>\n        <p\n            style=\"\n                display: table;\n                margin: 0;\n                height: 72px;\n                background-color: #f2f2f2;\n                width: 400px;\n                align-content: center;\n                text-align: center;\n            \">\n            <span\n                style=\"\n                    display: table-cell;\n                    vertical-align: middle;\n                    font-size: 30px;\n                    color: #121212;\n                    font-weight: 600;\n                    line-height: 40px;\n                    line-height: normal;\n                \"\n                >{{username}}</span\n            >\n        </p>\n        <p>Thank you,<br />'TAO'</p>\n    </body>\n</html>\n",
-          },
-          {
-            name: 'session-assigned',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n    </head>\n\n    <body style=\"font-size: 16px; color: #121212; font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif\">\n        {{#if testTakerName}}\n        <h3>Hello {{ testTakerName}},</h3>\n        {{else}}\n        <h3>Hello,</h3>\n        {{/if}}\n        <p>You were assigned to a new session, here are the details:</p>\n        <section style=\"padding-left: 32px\">\n            <h3>{{sessionName}}</h3>\n            {{#if startDate}}\n            <p>Start date: {{startDate}}</p>\n            {{/if}} {{#if endDate}}\n            <p>End date: {{endDate}}</p>\n            {{/if}}\n        </section>\n        {{#if portalUrl}}\n        <p>You can see all sessions assigned to you on your sessions page:</p>\n        <a\n            tracking=\"off\"\n            title=\"GO TO MY SESSIONS\"\n            aria-label=\"Go to my sessions\"\n            target=\"_blank\"\n            style=\"\n                box-sizing: inherit;\n                border: 2px solid;\n                cursor: pointer;\n                align-items: center;\n                border-radius: 30px;\n                display: table-cell;\n                font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                justify-content: center;\n                letter-spacing: inherit;\n                margin: 4px;\n                text-transform: uppercase;\n                vertical-align: middle;\n                white-space: nowrap;\n                word-spacing: inherit;\n                position: relative;\n                background: #006dcc;\n                border-color: #006dcc;\n                color: #fff !important;\n                font-size: 14px;\n                height: 40px;\n                min-width: 80px;\n                padding: 0 12px;\n                flex-direction: row;\n                text-decoration: none;\n            \"\n            href=\"{{portalUrl}}\"\n            >GO TO MY SESSIONS</a\n        >\n        {{/if}} {{#if unsubscribeUrl}}\n        <p>\n            If you don't want to receive these emails anymore,\n            <a\n                style=\"\n                    box-sizing: inherit;\n                    background: none;\n                    cursor: pointer;\n                    line-height: 2.5rem;\n                    color: #121212 !important;\n                    position: relative;\n                    display: inline-flex;\n                    text-decoration: none;\n                    font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                \"\n                aria-label=\"Unsubscribe link\"\n                target=\"_blank\"\n                title=\"unsubscribe\"\n                tracking=\"off\"\n                href=\"{{unsubscribeUrl}}\"\n                ><span style=\"margin-left: 3px; margin-right: 5px; text-decoration: underline\"\n                    >click here to unsubscribe</span\n                ></a\n            >\n        </p>\n        {{/if}}\n        <p>Thank you.</p>\n    </body>\n</html>\n",
-          },
-          {
-            name: 'session-deleted',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n    </head>\n    <body style=\"font-family: Arial, sans-serif; margin: 0; padding: 0\">\n        <h2>Session cancelled</h2>\n        {{#if testTakerName}}\n        <h3><span style=\"font-weight: normal\">Hello,</span> {{ testTakerName}},</h3>\n        {{else}}\n        <h3>Hello,</h3>\n        {{/if}}\n        <p>your upcoming session was cancelled, here are the details:</p>\n        <section style=\"padding-left: 32px\">\n            <h3>{{sessionName}}</h3>\n            {{#if startDate}}\n            <p>Start date: {{startDate}}</p>\n            {{/if}}\n        </section>\n        {{#if portalUrl}}\n        <p>You can see all sessions on your candidate page:</p>\n        <a\n            tracking=\"off\"\n            title=\"GO TO MY SESSIONS\"\n            aria-label=\"Go to my sessions\"\n            target=\"_blank\"\n            style=\"\n                box-sizing: inherit;\n                border: 2px solid;\n                cursor: pointer;\n                align-items: center;\n                border-radius: 30px;\n                display: table-cell;\n                font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                justify-content: center;\n                letter-spacing: inherit;\n                margin: 4px;\n                text-transform: uppercase;\n                vertical-align: middle;\n                white-space: nowrap;\n                word-spacing: inherit;\n                position: relative;\n                background: #006dcc;\n                border-color: #006dcc;\n                color: #fff !important;\n                font-size: 14px;\n                height: 40px;\n                min-width: 80px;\n                padding: 0 12px;\n                flex-direction: row;\n                text-decoration: none;\n            \"\n            href=\"{{portalUrl}}\"\n            >GO TO MY PAGE</a\n        >\n        {{/if}} {{#if unsubscribeUrl}}\n        <p>\n            If you don't want to receive these emails anymore,\n            <a\n                style=\"\n                    box-sizing: inherit;\n                    background: none;\n                    cursor: pointer;\n                    line-height: 2.5rem;\n                    color: #121212 !important;\n                    position: relative;\n                    display: inline-flex;\n                    text-decoration: none;\n                    font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                \"\n                aria-label=\"Unsubscribe link\"\n                target=\"_blank\"\n                title=\"unsubscribe\"\n                tracking=\"off\"\n                href=\"{{unsubscribeUrl}}\"\n                ><span style=\"margin-left: 3px; margin-right: 5px; text-decoration: underline\"\n                    >click here to unsubscribe</span\n                ></a\n            >\n        </p>\n        {{/if}}\n        <p>Thank you.</p>\n    </body>\n</html>\n",
-          },
-          {
-            name: 'session-expulsion',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n    </head>\n\n    <body style=\"font-size: 16px; color: #121212; font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif\">\n        {{#if testTakerName}}\n        <h3>Hello {{ testTakerName}},</h3>\n        {{else}}\n        <h3>Hello,</h3>\n        {{/if}}\n        <p>your upcoming session was cancelled, here are the details:</p>\n        <section style=\"padding-left: 32px\">\n            <h3>{{sessionName}}</h3>\n            {{#if startDate}}\n            <p>Start date: {{startDate}}</p>\n            {{/if}}\n        </section>\n        {{#if portalUrl}}\n        <p>You can see all sessions assigned to you on your sessions page:</p>\n        <a\n            tracking=\"off\"\n            title=\"GO TO MY SESSIONS\"\n            aria-label=\"Go to my sessions\"\n            target=\"_blank\"\n            style=\"\n                box-sizing: inherit;\n                border: 2px solid;\n                cursor: pointer;\n                align-items: center;\n                border-radius: 30px;\n                display: table-cell;\n                font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                justify-content: center;\n                letter-spacing: inherit;\n                margin: 4px;\n                text-transform: uppercase;\n                vertical-align: middle;\n                white-space: nowrap;\n                word-spacing: inherit;\n                position: relative;\n                background: #006dcc;\n                border-color: #006dcc;\n                color: #fff !important;\n                font-size: 14px;\n                height: 40px;\n                min-width: 80px;\n                padding: 0 12px;\n                flex-direction: row;\n                text-decoration: none;\n            \"\n            href=\"{{portalUrl}}\"\n            >GO TO MY SESSIONS</a\n        >\n        {{/if}} {{#if unsubscribeUrl}}\n        <p>\n            If you don't want to receive these emails anymore,\n            <a\n                style=\"\n                    box-sizing: inherit;\n                    background: none;\n                    cursor: pointer;\n                    line-height: 2.5rem;\n                    color: #121212 !important;\n                    position: relative;\n                    display: inline-flex;\n                    text-decoration: none;\n                    font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                \"\n                aria-label=\"Unsubscribe link\"\n                target=\"_blank\"\n                title=\"unsubscribe\"\n                tracking=\"off\"\n                href=\"{{unsubscribeUrl}}\"\n                ><span style=\"margin-left: 3px; margin-right: 5px; text-decoration: underline\"\n                    >click here to unsubscribe</span\n                ></a\n            >\n        </p>\n        {{/if}}\n        <p>Thank you.</p>\n    </body>\n</html>\n",
-          },
-          {
-            name: 'session-graded',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n    </head>\n\n    <body style=\"font-size: 16px; color: #121212; font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif\">\n        {{#if testTakerName}}\n        <h3>Hello {{ testTakerName}},</h3>\n        {{else}}\n        <h3>Hello,</h3>\n        {{/if}}\n        <p>Your session results are now available, here are the details:</p>\n        <section style=\"padding-left: 32px\">\n            <h3>{{sessionName}}</h3>\n            {{#if endDate}}\n            <p>Finished at: {{endDate}}</p>\n            {{/if}} {{#if userScore}}\n            <p>\n                Your score: {{userScore}}{{#if failed}}<span\n                    style=\"font-size: 18px; margin-left: 15px; font-weight: bold; color: red\"\n                    >! Fail</span\n                >{{/if}}{{#if passed}}<span style=\"font-size: 18px; margin-left: 15px; font-weight: bold; color: green\"\n                    >&#x2713; Pass</span\n                >{{/if}}\n            </p>\n            {{/if}}\n        </section>\n        {{#if reportLink}}\n        <section>\n            <p>You can access the full session report on your session report page:</p>\n            <a\n                tracking=\"off\"\n                title=\"Session report\"\n                aria-label=\"Session report\"\n                target=\"_blank\"\n                style=\"\n                    box-sizing: inherit;\n                    border: 2px solid;\n                    cursor: pointer;\n                    align-items: center;\n                    border-radius: 30px;\n                    display: table-cell;\n                    font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                    justify-content: center;\n                    letter-spacing: inherit;\n                    margin: 4px;\n                    text-transform: uppercase;\n                    vertical-align: middle;\n                    white-space: nowrap;\n                    word-spacing: inherit;\n                    position: relative;\n                    background: #006dcc;\n                    border-color: #006dcc;\n                    color: #fff !important;\n                    font-size: 14px;\n                    height: 40px;\n                    min-width: 80px;\n                    padding: 0 12px;\n                    flex-direction: row;\n                    text-decoration: none;\n                \"\n                href=\"{{reportLink}}\"\n                >SESSION REPORT</a\n            >\n        </section>\n        {{/if}} {{#if reviewLink}}\n        <section>\n            <p>You can also review the session:</p>\n            <a\n                tracking=\"off\"\n                title=\"Review session\"\n                aria-label=\"Review session\"\n                target=\"_blank\"\n                style=\"\n                    box-sizing: inherit;\n                    border: 2px solid;\n                    cursor: pointer;\n                    align-items: center;\n                    border-radius: 30px;\n                    display: table-cell;\n                    font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                    justify-content: center;\n                    letter-spacing: inherit;\n                    margin: 4px;\n                    text-transform: uppercase;\n                    vertical-align: middle;\n                    white-space: nowrap;\n                    word-spacing: inherit;\n                    position: relative;\n                    background: #006dcc;\n                    font-size: 14px;\n                    height: 40px;\n                    min-width: 80px;\n                    padding: 0 12px;\n                    flex-direction: row;\n                    text-decoration: none;\n                    background-color: #f8f8f8 !important;\n                    color: #121212 !important;\n                    border-color: #121212 !important;\n                \"\n                href=\"{{reviewLink}}\"\n                >REVIEW SESSION</a\n            >\n        </section>\n        {{/if}} {{#if unsubscribeUrl}}\n        <p>\n            If you don't want to receive these emails anymore,\n            <a\n                style=\"\n                    box-sizing: inherit;\n                    background: none;\n                    cursor: pointer;\n                    line-height: 2.5rem;\n                    color: #121212 !important;\n                    position: relative;\n                    display: inline-flex;\n                    text-decoration: none;\n                    font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                \"\n                aria-label=\"Unsubscribe link\"\n                target=\"_blank\"\n                title=\"unsubscribe\"\n                tracking=\"off\"\n                href=\"{{unsubscribeUrl}}\"\n                ><span style=\"margin-left: 3px; margin-right: 5px; text-decoration: underline\"\n                    >click here to unsubscribe</span\n                ></a\n            >\n        </p>\n        {{/if}}\n        <p>Thank you.</p>\n    </body>\n</html>\n",
-          },
-          {
-            name: 'session-signature-sheet',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n        <style>\n            table {\n                width: 100%;\n                border-collapse: collapse;\n            }\n            th, td {\n                border: 1px solid #ddd;\n                padding: 8px;\n                text-align: left;\n            }\n            th {\n                background-color: #f2f2f2;\n            }\n        </style>\n    </head>\n    <body style=\"font-size: 16px; color: #121212; font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif\">\n        <table>\n            <thead>\n                <tr>\n                    <th>Session Name</th>\n                    <th>Start Date</th>\n                    <th>Test Category</th>\n                    <th>Session Template</th>\n                    <th>Candidate Name</th>\n                    <th>Candidate Principle ID data</th>\n                    <th>Payment Status</th>\n                    <th>Space for Candidate Signature</th>\n                </tr>\n            </thead>\n            <tbody>\n                {{#each sessionCandidates}}\n                <tr>\n                    <td>{{../sessionName}}</td>\n                    <td>{{../sessionStartDate}}</td>\n                    <td>{{../sessionTestCategory}}</td>\n                    <td>{{../sessionTemplate}}</td>\n                    <td>{{name}}</td>\n                    <td>\n                        {{#each metadata}} {{this.[0]}}: {{this.[1]}}<br />\n                        {{/each}}\n                    </td>\n                    <td>{{paymentStatus}}</td>\n                    <td></td>\n                </tr>\n                {{/each}}\n            </tbody>\n        </table>\n    </body>\n</html>\n",
-          },
-          {
-            name: 'session-updated',
-            template: "<!doctype html>\n<html>\n    <head>\n        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n    </head>\n    <body style=\"font-size: 16px; font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif; color: #121212\">\n        <div\n            style=\"\n                width: 100%;\n                max-width: 800px;\n                margin: 0 auto;\n                padding: 20px;\n                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n            \">\n            <h1 style=\"font-size: 20px\">Session modified</h1>\n            <section>\n                <p style=\"font-size: 16px\">\n                    Hello<span style=\"font-weight: bold\">{{#if testTakerName}} {{testTakerName}}{{/if}}</span>,\n                </p>\n                <p style=\"font-size: 16px\">\n                    your upcoming session,\n                    <span style=\"font-weight: bold\">{{sessionName}}</span>{{#if startDate}} on\n                    <span style=\"font-weight: bold\">{{startDate}},{{/if}}</span>\n                    was modified.\n                </p>\n            </section>\n            <section>\n                <p style=\"font-size: 16px\">You can see the updated details on your sessions page:</p>\n                <p>\n                    <a\n                        href=\"{{portalUrl}}\"\n                        style=\"\n                            box-sizing: inherit;\n                            border: 2px solid;\n                            cursor: pointer;\n                            align-items: center;\n                            border-radius: 30px;\n                            display: table-cell;\n                            font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                            justify-content: center;\n                            letter-spacing: inherit;\n                            margin: 4px;\n                            text-transform: uppercase;\n                            vertical-align: middle;\n                            white-space: nowrap;\n                            word-spacing: inherit;\n                            position: relative;\n                            background: #006dcc;\n                            border-color: #006dcc;\n                            color: #fff !important;\n                            font-size: 14px;\n                            height: 40px;\n                            min-width: 80px;\n                            padding: 0 12px;\n                            flex-direction: row;\n                            text-decoration: none;\n                        \"\n                        >GO TO MY SESSIONS</a\n                    >\n                </p>\n            </section>\n            {{#if unsubscribeUrl}}\n            <p>\n                If you don't want to receive these emails anymore,\n                <a\n                    style=\"\n                        box-sizing: inherit;\n                        background: none;\n                        cursor: pointer;\n                        line-height: 2.5rem;\n                        color: #121212 !important;\n                        position: relative;\n                        display: inline-flex;\n                        text-decoration: none;\n                        font-family: 'Nunito Sans', 'Source Sans Pro', Arial, sans-serif;\n                    \"\n                    aria-label=\"Unsubscribe link\"\n                    target=\"_blank\"\n                    title=\"unsubscribe\"\n                    tracking=\"off\"\n                    href=\"{{unsubscribeUrl}}\"\n                    ><span style=\"margin-left: 3px; margin-right: 5px; text-decoration: underline\"\n                        >click here to unsubscribe</span\n                    ></a\n                >\n            </p>\n            {{/if}}\n            <p style=\"font-size: 16px\">Thank you.</p>\n        </div>\n    </body>\n</html>\n",
           },
         ],
       },

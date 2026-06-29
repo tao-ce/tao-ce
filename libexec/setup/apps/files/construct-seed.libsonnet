@@ -20,7 +20,7 @@ function(setup)
       firstname: 'Administrator',
       email: 'admin@localhost',
       login: 'taoAdmin',
-      password: 'TAOce2025',
+      password: setup.lib.hash('taoAdmin'),
     },
     configuration: {
       global: {

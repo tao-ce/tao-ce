@@ -1,6 +1,7 @@
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c "exec jsonnet -Scm ${TAO_CE_ETC}/setup --tla-str-file seed=${TAO_CE_ETC}/config/tao.yaml ${TAO_CE_LIBEXEC}/setup/main.jsonnet"
+ExecStartPre=/bin/sh -c "mkdir -p ${TAO_CE_ETC}/setup ; [ -f ${TAO_CE_ETC}/setup/salt ] || cp /proc/sys/kernel/random/uuid ${TAO_CE_ETC}/setup/salt"
+ExecStart=/bin/sh -c "exec jsonnet -Scm ${TAO_CE_ETC}/setup --tla-str-file seed=${TAO_CE_ETC}/config/tao.yaml --tla-str-file salt=${TAO_CE_ETC}/setup/salt ${TAO_CE_LIBEXEC}/setup/main.jsonnet"
 ExecStart=/bin/sh -c "exec ${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/*.json"
 EnvironmentFile=/etc/environment
 

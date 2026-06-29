@@ -14,7 +14,7 @@ RUN     --mount=type=ssh \
         --mount=type=cache,id=composer-cache,target=/root/.composer/cache \
         set -eux; \
         mv .env.prod .env; \
-        composer install -n --classmap-authoritative --no-dev --prefer-dist; \
+        composer install -n --no-progress --no-ansi --classmap-authoritative --no-dev ; \
         > .env ; \
         composer dump-env dev; \
         echo '<?php return [];' >.env.local.php; \

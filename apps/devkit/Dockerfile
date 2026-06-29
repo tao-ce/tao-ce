@@ -23,13 +23,18 @@ RUN \
     && rm -rf \
         ./config/keys \
         ./config/packages/lti1p3.yaml \
+        ./var \
     && mkdir -p \
         ${STATE_ROOT}/config/keys \
+        ${STATE_ROOT}/var \
     && touch \
         ${STATE_ROOT}/config/lti1p3.yaml \
     && ln -s \
         ${STATE_ROOT}/config/keys \
         config/keys \
+    && ln -s \
+        ${STATE_ROOT}/var \
+        var \
     && ln -s \
         ${STATE_ROOT}/config/lti1p3.yaml \
         config/packages/lti1p3.yaml

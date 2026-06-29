@@ -10,7 +10,7 @@ ARG DEVCONTAINER_USERNAME="vscode"
 ARG IMAGE_PHP_VERSION="8.4"
 
 # External binaries images
-FROM docker.io/envoyproxy/envoy:v1.30-latest AS ext-bin-envoy
+FROM docker.io/envoyproxy/envoy:v1.36-latest AS ext-bin-envoy
 FROM docker.io/caddy:2-alpine AS ext-bin-caddy
 
 ################################################################################

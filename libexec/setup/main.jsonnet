@@ -13,11 +13,12 @@ local templates = {
   scoring: (import './apps/scoring.libsonnet'),
 };
 
-local lib = import './lib.libsonnet';
 local addresses = import './addresses.libsonnet';
 
-
-local hydrateSetup(seed) = {
+local hydrateSetup(seed, salt) = 
+  local lib = (import './lib.libsonnet') { salt:: salt };
+{
+  lib:: lib,
   defaultLocale: 'en-US',
   portal: { populate: 'admin+demo5' },
   dirs: {
@@ -50,8 +51,8 @@ local hydrateSetup(seed) = {
 };
 
 
-function(seed)
-  local setup = hydrateSetup(std.parseYaml(seed));
+function(seed, salt=importstr '/proc/sys/kernel/random/uuid')
+  local setup = hydrateSetup(std.parseYaml(seed), salt);
   std.foldl(
     function(t, x)
       local h = templates[x](setup);
@@ -61,7 +62,7 @@ function(seed)
 
       t
       + std.foldl(
-        function(s, k) s { ['envs/%s/%s.env' % [x, k]]: lib.toEnvFile(envs[k]) },
+        function(s, k) s { ['envs/%s/%s.env' % [x, k]]: setup.lib.toEnvFile(envs[k]) },
         std.objectFields(envs),
         {},
       )
@@ -89,8 +90,8 @@ function(seed)
       #!/bin/sh
       rm -rf --preserve-root %(setup)s/*
     ||| % setup.dirs,
-    'envs/dir.env': lib.toEnvFile(setup.dirs, ['tao', 'ce', 'dir']),
+    'envs/dir.env': setup.lib.toEnvFile(setup.dirs, ['tao', 'ce', 'dir']),
     'envs/svc.env':
-      lib.toEnvFile(setup.env, [])
-      + lib.toEnvFile(setup.apps { deps: std.mapWithKey(function(k, v) v.address, setup.dependencies) }, ['tao', 'ce', 'svc']),
+      setup.lib.toEnvFile(setup.env, [])
+      + setup.lib.toEnvFile(setup.apps { deps: std.mapWithKey(function(k, v) v.address, setup.dependencies) }, ['tao', 'ce', 'svc']),
   }

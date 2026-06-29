@@ -102,7 +102,7 @@ construct_setup_taoLti() {
     cd $app_path
     php index.php 'oat\taoLti\scripts\tools\SetupLtiPlatform' \
             -l 'Portal' \
-            -cid 'portal-authoring-client-id-1' \
+            -cid 'lti-portal-authoring-1' \
             -did '1' \
             -a   ${PORTAL_BE_BASE_URL} \
             -tu  'http://foo.bar' \
