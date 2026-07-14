@@ -876,6 +876,28 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.876.64V.639l8.25 4.763c.541.313.875.89.875 1.515v9.525a1.75 1.75 0 0 1-.875 1.516l-8.25 4.762a1.75 1.75 0 0 1-1.75 0l-8.25-4.763a1.75 1.75 0 0 1-.875-1.515V6.917c0-.625.334-1.202.875-1.515L11.126.64a1.75 1.75 0 0 1 1.75 0m-1 1.298L4.251 6.34l7.75 4.474 7.75-4.474-7.625-4.402a.25.25 0 0 0-.25 0m.875 19.123 7.625-4.402a.25.25 0 0 0 .125-.216V7.639l-7.75 4.474ZM3.501 7.64v8.803c0 .09.048.172.125.216l7.625 4.402v-8.947Z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    <span class="md-typeset">
+      Deploy on Virtual Machine
+    </span>
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -894,16 +916,118 @@
   </span>
   
   
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
     
   
   
-    <span class="md-status md-status--todo" title="This document is under construction.">
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Requirements
+        </span>
+      
     </span>
+  </a>
   
-
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-appliance-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Download Appliance image
+        </span>
+      
+    </span>
+  </a>
   
-
-      </a>
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-appliance-in-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Load Appliance in VirtualBox
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-appliance-at-first-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Setup Appliance at first boot
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-administrative-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Access Administrative console
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-tao-community-edition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Access TAO Community Edition
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <span class="md-typeset">
+          Troubleshooting
+        </span>
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1848,6 +1972,169 @@
 
 
 <h1 id="deploy-on-virtual-machine">Deploy on Virtual Machine</h1>
+<div class="admonition abstract">
+<p class="admonition-title">About this guide</p>
+<p>In this guide, we will explain how to download and start an Appliance Virtual Machine to run TAO Community Edition.</p>
+</div>
+<h2 id="requirements">Requirements</h2>
+<p>To achieve this deployment, we will need:</p>
+<div class="admonition warning inline end">
+<p class="admonition-title">About <code>arm64</code> architecture</p>
+<p>Virtual Machine deployment is not available yet on <code>arm64</code> architecture.</p>
+</div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> an <code>x86_84</code> host machine, able to allocate at least 8GB of RAM and 4 vCPUs</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> at least 40GB of available space disk (prefarbly on high-speed storage)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> a reliable network, with high-speed Internet connection<ul>
+<li>while Appliance can be used offline, first start will require to download 3GB of data</li>
+<li>ensure your network is allowing unregistered devices</li>
+</ul>
+</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <a href="https://www.virtualbox.org/">Oracle VirtualBox</a> 7.2 (or later)</li>
+</ul>
+<h2 id="download-appliance-image">Download Appliance image</h2>
+<p>From your computer, browse release link of <a href="https://github.com/tao-ce/cozy/releases"><code>tao-ce/cozy</code></a>, and look for <code>tao-ce-cozy-vm-server.ova</code> file.</p>
+<p>Latest image can be directly downloaded <a href="https://github.com/tao-ce/cozy/releases/latest/download/tao-ce-cozy-vm-server.ova">here</a>.</p>
+<h2 id="load-appliance-in-virtualbox">Load Appliance in VirtualBox</h2>
+<p>Once downloaded:</p>
+<ol>
+<li>Open VirtualBox.</li>
+<li>In main menu, click <code>File</code> &gt; <code>Import Appliance…</code>.</li>
+<li>In <code>Import Virtual Appliance</code> wizard, choose <code>Local File System</code>, then click on browse icon, and select downloaded image.</li>
+<li>In <code>Settings</code>, you can check parameters (in particular CPU/RAM allocation). Click <code>Finish</code> button to proceed with import.</li>
+<li>Once imported, right-click on the virtual machine, then <code>Settings…</code></li>
+<li>In <code>Expert</code> settings, go to <code>Network</code>, and check for <code>Adapter 1</code>. Ensure it is attached to <code>Bridge Adapter</code>, and that the interface name match your main network interface.</li>
+<li>Click <code>OK</code>, then you can <code>Start</code> the virtual machine.</li>
+</ol>
+<h2 id="setup-appliance-at-first-boot">Setup Appliance at first boot</h2>
+<details class="info inline end">
+<summary>About this wizard</summary>
+<p>This wizard will help you to configure basic settings at a early stage of deployment, as TAO Community Edition is not yet starting.</p>
+<p>For more settings, you will be able to access Cockpit on <a href="https://tao-community-edition.local:9090"><code>https://tao-community-edition.local:9090</code></a> after system is started.</p>
+</details>
+<p>On first boot, you will notice a prompt to proceed to appliance setup.
+<img alt="Appliance prompt screenshot" src="../../../../images/appliance-prompt.png" /></p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Continue with default settings</label><label for="__tabbed_1_2">Customize settings</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<details class="note inline end">
+<summary>About TAO CE address</summary>
+<p>Note the address is different than usual container deployment (<code>community.tao.internal</code>), as we rely on mDNS protocol (which require <code>.local</code> domain) to propagate appliance address on your network.</p>
+</details>
+<p>If left unattended, TAO Community Edition will be deployed with default settings:</p>
+<ul>
+<li>language: English (US)</li>
+<li>timezone: UTC</li>
+<li>hostname: <code>tao-community-edition.local</code> (with mDNS broadcast)</li>
+<li>TAO Community Edition flavor: Full</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<div class="admonition info">
+<p class="admonition-title">About TAO CE address</p>
+<p>If you choose a custom address, ensure to replace <code>tao-community-edition.local</code> while reading this guide.</p>
+</div>
+<div class="admonition example inline end">
+<p class="admonition-title">Under development</p>
+<p>TAO Community Edition flavor are still in development, this settings will not have effect yet (Full flavor will be deployed).</p>
+</div>
+<p>Follow the instructions to change the following settings:</p>
+<ul>
+<li>language</li>
+<li>timezone</li>
+<li>hostname (with or without mDNS broadcast)<ul>
+<li>if you choose to use mDNS broadcast, ensure hostname is ending with <code>.local</code></li>
+</ul>
+</li>
+<li>TAO Community Edition flavor:<ul>
+<li><code>Full</code>: Complete version of TAO Community Edition, including portal, Delivery, Backoffice, Grader and Proctoring </li>
+<li><code>Essential</code>: A complete environment for authoring and delivery, without Grader neither Proctoring</li>
+<li><code>Lite</code>: A subset of TAO Community Edition to run deliveries through Portal</li>
+<li><code>Minimal</code>: A version focused on LTI capabilities to perform assessment without Portal</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<p>Once submitted, Appliance will start downloading TAO Community Edition.</p>
+<div class="admonition notes">
+<p class="admonition-title">Long process</p>
+<p>Depending on your hardware and network conditions, it can takes from 5 minutes to 2 hours before TAO Community Edition is ready to be used.</p>
+<details class="question">
+<summary>Why is it so long?</summary>
+<p>To accelerate image build process, and distribution, appliance image will not contain TAO Community Edition neither its dependencies.</p>
+<p>At first boot, the appliance will download container images (~3GB) and uncompress them. TAO Community Edition container image is particulary long to uncompress, as it contains hundreds of thousands of files. Future versions may improve this behavior later.</p>
+<p>This will also ensure you are deploying the latest version of TAO Community Edition.</p>
+</details>
+</div>
+<h2 id="access-administrative-console">Access Administrative console</h2>
+<div class="admonition danger inline end">
+<p class="admonition-title">Change password</p>
+<p>Whenever you can, log in on local/SSH/web console to change default password.</p>
+</div>
+<p>During installation process, you may access SSH console, or Cockpit<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> web console.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Web console (Cockpit)</label><label for="__tabbed_2_2">SSH console</label><label for="__tabbed_2_3">Local console</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li>Open a browser, and go to <a href="https://tao-community-edition.local:9090"><code>https://tao-community-edition.local:9090</code></a></li>
+<li>You may face a Certificate warning, add this site in exceptions</li>
+<li>login with <code>tao</code> username and <code>tao</code> password</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<ol>
+<li>Open a terminal, and run the following command:
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>tao@tao-community-edition.local
+</code></pre></div></li>
+<li>login with <code>tao</code> username and <code>tao</code> password</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<ol>
+<li>use VirtualBox console to attach a monitor</li>
+<li>find a console (TTY) with <code>Alt</code> + <code>F1</code> (to <code>F6</code>)</li>
+<li>login with <code>tao</code> username and <code>tao</code> password.</li>
+</ol>
+</div>
+</div>
+</div>
+<h2 id="access-tao-community-edition">Access TAO Community Edition</h2>
+<div class="admonition example">
+<p class="admonition-title">Readiness status</p>
+<p>Current version is missing a proper Readiness feedback to let the user know when TAO Community Edition is ready. This feature is under active development and should be released soon.</p>
+</div>
+<p>Once ready, you should be able to connect to <a href="https://tao-community-edition.local"><code>https://tao-community-edition.local</code></a>. </p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<details class="question">
+<summary>TAO Community Edition is started, but it seems not accessible from my machine</summary>
+<p>Depending your local network settings, it may be unauthorized to use bridged interface, and Appliance may fail to expose its address. In particular, if local network policies requires hosts MAC addresses to be authorized prior connection, a virtual machine will not be trusted.</p>
+<p>While we advise to contact your network administrator for a solution, you can attempt to use the following steps to gain a local access:</p>
+<ul>
+<li>reimport virutal machine</li>
+<li>in virtual machine settings, open <code>Network</code> panel</li>
+<li>attach Adapter 1 to <code>NAT</code> instead of <code>Bridged Adapter</code></li>
+<li>add Adapter 2, enable it, and attached it to <code>Host-only adapter</code></li>
+</ul>
+<p>This solution will allow the appliance to access Internet through your machine (NAT); while host-only network will let your host machine to access it.</p>
+</details>
+<details class="question">
+<summary>TAO Community Edition is started, but it seems not accessible from local network</summary>
+<p>First, ensure you enabled <code>MulticastDNS</code> in setup wizard. If you did so, there might be some restrictions on your local network preventing access to the Appliance, like:</p>
+<ul>
+<li>Firewall rules blocking ports <code>5353/udp</code> (mDNS) and/or <code>443/tcp</code> (HTTPS).</li>
+<li>VLAN topology, preventing mDNS to cross your different networks. In such case your local network administrator may enable <code>reflector</code> in routing policies.</li>
+</ul>
+</details>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Read <a href="https://cockpit-project.org/documentation.html">Cockpit documentation</a> to administrate your appliance&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
 
 
 
