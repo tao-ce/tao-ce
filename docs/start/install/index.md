@@ -33,7 +33,7 @@ To start using *TAO Community Edition*, you may use one of the following methods
 
     Secure *TAO Community Edition* with an air-gapped appliance.
 
-    <!-- [:octicons-package-24: Deploy on Virtual Machine](./appliance/vm.md) -->
+    [:octicons-package-24: Deploy on Virtual Machine](./appliance/vm.md)
 
     [:fontawesome-brands-raspberry-pi: Deploy on Raspberry Pi](./appliance/rpi.md)
 

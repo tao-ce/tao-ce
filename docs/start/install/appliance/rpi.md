@@ -44,9 +44,9 @@ To achieve this deployment, we will need:
 
 ## Download Appliance image
 
-<!-- TODO get more definitive image download link -->
+From your computer, browse release link of [`tao-ce/cozy`](https://github.com/tao-ce/cozy/releases), and look for `tao-ce-cozy-rpi4-server.ova` file.
 
-From your computer, open the following link and start downloading [`disk.raw.xz`](https://github.com/tao-ce/cozy/actions/runs/27294460381) (~1.2GB).
+Latest image can be directly downloaded [here](https://github.com/tao-ce/cozy/releases/latest/download/tao-ce-cozy-rpi4-server.ova).
 
 
 ## Etch microSD card 
@@ -99,6 +99,7 @@ Once done, ensure to unmount your microSD, and unplug it.
 
 ## Start Raspberry Pi 4 with Appliance image
 
+
 Now that the image has been copied on microSD card, you can insert it in Raspberry Pi 4.
 
 1. (Optional) If you have keyboard and screen, you may plug them to Raspberry Pi 4.
@@ -107,6 +108,55 @@ Now that the image has been copied on microSD card, you can insert it in Raspber
 
 3. In few minutes, you should see green LED next to microSD socket blinking.
 
+
+## Setup Appliance at first boot
+
+??? info inline end "About this wizard"
+
+    This wizard will help you to configure basic settings at a early stage of deployment, as TAO Community Edition is not yet starting.
+
+    For more settings, you will be able to access Cockpit on [`https://tao-community-edition.local:9090`](https://tao-community-edition.local:9090) after system is started.
+
+
+On first boot, you will notice a prompt to proceed to appliance setup.
+![Appliance prompt screenshot](../../../images/appliance-prompt.png)
+
+
+=== "Continue with default settings"
+    ??? note inline end "About TAO CE address"
+        Note the address is different than usual container deployment (`community.tao.internal`), as we rely on mDNS protocol (which require `.local` domain) to propagate appliance address on your network.
+   
+    If left unattended, TAO Community Edition will be deployed with default settings:
+    
+    * language: English (US)
+    * timezone: UTC
+    * hostname: `tao-community-edition.local` (with mDNS broadcast)
+    * TAO Community Edition flavor: Full
+    * Hotspot:
+        - enabled by default
+        - SSID: `TAO Community Edition`
+        - password: `ChangeMeNow`
+    
+=== "Customize settings"
+    !!! info "About TAO CE address"
+        If you choose a custom address, ensure to replace `tao-community-edition.local` while reading this guide.
+
+    !!! example inline end "Under development"
+        TAO Community Edition flavor are still in development, this settings will not have effect yet (Full flavor will be deployed).
+
+    Follow the instructions to change the following settings:
+
+    * language
+    * timezone
+    * hostname (with or without mDNS broadcast)
+        - if you choose to use mDNS broadcast, ensure hostname is ending with `.local`
+    * TAO Community Edition flavor:
+        - `Full`: Complete version of TAO Community Edition, including portal, Delivery, Backoffice, Grader and Proctoring 
+        - `Essential`: A complete environment for authoring and delivery, without Grader neither Proctoring
+        - `Lite`: A subset of TAO Community Edition to run deliveries through Portal
+        - `Minimal`: A version focused on LTI capabilities to perform assessment without Portal
+
+Once submitted, Appliance will start downloading TAO Community Edition.
 
 !!! notes "Long process"
     Depending on your hardware, it can takes from 20 minutes to 2 hours before TAO Community Edition is ready to be used.
@@ -150,8 +200,8 @@ During installation process, you may access SSH console, or Cockpit[^1] web cons
 
 ## Access TAO Community Edition
 
-??? note inline end "About TAO CE address"
-    Note the address is different than usual container deployment (`community.tao.internal`), as we rely on mDNS protocol (which require `.local` domain) to propagate appliance addreses on your network.
+!!! example "Readiness status"
+    Current version is missing a proper Readiness feedback to let the user know when TAO Community Edition is ready. This feature is under active development and should be released soon.
 
 Once ready, you should be able to connect to [`https://tao-community-edition.local`](https://tao-community-edition.local). 
 
