@@ -18,6 +18,7 @@ FROM docker.io/golang:alpine AS build
 ARG TARGETPLATFORM
 
 RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/google/go-jsonnet/cmd/jsonnet@latest
+RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
 RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/mikefarah/yq/v4@latest
 RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/logdyhq/logdy-core@main
 
@@ -109,6 +110,7 @@ RUN \
         | xargs dnf install -y \
     && mkdir -p /etc/ssh && ssh-keyscan -H github.com >>/etc/ssh/ssh_known_hosts
 
+COPY hack/utils/*.inc.sh /usr/local/libexec/tao-ce/hack/utils/
 
 ################################################################################
 FROM docker.io/golang:1.24-alpine AS build-go
@@ -150,6 +152,7 @@ VOLUME [ "${TAO_CE_VARLIB}" ]
 COPY --from=ext-bin-envoy /usr/local/bin/envoy /usr/local/bin/envoy
 COPY --from=ext-bin-caddy /usr/bin/caddy /usr/local/bin/caddy
 COPY --link --from=build /go/bin/jsonnet    ${BIN_DEST}/jsonnet
+COPY --link --from=build /go/bin/jsonnetfmt ${BIN_DEST}/jsonnetfmt
 COPY --link --from=build /go/bin/yq         ${BIN_DEST}/yq
 COPY --link --from=build /go/bin/logdy-core ${BIN_DEST}/logdy
 

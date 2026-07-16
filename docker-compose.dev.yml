@@ -41,6 +41,8 @@ services:
     - es:es
     - pubsub:pubsub
     - firestore:firestore
+    - npm-registry:npm-registry
+    - composer-registry:composer-registry
 
   proxy:
     ports:
@@ -68,6 +70,18 @@ services:
     - xpack.security.authc.providers.anonymous.anonymous1.credentials="elasticsearch_anonymous_user"
     links:
       - es:es
+
+  npm-registry:
+    image: verdaccio/verdaccio:6
+    volumes:
+    - ./.cache/build/verdaccio:/verdaccio/storage
+    - ./build/verdaccio/conf:/verdaccio/conf
+
+  composer-registry:
+    image: caddy:2
+    command: caddy file-server --root /srv/www --listen :4060
+    volumes:
+    - ./.cache/build/satis:/srv/www
 
 volumes:
   tao-ce-opt: {}

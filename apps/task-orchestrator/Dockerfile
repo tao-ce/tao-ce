@@ -1,25 +1,31 @@
 # syntax=docker/dockerfile:1-labs
 
 ARG BUILD_IMAGE
-ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+ARG BUILD_NPM_REGISTRY="http://npm-registry:4873/"
 
 ### backend ####################################################################
 FROM $BUILD_IMAGE AS build-backend
 ARG BUILD_IMAGE
-ARG BUILD_NPM
+ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="22"
+ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-backend ./package*.json .
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} ci
+    <<EORUN
+        . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+        dev_npm_registry $BUILD_NPM_REGISTRY
+        npm ci
+EORUN
 
 COPY --from=src-backend . .
 
-RUN find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+RUN <<EORUN
+    . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+    dev_git_cleanup /app
+EORUN
 
 ### Export #####################################################################
 FROM scratch AS export

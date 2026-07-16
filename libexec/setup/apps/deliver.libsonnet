@@ -127,6 +127,7 @@ function(setup)
       { topic: 'grader-manual-results-topic', subscription: 'grader-manual-results-topic' },
       { topic: 'plagiarism-status', subscription: 'plagiarism-status' },
       { topic: 'publication', subscription: 'publication' },
+      { topic: 'interactions', subscription: 'interactions' },
       { topic: 'result-extraction', subscription: 'result-extraction' },
       { topic: 'grader-publications-topic', subscription: 'publication-datastore-subscription' },
       { topic: 'grader-executions-topic', subscription: 'ss-grader-executions-subscription' },

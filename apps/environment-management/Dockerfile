@@ -2,58 +2,63 @@
 
 ARG BUILD_IMAGE
 ARG GO_BUILD_IMAGE
-ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+ARG BUILD_NPM_REGISTRY="http://npm-registry:4873/"
+ARG BUILD_COMPOSER_REGISTRY="http://composer-registry:4060/"
 
 ### auth-server ################################################################
 FROM $BUILD_IMAGE AS build-auth-server
 ARG BUILD_IMAGE
-ARG BUILD_NPM
+ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="22"
+ENV NODE_VERSION="24"
 
 WORKDIR /app
 
 COPY --from=src-auth-server *.json /app/
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} install && ${BUILD_NPM} install typescript -g && rm -rf /app/logs/*
+    <<EORUN
+        . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+        dev_npm_registry $BUILD_NPM_REGISTRY
+        npm install
+        npm install typescript -g
+        rm -rf /app/logs/*
+EORUN
 
 COPY --from=src-auth-server types /app/types
 COPY --from=src-auth-server src /app/src
 
 RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    rm -rf /app/src/dist/test /app/src/dist/configs/keys \
-    && ${BUILD_NPM} run build \
-    && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+    <<EORUN
+        . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+        rm -rf /app/src/dist/test /app/src/dist/configs/keys
+        npm run build
+        dev_git_cleanup /app
+EORUN
     
 
 ### lti-gateway ################################################################
 FROM $BUILD_IMAGE AS build-lti-gateway
 ARG BUILD_IMAGE
+ARG BUILD_COMPOSER_REGISTRY
 ARG STATE_ROOT="/var/lib/tao-ce/environment-management/lti-gateway"
+ENV STATE_ROOT=$STATE_ROOT
 
 WORKDIR /app
 
 COPY --from=src-lti-gateway . /app
 COPY src/libs /libs
 
-RUN set -eux; \
-    composer install -n --optimize-autoloader --no-dev --prefer-dist; \
-    composer dump-autoload -n --optimize --no-dev --classmap-authoritative; \
-    rm -rf .build/; \
-    find /app -type d | grep '[/][.]git$' | xargs rm -rf ; \
-    find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+RUN <<EORUN
+    . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+    dev_composer_registry oat-sa $BUILD_COMPOSER_REGISTRY
+    composer install -n --optimize-autoloader --no-dev --prefer-dist
+    composer dump-autoload -n --optimize --no-dev --classmap-authoritative
+    rm -rf .build/
+    dev_git_cleanup /app
+    state_data data var
+EORUN
 
-RUN \
-    cd /app \
-    && rm -rf \
-        var \
-    && mkdir -p \
-        ${STATE_ROOT}/data \
-    && ln -s \
-        ${STATE_ROOT}/data \
-        var
 ### sidecar ####################################################################
 FROM $GO_BUILD_IMAGE AS build-sidecar
 ARG GO_BUILD_IMAGE

@@ -288,6 +288,10 @@ function(setup)
               },
             },
           },
+            {
+              name: 'AUTH_MODE',
+              value: 'sessionStorage',
+            },
           {
             name: 'deliver-launch-claims',
             value: std.toString({

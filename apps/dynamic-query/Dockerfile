@@ -1,25 +1,26 @@
 # syntax=docker/dockerfile:1-labs
 
 ARG BUILD_IMAGE
-ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+ARG BUILD_NPM_REGISTRY="http://npm-registry:4873/"
 
 ### api ########################################################################
 FROM $BUILD_IMAGE AS build-api
 ARG BUILD_IMAGE
-ARG BUILD_NPM
+ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="22"
+ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-api package*.json ./
 
 RUN \
-    --mount=type=secret,id=NPM_TOKEN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
-    ${BUILD_NPM} config set //registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN) \
-    && ${BUILD_NPM} ci \
-    && find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+<<EORUN
+    . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+    dev_npm_registry $BUILD_NPM_REGISTRY
+    npm ci
+    dev_git_cleanup /app
+EORUN
 
 COPY --from=src-api . .
 

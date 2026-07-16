@@ -1,25 +1,30 @@
 # syntax=docker/dockerfile:1-labs
 
 ARG BUILD_IMAGE
-ARG BUILD_NPM="/usr/local/libexec/nvm/nvm-exec npm"
+ARG BUILD_NPM_REGISTRY="http://npm-registry:4873/"
 
 ### worker #####################################################################
 FROM $BUILD_IMAGE AS build-worker
 ARG BUILD_IMAGE
-ARG BUILD_NPM
+ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="22"
+ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-worker package*.json ./
 
-RUN ${BUILD_NPM} install
+RUN <<EORUN
+    . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+    dev_npm_registry $BUILD_NPM_REGISTRY
+    npm install
+EORUN
 
 COPY --from=src-worker . .
 
-RUN \
-    find /app -type d | grep '[/][.]git$' | xargs rm -rf \
-    && find /app -type f | grep '[/][.]git.*$' | xargs rm -rf
+RUN <<EORUN
+    . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+    dev_git_cleanup /app
+EORUN
 
 
 ### Export #####################################################################
