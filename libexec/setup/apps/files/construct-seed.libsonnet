@@ -6,7 +6,7 @@ function(setup)
     extensions: [
       'tao',
       'taoCe',
-      'ltiTestReview',
+      // 'ltiTestReview',
       'taoLti',
       'taoLtiConsumer',
       'taoDeliverConnect',

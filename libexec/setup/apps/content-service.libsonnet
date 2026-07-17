@@ -18,6 +18,7 @@ function(setup)
       ELASTICSEARCH_SYNC_REFRESH: 'true',
       DRIVERS: drivers,
       DEFAULT_DRIVER: 'file',
+      OTEL_SDK_ENABLED: 'false',
    }
   },
   pubsub: []

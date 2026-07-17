@@ -12,6 +12,7 @@ env: {
         FIRESTORE_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
         FIRESTORE_HOST: setup.dependencies.firestore.address.host,
         IS_GCP_BUCKET_DISABLED: 'true',
+        OTEL_SDK_ENABLED: 'false',
         DATASTORE_CONFIG_SOURCE_PATH: './config/',
         REDIS_HOST: setup.dependencies.redis.address.host,
         REDIS_PORT: setup.dependencies.redis.address.port,

@@ -6,8 +6,6 @@ interval: 1s
 
 env:
   NODE_VERSION: '24'
-  BUILD_NPM_REGISTRY: 'http://npm-registry:4873/'
-  BUILD_COMPOSER_REGISTRY: 'http://composer-registry:4060/'
 
 tasks:
   read-aloud-client-fe:
@@ -48,7 +46,7 @@ tasks:
           mv $u packages/deliver-app/package.json
           npm install --no-package-lock
           npx lerna bootstrap --force-local
-          npm run build:app
+          npm run build
           npx lerna exec -- 'npm unpublish -f --registry=$BUILD_NPM_REGISTRY || true'
           npx lerna exec -- 'npm publish --registry=$BUILD_NPM_REGISTRY'
         EORUN
@@ -62,7 +60,8 @@ tasks:
           dev_npm_registry $BUILD_NPM_REGISTRY
           npm install -fS --package-lock-only \
             @oat-sa-private/ui-identity@latest \
-            @oat-sa-private/tao-test-runner-qtinui@latest
+            @oat-sa-private/tao-test-runner-qtinui@latest \
+            @oat-sa-private/read-aloud-client@latest
         EORUN
 
   satis:

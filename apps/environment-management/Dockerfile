@@ -2,8 +2,8 @@
 
 ARG BUILD_IMAGE
 ARG GO_BUILD_IMAGE
-ARG BUILD_NPM_REGISTRY="http://npm-registry:4873/"
-ARG BUILD_COMPOSER_REGISTRY="http://composer-registry:4060/"
+ARG BUILD_NPM_REGISTRY
+ARG BUILD_COMPOSER_REGISTRY
 
 ### auth-server ################################################################
 FROM $BUILD_IMAGE AS build-auth-server
@@ -35,7 +35,24 @@ RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
         npm run build
         dev_git_cleanup /app
 EORUN
-    
+
+FROM $BUILD_IMAGE AS build-auth-server-prod
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ENV NODE_VERSION="24"
+
+WORKDIR /app
+
+COPY --from=src-auth-server *.json /app/
+
+RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
+    <<EORUN
+        . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
+        dev_npm_registry $BUILD_NPM_REGISTRY
+        npm install --omit=dev
+EORUN
+
 
 ### lti-gateway ################################################################
 FROM $BUILD_IMAGE AS build-lti-gateway
@@ -90,7 +107,7 @@ FROM scratch AS export
 
 COPY --link --from=build-auth-server \
     /app/dist /auth-server
-COPY --link --from=build-auth-server \
+COPY --link --from=build-auth-server-prod \
     /app/node_modules /auth-server/node_modules
 COPY --link --from=build-lti-gateway \
     /app /lti-gateway

@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1-labs
 
 ARG BUILD_IMAGE
-ARG BUILD_NPM_REGISTRY="http://npm-registry:4873/"
+ARG BUILD_NPM_REGISTRY
 
 ### worker #####################################################################
 FROM $BUILD_IMAGE AS build-worker
@@ -16,7 +16,7 @@ COPY --from=src-worker package*.json ./
 RUN <<EORUN
     . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
     dev_npm_registry $BUILD_NPM_REGISTRY
-    npm install
+    npm install --omit=dev
 EORUN
 
 COPY --from=src-worker . .

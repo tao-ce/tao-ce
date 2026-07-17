@@ -5,7 +5,7 @@ After=tao-ce.setup.service
 
 [Service]
 Type=oneshot
-Environment=NODE_VERSION=22
+Environment=NODE_VERSION=24
 ExecStartPre=bash -c "mkdir -p ${TAO_CE_VARLIB}/portal/"
 ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-user"
 ExecStartPre=-bash -c "curl -X DELETE -H 'Content-Type: application/json' ${ELASTICSEARCH_URL}/portal-enrolment"

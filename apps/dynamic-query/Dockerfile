@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1-labs
 
 ARG BUILD_IMAGE
-ARG BUILD_NPM_REGISTRY="http://npm-registry:4873/"
+ARG BUILD_NPM_REGISTRY
 
 ### api ########################################################################
 FROM $BUILD_IMAGE AS build-api

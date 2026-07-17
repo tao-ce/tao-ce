@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1-labs
 
 ARG BUILD_IMAGE
-ARG BUILD_NPM_REGISTRY="http://0.0.0.0:4873/"
+ARG BUILD_NPM_REGISTRY
 
 ### backend ####################################################################
 FROM $BUILD_IMAGE AS build-backend
@@ -21,7 +21,7 @@ RUN \
     <<EORUN
         . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
         dev_npm_registry $BUILD_NPM_REGISTRY
-        npm install --no-package-lock
+        npm install --no-package-lock --omit=dev
         dev_git_cleanup /app #TODO
 EORUN
 

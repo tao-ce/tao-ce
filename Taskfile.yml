@@ -6,6 +6,10 @@ method: checksum
 output: prefixed
 interval: 1s
 
+env:
+  BUILD_NPM_REGISTRY: 'http://npm-registry:4873/'
+  BUILD_COMPOSER_REGISTRY: 'http://composer-registry:4060/'
+
 vars:
   CACHE_DIR: '{{.ROOT_DIR}}/.cache/build'
   ROOT_SIGNAL_DIR: '{{.CACHE_DIR}}/signals'
@@ -16,8 +20,10 @@ vars:
   LOCAL_IMAGE: "{{.REGISTRY}}/{{ .SWIFT_IMAGE}}"
   PAYLOAD_IMAGE: "{{.REGISTRY}}/payload/{{ .SWIFT_IMAGE}}"
 
+
   BUILD_COMMON_FLAGS:
-    - "--build-arg BUILD_NPM_REGISTRY=http://npm-registry:4873/"
+    - "--build-arg BUILD_NPM_REGISTRY={{ .BUILD_NPM_REGISTRY }}"
+    - "--build-arg BUILD_COMPOSER_REGISTRY={{ .BUILD_COMPOSER_REGISTRY }}"
     - "--build-context hack-utils={{.ROOT_DIR}}/hack/utils"
   TAG: dev-latest
 
@@ -25,7 +31,7 @@ vars:
 
   APPS_CONTEXTS:
     map:
-      # construct: "container-image://{{ .REGISTRY }}/apps/construct:{{ .TAG }}"
+      construct: "container-image://{{ .REGISTRY }}/apps/construct:{{ .TAG }}"
       datastore: "container-image://{{ .REGISTRY }}/apps/datastore:{{ .TAG }}"
       deliver: "container-image://{{ .REGISTRY }}/apps/deliver:{{ .TAG }}"
       # devkit: "container-image://{{ .REGISTRY }}/apps/devkit:{{ .TAG }}"

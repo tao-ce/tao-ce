@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1-labs
 
 ARG BUILD_IMAGE
-ARG BUILD_NPM_REGISTRY="http://npm-registry:4873/"
-ARG BUILD_COMPOSER_REGISTRY="http://composer-registry:4060/"
+ARG BUILD_NPM_REGISTRY
+ARG BUILD_COMPOSER_REGISTRY
 ### backend ####################################################################
 FROM $BUILD_IMAGE AS build-backend
 ARG BUILD_IMAGE
@@ -83,7 +83,7 @@ RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     <<EORUN
         . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
-        echo up
+        echo f
         dev_npm_registry $BUILD_NPM_REGISTRY
         npm install --omit=dev @oat-sa-private/tao-deliver-app
 EORUN
