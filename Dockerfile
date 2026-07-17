@@ -113,7 +113,7 @@ RUN \
 COPY hack/utils/*.inc.sh /usr/local/libexec/tao-ce/hack/utils/
 
 ################################################################################
-FROM docker.io/golang:1.24-alpine AS build-go
+FROM docker.io/golang:1.26-alpine AS build-go
 ENV CGO_ENABLED=0
 
 RUN apk add --no-cache gcc musl-dev

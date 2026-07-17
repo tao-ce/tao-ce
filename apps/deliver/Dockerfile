@@ -42,7 +42,7 @@ RUN <<EORUN
         | dev_composer_freeze_require_version oat-sa/lib-em-php-lti-client dev-main \
         | dev_composer_freeze_require_version oat-sa/lib-em-php-lti-events dev-main \
         | dev_composer_freeze_require_version oat-sa/tao-timers-client dev-main \
-        | dev_composer_require_version oat-sa/lib-grader-messenger-bridge "dev-main as 3.3" \
+        | dev_composer_require_version oat-sa/lib-grader-messenger-bridge "dev-main as 5.4.0" \
         | tee composer.json
     cat ./symfony.src.lock \
         | jq 'del(.["google/cloud-bigtable"])' \
@@ -83,7 +83,7 @@ RUN \
     --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
     <<EORUN
         . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
-        echo f
+        echo .sss
         dev_npm_registry $BUILD_NPM_REGISTRY
         npm install --omit=dev @oat-sa-private/tao-deliver-app
 EORUN

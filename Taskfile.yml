@@ -34,15 +34,15 @@ vars:
       construct: "container-image://{{ .REGISTRY }}/apps/construct:{{ .TAG }}"
       datastore: "container-image://{{ .REGISTRY }}/apps/datastore:{{ .TAG }}"
       deliver: "container-image://{{ .REGISTRY }}/apps/deliver:{{ .TAG }}"
-      # devkit: "container-image://{{ .REGISTRY }}/apps/devkit:{{ .TAG }}"
+      devkit: "container-image://{{ .REGISTRY }}/apps/devkit:{{ .TAG }}"
       environment-management: "container-image://{{ .REGISTRY }}/apps/environment-management:{{ .TAG }}"
       dynamic-query: "container-image://{{ .REGISTRY }}/apps/dynamic-query:{{ .TAG }}"
       task-orchestrator: "container-image://{{ .REGISTRY }}/apps/task-orchestrator:{{ .TAG }}"
       portal: "container-image://{{ .REGISTRY }}/apps/portal:{{ .TAG }}"
       timers: "container-image://{{ .REGISTRY }}/apps/timers:{{ .TAG }}"
-      # proctoring: "container-image://{{ .REGISTRY }}/apps/proctoring:{{ .TAG }}"
+      proctoring: "container-image://{{ .REGISTRY }}/apps/proctoring:{{ .TAG }}"
       content-service: "container-image://{{ .REGISTRY }}/apps/content-service:{{ .TAG }}"
-      # scoring: "container-image://{{ .REGISTRY }}/apps/scoring:{{ .TAG }}"
+      scoring: "container-image://{{ .REGISTRY }}/apps/scoring:{{ .TAG }}"
 
   APPS:
     ref: keys .APPS_CONTEXTS

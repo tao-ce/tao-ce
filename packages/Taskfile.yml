@@ -16,6 +16,7 @@ tasks:
           dev_npm_registry $BUILD_NPM_REGISTRY
           npm install --no-package-lock
           npm run build
+          npm unpublish -f --registry=$BUILD_NPM_REGISTRY || true
           npm publish --registry=$BUILD_NPM_REGISTRY
         EORUN
   live-design-system:

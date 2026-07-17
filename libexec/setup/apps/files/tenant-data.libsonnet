@@ -365,6 +365,10 @@ function(setup)
             },
           },
           {
+            name: 'deliver_type',
+            value: 'DeliverSolar',
+          },
+          {
             name: 'testRunnerTheme',
             value: {
               default: 'default',
