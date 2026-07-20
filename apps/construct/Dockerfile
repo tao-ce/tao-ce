@@ -49,11 +49,6 @@ RUN \
             | tar --strip-components=1 -xz \
                 -C "/app/taoQtiItem/views/js/mathjax"
         dev_git_cleanup /app
-        rm -rf \
-            /app/*/test/ \
-            /app/*/views/js/{test,tests} \
-            /app/*/views/cypress \
-            /app/vendor/*/*/{test,tests,test_files}
 EORUN
 
 COPY --from=src-code ./index.php .

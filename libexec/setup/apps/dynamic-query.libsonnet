@@ -2,6 +2,7 @@ function(setup)
   {
     env: {
       api: {
+        OTEL_SDK_ENABLED: 'false',
         DEBUG: 'false',
         ELASTICSEARCH_URL: setup.dependencies.es.address.url,
         GCP_PROJECT_ID: self.GOOGLE_CLOUD_PROJECT,

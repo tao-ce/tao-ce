@@ -20,6 +20,7 @@ RUN <<EORUN
     cat ./composer.src.json \
         | dev_composer_prune_repositories \
         | dev_composer_stability \
+        | dev_composer_prefer_source_fallback \
         | jq 'del(.require["oat-sa/bundle-bigtable-document-manager"])' \
         | dev_composer_freeze_require_version oat-sa/bundle-cache-document-manager dev-main \
         | dev_composer_freeze_require_version oat-sa/bundle-correlation-ids dev-main \

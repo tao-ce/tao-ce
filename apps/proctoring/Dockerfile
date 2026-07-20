@@ -194,6 +194,7 @@ RUN \
         dev_npm_registry $BUILD_NPM_REGISTRY
         npm install --omit=dev
         npm install rxjs@7.8.0
+        # rm -rf node_modules/@opentelemetry
         dev_git_cleanup /app
 EORUN
 
@@ -220,6 +221,7 @@ RUN \
     <<EORUN
         . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
         npm run build
+        # echo 'export const shutdownOtel = () => {};' >src/instrumentation/otel.js  #https://github.com/oat-sa/tao-content-service/pull/203
         dev_git_cleanup /app
 EORUN
 

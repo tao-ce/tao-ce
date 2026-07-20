@@ -48,6 +48,8 @@ RUN <<EORUN
         | dev_composer_prune_repositories \
         | dev_composer_stability \
         | jq 'del(.require["oat-sa/bundle-bigtable-document-manager"])' \
+        | jq 'del(.require["symfony/amazon-sqs-messenger"])' \
+        | jq 'del(.require["league/flysystem-aws-s3-v3"])' \
         | dev_composer_freeze_require_version oat-sa/bundle-cache-document-manager dev-main \
         | dev_composer_freeze_require_version oat-sa/bundle-correlation-ids dev-main \
         | dev_composer_freeze_require_version oat-sa/bundle-document-manager "dev-main as 0.7" \
@@ -76,6 +78,12 @@ RUN <<EORUN
     cat ./symfony.src.lock \
         | jq 'del(.["google/cloud-bigtable"])' \
         | jq 'del(.["oat-sa/bundle-bigtable-document-manager"])' \
+        | jq 'del(.["symfony/amazon-sqs-messenger"])' \
+        | jq 'del(.["league/flysystem-aws-s3-v3"])' \
+        | jq 'del(.["aws/aws-sdk-php"])' \
+        | jq 'del(.["aws/aws-crt-php"])' \
+        | jq 'del(.["async-aws/sqs"])' \
+        | jq 'del(.["async-aws/core"])' \
     | tee symfony.lock
     rm -f composer.src.json symfony.src.lock
 EORUN
@@ -140,6 +148,12 @@ RUN <<EORUN
     cat ./symfony.src.lock \
         | jq 'del(.["google/cloud-bigtable"])' \
         | jq 'del(.["oat-sa/bundle-bigtable-document-manager"])' \
+        | jq 'del(.["symfony/amazon-sqs-messenger"])' \
+        | jq 'del(.["league/flysystem-aws-s3-v3"])' \
+        | jq 'del(.["aws/aws-sdk-php"])' \
+        | jq 'del(.["aws/aws-crt-php"])' \
+        | jq 'del(.["async-aws/sqs"])' \
+        | jq 'del(.["async-aws/core"])' \
     | tee symfony.lock
     rm -f composer.src.json symfony.src.lock
 EORUN

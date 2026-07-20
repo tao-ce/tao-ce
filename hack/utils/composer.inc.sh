@@ -27,3 +27,7 @@ dev_composer_freeze_require_version() {
         else .
         end'
 }
+
+dev_composer_prefer_source_fallback() {
+    jq '.config["preferred-install"]["*"] = "source-fallback"'
+}

@@ -51,6 +51,8 @@ RUN --mount=type=cache,id=npm-cache,target=/root/.npm,sharing=locked \
         . /usr/local/libexec/tao-ce/hack/utils/dev.inc.sh
         dev_npm_registry $BUILD_NPM_REGISTRY
         npm install --omit=dev
+        # rm -rf node_modules/@opentelemetry
+        dev_git_cleanup /app
 EORUN
 
 

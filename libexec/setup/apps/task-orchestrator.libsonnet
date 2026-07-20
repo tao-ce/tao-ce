@@ -2,6 +2,7 @@ function(setup)
   {
     env: {
       backend: {
+        OTEL_SDK_ENABLED: 'false',
         ADMIN_CLIENT_SECRET: setup.lib.hash('admin'),
         AUTH_SERVER_API_URL: setup.apps['environment-management'].auth_server.http.url,
         DEBUG: 'false',
