@@ -1,0 +1,14 @@
+ARG PATCHES_DIR="/run/context/patches"
+
+COPY --from=patches ./composer $PATCHES_DIR/composer
+
+RUN <<EORUN
+  set -eux
+  src_file=$(mktemp)
+  mv composer.json $src_file
+  jq \
+    -f $PATCHES_DIR/composer/run.jq \
+    --slurpfile patches $PATCHES_DIR/composer/patch.json \
+      $src_file >composer.json
+  rm -f $src_file
+EORUN

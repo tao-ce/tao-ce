@@ -11,7 +11,7 @@ function(setup)
         AUTH_SERVER_API_URL: setup.apps['environment-management'].auth_server.http.url,
         DOCUMENT_CONVERSION_API_URL: 'http://0.0.0.0:0',
         TEST_RUNNER_API_URL: 'http://0.0.0.0:0',
-        LOG_LEVEL: 'trace',
+        LOG_LEVEL: 'info',
         REQUEST_SIZE_LIMIT: '100Mb',
         FIRESTORE_HIERARCHY_WATCH_ENABLED: 'false',
 

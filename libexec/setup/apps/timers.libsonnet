@@ -4,7 +4,7 @@ function(setup)
       backend: {
         FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
         FIRESTORE_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,
-        LOG_LEVEL: 'trace',
+        LOG_LEVEL: 'info',
         MESSENGER_ASSESSMENT_LOG_TRANSPORT_DSN: 'gps://default?client_config[apiEndpoint]=%s&max_messages_pull=10&topic[name]=assessment-log' % setup.dependencies.pubsub.address.url,
         PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.url,
         PUBSUB_PROJECT_ID: setup.env.GOOGLE_CLOUD_PROJECT,

@@ -1,0 +1,25 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+
+ ## api ########################################################################
+FROM $BUILD_IMAGE AS build-api
+ARG BUILD_IMAGE
+
+ENV NODE_VERSION="24"
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+COPY --from=src-api package*.json ./
+#include <npm/ci.in>
+COPY --from=src-api . .
+#include <clean-app.in>
+
+ ## Export #####################################################################
+FROM scratch AS export
+
+COPY --from=build-api \
+    /app /api
+
+COPY meta /meta

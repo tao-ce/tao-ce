@@ -1,0 +1,25 @@
+#include <macros.h>
+#ifndef NPM_INSTALL_PACKAGES
+#define NPM_INSTALL_PACKAGES
+#endif
+
+#ifdef NPM_DEV
+#define NPM_INSTALL_OPTS
+#else
+#define NPM_INSTALL_OPTS --omit=dev
+#endif
+
+ARG BUILD_NPM_REGISTRY
+ARG BUILD_NPM_LOGIN="verdaccio"
+
+RUN WITH_CACHE_NPM <<EORUN
+set -eux
+#include <snippets/npm-nvm.in>
+#include <snippets/npm-registry.in>
+npm install NPM_INSTALL_OPTS NPM_INSTALL_PACKAGES
+#endif
+EORUN
+
+#undef NPM_INSTALL_OPTS
+#undef NPM_INSTALL_PACKAGES
+#undef NPM_DEV

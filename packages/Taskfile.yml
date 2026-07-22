@@ -6,77 +6,104 @@ interval: 1s
 
 env:
   NODE_VERSION: '24'
+  BUILD_NPM_REGISTRY: 'http://npm-registry:4873/'
+  BUILD_COMPOSER_REGISTRY: 'http://composer-registry:4060/'
+  SATIS_ROOT_DIR: '{{.ROOT_DIR}}/.cache/build/satis'
 
-tasks:
+vars:
+    BUILD_COMMON_FLAGS:
+    - "--build-arg BUILD_NPM_REGISTRY={{ .BUILD_NPM_REGISTRY }}"
+    - "--build-arg BUILD_COMPOSER_REGISTRY={{ .BUILD_COMPOSER_REGISTRY }}"
+    - " --cpp-flag=-CC"
+    - " --cpp-flag=-I{{.ROOT_DIR}}/build/crystal/Containerfile.d"
+
+includes:
   read-aloud-client-fe:
-    dir: "{{.ROOT_DIR}}/packages/read-aloud-client-fe"
-    cmd: |
-        /bin/bash <<"EORUN"
-          . {{.ROOT_DIR}}/hack/utils/dev.inc.sh
-          dev_npm_registry $BUILD_NPM_REGISTRY
-          npm install --no-package-lock
-          npm run build
-          npm unpublish -f --registry=$BUILD_NPM_REGISTRY || true
-          npm publish --registry=$BUILD_NPM_REGISTRY
-        EORUN
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: read-aloud-client-fe
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-read-aloud-client-fe
+      CONTEXT: read-aloud-client-fe
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
+
   live-design-system:
-    dir: "{{.ROOT_DIR}}/packages/live-design-system"
-    cmd: |
-        /bin/bash <<"EORUN"
-          . {{.ROOT_DIR}}/hack/utils/dev.inc.sh
-          dev_npm_registry $BUILD_NPM_REGISTRY
-          npm install --no-package-lock
-          npx lerna bootstrap --force-local
-          npx lerna exec -- 'npm unpublish -f --registry=$BUILD_NPM_REGISTRY || true'
-          npx lerna exec -- 'npm publish --registry=$BUILD_NPM_REGISTRY'
-        EORUN
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: live-design-system
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-live-design-system
+      CONTEXT: live-design-system
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   tao-deliver-fe:
-    dir: "{{.ROOT_DIR}}/apps/deliver/src/fe"
-    cmd: |
-        /bin/bash <<"EORUN"
-          . {{.ROOT_DIR}}/hack/utils/dev.inc.sh
-          dev_npm_registry $BUILD_NPM_REGISTRY
-          ls packages/*/package.json | while read package; do
-            u=$(mktemp)
-            jq 'del(.private)' $package >$u
-            mv $u $package
-          done
-          u=$(mktemp)
-          jq '.files = ["dist", "server.js"]' packages/deliver-app/package.json >$u
-          mv $u packages/deliver-app/package.json
-          npm install --no-package-lock
-          npx lerna bootstrap --force-local
-          npm run build
-          npx lerna exec -- 'npm unpublish -f --registry=$BUILD_NPM_REGISTRY || true'
-          npx lerna exec -- 'npm publish --registry=$BUILD_NPM_REGISTRY'
-        EORUN
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: tao-deliver-fe
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-tao-deliver-fe
+      CONTEXT: ../apps/deliver/src/fe
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   extension-tao-test-preview-ui-loader:
-    dir: "{{.ROOT_DIR}}/packages/extension-tao-test-preview-ui-loader"
-    cmd: |
-        /bin/bash <<"EORUN"
-          . {{.ROOT_DIR}}/hack/utils/dev.inc.sh
-          cd views
-          dev_npm_registry $BUILD_NPM_REGISTRY
-          npm install -fS --package-lock-only \
-            @oat-sa-private/ui-identity@latest \
-            @oat-sa-private/tao-test-runner-qtinui@latest \
-            @oat-sa-private/read-aloud-client@latest
-        EORUN
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: extension-tao-test-preview-ui-loader
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-extension-tao-test-preview-ui-loader
+      CONTEXT: extension-tao-test-preview-ui-loader
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   satis:
-    dir: "{{.ROOT_DIR}}/build/satis"
-    cmd: |
-        /bin/bash <<"EORUN"
-          . {{.ROOT_DIR}}/hack/utils/dev.inc.sh
-          mkdir -p {{.ROOT_DIR}}/.cache/build/satis
-          podman run \
-            -w /app \
-            -e SATIS_HOMEPAGE=$BUILD_COMPOSER_REGISTRY \
-            -v {{.ROOT_DIR}}/build/satis:/config:ro \
-            -v {{.ROOT_DIR}}/apps/environment-management/src/libs:/app/apps/environment-management/libs \
-            -v {{.ROOT_DIR}}/packages:/app/packages \
-            -v {{.ROOT_DIR}}/.cache/build/satis:/output \
-            --rm docker.io/composer/satis build -vvvn /config/satis.json /output
-        EORUN
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: satis
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-satis
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          build-satis: '{{.ROOT_DIR}}/build/satis'
+          packages: '{{.ROOT_DIR}}/packages'
+          em-libs: '{{.ROOT_DIR}}/apps/environment-management/src/libs'
+          extension-tao-test-preview-ui-loader: 'container-image://{{.REGISTRY}}/packages/extension-tao-test-preview-ui-loader:{{.DEV_TAG}}'
+      BUILD_FLAGS:
+        - "--volume={{.SATIS_ROOT_DIR}}:/output:shared,rw"
+
+
+tasks:
+  all:
+    cmds:
+      - cmd: mkdir -p {{.SATIS_ROOT_DIR}}
+      - task: read-aloud-client-fe:build
+      - task: live-design-system:build
+      - task: tao-deliver-fe:build
+      - task: extension-tao-test-preview-ui-loader:build
+      - task: satis:build
+

@@ -21,6 +21,7 @@ local hydrateSetup(seed, salt) =
   lib:: lib,
   defaultLocale: 'en-US',
   portal: { populate: 'admin+demo5' },
+  flavor: 'full',
   dirs: {
     opt: '/opt/tao-ce',
     varlib: '/var/lib/tao-ce',
@@ -48,6 +49,7 @@ local hydrateSetup(seed, salt) =
       {},
     ),
   apps: addresses,
+  mixins: (import './mixins/main.libsonnet')(self),
 };
 
 

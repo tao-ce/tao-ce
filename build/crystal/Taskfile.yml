@@ -59,10 +59,16 @@ tasks:
     # desc: Build {{ .IMAGE }}:{{ .TAG }}
     run: always
     vars:
-      CONTEXT: '{{ .CONTEXT | default "." }}'
-      SUDO: '{{ .SUDO | default "" }}'
-      TARGET: '{{ .TARGET | default .DEFAULT_TARGET }}'
-      IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
+      CONTEXT:
+        ref: default "." .CONTEXT
+      SUDO:
+        ref: default "" .SUDO
+      TAG:
+        ref: default "dev-latest" .TAG
+      TARGET:
+        ref: default .DEFAULT_TARGET .TARGET
+      IMAGE:
+        ref: default .DEFAULT_IMAGE .IMAGE
     sources:
     - "{{if eq .TASK_DIR .ROOT_DIR}}@@@@@{{else}}{{.TASK_DIR}}/**{{end}}"
     # - exclude: "**/.*"
@@ -105,7 +111,7 @@ tasks:
       {{range $ctx, $path := .CONTEXTS -}}
       {{" "}}  --build-context {{ $ctx }}={{ $path }}
       {{- end}} \
-      {{ .BUILD_COMMON_FLAGS | join " " }} \
+      {{ .BUILD_COMMON_FLAGS | join " " }} {{ .BUILD_FLAGS | join " " }} \
       {{.CONTEXT}} \
       2>&1  \
       | while read line ; do

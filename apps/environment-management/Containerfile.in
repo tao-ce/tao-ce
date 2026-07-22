@@ -1,0 +1,91 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+ARG GO_BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+ARG BUILD_COMPOSER_REGISTRY
+
+ ## auth-server ################################################################
+FROM $BUILD_IMAGE AS build-auth-server
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ENV NODE_VERSION="24"
+
+WORKDIR /app
+
+COPY --from=src-auth-server *.json /app/
+
+#define NPM_DEV
+#include <npm/install.in>
+
+COPY --from=src-auth-server types /app/types
+COPY --from=src-auth-server src /app/src
+
+#define NPM_RUN_ARGS build
+#include <npm/run.in>
+#undef NPM_RUN_ARGS
+#include <clean-app.in>
+
+FROM $BUILD_IMAGE AS build-auth-server-prod
+ARG BUILD_IMAGE
+
+ENV NODE_VERSION="24"
+
+WORKDIR /app
+
+COPY --from=src-auth-server *.json /app/
+
+#include <npm/install.in>
+#include <clean-app.in>
+
+ ## lti-gateway ################################################################
+FROM $BUILD_IMAGE AS build-lti-gateway
+ARG BUILD_IMAGE
+ARG BUILD_COMPOSER_REGISTRY
+ARG STATE_ROOT="/var/lib/tao-ce/environment-management/lti-gateway"
+ENV STATE_ROOT=$STATE_ROOT
+
+WORKDIR /app
+
+COPY --from=src-lti-gateway . /app
+COPY src/libs /libs
+
+#include <composer/install.in>
+#include <clean-app.in>
+
+RUN <<EORUN
+    STATE_DATA(data, var)
+EORUN
+
+ ## sidecar ####################################################################
+FROM $GO_BUILD_IMAGE AS build-sidecar
+ARG GO_BUILD_IMAGE
+
+ENV GOCACHE=/go-cache
+ENV GOMODCACHE=/gomod-cache
+
+WORKDIR /app
+COPY src/libs/lib-em-go-proto /libs/lib-em-go-proto
+COPY --from=src-sidecar go.mod go.sum /app/
+RUN WITH_CACHE_GO go mod download
+COPY --from=src-sidecar . /app
+RUN WITH_CACHE_GO go build -ldflags '-extldflags "-static"' -o /server cmd/sidecar_api/main.go
+
+ ## Export #####################################################################
+FROM scratch AS export
+
+COPY --link --from=build-auth-server \
+    /app/dist /auth-server
+COPY --link --from=build-auth-server-prod \
+    /app/node_modules /auth-server/node_modules
+COPY --link --from=build-lti-gateway \
+    /app /lti-gateway
+COPY --link --from=build-lti-gateway \
+    /libs /libs
+COPY ./router.php /lti-gateway/router.php
+COPY ./router.php /lti-gateway/public/router.php
+COPY --link --from=build-sidecar \
+    /server /app/config.yaml /sidecar/
+
+COPY meta /meta

@@ -20,7 +20,7 @@ function(setup)
         GCP_PUBSUB_TASK_ORCHESTRATOR_SUBSCRIPTION_NAME: 'task-orchestrator-ds',
         GCP_PUBSUB_TASK_ORCHESTRATOR_TOPIC_NAME: 'task-orchestrator-topic',
         JWKS_URL: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
-        LOG_LEVEL: 'trace',
+        LOG_LEVEL: 'info',
         PORT: setup.apps.task_orchestrator.backend.http.port,
         PUBSUB_EMULATOR_HOST: setup.dependencies.pubsub.address.url,
         SIDECAR_API_URL: setup.apps['environment-management'].auth_server.grpc.url,

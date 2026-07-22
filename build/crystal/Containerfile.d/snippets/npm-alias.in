@@ -1,0 +1,2 @@
+npm() { NVM_EXEC_PATH npm $@; }
+node() { NVM_EXEC_PATH node $@; }

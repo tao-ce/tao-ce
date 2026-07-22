@@ -1,0 +1,35 @@
+{
+    "drop": [
+        "oat-sa/bundle-bigtable-document-manager",
+        "symfony/amazon-sqs-messenger",
+        "league/flysystem-aws-s3-v3"
+    ],
+    "replace": {
+        "oat-sa/bundle-cache-document-manager": "dev-main",
+        "oat-sa/bundle-correlation-ids": "dev-main",
+        "oat-sa/bundle-document-manager": "dev-main as 0.7",
+        "oat-sa/bundle-elasticsearch-document-manager": "dev-main",
+        "oat-sa/bundle-em-client": "dev-main",
+        "oat-sa/bundle-filesystem-document-manager": "dev-main",
+        "oat-sa/bundle-grader-messenger-bridge": "dev-main as 5.4.0",
+        "oat-sa/bundle-qti": "dev-main",
+        "oat-sa/bundle-scoring-engine": "dev-main",
+        "oat-sa/extension-tao-deliver-connect": "dev-main",
+        "oat-sa/extension-tao-deliver-pcis": "dev-main",
+        "oat-sa/extension-tao-test-preview-ui-loader": "dev-main",
+        "oat-sa/extension-tao-testqti-export": "dev-main",
+        "oat-sa/lib-correlation-ids-messenger": "dev-main",
+        "oat-sa/lib-tenant-management": "dev-main",
+        "oat-sa/lib-correlation-ids-http-client": "dev-main",
+        "oat-sa/lib-qti-item-json-compilation": "dev-main",
+        "oat-sa/lib-em-php-client": "dev-main",
+        "oat-sa/lib-em-php-lti-client": "dev-main",
+        "oat-sa/lib-em-php-lti-events": "dev-main",
+        "oat-sa/tao-timers-client": "dev-main",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "symfony/debug-bundle": "~6.4.0"
+    },
+    "add": {
+        "oat-sa/lib-grader-messenger-bridge": "dev-main as 5.4.0"
+    }
+}

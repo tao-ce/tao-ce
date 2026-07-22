@@ -1,0 +1,10 @@
+RUN <<EORUN
+    {
+        find . -type d | grep '[/][.]git$' || true
+        find . -type f | grep '[/][.]git.*$' || true
+        ls -d ./test/ || true
+        ls -d ./*/views/js/{test,tests} || true
+        ls -d ./*/views/cypress || true
+        ls -d ./vendor/*/*/{test,tests,test_files} || true
+    } 2>/dev/null | xargs rm -rf
+EORUN

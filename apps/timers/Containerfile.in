@@ -1,0 +1,41 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ ## backend ####################################################################
+FROM $BUILD_IMAGE AS build-backend-ci
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ENV NODE_VERSION="24"
+WORKDIR /app
+
+COPY --from=src-backend . .
+
+#define NPM_DEV
+#include <npm/ci.in>
+#define NPM_RUN_ARGS build
+#include <npm/run.in>
+
+FROM $BUILD_IMAGE AS build-backend
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ENV NODE_VERSION="24"
+WORKDIR /app
+
+COPY --from=src-backend . .
+
+#include <npm/ci.in>
+#include <clean-app.in>
+
+ ## Export #####################################################################
+FROM scratch AS export
+
+COPY --link --from=build-backend \
+    /app /backend
+COPY --link --from=build-backend-ci \
+    /app/dist /backend/dist
+
+COPY meta /meta

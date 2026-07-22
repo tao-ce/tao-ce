@@ -1,0 +1,59 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ ## backend ####################################################################
+FROM $BUILD_IMAGE AS build-backend
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ENV NODE_VERSION="24"
+WORKDIR /app
+
+COPY --from=src-backend --exclude=**/package-lock.json . .
+COPY --from=src-init index/tenant-tags.json mappings/dev/tenant-tags.json 
+
+#include <npm/install.in>
+#include <clean-app.in>
+
+ ## frontend ##################################################################
+FROM $BUILD_IMAGE AS build-frontend
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ENV NODE_VERSION="24"
+WORKDIR /app
+
+COPY --from=src-frontend ./package.json ./package.src.json
+RUN jq 'del(.overrides["@oat-sa-private/ui-core"])' <package.src.json >package.json
+
+COPY --from=src-frontend  --exclude=**/package.json . .
+
+#define NPM_INSTALL_PACKAGES @oat-sa-private/ui-components@latest @oat-sa-private/ui-core@latest @oat-sa-private/ui-elements@latest @oat-sa-private/ui-identity@latest
+#define NPM_INSTALL_OPTS --package-lock-only --force --save
+#include <npm/install.in>
+#define NPM_DEV
+#include <npm/ci.in>
+#include <clean-app.in>
+
+ ## bootstrap ##################################################################
+FROM build-frontend AS build-bootstrap
+
+WORKDIR /app
+
+#define NPM_RUN_ARGS build:bootstrap
+#include <npm/run.in>
+#include <clean-app.in>
+
+ ## Export #####################################################################
+FROM scratch AS export
+
+COPY --link --from=build-backend \
+    /app /backend
+COPY --link --from=build-bootstrap  \
+    /app/server.js /bootstrap/
+COPY --link --from=build-frontend     \
+    /app/dist /static
+
+COPY meta /meta

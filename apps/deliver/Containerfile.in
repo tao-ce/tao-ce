@@ -1,0 +1,64 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+ARG BUILD_COMPOSER_REGISTRY
+ ## backend ####################################################################
+FROM $BUILD_IMAGE AS build-backend
+ARG BUILD_IMAGE
+ARG STATE_ROOT="/var/lib/tao-ce/deliver"
+ENV STATE_ROOT=$STATE_ROOT
+
+WORKDIR /app
+
+COPY --from=src-backend \
+    ./composer.json ./symfony.lock \
+    ./
+
+#include <composer/patch.in>
+#include <symfony/patch.in>
+
+COPY --from=src-backend \
+    --exclude=**/composer.lock \
+    --exclude=**/composer.json \
+    --exclude=**/symfony.lock \
+    . .
+
+RUN \
+    <<EORUN
+        sed -i \
+            -e '/BigtableDocumentManagerBundle/d' \
+            config/bundles.php \
+            src/DocumentManager/Filter/DeliveryExecution/DeliveryExecutionCollectionFilterFactory.php
+        grep -v APP_ENV .env.prod >.env
+EORUN
+
+#include <composer/install.in>
+#include <clean-app.in>
+
+RUN <<EORUN
+    STATE_DATA(data, var)
+EORUN
+
+ ## frontend ###################################################################
+FROM $BUILD_IMAGE AS build-frontend
+ARG BUILD_IMAGE
+ENV NODE_VERSION="24"
+WORKDIR /app
+
+#define NPM_INSTALL_PACKAGES @oat-sa-private/tao-deliver-app
+#include <npm/install.in>
+
+ ## Export #####################################################################
+FROM scratch AS export
+
+COPY --link --from=build-backend  \
+    /app /backend
+COPY --link --from=build-frontend \
+    /app/node_modules/@oat-sa-private/tao-deliver-app/server.js /bootstrap/
+COPY --link --from=build-frontend \
+    /app/node_modules/@oat-sa-private/tao-deliver-app/dist /static
+
+COPY ./router.php /backend/router.php
+
+COPY meta /meta

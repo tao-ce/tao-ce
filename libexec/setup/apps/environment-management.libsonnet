@@ -3,7 +3,10 @@ function(setup)
   {
     files: {
       'tenant-data/tenant-data.json': std.manifestJson((import './files/tenant-data.libsonnet')(setup)),
-      'tenant-data/environments.json': std.manifestJson((import './files/environments.libsonnet')(setup)),
+      'tenant-data/environments.json': std.manifestJson(
+        setup.mixins.on["environment-management"].files.environments.apply(
+          (import './files/environments.libsonnet')(setup)
+        )),
       'envoy.yaml': std.manifestYamlDoc((import './files/envoy.libsonnet')(setup), quote_keys=false),
       'private.pem': importstr './keys/environment-management/private.pem',
       'public.pem': importstr './keys/environment-management/public.pem',

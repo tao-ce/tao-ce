@@ -7,6 +7,7 @@ services:
   dev:
     build:
       context: .
+      dockerfile: ./Containerfile
       additional_contexts:
         src-devcontainer: build/crystal
       target: devcontainer
