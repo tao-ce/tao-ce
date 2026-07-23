@@ -6,8 +6,10 @@ function(setup)
     extensions: [
       'tao',
       'taoCe',
-      // 'ltiTestReview',
+      'ltiTestReview',
       'taoLti',
+      'taoQtiTest',
+      'taoQtiTestExport',
       'taoLtiConsumer',
       'taoDeliverConnect',
       'taoBackOffice',
@@ -92,15 +94,12 @@ function(setup)
           class: 'oat\\oatbox\\log\\LoggerService',
           options: {
             logger: {
-              class: 'oat\\oatbox\\log\\logger\\TaoLog',
+              class: 'oat\\oatbox\\log\\logger\\TaoMonolog',
               options: {
-                appenders: [{
-                  class: 'SingleFileAppender',
-                  file: 'php://stderr',
-                  format: "%d [%s] [%p] '%m' %f %l",
-                  threshold: 2,
-                  prefix: 'tao',
-                  'rotation-ratio': 0,
+                name: 'tao',
+                handlers: [{
+                  class: 'Monolog\\Handler\\StreamHandler',
+                  options: [ 'php://stderr', 200],
                 }],
               },
             },

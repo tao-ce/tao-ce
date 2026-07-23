@@ -15,13 +15,13 @@ local templates = {
 
 local addresses = import './addresses.libsonnet';
 
-local hydrateSetup(seed, salt) = 
+local hydrateSetup(seed, salt, release_flavor) = 
   local lib = (import './lib.libsonnet') { salt:: salt };
 {
   lib:: lib,
   defaultLocale: 'en-US',
   portal: { populate: 'admin+demo5' },
-  flavor: 'full',
+  flavor: release_flavor,
   dirs: {
     opt: '/opt/tao-ce',
     varlib: '/var/lib/tao-ce',
@@ -31,6 +31,8 @@ local hydrateSetup(seed, salt) =
     setup: '%(etc)s/setup' % self,
     envs: '%(setup)s/envs' % self,
     files: '%(setup)s/config' % self,
+    pki: '%(setup)s/pki' % self,
+    keys: '%(pki)s/keys' % self,
   },
 } + seed.spec + {
   local this = self,
@@ -53,8 +55,8 @@ local hydrateSetup(seed, salt) =
 };
 
 
-function(seed, salt=importstr '/proc/sys/kernel/random/uuid')
-  local setup = hydrateSetup(std.parseYaml(seed), salt);
+function(seed, salt=importstr '/proc/sys/kernel/random/uuid', release_flavor='full')
+  local setup = hydrateSetup(std.parseYaml(seed), salt, release_flavor);
   std.foldl(
     function(t, x)
       local h = templates[x](setup);

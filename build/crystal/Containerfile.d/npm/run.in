@@ -9,3 +9,5 @@ set -eux
 #include <snippets/npm-registry.in>
 npm run NPM_RUN_ARGS
 EORUN
+
+#undef NPM_RUN_ARGS

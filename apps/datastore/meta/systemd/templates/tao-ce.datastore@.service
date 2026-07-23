@@ -1,5 +1,7 @@
 [Unit]
 After=tao-ce.portal.backend.service
+After=tao-ce.content-service.backend.service
+After=tao-ce.dynamic-query.backend.service
 
 [Service]
 Type=simple

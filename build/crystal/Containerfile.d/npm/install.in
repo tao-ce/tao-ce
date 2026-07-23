@@ -4,9 +4,13 @@
 #endif
 
 #ifdef NPM_DEV
-#define NPM_INSTALL_OPTS
+#define NPM_DEV_OPTS
 #else
-#define NPM_INSTALL_OPTS --omit=dev
+#define NPM_DEV_OPTS --omit=dev
+#endif
+
+#ifndef NPM_INSTALL_OPTS
+#define NPM_INSTALL_OPTS
 #endif
 
 ARG BUILD_NPM_REGISTRY
@@ -16,8 +20,7 @@ RUN WITH_CACHE_NPM <<EORUN
 set -eux
 #include <snippets/npm-nvm.in>
 #include <snippets/npm-registry.in>
-npm install NPM_INSTALL_OPTS NPM_INSTALL_PACKAGES
-#endif
+npm install NPM_INSTALL_OPTS NPM_DEV_OPTS NPM_INSTALL_PACKAGES
 EORUN
 
 #undef NPM_INSTALL_OPTS

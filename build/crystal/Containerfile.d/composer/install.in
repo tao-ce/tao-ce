@@ -10,6 +10,10 @@ ARG BUILD_NPM_LOGIN="verdaccio"
 
 ARG BUILD_COMPOSER_REGISTRY
 
+#ifndef COMPOSER_INSTALL_OPTS
+#define COMPOSER_INSTALL_OPTS
+#endif
+
 RUN WITH_CACHE_COMPOSER COMPOSER_NPM_CACHE <<EORUN
 set -eux
 #ifdef COMPOSER_NPM_BRIDGE
@@ -17,7 +21,7 @@ set -eux
 #include <snippets/npm-registry.in>
 #endif
 #include <snippets/composer-registry.in>
-composer install -van --no-dev --no-scripts
+composer install -vn --no-dev COMPOSER_INSTALL_OPTS
 EORUN
 
 #undef COMPOSER_NPM_BRIDGE

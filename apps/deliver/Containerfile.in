@@ -33,6 +33,7 @@ RUN \
         grep -v APP_ENV .env.prod >.env
 EORUN
 
+#define COMPOSER_INSTALL_OPTS -a --no-scripts
 #include <composer/install.in>
 #include <clean-app.in>
 

@@ -23,7 +23,7 @@ php-pecl-amqp
 php-pecl-apcu
 php-pecl-grpc
 php-pecl-igbinary
-php-pecl-imagick
+php-pecl-imagick-im7
 php-pecl-opentelemetry
 php-pecl-protobuf
 php-pecl-ssh2

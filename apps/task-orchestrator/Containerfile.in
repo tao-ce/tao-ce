@@ -13,6 +13,8 @@ WORKDIR /app
 
 COPY --from=src-backend ./package*.json .
 #include <npm/ci.in>
+#define NPM_DEV
+#define NPM_INSTALL_OPTS --force
 #define NPM_INSTALL_PACKAGES jsonwebtoken@9.0.0
 #include <npm/install.in>
 

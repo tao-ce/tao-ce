@@ -34,9 +34,15 @@ COPY --from=src-ms ./composer.json ./symfony.lock ./
 
 #include <composer/patch.in>
 #include <symfony/patch.in>
+RUN jq '. \
+    | .require["oat-sa/lib-grader-messenger-bridge"] = "dev-main as 5.4.0" \
+    | .require["doctrine/doctrine-fixtures-bundle"] = "^3.4" \
+    | .require["symfony/debug-bundle"] = "~6.4.0" \
+' <composer.json >composer.json.tmp && mv composer.json.tmp composer.json
 
 COPY --from=src-ms --exclude=**/composer.lock --exclude=**/composer.json --exclude=**/symfony.lock . .
 
+#define COMPOSER_INSTALL_OPTS -a --no-scripts
 #include <composer/install.in>
 #include <clean-app.in>
 RUN STATE_DATA(data,var)
@@ -52,9 +58,14 @@ WORKDIR /app
 COPY --from=src-ss ./composer.json ./symfony.lock ./
 #include <composer/patch.in>
 #include <symfony/patch.in>
+RUN jq '. \
+    | .require["oat-sa/lib-grader-messenger-bridge"] = "dev-main as 5.4.0" \
+    | .require["doctrine/doctrine-fixtures-bundle"] = "^3.4" \
+' <composer.json >composer.json.tmp && mv composer.json.tmp composer.json
 
 COPY --from=src-ss --exclude=**/composer.lock --exclude=**/composer.json --exclude=**/symfony.lock . .
 
+#define COMPOSER_INSTALL_OPTS -a --no-scripts
 #include <composer/install.in>
 #include <clean-app.in>
 RUN STATE_DATA(data,var)

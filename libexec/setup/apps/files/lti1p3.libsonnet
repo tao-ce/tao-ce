@@ -1,7 +1,23 @@
 function(setup)
-  std.parseYaml(importstr './lti1p3.yaml')
   {
     lti1p3+: {
+      key_chains: {
+        primaryKeyPair: {
+          private_key: 'file://%s/em.key' % setup.dirs.keys,
+          public_key: 'file://%s/em.pub' % setup.dirs.keys,
+          private_key_passphrase: '123456',
+          key_set_name: 'primaryKeySet',
+        },
+        platformKey: {
+          private_key: 'file://%s/devkit.key' % setup.dirs.keys,
+          public_key: 'file://%s/devkit.pub' % setup.dirs.keys,
+          private_key_passphrase: '~',
+          key_set_name: 'platformSet',
+        },
+        toolKey: self.platformKey + {
+          key_set_name: 'toolSet',
+        },
+      },
       platforms: {
         'deliver_platform'+: {
           name: 'Deliver Platform',
@@ -88,5 +104,14 @@ function(setup)
           oidc_initiation_url: '%s/taoLti/Security/oidcInitiation' % self.audience,
         },
       },
+      scopes: [
+        "https://purl.imsglobal.org/spec/lti-nrps/scope/contextmembership.readonly",
+        "https://purl.imsglobal.org/spec/lti-bo/scope/basicoutcome",
+        "https://purl.imsglobal.org/spec/lti-ap/scope/control.all",
+        "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem",
+        "https://purl.imsglobal.org/spec/lti-ags/scope/lineitem.readonly",
+        "https://purl.imsglobal.org/spec/lti-ags/scope/score",
+        "https://purl.imsglobal.org/spec/lti-ags/scope/result.readonly",
+      ],
     },
   }

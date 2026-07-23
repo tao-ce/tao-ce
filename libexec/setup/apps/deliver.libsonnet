@@ -104,7 +104,6 @@ function(setup)
         API_URL: 'https://%s/deliver' % [setup.publicDomain],
         PATH_PREFIX: '/deliver',
         STATIC_URL: 'https://%s/deliver-fe-static/' % [setup.publicDomain],
-        NODE_VERSION: '22',
         PORT: setup.apps.deliver.bootstrap.http.port,
       },
     },

@@ -554,7 +554,7 @@ function(setup)
           {
             clientId: 'admin-#tenantId#',
             clientSecret: setup.lib.hash('admin'),
-            isConfidential: true,
+            isConfidential: false,
             name: 'Portal Backend OAuth2 Client per tenant',
             scopes: [
               'admin',

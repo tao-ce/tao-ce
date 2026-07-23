@@ -81,6 +81,10 @@ tasks:
     - |
       cat >{{.CACHE_DIR}}/swift/release/environment <<EOF
       RELEASE_VERSION={{.MANIFEST_TAG}}-{{ARCH}}-$(cat {{.CACHE_DIR}}/swift/release/gitrefshort)
+      TAO_CE_FLAVOR={{ .CE_FLAVOR }}
+      TAO_CE_MAJOR={{ .CE_MAJOR }}
+      TAO_CE_MINOR={{ .CE_MINOR }}
+      TAO_VERSION={{ .TAO_VERSION }}
       EOF
 
   build:
@@ -94,10 +98,22 @@ tasks:
     - :builds:go:build
 
     cmds:
-    - pwd
+    - task: :packages:all
     - task: :all:build
     - task: release
     - task: monolith:build
+
+  export:
+    preconditions:
+      - sh: test -n "$CE_MINOR"
+      - sh: test -n "$CE_MAJOR"
+      - sh: test -n "$TAO_VERSION"
+    cmds:
+    - |
+      podman image save \
+        {{ .LOCAL_IMAGE_URL }} \
+        -o {{ .CACHE_DIR }}/swift/{{ .LOCAL_IMAGE_URL | replace "/" "-" | replace ":" "-" }}-{{ .ARCH }}.tar
+
 
   login:
     preconditions:

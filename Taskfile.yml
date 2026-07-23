@@ -158,6 +158,7 @@ tasks:
 
     deps: [dev:sync:etc, dev:sync:libexec]
     cmds:
+    - mkdir -p /opt/tao-ce/release && echo "TAO_CE_FLAVOR={{ .CE_FLAVOR }}" >/opt/tao-ce/release/environment
     - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.target
     - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.setup.service
     - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.static.service
@@ -227,6 +228,7 @@ tasks:
     - task: builds:base:build
     - task: builds:go:build
     cmds:
+    - task: packages:all
     - task: _log
       vars:
         MESSAGE: "Updating all apps..."

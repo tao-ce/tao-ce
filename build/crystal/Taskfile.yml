@@ -6,9 +6,6 @@ vars:
   DEFAULT_TARGET: export
   SIGNAL_DIR: '{{.ROOT_SIGNAL_DIR}}/{{.NAMESPACE}}/{{.APP}}'
   VERSION_DIR: '{{.CACHE_DIR}}/versions'
-  BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
-  DEPLOY_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/deploy/done"
-  START_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/start/done"
 
 tasks:
   _log:
@@ -69,6 +66,8 @@ tasks:
         ref: default .DEFAULT_TARGET .TARGET
       IMAGE:
         ref: default .DEFAULT_IMAGE .IMAGE
+      BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
+
     sources:
     - "{{if eq .TASK_DIR .ROOT_DIR}}@@@@@{{else}}{{.TASK_DIR}}/**{{end}}"
     # - exclude: "**/.*"
@@ -138,12 +137,11 @@ tasks:
     vars:
       DIR: '/opt/tao-ce/{{.APP}}'
       IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
+      TAG:
+        ref: default "dev-latest" .TAG
+      BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
+      DEPLOY_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/deploy/done"
 
-    # sources:
-    #   - "{{ .BUILD_SIGNAL_FILE }}"
-    # generates:
-    #   - "{{ .DEPLOY_SIGNAL_FILE }}"
-    #   - "{{.DIR}}/meta/deploy/done"
     deps: [build]
 
     status:
@@ -185,6 +183,11 @@ tasks:
   start:
     vars:
       DIR: '/opt/tao-ce/{{.APP}}'
+      TAG:
+        ref: default "dev-latest" .TAG
+      START_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/start/done"
+      DEPLOY_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/deploy/done"
+
     sources:
       - "{{.DEPLOY_SIGNAL_FILE}}"
     status:

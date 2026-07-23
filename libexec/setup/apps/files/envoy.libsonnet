@@ -14,6 +14,7 @@ function(setup)
       '/api/v1/users/password-reset',
       '/api/v1/lti/launch-public-delivery-execution',
       '/api/v1/health',
+      '/api/v1/publication/publish',
     ],
   },{
     prefix: '/deliver',

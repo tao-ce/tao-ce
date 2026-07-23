@@ -8,8 +8,6 @@ function(setup)
           (import './files/environments.libsonnet')(setup)
         )),
       'envoy.yaml': std.manifestYamlDoc((import './files/envoy.libsonnet')(setup), quote_keys=false),
-      'private.pem': importstr './keys/environment-management/private.pem',
-      'public.pem': importstr './keys/environment-management/public.pem',
       'key.json': importstr './keys/proctoring/fake_gcp_key.json',
     },
     env: {
@@ -18,8 +16,8 @@ function(setup)
         ACCESS_TOKEN_TTL: '3600',
         APP_PRIMARY_KEY_KD: 'primaryKeyPair',
         APP_PRIVATE_KEY_PASSPHRASE: '123456',
-        APP_PRIVATE_KEY_PATH: '%s/em/private.pem' % setup.dirs.files,
-        APP_PUBLIC_KEY_PATH: '%s/em/public.pem' % setup.dirs.files,
+        APP_PRIVATE_KEY_PATH: '%s/em.key' % setup.dirs.keys,
+        APP_PUBLIC_KEY_PATH: '%s/em.pub' % setup.dirs.keys,
         CC_USER_DATA_PRELOADER_SOURCE_PATH: '/app/preload-data/',
         CORS_ALLOW_ORIGIN: '*',
         DEBUG: 'false',
@@ -101,10 +99,8 @@ function(setup)
         SIDECAR_GRPC_PORT: setup.apps['environment-management'].sidecar.grpc.port,
         SIDECAR_HTTP_PORT: setup.apps['environment-management'].sidecar.http.port,
         SIDECAR_PRIVATE_KEY_PASSPHRASE: '123456',
-        SIDECAR_PRIVATE_KEY_PATH: '%s/em/private.pem' % setup.dirs.files,
-        SIDECAR_PUBLIC_KEY_PATH: '%s/em/public.pem' % setup.dirs.files,
-        // SIDECAR_PRIVATE_KEY_PATH: "%s/environment-management/private.pem" % setup.dirs.files,
-        // SIDECAR_PUBLIC_KEY_PATH: "%s/environment-management/public.pem" % setup.dirs.files,
+        SIDECAR_PRIVATE_KEY_PATH: '%s/em.key' % setup.dirs.keys,
+        SIDECAR_PUBLIC_KEY_PATH: '%s/em.pub' % setup.dirs.keys,
       },
     },
     pubsub: [

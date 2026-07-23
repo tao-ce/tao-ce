@@ -41,6 +41,12 @@ COPY . .
 #include <npm/install.in>
 #define NPM_DEV
 #include <npm/ci.in>
+#define NPM_RUN_ARGS build:item-runner
+#include <npm/run.in>
+#define NPM_RUN_ARGS build:test-runner
+#include <npm/run.in>
+#define NPM_RUN_ARGS build:app
+#include <npm/run.in>
 WORKDIR /app/packages/apps-common
 #include <npm/publish.in>
 WORKDIR /app/packages/item-runner
@@ -50,9 +56,11 @@ WORKDIR /app/packages/test-runner
 WORKDIR /app/packages/deliver-app
 RUN <<EORUN
   p=$(mktemp)
-  jq 'del(.private)' package.json >$p
+  jq 'del(.private)|.files=["dist", "server.js"]' package.json >$p
   mv $p package.json
 EORUN
+#define NPM_RUN_ARGS build:bootstrap
+#include <npm/run.in>
 #include <npm/publish.in>
 
 FROM $BUILD_IMAGE AS build-extension-tao-test-preview-ui-loader
@@ -68,6 +76,7 @@ WORKDIR /app/views
 
 FROM docker.io/composer/satis:latest AS build-satis
 WORKDIR /app
+ARG BUILD_COMPOSER_REGISTRY
 ENV SATIS_HOMEPAGE=${BUILD_COMPOSER_REGISTRY}
 
 COPY --from=build-satis satis.json /config/
@@ -76,6 +85,6 @@ RUN \
     --mount=from=extension-tao-test-preview-ui-loader,source=/app,target=/app/packages/extension-tao-test-preview-ui-loader \
     --mount=from=em-libs,target=/app/apps/environment-management/libs \
         rm -rf /output/packages.json /output/p2 /output/include /output/dist /output/index.html \
-        && /satis/bin/satis build -vvvn /config/satis.json /output/
+        && /satis/bin/satis build -vvvn /config/satis.json /output
 
 

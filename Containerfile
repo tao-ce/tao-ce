@@ -2,8 +2,8 @@
 ARG SYFT_VERSION=latest
 
 ARG FEDORA_IMAGE=fedora
-ARG FEDORA_VERSION=42
-ARG IMAGE_NVM_VERSIONS="22"
+ARG FEDORA_VERSION=43
+ARG IMAGE_NVM_VERSIONS="24"
 ARG DEVCONTAINER_USERNAME="vscode"
 
 # do not change without keeping packages.php.lst up to date
@@ -119,14 +119,15 @@ RUN apk add --no-cache gcc musl-dev
  ###############################################################################
 FROM base-fedora AS running
 
-LABEL org.opencontainers.image.name "TAO Community Edition"
-LABEL name "TAO Community Edition"
-LABEL org.opencontainers.image.vendor "Open Assessment Technologies S.A."
-LABEL vendor "Open Assessment Technologies S.A."
-LABEL org.opencontainers.image.license "TBD"
-LABEL license "TBD"
-LABEL org.opencontainers.image.url "https://github.com/tao-ce/tao-ce"
-LABEL org.opencontainers.image.authors "opensource-support@taotesting.com"
+LABEL org.opencontainers.image.name="TAO Community Edition"
+LABEL name="TAO Community Edition"
+LABEL org.opencontainers.image.vendor="Open Assessment Technologies S.A."
+LABEL vendor="Open Assessment Technologies S.A."
+LABEL org.opencontainers.image.licenses="AGPL-3.0"
+LABEL licenses="AGPL-3.0"
+LABEL org.opencontainers.image.url="https://github.com/tao-ce/tao-ce"
+LABEL org.opencontainers.image.authors="opensource-support@taotesting.com"
+LABEL maintainer="opensource-support@taotesting.com"
 
 ARG TARGETPLATFORM
 ARG TARGETOS

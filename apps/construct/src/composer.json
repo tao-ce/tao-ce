@@ -58,7 +58,8 @@
     "oat-sa/extension-tao-deliver-pcis": "0.7.0",
     "oat-sa/extension-tao-testqti-export": "1.1.5",
     "oat-sa/extension-tao-test-preview-ui-loader": "1.36.1",
-    "oat-sa/extension-tao-lti-consumer": "4.0.2"
+    "oat-sa/extension-tao-lti-consumer": "4.0.2",
+    "oat-sa/extension-lti-test-review": "^3.9"
 
   },
   "require-dev": {

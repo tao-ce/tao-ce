@@ -18,7 +18,7 @@ COPY --from=src-lti13-gateway ./composer.json ./symfony.lock ./
 #include <symfony/patch.in>
 
 COPY --from=src-lti13-gateway --exclude=**/composer.lock --exclude=**/composer.json --exclude=**/symfony.lock . .
-
+#define COMPOSER_INSTALL_OPTS -a
 #include <composer/install.in>
 #include <clean-app.in>
 
@@ -110,6 +110,8 @@ WORKDIR /app
 
 COPY --from=src-realtime-service package*json .
 #include <npm/install.in>
+#define NPM_DEV
+#define NPM_INSTALL_OPTS --force
 #define NPM_INSTALL_PACKAGES rxjs@7.8.0
 #include <npm/install.in>
 
