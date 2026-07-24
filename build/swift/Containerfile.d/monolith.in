@@ -32,10 +32,12 @@ COPY_APP(portal)
 COPY_APP(construct)
 COPY_APP(scoring)
 COPY_APP(proctoring)
+COPY_APP(devkit)
 #elifdef TAO_CE_FLAVOR_ESSENTIAL
 COPY_APP(deliver)
 COPY_APP(portal)
 COPY_APP(construct)
+COPY_APP(devkit)
 #elifdef TAO_CE_FLAVOR_LITE
 COPY_APP(deliver)
 COPY_APP(portal)
