@@ -142,7 +142,9 @@ tasks:
     - This task will wipe all code from devcontainer, do you want to continue?
     cmds:
     - sudo systemctl stop --no-warn "tao-ce.*.service"
+    - sudo systemctl stop --no-warn "tao-ce.*.path" || true
     - sudo systemctl disable --no-warn "tao-ce.*.service"
+    - sudo systemctl disable --no-warn "tao-ce.*.path" || true
     - task: dev:wipe
     - sudo rm -rf /opt/tao-ce/* /etc/tao-ce
     - rm -rf {{.ROOT_SIGNAL_DIR}}/apps/*/*/deploy

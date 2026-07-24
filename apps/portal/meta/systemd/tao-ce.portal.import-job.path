@@ -1,0 +1,10 @@
+[Unit]
+After=tao-ce.portal.backend.service
+
+[Path]
+DirectoryNotEmpty=/var/lib/tao-ce/content-service/data/1/import-csv/pending
+Unit=tao-ce.portal.import-job.service
+MakeDirectory=yes
+
+[Install]
+WantedBy=tao-ce.target

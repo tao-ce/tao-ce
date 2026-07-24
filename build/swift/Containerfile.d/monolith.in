@@ -52,6 +52,7 @@ RUN <<EORUN
     systemctl enable ${TAO_CE_LIBEXEC}/systemd/tao-ce.target
     systemctl enable ${TAO_CE_LIBEXEC}/systemd/*.service
     systemctl enable ${TAO_CE_OPT}/*/meta/systemd/*.service
+    systemctl enable ${TAO_CE_OPT}/*/meta/systemd/*.path
 EORUN
 
 ##
