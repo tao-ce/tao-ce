@@ -9,7 +9,6 @@ ARG BUILD_IMAGE
 ARG STATE_ROOT="/var/lib/tao-ce/content-service"
 ENV STATE_ROOT=$STATE_ROOT
 
-ENV NODE_VERSION="24"
 ENV NODE_ENV=production
 
 WORKDIR /app

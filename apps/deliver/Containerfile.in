@@ -44,7 +44,6 @@ EORUN
  ## frontend ###################################################################
 FROM $BUILD_IMAGE AS build-frontend
 ARG BUILD_IMAGE
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 #define NPM_INSTALL_PACKAGES @oat-sa-private/tao-deliver-app

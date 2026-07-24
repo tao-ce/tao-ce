@@ -8,7 +8,6 @@ FROM $BUILD_IMAGE AS build-worker
 ARG BUILD_IMAGE
 ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-worker package*.json ./

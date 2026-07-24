@@ -5,7 +5,6 @@ output: prefixed
 interval: 1s
 
 env:
-  NODE_VERSION: '24'
   SATIS_ROOT_DIR: '{{.ROOT_DIR}}/.cache/build/satis'
 
 includes:

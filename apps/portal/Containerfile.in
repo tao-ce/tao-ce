@@ -8,7 +8,6 @@ FROM $BUILD_IMAGE AS build-backend
 ARG BUILD_IMAGE
 ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-backend --exclude=**/package-lock.json . .
@@ -22,7 +21,6 @@ FROM $BUILD_IMAGE AS build-frontend
 ARG BUILD_IMAGE
 ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-frontend ./package.json ./package.src.json

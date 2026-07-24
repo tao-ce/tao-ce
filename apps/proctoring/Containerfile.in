@@ -27,7 +27,6 @@ FROM $BUILD_IMAGE AS build-frontend-auth-wait
 ARG BUILD_IMAGE
 ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-frontend-auth-wait . .
@@ -42,7 +41,6 @@ COPY --from=src-frontend-auth-wait . .
  ## frontend-auth-wait-bootstrap #####################################################################
 FROM build-frontend-auth-wait AS build-frontend-auth-wait-bootstrap
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-frontend-auth-wait . .
@@ -54,7 +52,6 @@ COPY --from=src-frontend-auth-wait . .
  ## frontend-auth-wait-static #####################################################################
 FROM build-frontend-auth-wait AS build-frontend-auth-wait-static
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-frontend-auth-wait . .
@@ -68,7 +65,6 @@ FROM $BUILD_IMAGE AS build-frontend
 ARG BUILD_IMAGE
 ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-frontend . .
@@ -83,7 +79,6 @@ COPY --from=src-frontend . .
  ## frontend-bootstrap #####################################################################
 FROM build-frontend AS build-frontend-bootstrap
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 #define NPM_RUN_ARGS build:bootstrap
@@ -93,7 +88,6 @@ WORKDIR /app
  ## frontend-static #####################################################################
 FROM build-frontend AS build-frontend-static
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 #define NPM_RUN_ARGS build:static
@@ -105,7 +99,6 @@ FROM $BUILD_IMAGE AS build-realtime-service
 ARG BUILD_IMAGE
 ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-realtime-service package*json .
@@ -119,7 +112,6 @@ FROM build-realtime-service AS build-realtime-service-dist
 ARG BUILD_IMAGE
 ARG BUILD_NPM_REGISTRY
 
-ENV NODE_VERSION="24"
 WORKDIR /app
 
 COPY --from=src-realtime-service . .

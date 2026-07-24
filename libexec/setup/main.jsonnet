@@ -31,7 +31,7 @@ local hydrateSetup(seed, salt, release_flavor) =
     setup: '%(etc)s/setup' % self,
     envs: '%(setup)s/envs' % self,
     files: '%(setup)s/config' % self,
-    pki: '%(setup)s/pki' % self,
+    pki: '%(varlib)s/pki' % self,
     keys: '%(pki)s/keys' % self,
   },
 } + seed.spec + {
@@ -42,6 +42,7 @@ local hydrateSetup(seed, salt, release_flavor) =
     GOOGLE_APPLICATION_CREDENTIALS: '%s/config/gcp.json' % this.dirs.etc,
     TAO_CE_PUBLIC_DOMAIN: this.publicDomain,
     GOOGLE_APP_NAMESPACE: 'oat-dev',
+    NODE_VERSION: '24',
   },
   dependencies:
     std.foldl(

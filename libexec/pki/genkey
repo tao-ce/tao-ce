@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #
 
-TAO_CE_DIR_PKI=${TAO_CE_ETC}/pki
+TAO_CE_DIR_PKI=${TAO_CE_VARLIB}/pki
 TAO_CE_DIR_KEYS=${TAO_CE_DIR_PKI}/keys
 
 path_public_key(){
@@ -35,5 +35,5 @@ generate_keypair() {
 generate_salt() {
     [ -f $TAO_CE_DIR_PKI/$1 ] && echo "Salt $1 already exists, skipping" && return 0
     mkdir -p $TAO_CE_DIR_PKI
-    openssl rand -hex 32 > $TAO_CE_DIR_KEYS/$1
+    openssl rand -hex 32 > $TAO_CE_DIR_PKI/$1
 }
