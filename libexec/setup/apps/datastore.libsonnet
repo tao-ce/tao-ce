@@ -1,5 +1,17 @@
 function(setup)
-
+    local pipelines = {
+            DELIVERY_RESULTS: "delivery-results-ds",
+            DELIVERY_EXECUTIONS: "delivery-execution-ds",
+            ACS_ACTIONS: "acs-log",
+            ASSESSMENT_ACTIONS: "assessment-log-ds",
+            DELIVERIES: "deliveries-ds",
+            MANUAL_DELIVERY_RESULTS: "manual-delivery-results-ds",
+            UI_EVENTS: "ui-events-ds",
+            PROCTOR_ACTIONS: "proctor-action",
+            ACTIVITY_LOGS: "activity-logs-ds",
+            DELIVERY_PUBLICATION: "publication-datastore-subscription",
+            USERS: "users-ds",
+        };
 {
     files: {},
 
@@ -21,24 +33,14 @@ env: {
         PUBSUB_USER_DATA_MERGED_TOPIC_NAME: 'tao-diploma-generation-user-data-merged-events-topic',
         DEBUG: 'false',
     },
-} + std.mapWithKey(
-        function(k,v) {
-            ENTITY: k,
-            SUBSCRIPTION_NAME: v,
-        },
-        {
-            DELIVERY_RESULTS: "delivery-results-ds",
-            DELIVERY_EXECUTIONS: "delivery-execution-ds",
-            ACS_ACTIONS: "acs-log",
-            ASSESSMENT_ACTIONS: "assessment-log-ds",
-            DELIVERIES: "deliveries-ds",
-            MANUAL_DELIVERY_RESULTS: "manual-delivery-results-ds",
-            UI_EVENTS: "ui-events-ds",
-            PROCTOR_ACTIONS: "proctor-action",
-            ACTIVITY_LOGS: "activity-logs-ds",
-            DELIVERY_PUBLICATION: "publication-datastore-subscription",
-            USERS: "users-ds",
-        }),
+} + std.foldl(
+        function(t,x) t + { [x.x]: {
+            ENTITY: x.x,
+            SUBSCRIPTION_NAME: pipelines[x.x],
+            START_COOLDOWN: 0.5 * x.i,
+        }},
+        std.mapWithIndex(function(i,x)  {i: i, x: x}, std.objectFields(pipelines),),
+        {}),
 
     pubsub: [
     {"topic": "delivery-topic", "subscription": "deliveries-ds"},
