@@ -76,7 +76,7 @@ services:
     image: verdaccio/verdaccio:6
     volumes:
     - npm-registry-storage:/verdaccio/storage
-    - ./build/verdaccio/conf:/verdaccio/conf:ro
+    - ./build/verdaccio/conf:/verdaccio/conf:ro,z
 
   composer-registry:
     image: caddy:2

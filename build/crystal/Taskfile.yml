@@ -206,7 +206,8 @@ tasks:
       sudo systemctl daemon-reload
       sudo systemctl enable --force {{.DIR}}/meta/systemd/*.service
       sudo systemctl enable --force {{.DIR}}/meta/systemd/*.path || true
-      sudo systemctl restart --all "tao-ce.{{.APP}}*.service" "tao-ce.{{.APP}}*.path"
+      sudo systemctl restart --all "tao-ce.{{.APP}}*.service"
+      sudo systemctl restart --all "tao-ce.{{.APP}}*.path" || true
       mkdir -p $(dirname {{.START_SIGNAL_FILE}})
       cp {{.DEPLOY_SIGNAL_FILE}} {{.START_SIGNAL_FILE}}
     - task: _log

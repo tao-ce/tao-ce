@@ -22,6 +22,7 @@ local hydrateSetup(seed, salt, release_flavor) =
   defaultLocale: 'en-US',
   portal: { populate: 'admin+demo5' },
   flavor: release_flavor,
+  features+: [],
   dirs: {
     opt: '/opt/tao-ce',
     varlib: '/var/lib/tao-ce',

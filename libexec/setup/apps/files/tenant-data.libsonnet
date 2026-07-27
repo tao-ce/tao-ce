@@ -54,7 +54,8 @@ function(setup)
                         },
                         uploadMaxSize: 15000000,
                         uploadTimeout: 300000,
-                      },
+                      } + ( if std.member(setup.features, 'taoCETestRunnerEnableWiris') then {
+                        mathEditor: { provider: 'wiris', }, } else {}),
                     },
                     GraphicGapMatchInteraction: {
                       qtiClassesOverride: [
