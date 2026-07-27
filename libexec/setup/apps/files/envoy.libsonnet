@@ -14,6 +14,8 @@ function(setup)
       '/api/v1/users/password-reset',
       '/api/v1/lti/launch-public-delivery-execution',
       '/api/v1/health',
+      '/api/v1/auth/login',
+      '/api/v1/auth/session-login',
       '/api/v1/publication/publish',
     ],
   },{
@@ -32,7 +34,6 @@ function(setup)
       '/health-check',
       '/v1/lti/platform/message/launch/lti-resource-link',
       '/v1/lti/validate-platform-launch',
-      // '/api/v1/auth/launch-lti-1p3',
     ],
   },{
     prefix: '/dynamic-api',
@@ -50,10 +51,6 @@ function(setup)
     },
     whitelisted_paths: [
       '/.well-known/jwks.json',
-      '/v1/oauth2/tokens',
-      '/v1/sso/callback',
-      '/v1/lti/platform/message/launch/lti-resource-link',
-      '/v1/lti/validate-platform-launch',
     ]
   },{
     prefix: '/ss-be',

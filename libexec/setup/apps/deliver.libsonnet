@@ -15,7 +15,7 @@ function(setup)
         ACS_REF_TYPE: 0,
         ASSETS_MAX_FILE_SIZE_LIMIT: '100M',
         ASSETS_URL_SIGNATURE_KEY: 'SecretK3y',
-        AUTH_SERVER_TOKEN_REQUEST_URL: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
+        AUTH_SERVER_TOKEN_REQUEST_URL: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].envoy.http.url,
         COOKIE_DOMAIN_LEVEL_MAX: '2',
         CORS_ALLOW_ORIGIN: '.*',
         DATASTORE_GOOGLE_CLOUD_PROJECT: setup.env.GOOGLE_CLOUD_PROJECT,
