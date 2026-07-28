@@ -51,6 +51,10 @@ function(setup)
     },
     whitelisted_paths: [
       '/.well-known/jwks.json',
+      '/v1/oauth2/tokens',
+      '/v1/sso/callback',
+      '/v1/lti/platform/message/launch/lti-resource-link',
+      '/v1/lti/validate-platform-launch',
     ]
   },{
     prefix: '/ss-be',
