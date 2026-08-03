@@ -44,38 +44,42 @@ local-ssh -- forward --> dev-ssh
 * SSH access using public key authentication
 * Root privileges using `sudo` 
 * Permissions to run containers (typically, add your remote user in `docker` group)
-* `sysctl` records has the following value:
-```bash
-sudo sysctl -w net.ipv4.ip_unprivileged_port_start=0
-```
+
 ## Prepare remote environment
 
-### Fedora
+Any Linux distribution based on `systemd` and `cgroup` v2 (almost all modern distributions nowadays) may be used as remote development environment.
 
-```bash
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-sudo dnf install code docker-compose make patch qemu-img
-```
+=== "Fedora"
+    
+    ```bash
+    sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+    echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+    sudo dnf install code docker-compose make patch qemu-img
+    ```
+    
 
-### CoreOS
+=== "CoreOS"
+    
+    ``` bash
+    sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+    echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+    sudo rpm-ostree install code docker-compose make patch qemu-img
+    ```
+    
+    CoreOS being an immutable system, you will have to reboot your remote environment to continue.
+    
+    ``` bash
+    sudo systemctl reboot
+    ```
 
-```bash
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
-sudo rpm-ostree install code docker-compose make patch qemu-img
-```
 
-(You may have to restart remote machine after installing packages)
+=== "Debian/Ubuntu"
 
+    TODO
 
-### Debian/Ubuntu
+=== "ArchOS"
 
-TODO
-
-### ArchOS
-
-TODO
+    TODO
 
 ## Start remote session
 
@@ -83,14 +87,14 @@ TODO
 
 In `~/.ssh/config` file, add the following content (adapt content based on your environment):
 
-```ini
+```
 Host tao-ce-remote-dev      # you may change this name
-  HostName 111.222.333.444  # update with you remote hostname/IP
+  HostName 198.51.100.47    # update with you remote hostname/IP
   User core                 # update with remote user
   Port 22                   # usually 22, but SSH may be running on another port
-  ForwardAgent true         
-  DynamicForward 17405
+  ForwardAgent true         # forward SSH agent
 ```
+
 
 ### Open session in Visual Studio Code
 
@@ -99,13 +103,17 @@ Host tao-ce-remote-dev      # you may change this name
 3. Select SSH host, here `tao-ce-remote-dev`
 4. You are now connect to a remote session on your remote machine.
 
-### Continue with Development environment setup
+For more documentation related to remote environment in Visual Studio Code, you can check [its manual](https://code.visualstudio.com/docs/remote/).
 
-Follow [`dev.md`](../dev.md) documentation to deploy code
+## What's next?
 
-### Connect to TAO Portal
+You have now a remote development environment ready to start `devcontainer` to build and run *TAO Community Edition*.
 
-You need either:
-* to update local `/etc/hosts` file to have `community.tao.internal` redirected to your remote server IP
-* or to use SOCKS5 proxy in your browser at `localhost`, port `17405`
-    * you need also to add `127.0.0.1 community.tao.internal` in remote machine `/etc/hosts`
+
+- [x] To continue, you can follow [Development Guide](./index.md).
+- [x] Once `devcontainer` has been deployed, you can use Visual Studio Code to [forward port](https://code.visualstudio.com/docs/remote/ssh#_forwarding-a-port-creating-ssh-tunnel) to access remote *TAO Community Edition* as a local service.
+    - You can check [this snippet](./snippets.md#redirect-port) to redirect port.
+
+ 
+
+
