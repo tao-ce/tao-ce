@@ -1,8 +1,9 @@
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c "exec jsonnet -Scm ${TAO_CE_ETC}/setup --tla-str-file seed=${TAO_CE_ETC}/config/tao.yaml ${TAO_CE_LIBEXEC}/setup/main.jsonnet"
+ExecStartPre=/usr/bin/bash -c ". ${TAO_CE_LIBEXEC}/pki/genkey; generate_salt salt; generate_keypair em 4096 123456; generate_keypair proctoring; generate_keypair devkit"
+ExecStart=/bin/sh -c "exec jsonnet -Scm ${TAO_CE_ETC}/setup --tla-str-file seed=${TAO_CE_ETC}/config/tao.yaml --tla-str-file salt=${TAO_CE_VARLIB}/pki/salt --tla-str release_flavor=${TAO_CE_FLAVOR} ${TAO_CE_LIBEXEC}/setup/main.jsonnet"
 ExecStart=/bin/sh -c "exec ${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/*.json"
 EnvironmentFile=/etc/environment
-
+EnvironmentFile=-/opt/tao-ce/release/environment
 [Install]
 WantedBy=tao-ce.target

@@ -1,0 +1,28 @@
+#include "macros.h"
+
+#ifdef COMPOSER_NPM_BRIDGE
+#define COMPOSER_NPM_CACHE WITH_CACHE_NPM
+ARG BUILD_NPM_REGISTRY
+ARG BUILD_NPM_LOGIN="verdaccio"
+#else
+#define COMPOSER_NPM_CACHE
+#endif
+
+ARG BUILD_COMPOSER_REGISTRY
+
+#ifndef COMPOSER_INSTALL_OPTS
+#define COMPOSER_INSTALL_OPTS
+#endif
+
+RUN WITH_CACHE_COMPOSER COMPOSER_NPM_CACHE <<EORUN
+set -eux
+#ifdef COMPOSER_NPM_BRIDGE
+#include <snippets/npm-nvm.in>
+#include <snippets/npm-registry.in>
+#endif
+#include <snippets/composer-registry.in>
+composer install -vn --no-dev COMPOSER_INSTALL_OPTS
+EORUN
+
+#undef COMPOSER_NPM_BRIDGE
+#undef COMPOSER_NPM_CACHE

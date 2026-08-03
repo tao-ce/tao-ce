@@ -1,10 +1,12 @@
 [Unit]
+After=tao-ce.portal.backend.service
+After=tao-ce.content-service.service
+After=tao-ce.dynamic-query.api.service
 
 [Service]
 Type=simple
-ExecStartPre=/bin/sh -c "cd ${TAO_CE_OPT}/datastore/worker && exec ${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/datastore.json"
-ExecStart=/bin/sh -c "cd ${TAO_CE_OPT}/datastore/worker && exec /usr/local/libexec/nvm/nvm-exec node script/pipeline.js"
-Environment=NODE_VERSION=22
+ExecStartPre=/bin/sh -c "exec ${TAO_CE_LIBEXEC}/pubsub/provision-pubsub ${TAO_CE_ETC}/setup/pubsub/datastore.json"
+ExecStart=/bin/sh -c "sleep ${START_COOLDOWN}; cd ${TAO_CE_OPT}/datastore/worker && exec /usr/local/libexec/nvm/nvm-exec node script/pipeline.js"
 EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env

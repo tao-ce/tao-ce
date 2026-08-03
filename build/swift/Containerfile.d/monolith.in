@@ -1,0 +1,58 @@
+#include "../../../Containerfile"
+
+FROM running AS monolith
+
+ARG TARGETPLATFORM
+ARG TARGETOS
+ARG TARGETARCH
+ARG DEVCONTAINER_USERNAME
+
+ARG TAO_CE_OPT=/opt/tao-ce
+ARG TAO_CE_ETC=/etc/tao-ce
+ARG TAO_CE_LIBEXEC=/usr/local/libexec/tao-ce
+ARG TAO_CE_VARLIB=/var/lib/tao-ce
+
+ENV TAO_CE_OPT=${TAO_CE_OPT}
+ENV TAO_CE_ETC=${TAO_CE_ETC}
+ENV TAO_CE_LIBEXEC=${TAO_CE_LIBEXEC}
+ENV TAO_CE_VARLIB=${TAO_CE_VARLIB}
+
+#define COPY_APP(app) COPY --link --from=app / ${TAO_CE_OPT}/app
+
+COPY_APP(environment-management)
+COPY_APP(datastore)
+COPY_APP(dynamic-query)
+COPY_APP(task-orchestrator)
+COPY_APP(timers)
+COPY_APP(content-service)
+
+#ifdef TAO_CE_FLAVOR_FULL
+COPY_APP(deliver)
+COPY_APP(portal)
+COPY_APP(construct)
+COPY_APP(scoring)
+COPY_APP(proctoring)
+COPY_APP(devkit)
+#elifdef TAO_CE_FLAVOR_ESSENTIAL
+COPY_APP(deliver)
+COPY_APP(portal)
+COPY_APP(construct)
+COPY_APP(devkit)
+#elifdef TAO_CE_FLAVOR_LITE
+COPY_APP(deliver)
+COPY_APP(portal)
+#elifdef TAO_CE_FLAVOR_MINIMAL
+COPY_APP(deliver)
+#endif
+
+COPY --link --from=release / /opt/tao-ce/release
+
+RUN <<EORUN
+    cat /opt/tao-ce/release/environment >>/etc/environment
+    systemctl enable ${TAO_CE_LIBEXEC}/systemd/tao-ce.target
+    systemctl enable ${TAO_CE_LIBEXEC}/systemd/*.service
+    systemctl enable ${TAO_CE_OPT}/*/meta/systemd/*.service
+    systemctl enable ${TAO_CE_OPT}/*/meta/systemd/*.path
+EORUN
+
+##

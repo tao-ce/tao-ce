@@ -30,11 +30,6 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
       http: localAddress(21202),  //portal-static:8080
     },
   },
-  hierarchy: {
-    backend: {
-      http: localAddress(21900),  //hierarchy-be:3001
-    },
-  },
   deliver: {
     backend: {
       http: localAddress(21300),  //deliver-be:80
@@ -44,9 +39,6 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
     },
     static: {
       http: localAddress(21302),  //deliver-static:8080
-    },
-    sandbox: {
-      http: localAddress(21303),  //deliver-sandbox:3000
     },
   },
   construct: {

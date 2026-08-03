@@ -1,5 +1,6 @@
 {
     local lib = self,
+    salt:: importstr '/proc/sys/kernel/random/uuid',
 
     address(x)::
         {schema: 'tcp', host: '0.0.0.0', port: 0, prefix: '', } 
@@ -54,5 +55,7 @@
         std.join("\n",std.objectValues(std.mapWithKey(
             function(k,v) "%s=%s" % [k, std.escapeStringBash(v),],
             lib.upcaseKeys(lib.toEnv(o,pfx)),
-        )))+"\n"
+        )))+"\n",
+
+    hash(x=''):: std.sha256(std.toString(x)+lib.salt),
 }

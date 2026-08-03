@@ -9,7 +9,6 @@ EnvironmentFile=/etc/environment
 EnvironmentFile=/etc/tao-ce/setup/envs/dir.env
 EnvironmentFile=/etc/tao-ce/setup/envs/svc.env
 EnvironmentFile=/etc/tao-ce/setup/envs/dynamic-query/api.env
-Environment=NODE_VERSION=22
 Restart=always
 RestartSec=5s
 

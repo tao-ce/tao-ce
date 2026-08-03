@@ -1,4 +1,110 @@
 function(setup)
+  local clusters_config = [{
+    prefix: '/portal-be',
+    cluster: 'portal_be',
+    socket_address: {
+      address: setup.apps.portal.backend.http.host,
+      port_value: setup.apps.portal.backend.http.port,
+    },
+    whitelisted_paths: [
+      '/api/v1/configuration',
+      '/api/v1/emails/subscriptions/cancel',
+      '/api/v1/emails/verify',
+      '/api/v1/sessions/public',
+      '/api/v1/users/password-reset',
+      '/api/v1/lti/launch-public-delivery-execution',
+      '/api/v1/health',
+      '/api/v1/auth/login',
+      '/api/v1/auth/session-login',
+      '/api/v1/publication/publish',
+    ],
+  },{
+    prefix: '/deliver',
+    cluster: 'deliver',
+    socket_address: {
+      address: setup.apps.deliver.backend.http.host,
+      port_value: setup.apps.deliver.backend.http.port,
+    },
+    whitelisted_paths: [
+      '/lti1p3/oidc/authentication',
+      '/api/v1/asset',
+      '/api/v1/attachments',
+      '/api/v1/csv',
+      '/api/v1/download-asset',
+      '/health-check',
+      '/v1/lti/platform/message/launch/lti-resource-link',
+      '/v1/lti/validate-platform-launch',
+    ],
+  },{
+    prefix: '/dynamic-api',
+    cluster: 'dynamic_api',
+    socket_address: {
+      address: setup.apps.dynamic_query.api.http.host,
+      port_value: setup.apps.dynamic_query.api.http.port,
+    },
+  },{
+    prefix: '/auth-server',
+    cluster: 'auth_server',
+    socket_address: {
+      address: setup.apps['environment-management'].auth_server.http.host,
+      port_value: setup.apps['environment-management'].auth_server.http.port,
+    },
+    whitelisted_paths: [
+      '/.well-known/jwks.json',
+      '/v1/oauth2/tokens',
+      '/v1/sso/callback',
+      '/v1/lti/platform/message/launch/lti-resource-link',
+      '/v1/lti/validate-platform-launch',
+    ]
+  },{
+    prefix: '/ss-be',
+    cluster: 'scoring_service',
+    socket_address: {
+      address: setup.apps.scoring.service.http.host,
+      port_value: setup.apps.scoring.service.http.port,
+    },
+  },{
+    prefix: '/ms-be',
+    cluster: 'manual_scoring',
+    socket_address: {
+      address: setup.apps.scoring.backend.http.host,
+      port_value: setup.apps.scoring.backend.http.port,
+    },
+  },{
+    prefix: '/pr-lti-gateway',
+    cluster: 'lti13_gateway',
+    socket_address: {
+      address: setup.apps.proctoring.lti1p3Gateway.http.host,
+      port_value: setup.apps.proctoring.lti1p3Gateway.http.port,
+    },
+    whitelisted_paths: [
+      '/health-check',
+      '/api/v1/assessments/start',
+      '/api/v1/configuration',
+    ],
+  },
+];
+
+local whitelists_routes = function(cluster) [{
+    match: { prefix: cluster.prefix + path },
+    route: { cluster: cluster.cluster, prefix_rewrite: path, },
+    typed_per_filter_config: { 'envoy.filters.http.ext_proc': { '@type': 'type.googleapis.com/envoy.extensions.filters.http.ext_proc.v3.ExtProcPerRoute', disabled: true, }, },
+  }
+  for path in std.get(cluster, 'whitelisted_paths', [])
+  ];
+
+local options_routes = function(cluster) [{
+    match: { prefix: cluster.prefix + '/', headers: [ { name: ':method', exact_match: 'OPTIONS', }, ], },
+    route: { cluster: cluster.cluster, prefix_rewrite: '/', },
+    typed_per_filter_config: { 'envoy.filters.http.ext_proc': { '@type': 'type.googleapis.com/envoy.extensions.filters.http.ext_proc.v3.ExtProcPerRoute', disabled: true, }, },
+  }];
+
+local standard_routes = function(cluster) [{
+    match: { prefix: cluster.prefix + '/' },
+    route: { cluster: cluster.cluster, prefix_rewrite: '/', },
+  }];
+
+
   {
     overload_manager: {
       resource_monitors: [
@@ -42,209 +148,23 @@ function(setup)
           name: 'ext_proc',
           type: 'strict_dns',
         },
+      ] + [
         {
           connect_timeout: '1s',
-          dns_failure_refresh_rate: {
-            base_interval: '1s',
-            max_interval: '5s',
-          },
+          dns_failure_refresh_rate: { base_interval: '1s', max_interval: '5s', },
           lb_policy: 'round_robin',
           load_assignment: {
-            cluster_name: 'nextgen_tao_portal_be_cluster',
+            cluster_name: cluster.cluster,
             endpoints: [
               {
-                lb_endpoints: [
-                  {
-                    endpoint: {
-                      address: {
-                        socket_address: {
-                          address: setup.apps.portal.backend.http.host,
-                          port_value: setup.apps.portal.backend.http.port,
-                        },
-                      },
-                    },
-                  },
-                ],
+                lb_endpoints: [ { endpoint: { address: { socket_address: cluster.socket_address, }, }, }, ],
               },
             ],
           },
-          name: 'nextgen_tao_portal_be_cluster',
+          name: cluster.cluster,
           type: 'strict_dns',
         },
-        {
-          connect_timeout: '1s',
-          dns_failure_refresh_rate: {
-            base_interval: '1s',
-            max_interval: '5s',
-          },
-          lb_policy: 'round_robin',
-          load_assignment: {
-            cluster_name: 'nextgen_tao_deliver_be_cluster',
-            endpoints: [
-              {
-                lb_endpoints: [
-                  {
-                    endpoint: {
-                      address: {
-                        socket_address: {
-                          address: setup.apps.deliver.backend.http.host,
-                          port_value: setup.apps.deliver.backend.http.port,
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          name: 'nextgen_tao_deliver_be_cluster',
-          type: 'strict_dns',
-        },
-        {
-          connect_timeout: '1s',
-          dns_failure_refresh_rate: {
-            base_interval: '1s',
-            max_interval: '5s',
-          },
-          lb_policy: 'round_robin',
-          load_assignment: {
-            cluster_name: 'nextgen_tao_dynamic_query_api_be_cluster',
-            endpoints: [
-              {
-                lb_endpoints: [
-                  {
-                    endpoint: {
-                      address: {
-                        socket_address: {
-                          address: setup.apps.dynamic_query.api.http.host,
-                          port_value: setup.apps.dynamic_query.api.http.port,
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          name: 'nextgen_tao_dynamic_query_api_be_cluster',
-          type: 'strict_dns',
-        },
-        {
-          connect_timeout: '1s',
-          dns_failure_refresh_rate: {
-            base_interval: '1s',
-            max_interval: '5s',
-          },
-          lb_policy: 'round_robin',
-          load_assignment: {
-            cluster_name: 'nextgen_tao_node_auth_server_be_cluster',
-            endpoints: [
-              {
-                lb_endpoints: [
-                  {
-                    endpoint: {
-                      address: {
-                        socket_address: {
-                          address: setup.apps['environment-management'].auth_server.http.host,
-                          port_value: setup.apps['environment-management'].auth_server.http.port,
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          name: 'nextgen_tao_node_auth_server_be_cluster',
-          type: 'strict_dns',
-        },
-        {
-          connect_timeout: '1s',
-          dns_failure_refresh_rate: {
-            base_interval: '1s',
-            max_interval: '5s',
-          },
-          lb_policy: 'round_robin',
-          load_assignment: {
-            cluster_name: 'nextgen_proctoring_lti13_gateway_cluster',
-            endpoints: [
-              {
-                lb_endpoints: [
-                  {
-                    endpoint: {
-                      address: {
-                        socket_address: {
-                          address: setup.apps.proctoring.lti1p3Gateway.http.host,
-                          port_value: setup.apps.proctoring.lti1p3Gateway.http.port,
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-          name: 'nextgen_proctoring_lti13_gateway_cluster',
-          type: 'strict_dns',
-        },
-        {
-          name: 'nextgen_tao_scoring_service_be_cluster',
-          connect_timeout: '1s',
-          type: 'strict_dns',
-          lb_policy: 'round_robin',
-          dns_failure_refresh_rate: {
-            base_interval: '1s',
-            max_interval: '5s',
-          },
-          load_assignment: {
-            cluster_name: 'nextgen_tao_scoring_service_be_cluster',
-            endpoints: [
-              {
-                lb_endpoints: [
-                  {
-                    endpoint: {
-                      address: {
-                        socket_address: {
-                          address: setup.apps.scoring.service.http.host,
-                          port_value: setup.apps.scoring.service.http.port,
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        },
-        {
-          name: 'nextgen_tao_manual_scoring_be_cluster',
-          connect_timeout: '1s',
-          type: 'strict_dns',
-          lb_policy: 'round_robin',
-          dns_failure_refresh_rate: {
-            base_interval: '1s',
-            max_interval: '5s',
-          },
-          load_assignment: {
-            cluster_name: 'nextgen_tao_manual_scoring_be_cluster',
-            endpoints: [
-              {
-                lb_endpoints: [
-                  {
-                    endpoint: {
-                      address: {
-                        socket_address: {
-                          address: setup.apps.scoring.backend.http.host,
-                          port_value: setup.apps.scoring.backend.http.port,
-                        },
-                      },
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        },
+        for cluster in clusters_config
       ],
       listeners: [
         {
@@ -297,76 +217,13 @@ function(setup)
                       name: 'local_route',
                       virtual_hosts: [
                         {
-                          domains: [
-                            setup.publicDomain,
-                          ],
-                          name: 'nextgen_vs',
-                          routes: [
-
-                            {
-                              match: {
-                                prefix: '/portal-be/',
-                              },
-                              route: {
-                                cluster: 'nextgen_tao_portal_be_cluster',
-                                prefix_rewrite: '/',
-                              },
-                            },
-                            {
-                              match: {
-                                prefix: '/deliver/',
-                              },
-                              route: {
-                                cluster: 'nextgen_tao_deliver_be_cluster',
-                                prefix_rewrite: '/',
-                              },
-                            },
-                            {
-                              match: {
-                                prefix: '/pr-lti-gateway/',
-                              },
-                              route: {
-                                cluster: 'nextgen_proctoring_lti13_gateway_cluster',
-                                prefix_rewrite: '/',
-                              },
-                            },
-                            {
-                              match: {
-                                prefix: '/dynamic-api/',
-                              },
-                              route: {
-                                cluster: 'nextgen_tao_dynamic_query_api_be_cluster',
-                                prefix_rewrite: '/',
-                              },
-                            },
-                            {
-                              match: {
-                                prefix: '/auth-server/',
-                              },
-                              route: {
-                                cluster: 'nextgen_tao_node_auth_server_be_cluster',
-                                prefix_rewrite: '/',
-                              },
-                            },
-                            {
-                              match: {
-                                prefix: '/ss-be/',
-                              },
-                              route: {
-                                cluster: 'nextgen_tao_scoring_service_be_cluster',
-                                prefix_rewrite: '/',
-                              },
-                            },
-                            {
-                              match: {
-                                prefix: '/ms-be/',
-                              },
-                              route: {
-                                cluster: 'nextgen_tao_manual_scoring_be_cluster',
-                                prefix_rewrite: '/',
-                              },
-                            },
-                          ],
+                          domains: [ '*' ],
+                          name: 'virtual_service',
+                          routes: []
+                          + std.foldl( function(t, c) t + options_routes(c), clusters_config, [])
+                          + std.foldl( function(t, c) t + whitelists_routes(c), clusters_config, [])
+                          + std.foldl( function(t, c) t + standard_routes(c), clusters_config, [])
+                          ,
                         },
                       ],
                     },

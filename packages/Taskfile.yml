@@ -1,0 +1,99 @@
+version: '3'
+
+method: checksum
+output: prefixed
+interval: 1s
+
+env:
+  SATIS_ROOT_DIR: '{{.ROOT_DIR}}/.cache/build/satis'
+
+includes:
+  read-aloud-client-fe:
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: read-aloud-client-fe
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-read-aloud-client-fe
+      CONTEXT: read-aloud-client-fe
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
+
+  live-design-system:
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: live-design-system
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-live-design-system
+      CONTEXT: live-design-system
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
+
+  tao-deliver-fe:
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: tao-deliver-fe
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-tao-deliver-fe
+      CONTEXT: ../apps/deliver/src/fe
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
+
+  extension-tao-test-preview-ui-loader:
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: extension-tao-test-preview-ui-loader
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-extension-tao-test-preview-ui-loader
+      CONTEXT: extension-tao-test-preview-ui-loader
+      BASES:
+        - builds/base
+      ARGS:
+        map:
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
+
+  satis:
+    taskfile: ../build/crystal
+    dir: .
+    vars:
+      APP: satis
+      NAMESPACE: packages
+      FILE: Containerfile.in
+      TARGET: build-satis
+      CONTEXT: .
+      CONTEXTS:
+        map:
+          build-satis: '{{.ROOT_DIR}}/build/satis'
+          packages: '{{.ROOT_DIR}}/packages'
+          em-libs: '{{.ROOT_DIR}}/apps/environment-management/src/libs'
+          extension-tao-test-preview-ui-loader: 'container-image://{{.REGISTRY}}/packages/extension-tao-test-preview-ui-loader:{{.DEV_TAG}}'
+      BUILD_FLAGS:
+        - "--volume={{.SATIS_ROOT_DIR}}:/output:shared,rw"
+
+
+tasks:
+  all:
+    cmds:
+      - cmd: mkdir -p {{.SATIS_ROOT_DIR}}
+      - task: read-aloud-client-fe:build
+      - task: live-design-system:build
+      - task: tao-deliver-fe:build
+      - task: extension-tao-test-preview-ui-loader:build
+      - task: satis:build
+

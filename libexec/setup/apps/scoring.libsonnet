@@ -65,7 +65,6 @@ function(setup)
         REFRESH_TOKEN_URI: '/ms-be/api/v1/auth/refresh-tokens',
         STATIC_URL: 'https://%(publicDomain)s/ms-fe-static/' % setup,
         TENANTS: '[{"label":"tao-ce-stack","clientId":"ms-fe-solar-client-id"}]',
-        NODE_VERSION: 22,
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
         PORT: setup.apps.scoring.frontend.bootstrap.port,
       },
@@ -133,7 +132,7 @@ function(setup)
         MESSENGER_GRADER_SCORING_EVENTS_QUEUE_TOPIC: 'grader-scoring-events',
 
         MESSENGER_GRADER_PUBLICATIONS_DSN: dsn('grader-publications-topic'),
-        MESSENGER_GRADER_PUBLICATIONS_QUEUE_TOPIC: 'grade-publications-topic',
+        MESSENGER_GRADER_PUBLICATIONS_QUEUE_TOPIC: 'grader-publications-topic',
         MESSENGER_GRADER_PUBLICATIONS_QUEUE_SUBSCRIPTION: 'ss-grader-publications-subscription',
 
         DEFAULT_RESPONSE_HANDLER: '[{"engine":"manual","schedule":"* * * * *"}]',

@@ -1,0 +1,29 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ ## backend ####################################################################
+FROM $BUILD_IMAGE AS build-backend
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+WORKDIR /app
+
+COPY --from=src-backend ./package*.json .
+#include <npm/ci.in>
+#define NPM_DEV
+#define NPM_INSTALL_OPTS --force
+#define NPM_INSTALL_PACKAGES jsonwebtoken@9.0.0
+#include <npm/install.in>
+
+COPY --from=src-backend . .
+#include <clean-app.in>
+
+ ## Export #####################################################################
+FROM scratch AS export
+
+COPY --link --from=build-backend \
+    /app /backend
+
+COPY meta /meta

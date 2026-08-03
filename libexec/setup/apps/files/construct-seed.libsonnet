@@ -8,6 +8,8 @@ function(setup)
       'taoCe',
       'ltiTestReview',
       'taoLti',
+      'taoQtiTest',
+      'taoQtiTestExport',
       'taoLtiConsumer',
       'taoDeliverConnect',
       'taoBackOffice',
@@ -20,7 +22,7 @@ function(setup)
       firstname: 'Administrator',
       email: 'admin@localhost',
       login: 'taoAdmin',
-      password: 'TAOce2025',
+      password: setup.lib.hash('taoAdmin'),
     },
     configuration: {
       global: {
@@ -92,15 +94,12 @@ function(setup)
           class: 'oat\\oatbox\\log\\LoggerService',
           options: {
             logger: {
-              class: 'oat\\oatbox\\log\\logger\\TaoLog',
+              class: 'oat\\oatbox\\log\\logger\\TaoMonolog',
               options: {
-                appenders: [{
-                  class: 'SingleFileAppender',
-                  file: 'php://stderr',
-                  format: "%d [%s] [%p] '%m' %f %l",
-                  threshold: 2,
-                  prefix: 'tao',
-                  'rotation-ratio': 0,
+                name: 'tao',
+                handlers: [{
+                  class: 'Monolog\\Handler\\StreamHandler',
+                  options: [ 'php://stderr', 200],
                 }],
               },
             },

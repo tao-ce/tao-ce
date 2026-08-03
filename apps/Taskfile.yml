@@ -13,6 +13,7 @@ includes:
     dir: construct
     vars:
       APP: construct
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -21,13 +22,14 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   content-service:
     taskfile: ../build/crystal
     dir: content-service
     vars:
       APP: content-service
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -36,30 +38,31 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   deliver:
     taskfile: ../build/crystal
     dir: deliver
     vars:
       APP: deliver
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
           src-backend: './src/be'
           src-frontend: './src/fe'
-          src-sandbox: './src/sandbox'
       BASES:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   devkit:
     taskfile: ../build/crystal
     dir: devkit
     vars:
       APP: devkit
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -68,28 +71,31 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   datastore:
     taskfile: ../build/crystal
     dir: datastore
     vars:
       APP: datastore
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
           src-worker: './src/node'
+          src-assets: './assets'
       BASES:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   dynamic-query:
     taskfile: ../build/crystal
     dir: dynamic-query
     vars:
       APP: dynamic-query
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -98,7 +104,7 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
 
   environment-management:
@@ -108,6 +114,7 @@ includes:
     dir: environment-management
     vars:
       APP: environment-management
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -119,31 +126,15 @@ includes:
         - builds/go
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
-
-  hierarchy:
-    taskfile: ../build/crystal
-    dir: hierarchy
-    vars:
-      APP: hierarchy
-      CONTEXT: .
-      CONTEXTS:
-        map:
-          src-backend: './src'
-      BASES:
-        - builds/base
-        - builds/go
-      ARGS:
-        map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
+          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.DEV_TAG}}'
 
   portal:
     taskfile: ../build/crystal
     dir: portal
     vars:
       APP: portal
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -154,13 +145,14 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   proctoring:
     taskfile: ../build/crystal
     dir: proctoring
     vars:
       APP: proctoring
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -177,14 +169,15 @@ includes:
         - builds/go
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
-          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
+          GO_BUILD_IMAGE: '{{.REGISTRY}}/builds/go:{{.DEV_TAG}}'
 
   scoring:
     taskfile: ../build/crystal
     dir: scoring
     vars:
       APP: scoring
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -195,13 +188,14 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   task-orchestrator:
     taskfile: ../build/crystal
     dir: task-orchestrator
     vars:
       APP: task-orchestrator
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -210,13 +204,14 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'
 
   timers:
     taskfile: ../build/crystal
     dir: timers
     vars:
       APP: timers
+      FILE: Containerfile.in
       CONTEXT: .
       CONTEXTS:
         map:
@@ -225,4 +220,4 @@ includes:
         - builds/base
       ARGS:
         map:
-          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.TAG}}'
+          BUILD_IMAGE: '{{.REGISTRY}}/builds/base:{{.DEV_TAG}}'

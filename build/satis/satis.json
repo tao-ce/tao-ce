@@ -1,0 +1,45 @@
+{
+    "homepage": "http://localhost:21582",
+    "name": "tao-ce/composer-registry",
+    "output-dir": "public",
+    "archive": {
+        "rearchive": false,
+        "directory": "dist",
+        "format": "zip",
+        "whitelist": ["oat-sa/*"],
+        "skip-dev": false
+    },
+    "repositories": [
+        {
+            "require": "*",
+            "options": { "symlink": false },
+            "type": "path",
+            "url": "apps/environment-management/libs/*"
+        },
+        {
+            "require": "*",
+            "options": { "symlink": false },
+            "type": "path",
+            "url": "packages/bundle-*"
+        },
+        {
+            "require": "*",
+            "options": { "symlink": false },
+            "type": "path",
+            "url": "packages/extension-*"
+        },
+        {
+            "require": "*",
+            "options": { "symlink": false },
+            "type": "path",
+            "url": "packages/lib-*"
+        },
+        {
+            "require": "*",
+            "options": { "symlink": false },
+            "type": "path",
+            "url": "packages/tao-timers-client"
+        }
+    ],
+    "require-all": true 
+}

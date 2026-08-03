@@ -1,7 +1,6 @@
 local templates = {
   portal: (import './apps/portal.libsonnet'),
   em: (import './apps/environment-management.libsonnet'),
-  hierarchy: (import './apps/hierarchy.libsonnet'),
   datastore: (import './apps/datastore.libsonnet'),
   deliver: (import './apps/deliver.libsonnet'),
   devkit: (import './apps/devkit.libsonnet'),
@@ -14,13 +13,16 @@ local templates = {
   scoring: (import './apps/scoring.libsonnet'),
 };
 
-local lib = import './lib.libsonnet';
 local addresses = import './addresses.libsonnet';
 
-
-local hydrateSetup(seed) = {
+local hydrateSetup(seed, salt, release_flavor) = 
+  local lib = (import './lib.libsonnet') { salt:: salt };
+{
+  lib:: lib,
   defaultLocale: 'en-US',
   portal: { populate: 'admin+demo5' },
+  flavor: release_flavor,
+  features+: [],
   dirs: {
     opt: '/opt/tao-ce',
     varlib: '/var/lib/tao-ce',
@@ -30,6 +32,8 @@ local hydrateSetup(seed) = {
     setup: '%(etc)s/setup' % self,
     envs: '%(setup)s/envs' % self,
     files: '%(setup)s/config' % self,
+    pki: '%(varlib)s/pki' % self,
+    keys: '%(pki)s/keys' % self,
   },
 } + seed.spec + {
   local this = self,
@@ -39,6 +43,7 @@ local hydrateSetup(seed) = {
     GOOGLE_APPLICATION_CREDENTIALS: '%s/config/gcp.json' % this.dirs.etc,
     TAO_CE_PUBLIC_DOMAIN: this.publicDomain,
     GOOGLE_APP_NAMESPACE: 'oat-dev',
+    NODE_VERSION: '24',
   },
   dependencies:
     std.foldl(
@@ -48,11 +53,12 @@ local hydrateSetup(seed) = {
       {},
     ),
   apps: addresses,
+  mixins: (import './mixins/main.libsonnet')(self),
 };
 
 
-function(seed)
-  local setup = hydrateSetup(std.parseYaml(seed));
+function(seed, salt=importstr '/proc/sys/kernel/random/uuid', release_flavor='full')
+  local setup = hydrateSetup(std.parseYaml(seed), salt, release_flavor);
   std.foldl(
     function(t, x)
       local h = templates[x](setup);
@@ -62,7 +68,7 @@ function(seed)
 
       t
       + std.foldl(
-        function(s, k) s { ['envs/%s/%s.env' % [x, k]]: lib.toEnvFile(envs[k]) },
+        function(s, k) s { ['envs/%s/%s.env' % [x, k]]: setup.lib.toEnvFile(envs[k]) },
         std.objectFields(envs),
         {},
       )
@@ -90,8 +96,8 @@ function(seed)
       #!/bin/sh
       rm -rf --preserve-root %(setup)s/*
     ||| % setup.dirs,
-    'envs/dir.env': lib.toEnvFile(setup.dirs, ['tao', 'ce', 'dir']),
+    'envs/dir.env': setup.lib.toEnvFile(setup.dirs, ['tao', 'ce', 'dir']),
     'envs/svc.env':
-      lib.toEnvFile(setup.env, [])
-      + lib.toEnvFile(setup.apps { deps: std.mapWithKey(function(k, v) v.address, setup.dependencies) }, ['tao', 'ce', 'svc']),
+      setup.lib.toEnvFile(setup.env, [])
+      + setup.lib.toEnvFile(setup.apps { deps: std.mapWithKey(function(k, v) v.address, setup.dependencies) }, ['tao', 'ce', 'svc']),
   }

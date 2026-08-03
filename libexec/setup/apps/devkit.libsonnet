@@ -2,8 +2,6 @@ function(setup)
 
 {
     files: {
-        'private.pem': importstr './keys/devkit/private.key',
-        'public.pem': importstr './keys/devkit/public.key',
         'lti1p3.yaml': std.manifestYamlDoc((import './files/lti1p3.libsonnet')(setup),quote_keys=false),
     },
     env: {

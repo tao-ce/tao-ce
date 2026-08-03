@@ -10,3 +10,5 @@ python3-setuptools
 gcc-c++
 vim
 diffutils
+7z
+cpp
