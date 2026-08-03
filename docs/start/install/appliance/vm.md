@@ -65,11 +65,8 @@ On first boot, you will notice a prompt to proceed to appliance setup.
     * TAO Community Edition flavor: Full
     
 === "Customize settings"
-    !!! info "About TAO CE address"
+    !!! info inline end "About TAO CE address"
         If you choose a custom address, ensure to replace `tao-community-edition.local` while reading this guide.
-
-    !!! example inline end "Under development"
-        TAO Community Edition flavor are still in development, this settings will not have effect yet (Full flavor will be deployed).
 
     Follow the instructions to change the following settings:
 
@@ -81,7 +78,6 @@ On first boot, you will notice a prompt to proceed to appliance setup.
         - `Full`: Complete version of TAO Community Edition, including portal, Delivery, Backoffice, Grader and Proctoring 
         - `Essential`: A complete environment for authoring and delivery, without Grader neither Proctoring
         - `Lite`: A subset of TAO Community Edition to run deliveries through Portal
-        - `Minimal`: A version focused on LTI capabilities to perform assessment without Portal
 
 Once submitted, Appliance will start downloading TAO Community Edition.
 

@@ -44,9 +44,9 @@ To achieve this deployment, we will need:
 
 ## Download Appliance image
 
-From your computer, browse release link of [`tao-ce/cozy`](https://github.com/tao-ce/cozy/releases), and look for `tao-ce-cozy-rpi4-server.ova` file.
+From your computer, browse release link of [`tao-ce/cozy`](https://github.com/tao-ce/cozy/releases), and look for `tao-ce-cozy-rpi4-server.raw.xz` file.
 
-Latest image can be directly downloaded [here](https://github.com/tao-ce/cozy/releases/latest/download/tao-ce-cozy-rpi4-server.ova).
+Latest image can be directly downloaded [here](https://github.com/tao-ce/cozy/releases/latest/download/tao-ce-cozy-rpi4-server.raw.xz).
 
 
 ## Etch microSD card 
@@ -68,9 +68,9 @@ We will now load this image on your microSD card.
     # NAME          SIZE VENDOR STATE MODEL SERIAL
     # /dev/mmcblk0 58.2G                    0x000006fd
     ```
-    3. Find `disk.raw.xz` image and run the following command (ensure to change paths to match your device):
+    3. Find `tao-ce-cozy-rpi4-server.raw.xz` image and run the following command (ensure to change paths to match your device):
     ```bash
-    IMAGE_PATH=path/to/disk.raw.xz #(1)
+    IMAGE_PATH=path/to/tao-ce-cozy-rpi4-server.raw.xz #(1)
     SD_DEVICE=/dev/mmcblk0 #(2)
     xzcat $IMAGE_PATH \
         | sudo dd \
@@ -80,7 +80,7 @@ We will now load this image on your microSD card.
             iflag=fullblock \
             bs=1M
     ```
-        1. path to `disk.raw.xz` file
+        1. path to `tao-ce-cozy-rpi4-server.raw.xz` file
         2. microSD card device path identified in previous command
 
 === "On Windows"
@@ -131,18 +131,15 @@ On first boot, you will notice a prompt to proceed to appliance setup.
     * language: English (US)
     * timezone: UTC
     * hostname: `tao-community-edition.local` (with mDNS broadcast)
-    * TAO Community Edition flavor: Full
+    * TAO Community Edition flavor: Essential
     * Hotspot:
         - enabled by default
         - SSID: `TAO Community Edition`
         - password: `ChangeMeNow`
     
 === "Customize settings"
-    !!! info "About TAO CE address"
+    !!! info inline end "About TAO CE address"
         If you choose a custom address, ensure to replace `tao-community-edition.local` while reading this guide.
-
-    !!! example inline end "Under development"
-        TAO Community Edition flavor are still in development, this settings will not have effect yet (Full flavor will be deployed).
 
     Follow the instructions to change the following settings:
 
@@ -154,7 +151,6 @@ On first boot, you will notice a prompt to proceed to appliance setup.
         - `Full`: Complete version of TAO Community Edition, including portal, Delivery, Backoffice, Grader and Proctoring 
         - `Essential`: A complete environment for authoring and delivery, without Grader neither Proctoring
         - `Lite`: A subset of TAO Community Edition to run deliveries through Portal
-        - `Minimal`: A version focused on LTI capabilities to perform assessment without Portal
 
 Once submitted, Appliance will start downloading TAO Community Edition.
 
