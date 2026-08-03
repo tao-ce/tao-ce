@@ -2045,8 +2045,8 @@
 </li>
 </ul>
 <h2 id="download-appliance-image">Download Appliance image</h2>
-<p>From your computer, browse release link of <a href="https://github.com/tao-ce/cozy/releases"><code>tao-ce/cozy</code></a>, and look for <code>tao-ce-cozy-rpi4-server.ova</code> file.</p>
-<p>Latest image can be directly downloaded <a href="https://github.com/tao-ce/cozy/releases/latest/download/tao-ce-cozy-rpi4-server.ova">here</a>.</p>
+<p>From your computer, browse release link of <a href="https://github.com/tao-ce/cozy/releases"><code>tao-ce/cozy</code></a>, and look for <code>tao-ce-cozy-rpi4-server.raw.xz</code> file.</p>
+<p>Latest image can be directly downloaded <a href="https://github.com/tao-ce/cozy/releases/latest/download/tao-ce-cozy-rpi4-server.raw.xz">here</a>.</p>
 <h2 id="etch-microsd-card">Etch microSD card</h2>
 <p>We will now load this image on your microSD card.</p>
 <div class="admonition danger inline end">
@@ -2066,8 +2066,8 @@
 <span class="c1"># NAME          SIZE VENDOR STATE MODEL SERIAL</span>
 <span class="c1"># /dev/mmcblk0 58.2G                    0x000006fd</span>
 </code></pre></div></li>
-<li>Find <code>disk.raw.xz</code> image and run the following command (ensure to change paths to match your device):
-<div class="highlight"><pre><span></span><code><span class="nv">IMAGE_PATH</span><span class="o">=</span>path/to/disk.raw.xz<span class="w"> </span><span class="c1">#(1)</span>
+<li>Find <code>tao-ce-cozy-rpi4-server.raw.xz</code> image and run the following command (ensure to change paths to match your device):
+<div class="highlight"><pre><span></span><code><span class="nv">IMAGE_PATH</span><span class="o">=</span>path/to/tao-ce-cozy-rpi4-server.raw.xz<span class="w"> </span><span class="c1">#(1)</span>
 <span class="nv">SD_DEVICE</span><span class="o">=</span>/dev/mmcblk0<span class="w"> </span><span class="c1">#(2)</span>
 xzcat<span class="w"> </span><span class="nv">$IMAGE_PATH</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>dd<span class="w"> </span><span class="se">\</span>
@@ -2077,7 +2077,7 @@ xzcat<span class="w"> </span><span class="nv">$IMAGE_PATH</span><span class="w">
 <span class="w">        </span><span class="nv">iflag</span><span class="o">=</span>fullblock<span class="w"> </span><span class="se">\</span>
 <span class="w">        </span><span class="nv">bs</span><span class="o">=</span>1M
 </code></pre></div><ol>
-<li>path to <code>disk.raw.xz</code> file</li>
+<li>path to <code>tao-ce-cozy-rpi4-server.raw.xz</code> file</li>
 <li>microSD card device path identified in previous command</li>
 </ol>
 </li>
@@ -2131,7 +2131,7 @@ xzcat<span class="w"> </span><span class="nv">$IMAGE_PATH</span><span class="w">
 <li>language: English (US)</li>
 <li>timezone: UTC</li>
 <li>hostname: <code>tao-community-edition.local</code> (with mDNS broadcast)</li>
-<li>TAO Community Edition flavor: Full</li>
+<li>TAO Community Edition flavor: Essential</li>
 <li>Hotspot:<ul>
 <li>enabled by default</li>
 <li>SSID: <code>TAO Community Edition</code></li>
@@ -2141,13 +2141,9 @@ xzcat<span class="w"> </span><span class="nv">$IMAGE_PATH</span><span class="w">
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="admonition info">
+<div class="admonition info inline end">
 <p class="admonition-title">About TAO CE address</p>
 <p>If you choose a custom address, ensure to replace <code>tao-community-edition.local</code> while reading this guide.</p>
-</div>
-<div class="admonition example inline end">
-<p class="admonition-title">Under development</p>
-<p>TAO Community Edition flavor are still in development, this settings will not have effect yet (Full flavor will be deployed).</p>
 </div>
 <p>Follow the instructions to change the following settings:</p>
 <ul>
@@ -2161,7 +2157,6 @@ xzcat<span class="w"> </span><span class="nv">$IMAGE_PATH</span><span class="w">
 <li><code>Full</code>: Complete version of TAO Community Edition, including portal, Delivery, Backoffice, Grader and Proctoring </li>
 <li><code>Essential</code>: A complete environment for authoring and delivery, without Grader neither Proctoring</li>
 <li><code>Lite</code>: A subset of TAO Community Edition to run deliveries through Portal</li>
-<li><code>Minimal</code>: A version focused on LTI capabilities to perform assessment without Portal</li>
 </ul>
 </li>
 </ul>
