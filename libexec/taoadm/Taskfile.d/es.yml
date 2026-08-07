@@ -1,0 +1,39 @@
+version: 3
+
+tasks:
+  POST:
+    internal: true
+    
+    requires:
+      vars:
+      - PATH
+      - BODY
+    cmds:
+    - |
+        curl -X POST \
+        -H 'Content-Type: application/json' \
+        --data-binary @- \
+        $TAO_CE_SVC_DEPS_ES_URL/{{ .PATH }} <<'EOF'
+        {{ .BODY }}
+        EOF
+
+  bulk:
+    requires:
+      vars:
+      - BODY 
+    cmds:
+      - task: POST
+        vars:
+          PATH: "_bulk/"
+          BODY: |
+            {{ .BODY }}
+  flush:
+    requires:
+      vars:
+      - INDEX
+    cmds:
+      - task: POST
+        vars:
+          PATH: "{{ .INDEX }}/_delete_by_query"
+          BODY: '{"query":{"match_all":{}}}'
+

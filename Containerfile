@@ -128,15 +128,17 @@ ARG TAO_CE_OPT=/opt/tao-ce
 ARG TAO_CE_ETC=/etc/tao-ce
 ARG TAO_CE_LIBEXEC=/usr/local/libexec/tao-ce
 ARG TAO_CE_VARLIB=/var/lib/tao-ce
+ARG TAO_CE_MNT=/mnt/tao-ce
 
 ENV TAO_CE_OPT=${TAO_CE_OPT}
 ENV TAO_CE_ETC=${TAO_CE_ETC}
 ENV TAO_CE_LIBEXEC=${TAO_CE_LIBEXEC}
 ENV TAO_CE_VARLIB=${TAO_CE_VARLIB}
-
+ENV TAO_CE_MNT=${TAO_CE_MNT}
 ENV NODE_VERSION=${NODE_VERSION}
 
 VOLUME [ "${TAO_CE_VARLIB}" ]
+VOLUME [ "${TAO_CE_MNT}" ]
 
 COPY ./libexec      ${TAO_CE_LIBEXEC}
 COPY ./etc/         /etc/
@@ -178,7 +180,6 @@ COPY --link --from=go-jsonnet-build /go/bin/jsonnet ${BIN_DEST}/jsonnet
 
 # required for systemd
 ENV container=docker
-VOLUME [ "/workspace" ]
 STOPSIGNAL SIGRTMIN+3
 CMD [ "/sbin/init" ]
 
@@ -226,4 +227,4 @@ COPY \
     --from=src-devcontainer \
     etc/ /etc/
 
-
+VOLUME [ "/workspace" ]

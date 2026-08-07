@@ -1,0 +1,13 @@
+version: 3
+
+dotenv:
+  - /etc/tao-ce/setup/envs/svc.env
+
+includes:
+  deliver:
+    taskfile: ./Taskfile.d/deliver.yml
+    aliases: [de, tr, testrunner]
+  portal:
+    taskfile: ./Taskfile.d/portal.yml
+    aliases: [po]
+

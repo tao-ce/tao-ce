@@ -1,0 +1,27 @@
+version: 3
+
+vars:
+  ES_URL:
+    ref: env "TAO_CE_SVC_DEPS_ES_URL"
+
+tasks:
+  run-in:
+    requires:
+      vars:
+      - SYSTEMD_UNIT
+      - COMMAND
+    vars:
+      unit_pid:
+        sh: >
+            systemctl show 
+            -P MainPID
+            "{{ .SYSTEMD_UNIT }}"
+    preconditions:
+      - sh: 'test -n "{{ .unit_pid }}"'
+        msg: 'Unit {{ .SYSTEMD_UNIT }} is not running.'
+    cmds:
+    - >
+        sudo nsenter -w -e -a 
+        -t {{ .unit_pid }}
+        {{ .COMMAND }} {{ .ARGS }}
+      

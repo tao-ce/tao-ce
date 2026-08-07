@@ -13,3 +13,5 @@ systemd
 python3
 iptables
 polkit
+httpasswd
+go-task

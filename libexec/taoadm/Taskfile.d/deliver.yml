@@ -1,0 +1,62 @@
+version: 3
+
+includes:
+  es:
+    taskfile: ./es.yml
+    internal: true
+  systemd:
+    taskfile: ./systemd.yml
+    internal: true
+
+tasks:
+  flush:
+    cmds:
+      - sudo rm -rf ${TAO_CE_VARLIB}/deliver/data/storage/qti-extracted-packages/*
+      - sudo rm -rf ${TAO_CE_VARLIB}/deliver/data/storage/qti-compiled-deliveries/*
+      - sudo rm -rf ${TAO_CE_VARLIB}/deliver/data/storage/results/*
+      - sudo rm -rf ${TAO_CE_VARLIB}/deliver/data/storage/base64-zip/*
+      - sudo rm -rf ${TAO_CE_VARLIB}/deliver/data/storage/qti-asset-manager/*
+      - for: [test-runner-deliveries, test-runner-delivery-executions, publications]
+        task: es:flush
+        vars:
+          INDEX: "{{ .ITEM }}"
+  publish:
+    interactive: true
+    vars:
+      delivery_realpath:
+        sh: >
+          realpath "{{ .delivery_file }}"
+      delivery_config:
+        map:
+          label: "{{ default .delivery_id .delivery_label }}"
+    requires:
+      vars:
+      - delivery_id
+      - delivery_file
+    cmds:
+      - task: systemd:run-in
+        vars:
+          SYSTEMD_UNIT: tao-ce.deliver.worker.service
+          COMMAND: bin/console
+          ARGS: >-
+              publication:run
+              -c '{{ .delivery_config | toJson }}'
+              --
+              "{{ .delivery_realpath }}"
+              1
+              "{{ .delivery_id }}"
+      - cmd: sudo mv "{{ .delivery_realpath }}" "{{ .move_to }}"
+        if: '{{ ne .move_to "" }}'
+
+
+  exchange:publication:in:
+    sources: ['/mnt/tao-ce/exchange/publications/in/*.zip']
+    cmds:
+    - sudo mkdir -p /mnt/tao-ce/exchange/publications/out
+    - for: sources
+      task: publish
+      vars:
+        delivery_file: '{{ .ITEM }}'
+        delivery_id:  '{{ .ITEM | splitList "/" | last | replace ".zip" "" }}'
+        move_to: '/mnt/tao-ce/exchange/publications/out/'
+

@@ -1,0 +1,54 @@
+version: 3
+
+includes:
+  es:
+    taskfile: ./es.yml
+    internal: true
+
+tasks:
+  admin:new:
+    aliases: [admin:create]
+    vars:
+      user_password_hash:
+        sh: >
+          echo '$2a$'$(htpasswd -bnB -C6  "" "{{ .password }}" | cut -f3-4 -d'$')
+
+      user_record_header:
+        map:
+          index:
+            _id: "1{{ .username }}"
+            _index: "portal-user"
+      user_record_body:
+        map:
+          login: "{{ .username }}"
+          active: true
+          name: "{{ .username }}"
+          password: "{{ .user_password_hash }}"
+          tenantId: "1"
+          workingProfiles:
+            - hierarchy:
+                root: "root"
+              hierarchyLevel:
+                root: "Level1"
+              name: "profile-backoffice"
+              role:
+                - "ADMIN"
+                - "SYSTEM_MANAGER"
+          hierarchy:
+            root: "root"
+          hierarchyLevel:
+            root: "Level1"
+
+    requires:
+      vars:
+      - username
+      - password
+    cmds:
+      - task: es:bulk
+        vars:
+          BODY: |
+            {{ .user_record_header | toJson }}
+            {{ .user_record_body | toJson }}
+
+
+          
