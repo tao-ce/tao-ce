@@ -1,0 +1,10 @@
+[Unit]
+After=tao-ce.deliver.backend.service
+
+[Path]
+DirectoryNotEmpty=/mnt/tao-ce/exchange/publications/in
+Unit=tao-ce.deliver.exchange.publication.service
+MakeDirectory=yes
+
+[Install]
+WantedBy=tao-ce.target
