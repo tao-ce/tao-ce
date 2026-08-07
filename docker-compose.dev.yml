@@ -5,6 +5,8 @@ include:
 
 services:
   dev:
+    healthcheck:
+      disable: true
     build:
       context: .
       dockerfile: ./Containerfile

@@ -1,5 +1,10 @@
 function(setup)
   {
+    local this = self,
+    healthchecks: {}
+                  + this.fn.healthchecks.http('backend', 'http', path='/api/v1/health')
+                  + this.fn.healthchecks.http('bootstrap', 'http', path='/')
+    ,
     env: {
       backend: {
         AUTH_SERVER_API_URL: setup.apps['environment-management'].auth_server.http.url,
@@ -110,8 +115,8 @@ function(setup)
       { topic: 'grader-manual-results-topic', subscription: 'grader-manual-results-portal' },
       { topic: 'users-ds', subscription: 'users-merge-subscription' },
       { topic: 'portal-campaign-notification-topic', subscription: 'portal-campaign-notification-subscription' },
-      {topic: "grader-scoring-events-topic", subscription: "grader-scoring-events-portal"},
-      {topic: "submit-grading-project-topic", subscription: "submit-grading-project-ds"},
-      {topic: "session-graded-topic", subscription: "dg-session-graded-subscription"},
+      { topic: 'grader-scoring-events-topic', subscription: 'grader-scoring-events-portal' },
+      { topic: 'submit-grading-project-topic', subscription: 'submit-grading-project-ds' },
+      { topic: 'session-graded-topic', subscription: 'dg-session-graded-subscription' },
     ],
   }

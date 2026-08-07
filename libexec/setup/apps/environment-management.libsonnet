@@ -1,12 +1,20 @@
 function(setup)
-
   {
+    local this = self,
+    healthchecks+: {}
+                   + this.fn.healthchecks.http('auth_server', 'http', path='/health')
+                   + this.fn.healthchecks.http('auth_server', 'gw', path='/health')
+                   + this.fn.healthchecks.http('lti_gateway', 'http', path='/health-check')
+                   + this.fn.healthchecks.http('sidecar', 'http', path='/healthz')
+                   + this.fn.healthchecks.tcp('sidecar', 'grpc')
+    ,
     files: {
       'tenant-data/tenant-data.json': std.manifestJson((import './files/tenant-data.libsonnet')(setup)),
       'tenant-data/environments.json': std.manifestJson(
-        setup.mixins.on["environment-management"].files.environments.apply(
+        setup.mixins.on['environment-management'].files.environments.apply(
           (import './files/environments.libsonnet')(setup)
-        )),
+        )
+      ),
       'envoy.yaml': std.manifestYamlDoc((import './files/envoy.libsonnet')(setup), quote_keys=false),
       'key.json': importstr './keys/proctoring/fake_gcp_key.json',
     },

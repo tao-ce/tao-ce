@@ -1,5 +1,10 @@
 function(setup)
   {
+    local this = self,
+    healthchecks+: {}
+                   + this.fn.healthchecks.http('backend', 'http', path='/api/v1/health')
+                   + this.fn.healthchecks.tcp('backend', 'socket')
+    ,
     env: {
       backend: {
         OTEL_SDK_ENABLED: 'false',
@@ -27,7 +32,7 @@ function(setup)
         SOCKET_PORT: setup.apps.task_orchestrator.backend.socket.port,
         TASK_ORCHESTRATOR_FIRESTORE_COLLECTION: setup.env.GOOGLE_APP_NAMESPACE,
         TASK_ORCHESTRATOR_FIRESTORE_STORAGE: 'task-orchestrator-storage',
-        TENANT_API_URL: setup.apps['environment-management'].auth_server.gw.url
+        TENANT_API_URL: setup.apps['environment-management'].auth_server.gw.url,
       },
     },
     files: {},

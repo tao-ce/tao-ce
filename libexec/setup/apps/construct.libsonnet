@@ -1,5 +1,9 @@
 function(setup)
   {
+    local this = self,
+    healthchecks+: {}
+                   + this.fn.healthchecks.http('backend', 'http', path='/backoffice/tao/Health')
+    ,
     env: {
       backend: {
         CONSTRUCT_LANG: setup.defaultLocale,

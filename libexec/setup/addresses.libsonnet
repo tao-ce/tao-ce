@@ -1,12 +1,12 @@
 local lib = import './lib.libsonnet';
-local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p, prefix: '' });
+local localAddress(p, schema='http') = lib.address({ schema: schema, host: 'localhost', port: p, prefix: '' });
 
 {
   'environment-management': {
     auth_server: {
       http: localAddress(21100),  // auth-server:8080
       gw: localAddress(21101),  //auth-server:8888
-      grpc: localAddress(21102),  //auth-server:1888
+      grpc: localAddress(21102, 'tcp'),  //auth-server:1888
     },
     lti_gateway: {
       http: localAddress(21103),  //lti-gw:80
@@ -16,18 +16,16 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
     },
     sidecar: {
       http: localAddress(21105),  //sidecar:8080
-      grpc: localAddress(21106),  //sidecar:18084
+      grpc: localAddress(21106, 'tcp'),  //sidecar:18084
     },
   },
+  em: self['environment-management'],
   portal: {
     backend: {
       http: localAddress(21200),  //portal-be:3000
     },
     bootstrap: {
       http: localAddress(21201),  //portal-bootstrap:3000
-    },
-    static: {
-      http: localAddress(21202),  //portal-static:8080
     },
   },
   deliver: {
@@ -36,9 +34,6 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
     },
     bootstrap: {
       http: localAddress(21301),  //deliver-bootstrap:3000
-    },
-    static: {
-      http: localAddress(21302),  //deliver-static:8080
     },
   },
   construct: {
@@ -56,44 +51,35 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
       http: localAddress(21901),  //dynamic-query-api:3000
     },
   },
+  'dynamic-query': self.dynamic_query,
   task_orchestrator: {
     backend: {
       http: localAddress(21902),  //task-orchestrator:8080
-      socket: localAddress(21903),  //task-orchestrator:3000
+      socket: localAddress(21903, 'tcp'),  //task-orchestrator:3000
     },
   },
+  'task-orchestrator': self.task_orchestrator,
   timers: {
     backend: {
       http: localAddress(21904),  //timers:8080
-      socket: localAddress(21905),  //timers:3000
+      socket: localAddress(21905, 'tcp'),  //timers:3000
     },
   },
   proctoring: {
     frontendAuthWait: {
-      bootstrap: {
-        http: localAddress(21501),  //pr-fe-auth-wait:3000
-      },
-      static: {
-        http: localAddress(21502),  //pr-fe-auth-wait-static:8080
-      },
-      api: {
-        http: localAddress(21503),  //pr-fe-auth-wait-static:8080
-      },
+      http: localAddress(21501),  //pr-fe-auth-wait:3000
+    },
+    frontendAuthWaitApi: {
+      http: localAddress(21503),  //pr-fe-auth-wait-api:8080
     },
     frontend: {
-      bootstrap: {
-        http: localAddress(21504),  //pr-fe:3000
-      },
-      static: {
-        http: localAddress(21505),  //pr-fe-static:8080
-      },
+      http: localAddress(21504),  //pr-fe:3000
     },
     lti1p3Gateway: {
       http: localAddress(21506),  //pr-lti-gateway:8080
     },
     realtimeService: {
-      http: localAddress(21507),  //pr-realtime-api:8080
-      socket: localAddress(21508),  //pr-realtime-api:3000
+      socket: localAddress(21508, 'tcp'),  //pr-realtime-api:3000
     },
   },
   'content-service': {
@@ -101,6 +87,7 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
       http: localAddress(21400),  //content-service:3000
     },
   },
+  content_service: self['content-service'],
   scoring: {
     backend: {
       http: localAddress(21601),  //ms-be:8080
@@ -110,11 +97,6 @@ local localAddress(p) = lib.address({ schema: 'http', host: 'localhost', port: p
     },
     service: {
       http: localAddress(21608),  //ss-be:8080
-    },
-  },
-  ai: {
-    backend: {
-      http: localAddress(21924),  //tao-ai-api:8080
     },
   },
 }

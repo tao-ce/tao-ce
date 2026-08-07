@@ -99,7 +99,7 @@ function(setup)
                 name: 'tao',
                 handlers: [{
                   class: 'Monolog\\Handler\\StreamHandler',
-                  options: [ 'php://stderr', 200],
+                  options: ['php://stderr', 200],
                 }],
               },
             },

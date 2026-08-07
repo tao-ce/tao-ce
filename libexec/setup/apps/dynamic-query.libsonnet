@@ -1,5 +1,9 @@
 function(setup)
   {
+    local this = self,
+    healthchecks+: {}
+                   + this.fn.healthchecks.http('api', 'http', path='/api/v1/health')
+    ,
     env: {
       api: {
         OTEL_SDK_ENABLED: 'false',
@@ -24,4 +28,3 @@ function(setup)
     },
     files: {},
   }
-
