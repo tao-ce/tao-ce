@@ -183,6 +183,12 @@ STOPSIGNAL SIGRTMIN+3
 CMD [ "/sbin/init" ]
 
 EXPOSE 443
+HEALTHCHECK \
+    --interval=10s \
+    --timeout=10s \
+    --start-period=10s \
+    --retries=3 \
+    CMD curl -f http://localhost:28080 || exit 1
 
  ###############################################################################
 FROM running AS devcontainer

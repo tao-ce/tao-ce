@@ -12,7 +12,7 @@
 
 	redir / /portal/ 302
 
-	handle_path /health {
+	handle_path /health* {
 		reverse_proxy localhost:28080
 	}
 
