@@ -1,5 +1,10 @@
 function(setup)
   {
+    local this = self,
+    healthchecks: {}
+      + this.fn.healthchecks.http('backend', 'http', path='/api/v1/health')
+      + this.fn.healthchecks.http('bootstrap', 'http', path='/')
+      ,
     env: {
       backend: {
         AUTH_SERVER_API_URL: setup.apps['environment-management'].auth_server.http.url,

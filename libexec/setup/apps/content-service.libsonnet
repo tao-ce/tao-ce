@@ -1,5 +1,9 @@
 function(setup)
 {
+  local this = self,
+  healthchecks+: {}
+    + this.fn.healthchecks.http('backend', 'http', path='/api/v1/health')
+    ,
   env: {
     backend: {
       local drivers = std.toString({

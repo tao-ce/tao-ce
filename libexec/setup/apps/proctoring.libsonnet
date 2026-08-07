@@ -1,5 +1,6 @@
 function(setup)
   {
+    local this = self,
     local dsn(topic) = 'gps://default/%(topic)s?subscription[pull][returnImmediately]=true&client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
       topic: topic,
       project: setup.env.GOOGLE_CLOUD_PROJECT,
@@ -7,6 +8,14 @@ function(setup)
     },
     local etcdKeyPrefix = 'proctoring-tool_assessments',
     local etcdKeySeparator = '—',
+
+    healthchecks+: {}
+      + this.fn.healthchecks.http('frontendAuthWait', 'http', path='/health')
+      + this.fn.healthchecks.http('frontendAuthWaitApi', 'http', path='/', method='OPTIONS')
+      + this.fn.healthchecks.http('frontend', 'http', path='/health')
+      + this.fn.healthchecks.http('lti1p3Gateway', 'http', path='/health-check')
+      + this.fn.healthchecks.tcp('realtimeService', 'socket')
+      ,
 
     env: {
       forwarder: {
@@ -38,8 +47,8 @@ function(setup)
         POLL_STARTTEST_RETRIES_ON_ERROR: 2,
         POLL_STARTTEST_TIMEOUT: 30000,
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
-        PORT: setup.apps.proctoring.frontendAuthWait.bootstrap.http.port,
-        API_PORT: setup.apps.proctoring.frontendAuthWait.api.http.port,
+        PORT: setup.apps.proctoring.frontendAuthWait.http.port,
+        API_PORT: setup.apps.proctoring.frontendAuthWaitApi.http.port,
       },
       frontend: {
         API_URL: 'https://%(publicDomain)s/pr-lti-gateway/api/v1/assessments/start' % setup,
@@ -50,7 +59,7 @@ function(setup)
         STATIC_URL: 'https://%(publicDomain)s/pr-fe-static/' % setup,
         JWT_TOKEN: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL3B1cmwuaW1zZ2xvYmFsLm9yZy9zcGVjL2x0aS1ucnBzL2NsYWltL25hbWVzcm9sZXNlcnZpY2UiOiJmb28iLCJjb250ZXh0SWQiOjEzMzd9.Aude5UaQ_2yZF7E6uD4Z9r0jlSwCUiVJwI31wDToLw0',
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
-        PORT: setup.apps.proctoring.frontend.bootstrap.http.port,
+        PORT: setup.apps.proctoring.frontend.http.port,
       },
       'lti1p3-gateway': {
         APP_ENV: 'dev',
@@ -97,7 +106,6 @@ function(setup)
         STOP_ON_DISCONNECT: 'false',
         SOCKET_PORT: setup.apps.proctoring.realtimeService.socket.port,
         SOCKET_NAMESPACE: '/pr-realtime-socket',
-        PORT: setup.apps.proctoring.realtimeService.http.port,
         LOG_LEVEL: 'info',
         NODE_TLS_REJECT_UNAUTHORIZED: 0,
         REAL_TIME_SERVICE_HOST: setup.apps.timers.backend.http.url,

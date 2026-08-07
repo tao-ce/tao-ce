@@ -8,6 +8,12 @@ local flavors = {
 };
 
 local skel = {
+  local this = self,
+  skip: [],
+  fn:: {
+    keepApps(apps)::std.filter(function(s) !std.member(this.skip, s), apps), 
+
+  },
   on: {
     "environment-management": { files: { environments: lib.mixin } },
   }

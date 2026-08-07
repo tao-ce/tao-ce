@@ -12,6 +12,10 @@
 
 	redir / /portal/ 302
 
+	handle_path /health {
+		reverse_proxy localhost:28080
+	}
+
 	# handle will keep prefix
 	handle @deliver-bootstrap {
 		uri strip_prefix /deliver-fe

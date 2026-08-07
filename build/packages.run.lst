@@ -8,7 +8,6 @@ curl
 dnsutils
 openssl
 jq
-yq
 bash-completion
 systemd
 python3

@@ -1,0 +1,11 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStartPre=/bin/sh -c "mkdir -p /var/lib/tao-ce/meta/healthcheck"
+ExecStart=/bin/sh -c "exec /usr/local/bin/goss serve -e / -l 28080 -f json -g /etc/tao-ce/setup/healthcheck.yml"
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

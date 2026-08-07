@@ -1,5 +1,3 @@
-# ARG LOGDY_VERSION=latest
-ARG SYFT_VERSION=latest
 
 ARG FEDORA_IMAGE=fedora
 ARG FEDORA_VERSION=43
@@ -13,45 +11,39 @@ ARG IMAGE_PHP_VERSION="8.4"
 # External binaries images
 FROM docker.io/envoyproxy/envoy:v1.36-latest AS ext-bin-envoy
 FROM docker.io/caddy:2-alpine AS ext-bin-caddy
+FROM ghcr.io/goss-org/goss:v0.4.10 AS ext-bin-goss
+FROM ghcr.io/anchore/syft:v1.50.0 AS ext-bin-syft
 
- ###############################################################################
-FROM docker.io/golang:alpine AS build
+FROM docker.io/golang:1.26-alpine AS build-go
+ENV CGO_ENABLED=0
+ARG GOCACHE=/go-cache
+ENV GOCACHE=${GOCACHE}
+ARG GOMODCACHE=/gomod-cache
+ENV GOMODCACHE=${GOMODCACHE}
+
+RUN apk add --no-cache gcc musl-dev
+
+FROM build-go AS go-jsonnet-build
 ARG TARGETPLATFORM
-
-RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/google/go-jsonnet/cmd/jsonnet@latest
-RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
-RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/mikefarah/yq/v4@latest
-RUN CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' github.com/logdyhq/logdy-core@main
-
- ###############################################################################
-FROM alpine/curl AS download
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-
-RUN apk add jq
-COPY hack/utils/download-release.sh /usr/local/bin/
-
- ###############################################################################
-FROM download AS get-syft
-ARG TARGETPLATFORM
-ARG TARGETOS
-ARG TARGETARCH
-ARG SYFT_VERSION
-
 RUN \
-    --mount=type=cache,target=/run/cache/github/releases,id=github-releases,sharing=shared \
-    /usr/local/bin/download-release.sh \
-        anchore/syft \
-        syft_@@STRIPVERSION@@_${TARGETOS}_${TARGETARCH}.tar.gz \
-        ${SYFT_VERSION} \
-        ; \
-    cd /tmp \
-        && tar xzf $(cat /run/tmp/last-download) \
-        && mv /tmp/syft /usr/local/bin/syft
+    --mount=type=cache,id=go-cache,target=${GOCACHE} --mount=type=cache,id=gomod-cache,target=${GOMODCACHE} \
+        go install -ldflags '-extldflags "-static"' \
+        github.com/google/go-jsonnet/cmd/jsonnet@latest
 
-    
-    
+FROM build-go AS go-jsonnetfmt-build
+ARG TARGETPLATFORM
+RUN \
+    --mount=type=cache,id=go-cache,target=${GOCACHE} --mount=type=cache,id=gomod-cache,target=${GOMODCACHE} \
+        go install -ldflags '-extldflags "-static"' \
+        github.com/google/go-jsonnet/cmd/jsonnetfmt@latest
+
+FROM build-go AS go-logdy-build
+ARG TARGETPLATFORM
+RUN \
+    --mount=type=cache,id=go-cache,target=${GOCACHE} --mount=type=cache,id=gomod-cache,target=${GOMODCACHE} \
+        go install -ldflags '-extldflags "-static"' \
+        github.com/logdyhq/logdy-core@main
+
  ###############################################################################
 FROM ${FEDORA_IMAGE}:${FEDORA_VERSION} AS base-fedora
 
@@ -112,12 +104,6 @@ RUN \
     && mkdir -p /etc/ssh && ssh-keyscan -H github.com >>/etc/ssh/ssh_known_hosts
 
  ###############################################################################
-FROM docker.io/golang:1.26-alpine AS build-go
-ENV CGO_ENABLED=0
-
-RUN apk add --no-cache gcc musl-dev
-
- ###############################################################################
 FROM base-fedora AS running
 
 LABEL org.opencontainers.image.name="TAO Community Edition"
@@ -152,13 +138,6 @@ ENV NODE_VERSION=${NODE_VERSION}
 
 VOLUME [ "${TAO_CE_VARLIB}" ]
 
-COPY --from=ext-bin-envoy /usr/local/bin/envoy /usr/local/bin/envoy
-COPY --from=ext-bin-caddy /usr/bin/caddy /usr/local/bin/caddy
-COPY --link --from=build /go/bin/jsonnet    ${BIN_DEST}/jsonnet
-COPY --link --from=build /go/bin/jsonnetfmt ${BIN_DEST}/jsonnetfmt
-COPY --link --from=build /go/bin/yq         ${BIN_DEST}/yq
-COPY --link --from=build /go/bin/logdy-core ${BIN_DEST}/logdy
-
 COPY ./libexec      ${TAO_CE_LIBEXEC}
 COPY ./etc/         /etc/
 
@@ -191,8 +170,11 @@ RUN \
         rescue.service \
         emergency.service \
         getty.target
-        
-        #systemd-logind.service \
+
+COPY --link --from=ext-bin-envoy /usr/local/bin/envoy ${BIN_DEST}/envoy
+COPY --link --from=ext-bin-caddy /usr/bin/caddy ${BIN_DEST}/caddy
+COPY --link --from=ext-bin-goss /usr/bin/goss ${BIN_DEST}/goss
+COPY --link --from=go-jsonnet-build /go/bin/jsonnet ${BIN_DEST}/jsonnet
 
 # required for systemd
 ENV container=docker
@@ -225,8 +207,8 @@ RUN \
             -e "s/@@ARCH@@/$(uname -m)/g" \
         | xargs dnf install -y --setopt=install_weak_deps=false
 
-#workaround (stable buildah is missing --link, installing testing)
-RUN dnf update -y --enablerepo=updates-testing buildah
+COPY --link --from=go-jsonnetfmt-build /go/bin/jsonnetfmt ${BIN_DEST}/jsonnetfmt
+COPY --link --from=go-logdy-build /go/bin/logdy-core ${BIN_DEST}/logdy
 
 RUN \
     useradd -G wheel ${DEVCONTAINER_USERNAME} \
@@ -238,10 +220,4 @@ COPY \
     --from=src-devcontainer \
     etc/ /etc/
 
-COPY --chmod=4755 \
-    --chown=0:0 \
-    --link \
-    --from=get-syft \
-    /usr/local/bin/syft \
-    ${BIN_DEST}/syft
 

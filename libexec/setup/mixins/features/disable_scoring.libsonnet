@@ -2,6 +2,7 @@ local lib = import '../lib.libsonnet';
 
 function(setup)
   {
+    skip+: ['scoring'],
     on+: {
       "environment-management"+: {
         files+: {

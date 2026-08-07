@@ -1,12 +1,17 @@
 function(setup)
-  {
+  { 
+    local this = self,
     local dsn(topic) = 'gps://default/%(topic)s?subscription[pull][returnImmediately]=true&client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
       topic: topic,
       project: setup.env.GOOGLE_CLOUD_PROJECT,
       pubsubEndpoint: setup.dependencies.pubsub.address.url,
     },
 
-    env: {
+    healthchecks+: {}
+      + this.fn.healthchecks.http('backend', 'http', path='/health-check')
+    , 
+
+    env+: {
       backend: {
         APP_DEBUG: 'false',
         APP_DEFAULT_LOCALE: setup.defaultLocale,
@@ -107,9 +112,9 @@ function(setup)
         PORT: setup.apps.deliver.bootstrap.http.port,
       },
     },
-    files: {},
+    files+: {},
 
-    pubsub: [
+    pubsub+: [
       { topic: 'ags-initialization', subscription: 'ags-initialization' },
       { topic: 'clean-up', subscription: 'clean-up' },
       { topic: 'closure', subscription: 'closure' },

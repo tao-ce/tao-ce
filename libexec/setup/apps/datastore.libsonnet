@@ -13,7 +13,17 @@ function(setup)
             USERS: "users-ds",
         };
 {
+    local this = self,
     files: {},
+    healthchecks+: { command: {
+        ["datastore@%s-journal" % k]: {
+            meta: {app: this.id, tier: k},
+            'exit-status': 0,
+            timeout: 2000,
+            exec: 'journalctl -Iu tao-ce.datastore@%s.service _COMM=MainThread -o cat | jq --seq -es \'[.[].level < 50]|all\'' % k,
+        }
+        for k in std.objectFields(pipelines)
+    }},
 
 env: {
     

@@ -1,6 +1,9 @@
 function(setup)
-
 {
+    local this = self,
+    healthchecks+: {}
+      + this.fn.healthchecks.http('backend', 'http', path='/health-check')
+      ,
     files: {
         'lti1p3.yaml': std.manifestYamlDoc((import './files/lti1p3.libsonnet')(setup),quote_keys=false),
     },

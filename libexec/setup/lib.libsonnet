@@ -22,6 +22,13 @@
             fullEndpoint: '%s:%d' % [this.host, this.port],
             baseUrl: '%s://%s' % [this.schema, this.endpoint],
             url: std.rstripChars('%s/%s' % [this.baseUrl, this.prefix],'/'),
+        }
+        + {
+            local this = self,
+            healthchecks:: {
+                http(name, path="/health", method="GET"): { http+: { [name]: {status: {and: [{le: 299}, {ge: 200}]}, method: method, timeout: 5000, url: this.url + path}}},
+                tcp(name): { addr+: { [name]: {reachable: true, timeout: 5000, address: this.url }}},
+            }
         },
 
     toEnv(o,pfx=[],)::

@@ -2,6 +2,7 @@ local lib = import '../lib.libsonnet';
 
 function(setup)
   {
+    skip+: ['proctoring'],
     on+: {
       "environment-management"+: {
         files+: {

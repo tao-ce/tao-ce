@@ -1,5 +1,10 @@
 function(setup)
   {
+    local this = self,
+    healthchecks+: {}
+      + this.fn.healthchecks.http('backend', 'http', path='/api/v1/health')
+      + this.fn.healthchecks.tcp('backend', 'socket')
+    , 
     env: {
       backend: {
         OTEL_SDK_ENABLED: 'false',

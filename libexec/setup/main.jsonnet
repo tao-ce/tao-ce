@@ -59,29 +59,40 @@ local hydrateSetup(seed, salt, release_flavor) =
 
 function(seed, salt=importstr '/proc/sys/kernel/random/uuid', release_flavor='full')
   local setup = hydrateSetup(std.parseYaml(seed), salt, release_flavor);
+  local keepApps = setup.mixins.fn.keepApps(std.objectFields(templates));
+
+  local apps = std.mapWithKey(function(k, v) 
+    (import './apps/skel.libsonnet')(setup) 
+      + { id:: k } 
+      + v(setup),
+    templates);
+
   std.foldl(
     function(t, x)
-      local h = templates[x](setup);
-      local envs = std.get(h, 'env', {});
-      local files = std.get(h, 'files', {});
-      local pubsubs = std.get(h, 'pubsub', []);
-
+      local h = apps[x];
       t
       + std.foldl(
-        function(s, k) s { ['envs/%s/%s.env' % [x, k]]: setup.lib.toEnvFile(envs[k]) },
-        std.objectFields(envs),
+        function(s, k) s { ['envs/%s/%s.env' % [x, k]]: setup.lib.toEnvFile(h.env[k]) },
+        std.objectFields(h.env),
         {},
       )
       + std.foldl(
-        function(s, k) s { ['config/%s/%s' % [x, k]]: files[k] },
-        std.objectFields(files),
+        function(s, k) s { ['config/%s/%s' % [x, k]]: h.files[k] },
+        std.objectFields(h.files),
         {},
       )
-      + { ['pubsub/%s.json' % x]: std.manifestJson(pubsubs) }
+      + { ['pubsub/%s.json' % x]: std.manifestJson(h.pubsub) }
+      + { ['healthcheck.d/%s.yml' % x]: std.manifestYamlDoc( h.healthchecks ) }
     ,
-    std.objectFields(templates),
+    keepApps,
     {},
   )
+  + { 'healthcheck.yml': std.manifestYamlDoc({
+      gossfile: std.foldl(
+        function(s, a) s { [a]: { file: 'healthcheck.d/%s.yml' % a } },
+        keepApps,
+        {},),
+    })}
   + {
     'scripts/wipe/es.sh': |||
       #!/bin/sh
