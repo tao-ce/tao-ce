@@ -7,10 +7,10 @@ function(setup)
       pubsubEndpoint: setup.dependencies.pubsub.address.url,
     },
     healthchecks+: {}
-      + this.fn.healthchecks.http('backend', 'http', path='/health-check')
-      + this.fn.healthchecks.http('frontend', 'bootstrap', path='/')
-      + this.fn.healthchecks.http('service', 'http', path='/health-check')
-      ,
+                   + this.fn.healthchecks.http('backend', 'http', path='/health-check')
+                   + this.fn.healthchecks.http('frontend', 'bootstrap', path='/')
+                   + this.fn.healthchecks.http('service', 'http', path='/health-check')
+    ,
     env: {
       backend: {
         APP_ENV: 'dev',

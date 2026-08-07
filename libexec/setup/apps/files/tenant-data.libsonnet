@@ -54,8 +54,9 @@ function(setup)
                         },
                         uploadMaxSize: 15000000,
                         uploadTimeout: 300000,
-                      } + ( if std.member(setup.features, 'taoCETestRunnerEnableWiris') then {
-                        mathEditor: { provider: 'wiris', }, } else {}),
+                      } + (if std.member(setup.features, 'taoCETestRunnerEnableWiris') then {
+                             mathEditor: { provider: 'wiris' },
+                           } else {}),
                     },
                     GraphicGapMatchInteraction: {
                       qtiClassesOverride: [
@@ -289,20 +290,20 @@ function(setup)
               },
             },
           },
-            {
-              name: 'AUTH_MODE',
-              value: 'sessionStorage',
-            },
+          {
+            name: 'AUTH_MODE',
+            value: 'sessionStorage',
+          },
           {
             name: 'deliver-launch-claims',
             value: std.toString({
-              "https://purl.imsglobal.org/spec/lti/claim/roles": [
-                "http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"
+              'https://purl.imsglobal.org/spec/lti/claim/roles': [
+                'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner',
               ],
-              "https://purl.imsglobal.org/spec/lti/claim/custom": {
-                "deliverySettings.review.deliveryExecutionId": "<<deliveryExecutionId>>",
+              'https://purl.imsglobal.org/spec/lti/claim/custom': {
+                'deliverySettings.review.deliveryExecutionId': '<<deliveryExecutionId>>',
               },
-              "sub": "<<sub>>",
+              sub: '<<sub>>',
             }),
           },
           {

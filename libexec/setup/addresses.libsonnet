@@ -51,14 +51,14 @@ local localAddress(p, schema='http') = lib.address({ schema: schema, host: 'loca
       http: localAddress(21901),  //dynamic-query-api:3000
     },
   },
-  "dynamic-query": self.dynamic_query,
+  'dynamic-query': self.dynamic_query,
   task_orchestrator: {
     backend: {
       http: localAddress(21902),  //task-orchestrator:8080
       socket: localAddress(21903, 'tcp'),  //task-orchestrator:3000
     },
   },
-  "task-orchestrator": self.task_orchestrator,
+  'task-orchestrator': self.task_orchestrator,
   timers: {
     backend: {
       http: localAddress(21904),  //timers:8080

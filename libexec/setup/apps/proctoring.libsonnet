@@ -10,12 +10,12 @@ function(setup)
     local etcdKeySeparator = '—',
 
     healthchecks+: {}
-      + this.fn.healthchecks.http('frontendAuthWait', 'http', path='/health')
-      + this.fn.healthchecks.http('frontendAuthWaitApi', 'http', path='/', method='OPTIONS')
-      + this.fn.healthchecks.http('frontend', 'http', path='/health')
-      + this.fn.healthchecks.http('lti1p3Gateway', 'http', path='/health-check')
-      + this.fn.healthchecks.tcp('realtimeService', 'socket')
-      ,
+                   + this.fn.healthchecks.http('frontendAuthWait', 'http', path='/health')
+                   + this.fn.healthchecks.http('frontendAuthWaitApi', 'http', path='/', method='OPTIONS')
+                   + this.fn.healthchecks.http('frontend', 'http', path='/health')
+                   + this.fn.healthchecks.http('lti1p3Gateway', 'http', path='/health-check')
+                   + this.fn.healthchecks.tcp('realtimeService', 'socket')
+    ,
 
     env: {
       forwarder: {

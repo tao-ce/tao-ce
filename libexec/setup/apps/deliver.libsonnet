@@ -1,5 +1,5 @@
 function(setup)
-  { 
+  {
     local this = self,
     local dsn(topic) = 'gps://default/%(topic)s?subscription[pull][returnImmediately]=true&client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
       topic: topic,
@@ -8,8 +8,8 @@ function(setup)
     },
 
     healthchecks+: {}
-      + this.fn.healthchecks.http('backend', 'http', path='/health-check')
-    , 
+                   + this.fn.healthchecks.http('backend', 'http', path='/health-check')
+    ,
 
     env+: {
       backend: {

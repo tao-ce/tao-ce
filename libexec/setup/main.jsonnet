@@ -15,57 +15,57 @@ local templates = {
 
 local addresses = import './addresses.libsonnet';
 
-local hydrateSetup(seed, salt, release_flavor) = 
+local hydrateSetup(seed, salt, release_flavor) =
   local lib = (import './lib.libsonnet') { salt:: salt };
-{
-  lib:: lib,
-  defaultLocale: 'en-US',
-  portal: { populate: 'admin+demo5' },
-  flavor: release_flavor,
-  features+: [],
-  dirs: {
-    opt: '/opt/tao-ce',
-    varlib: '/var/lib/tao-ce',
-    etc: '/etc/tao-ce',
-    libexec: '/usr/local/libexec/tao-ce',
-    data: '%(varlib)s/data' % self,
-    setup: '%(etc)s/setup' % self,
-    envs: '%(setup)s/envs' % self,
-    files: '%(setup)s/config' % self,
-    pki: '%(varlib)s/pki' % self,
-    keys: '%(pki)s/keys' % self,
-  },
-} + seed.spec + {
-  local this = self,
+  {
+    lib:: lib,
+    defaultLocale: 'en-US',
+    portal: { populate: 'admin+demo5' },
+    flavor: release_flavor,
+    features+: [],
+    dirs: {
+      opt: '/opt/tao-ce',
+      varlib: '/var/lib/tao-ce',
+      etc: '/etc/tao-ce',
+      libexec: '/usr/local/libexec/tao-ce',
+      data: '%(varlib)s/data' % self,
+      setup: '%(etc)s/setup' % self,
+      envs: '%(setup)s/envs' % self,
+      files: '%(setup)s/config' % self,
+      pki: '%(varlib)s/pki' % self,
+      keys: '%(pki)s/keys' % self,
+    },
+  } + seed.spec + {
+    local this = self,
 
-  env+: {
-    GOOGLE_CLOUD_PROJECT: 'demo-tao',
-    GOOGLE_APPLICATION_CREDENTIALS: '%s/config/gcp.json' % this.dirs.etc,
-    TAO_CE_PUBLIC_DOMAIN: this.publicDomain,
-    GOOGLE_APP_NAMESPACE: 'oat-dev',
-    NODE_VERSION: '24',
-  },
-  dependencies:
-    std.foldl(
-      function(t, x)
-        t { [x.key]: x { address: lib.address(x.address) } },
-      super.dependencies,
-      {},
-    ),
-  apps: addresses,
-  mixins: (import './mixins/main.libsonnet')(self),
-};
+    env+: {
+      GOOGLE_CLOUD_PROJECT: 'demo-tao',
+      GOOGLE_APPLICATION_CREDENTIALS: '%s/config/gcp.json' % this.dirs.etc,
+      TAO_CE_PUBLIC_DOMAIN: this.publicDomain,
+      GOOGLE_APP_NAMESPACE: 'oat-dev',
+      NODE_VERSION: '24',
+    },
+    dependencies:
+      std.foldl(
+        function(t, x)
+          t { [x.key]: x { address: lib.address(x.address) } },
+        super.dependencies,
+        {},
+      ),
+    apps: addresses,
+    mixins: (import './mixins/main.libsonnet')(self),
+  };
 
 
 function(seed, salt=importstr '/proc/sys/kernel/random/uuid', release_flavor='full')
   local setup = hydrateSetup(std.parseYaml(seed), salt, release_flavor);
   local keepApps = setup.mixins.fn.keepApps(std.objectFields(templates));
 
-  local apps = std.mapWithKey(function(k, v) 
-    (import './apps/skel.libsonnet')(setup) 
-      + { id:: k } 
-      + v(setup),
-    templates);
+  local apps = std.mapWithKey(function(k, v)
+                                (import './apps/skel.libsonnet')(setup)
+                                + { id:: k }
+                                + v(setup),
+                              templates);
 
   std.foldl(
     function(t, x)
@@ -82,17 +82,18 @@ function(seed, salt=importstr '/proc/sys/kernel/random/uuid', release_flavor='fu
         {},
       )
       + { ['pubsub/%s.json' % x]: std.manifestJson(h.pubsub) }
-      + { ['healthcheck.d/%s.yml' % x]: std.manifestYamlDoc( h.healthchecks ) }
+      + { ['healthcheck.d/%s.yml' % x]: std.manifestYamlDoc(h.healthchecks) }
     ,
     keepApps,
     {},
   )
   + { 'healthcheck.yml': std.manifestYamlDoc({
-      gossfile: std.foldl(
-        function(s, a) s { [a]: { file: 'healthcheck.d/%s.yml' % a } },
-        keepApps,
-        {},),
-    })}
+    gossfile: std.foldl(
+      function(s, a) s { [a]: { file: 'healthcheck.d/%s.yml' % a } },
+      keepApps,
+      {},
+    ),
+  }) }
   + {
     'scripts/wipe/es.sh': |||
       #!/bin/sh

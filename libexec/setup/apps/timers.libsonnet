@@ -2,9 +2,9 @@ function(setup)
   {
     local this = self,
     healthchecks+: {}
-      + this.fn.healthchecks.http('backend', 'http', path='/')
-      + this.fn.healthchecks.tcp('backend', 'socket')
-      ,
+                   + this.fn.healthchecks.http('backend', 'http', path='/')
+                   + this.fn.healthchecks.tcp('backend', 'socket')
+    ,
     env: {
       backend: {
         FIRESTORE_EMULATOR_HOST: setup.dependencies.firestore.address.endpoint,
@@ -27,4 +27,3 @@ function(setup)
       { topic: 'assessment-log', subscription: 'assessment-log-ds' },
     ],
   }
-

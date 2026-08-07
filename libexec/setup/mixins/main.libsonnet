@@ -11,13 +11,13 @@ local skel = {
   local this = self,
   skip: [],
   fn:: {
-    keepApps(apps)::std.filter(function(s) !std.member(this.skip, s), apps), 
+    keepApps(apps):: std.filter(function(s) !std.member(this.skip, s), apps),
 
   },
   on: {
-    "environment-management": { files: { environments: lib.mixin } },
-  }
+    'environment-management': { files: { environments: lib.mixin } },
+  },
 };
 
-function(setup) 
+function(setup)
   skel + flavors[setup.flavor](setup)

@@ -1,4 +1,2 @@
 function(setup)
-    (import './lite.libsonnet')(setup)
-
-    
+  (import './lite.libsonnet')(setup)
