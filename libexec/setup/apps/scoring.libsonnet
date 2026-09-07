@@ -1,10 +1,16 @@
 function(setup)
   {
+    local this = self,
     local dsn(topic) = 'gps://default/%(topic)s?subscription[pull][returnImmediately]=true&client_config[projectId]=%(project)s&client_config[apiEndpoint]=%(pubsubEndpoint)s' % {
       topic: topic,
       project: setup.env.GOOGLE_CLOUD_PROJECT,
       pubsubEndpoint: setup.dependencies.pubsub.address.url,
     },
+    healthchecks+: {}
+                   + this.fn.healthchecks.http('backend', 'http', path='/health-check')
+                   + this.fn.healthchecks.http('frontend', 'bootstrap', path='/')
+                   + this.fn.healthchecks.http('service', 'http', path='/health-check')
+    ,
     env: {
       backend: {
         APP_ENV: 'dev',
@@ -55,7 +61,6 @@ function(setup)
         EM_SIDECAR_PORT: setup.apps['environment-management'].auth_server.grpc.port,
         EM_AUTH_SERVER_GRPC_GATEWAY_HOST: setup.apps['environment-management'].auth_server.gw.url,
         DYNAMIC_QUERY_API_URL: setup.apps.dynamic_query.api.http.url,
-        AI_API_URL: setup.apps.ai.backend.http.url,
         CONTENT_API_URL: setup.apps['content-service'].backend.http.url,
       },
       frontend: {

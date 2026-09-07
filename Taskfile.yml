@@ -164,8 +164,8 @@ tasks:
     - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.target
     - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.setup.service
     - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.static.service
-    - sudo systemctl restart tao-ce.setup.service
-    - sudo systemctl restart tao-ce.static.service
+    - sudo systemctl enable --force /usr/local/libexec/tao-ce/systemd/tao-ce.healthcheck.service
+    - sudo systemctl restart tao-ce.setup.service tao-ce.static.service tao-ce.healthcheck.service
 
   dev:sync:etc:
     desc: copy etc config files
