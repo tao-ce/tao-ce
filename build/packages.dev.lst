@@ -4,8 +4,10 @@ podman
 buildah
 fuse-overlayfs
 patch
+rsync
 zsh
 ps
 opentofu
 go-task
 qemu-img
+cpp

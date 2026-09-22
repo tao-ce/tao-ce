@@ -6,9 +6,6 @@ vars:
   DEFAULT_TARGET: export
   SIGNAL_DIR: '{{.ROOT_SIGNAL_DIR}}/{{.NAMESPACE}}/{{.APP}}'
   VERSION_DIR: '{{.CACHE_DIR}}/versions'
-  BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
-  DEPLOY_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/deploy/done"
-  START_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/start/done"
 
 tasks:
   _log:
@@ -59,10 +56,18 @@ tasks:
     # desc: Build {{ .IMAGE }}:{{ .TAG }}
     run: always
     vars:
-      CONTEXT: '{{ .CONTEXT | default "." }}'
-      SUDO: '{{ .SUDO | default "" }}'
-      TARGET: '{{ .TARGET | default .DEFAULT_TARGET }}'
-      IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
+      CONTEXT:
+        ref: default "." .CONTEXT
+      SUDO:
+        ref: default "" .SUDO
+      TAG:
+        ref: default "dev-latest" .TAG
+      TARGET:
+        ref: default .DEFAULT_TARGET .TARGET
+      IMAGE:
+        ref: default .DEFAULT_IMAGE .IMAGE
+      BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
+
     sources:
     - "{{if eq .TASK_DIR .ROOT_DIR}}@@@@@{{else}}{{.TASK_DIR}}/**{{end}}"
     # - exclude: "**/.*"
@@ -105,7 +110,7 @@ tasks:
       {{range $ctx, $path := .CONTEXTS -}}
       {{" "}}  --build-context {{ $ctx }}={{ $path }}
       {{- end}} \
-      {{ .BUILD_COMMON_FLAGS | join " " }} \
+      {{ .BUILD_COMMON_FLAGS | join " " }} {{ .BUILD_FLAGS | join " " }} \
       {{.CONTEXT}} \
       2>&1  \
       | while read line ; do
@@ -132,12 +137,11 @@ tasks:
     vars:
       DIR: '/opt/tao-ce/{{.APP}}'
       IMAGE: '{{ .IMAGE | default .DEFAULT_IMAGE }}'
+      TAG:
+        ref: default "dev-latest" .TAG
+      BUILD_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/build/done"
+      DEPLOY_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/deploy/done"
 
-    # sources:
-    #   - "{{ .BUILD_SIGNAL_FILE }}"
-    # generates:
-    #   - "{{ .DEPLOY_SIGNAL_FILE }}"
-    #   - "{{.DIR}}/meta/deploy/done"
     deps: [build]
 
     status:
@@ -179,6 +183,11 @@ tasks:
   start:
     vars:
       DIR: '/opt/tao-ce/{{.APP}}'
+      TAG:
+        ref: default "dev-latest" .TAG
+      START_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/start/done"
+      DEPLOY_SIGNAL_FILE: "{{.SIGNAL_DIR}}/{{.TAG}}/deploy/done"
+
     sources:
       - "{{.DEPLOY_SIGNAL_FILE}}"
     status:
@@ -196,7 +205,9 @@ tasks:
     - |
       sudo systemctl daemon-reload
       sudo systemctl enable --force {{.DIR}}/meta/systemd/*.service
+      sudo systemctl enable --force {{.DIR}}/meta/systemd/*.path || true
       sudo systemctl restart --all "tao-ce.{{.APP}}*.service"
+      sudo systemctl restart --all "tao-ce.{{.APP}}*.path" || true
       mkdir -p $(dirname {{.START_SIGNAL_FILE}})
       cp {{.DEPLOY_SIGNAL_FILE}} {{.START_SIGNAL_FILE}}
     - task: _log

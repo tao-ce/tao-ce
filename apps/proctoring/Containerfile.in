@@ -1,0 +1,177 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+ARG GO_BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+ARG BUILD_COMPOSER_REGISTRY
+ ## lti1p3-gateway ####################################################################
+FROM $BUILD_IMAGE AS build-lti1p3-gateway
+ARG BUILD_IMAGE
+ARG STATE_ROOT="/var/lib/tao-ce/proctoring/lti1p3-gateway"
+ENV STATE_ROOT=$STATE_ROOT
+ARG BUILD_COMPOSER_REGISTRY
+
+WORKDIR /app
+COPY --from=src-lti13-gateway ./composer.json ./symfony.lock ./
+
+#include <composer/patch.in>
+#include <symfony/patch.in>
+
+COPY --from=src-lti13-gateway --exclude=**/composer.lock --exclude=**/composer.json --exclude=**/symfony.lock . .
+#define COMPOSER_INSTALL_OPTS -a
+#include <composer/install.in>
+#include <clean-app.in>
+
+ ## frontend-auth-wait-frontend #####################################################################
+FROM $BUILD_IMAGE AS build-frontend-auth-wait
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+WORKDIR /app
+
+COPY --from=src-frontend-auth-wait . .
+
+#define NPM_INSTALL_PACKAGES @oat-sa-private/ui-components@latest @oat-sa-private/ui-core@latest @oat-sa-private/ui-elements@latest @oat-sa-private/ui-identity@latest
+#define NPM_INSTALL_OPTS --package-lock-only --force --save
+#include <npm/install.in>
+#define NPM_DEV
+#include <npm/ci.in>
+#include <clean-app.in>
+
+ ## frontend-auth-wait-bootstrap #####################################################################
+FROM build-frontend-auth-wait AS build-frontend-auth-wait-bootstrap
+
+WORKDIR /app
+
+COPY --from=src-frontend-auth-wait . .
+
+#define NPM_RUN_ARGS build:bootstrap
+#include <npm/run.in>
+#include <clean-app.in>
+
+ ## frontend-auth-wait-static #####################################################################
+FROM build-frontend-auth-wait AS build-frontend-auth-wait-static
+
+WORKDIR /app
+
+COPY --from=src-frontend-auth-wait . .
+
+#define NPM_RUN_ARGS build:static
+#include <npm/run.in>
+#include <clean-app.in>
+
+ ## frontend #####################################################################
+FROM $BUILD_IMAGE AS build-frontend
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+WORKDIR /app
+
+COPY --from=src-frontend . .
+
+#define NPM_INSTALL_PACKAGES @oat-sa-private/ui-components@latest @oat-sa-private/ui-core@latest @oat-sa-private/ui-elements@latest @oat-sa-private/ui-identity@latest
+#define NPM_INSTALL_OPTS --package-lock-only --force --save
+#include <npm/install.in>
+#define NPM_DEV
+#include <npm/ci.in>
+#include <clean-app.in>
+
+ ## frontend-bootstrap #####################################################################
+FROM build-frontend AS build-frontend-bootstrap
+
+WORKDIR /app
+
+#define NPM_RUN_ARGS build:bootstrap
+#include <npm/run.in>
+#include <clean-app.in>
+
+ ## frontend-static #####################################################################
+FROM build-frontend AS build-frontend-static
+
+WORKDIR /app
+
+#define NPM_RUN_ARGS build:static
+#include <npm/run.in>
+#include <clean-app.in>
+
+ ## realtime-service #####################################################################
+FROM $BUILD_IMAGE AS build-realtime-service
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+WORKDIR /app
+
+COPY --from=src-realtime-service package*json .
+#include <npm/install.in>
+#define NPM_DEV
+#define NPM_INSTALL_OPTS --force
+#define NPM_INSTALL_PACKAGES rxjs@7.8.0
+#include <npm/install.in>
+
+FROM build-realtime-service AS build-realtime-service-dist
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+WORKDIR /app
+
+COPY --from=src-realtime-service . .
+
+#define NPM_DEV
+#include <npm/install.in>
+#define NPM_RUN_ARGS build
+#include <npm/run.in>
+#include <clean-app.in>
+
+ ## forwarder ##################################################################
+FROM $GO_BUILD_IMAGE AS build-forwarder
+ARG GO_BUILD_IMAGE
+
+WORKDIR /build
+COPY --from=src-forwarder . /build/forwarder
+COPY --from=src-go-shared . go-shared/
+COPY --from=src-protobuf . protobuf/
+COPY --from=src-apps go.* . 
+WORKDIR /build/forwarder
+
+
+ENV GOCACHE=/go-cache
+ENV GOMODCACHE=/gomod-cache
+ENV CGO_ENABLED=1
+ARG SVC_NAME=forwarder
+
+RUN WITH_CACHE_GO go mod download
+
+RUN WITH_CACHE_GO go build \
+    -ldflags '-linkmode=external -extldflags "-static"' \
+    -o /service \
+    service/forwarder.go
+
+ ## Export #####################################################################
+FROM scratch AS export
+
+COPY --link --from=build-forwarder \
+    /service /service
+
+COPY --link --from=build-frontend-auth-wait-bootstrap \
+    /app/server.js /frontend-auth-wait/bootstrap/
+COPY --link --from=build-frontend-auth-wait-bootstrap \
+    /app/sandbox /frontend-auth-wait/bootstrap/sandbox
+COPY --link --from=build-frontend-auth-wait-static \
+    /app/dist /frontend-auth-wait/static
+
+COPY --link --from=build-frontend-static     \
+    /app/dist /frontend/static
+COPY --link --from=build-frontend-bootstrap  \
+    /app/server.js /frontend/bootstrap/
+
+COPY --link --from=build-lti1p3-gateway     \
+    /app /lti1p3-gateway
+COPY ./router.php /lti1p3-gateway/router.php
+COPY ./router.php /lti1p3-gateway/public/router.php
+
+COPY --link --from=build-realtime-service     \
+    /app /realtime-service
+COPY --link --from=build-realtime-service-dist     \
+    /app/dist /realtime-service/dist
+
+COPY meta /meta

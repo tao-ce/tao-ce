@@ -1,0 +1,7 @@
+nav:
+- Home: index.md
+- start
+- config
+- dev
+- "User Guide": https://userguide.taotesting.com/
+- "Community & Support": https://forum.community.taotesting.com/

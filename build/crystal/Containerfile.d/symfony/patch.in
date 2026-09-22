@@ -1,0 +1,14 @@
+ARG PATCHES_DIR="/run/context/patches"
+
+COPY --from=patches ./symfony $PATCHES_DIR/symfony
+
+RUN <<EORUN
+  set -eux
+  src_file=$(mktemp)
+  mv symfony.lock $src_file
+  jq \
+    -f $PATCHES_DIR/symfony/run.jq \
+    --slurpfile patches $PATCHES_DIR/symfony/patch.json \
+      $src_file >symfony.lock
+  rm -f $src_file
+EORUN

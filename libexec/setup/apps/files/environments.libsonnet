@@ -13,7 +13,7 @@ function(setup)
           },
           {
             name: 'deliver-registration-id',
-            value: 'portal--deliver-#tenantId#',
+            value: 'lti-platformless',
           },
           {
             name: 'portal.configuration',
@@ -25,23 +25,23 @@ function(setup)
           },
           {
             name: 'portal.testrunner_client_id',
-            value: 'portal-deliver-client-id-#tenantId#',
+            value: 'lti-portal-deliver-#tenantId#',
           },
           {
             name: 'portal.proctoring_client_id',
-            value: 'portal-proctoring-client-id-#tenantId#',
+            value: 'lti-portal-proctoring-#tenantId#',
           },
           {
             name: 'scoring-deliver.registration_id',
-            value: 'ms--deliver-#tenantId#',
+            value: 'lti-ms-deliver-#tenantId#',
           },
           {
             name: 'portal.grader_client_id',
-            value: 'portal-grader-client-id-#tenantId#',
+            value: 'lti-portal-grader-#tenantId#',
           },
           {
             name: 'portal.authoring_client_id',
-            value: 'portal-authoring-client-id-#tenantId#',
+            value: 'lti-portal-authoring-#tenantId#',
           },
           {
             name: 'portal.csv_results_fields',
@@ -49,7 +49,7 @@ function(setup)
           },
           {
             name: 'proctoring.registration_id',
-            value: 'deliver--proctoring',
+            value: 'lti-deliver-proctoring',
           },
           {
             name: 'timers.configuration.thresholds',
@@ -249,7 +249,7 @@ function(setup)
           },
           {
             audience: 'https://%s/deliver' % [setup.publicDomain],
-            id: 'nextgen-tao-deliver-be-platform',
+            id: 'deliver-platform',
             isInternal: true,
             name: 'Test runner as LTI Platform',
             oauth2AccessTokenUrl: '%s/v1/oauth2/tokens' % setup.apps['environment-management'].auth_server.http.url,
@@ -282,25 +282,25 @@ function(setup)
         ],
         ltiRegistrations: [
           {
-            clientId: 'devkit-deliver-be-#tenantId#',
+            clientId: 'lti-devkit-deliver-#tenantId#',
             deploymentIds: [
               'deploymentId',
             ],
-            id: 'devkit--deliver-#tenantId#',
+            id: 'lti-devkit-deliver-#tenantId#',
             platformId: 'devkit-platform',
             platformJwksUrl: '%s/lti1p3/.well-known/jwks/primaryKeySet.json' % setup.apps.devkit.backend.http.url,
             platformKeyChain: {},
-            toolId: 'nextgen-tao-deliver-be-tool',
+            toolId: 'deliver-tool',
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
           },
           {
-            clientId: 'deliver-be-devkit-#tenantId#',
+            clientId: 'lti-deliver-devkit-#tenantId#',
             deploymentIds: [
               '1',
             ],
-            id: 'deliver--devkit-#tenantId#',
-            platformId: 'nextgen-tao-deliver-be-platform',
+            id: 'lti-deliver-devkit-#tenantId#',
+            platformId: 'deliver-platform',
             platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             platformKeyChain: {},
             toolId: 'devkit-tool',
@@ -308,11 +308,11 @@ function(setup)
             toolKeyChain: {},
           },
           {
-            clientId: 'devkit-manual-scoring-#tenantId#',
+            clientId: 'lti-devkit-manual-scoring-#tenantId#',
             deploymentIds: [
               '1',
             ],
-            id: 'devkit--ms-#tenantId#',
+            id: 'lti-devkit-manual-scoring-#tenantId#',
             platformId: 'devkit-platform',
             platformJwksUrl: '%s/lti1p3/.well-known/jwks/primaryKeySet.json' % setup.apps.devkit.backend.http.url,
             platformKeyChain: {},
@@ -321,24 +321,24 @@ function(setup)
             toolKeyChain: {},
           },
           {
-            clientId: 'manual_scoring_deliver-#tenantId#',
+            clientId: 'lti-ms-deliver-#tenantId#',
             deploymentIds: [
               '1',
             ],
-            id: 'ms--deliver-#tenantId#',
+            id: 'lti-ms-deliver-#tenantId#',
             platformId: 'ms-platform',
             platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             platformKeyChain: {},
-            toolId: 'nextgen-tao-deliver-be-tool',
+            toolId: 'deliver-tool',
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
           },
           {
-            clientId: 'proctoring_client_id-#tenantId#',
+            clientId: 'lti-devkit-proctoring-#tenantId#',
             deploymentIds: [
               '1',
             ],
-            id: 'devkit--proctoring-#tenantId#',
+            id: 'lti-devkit-proctoring-#tenantId#',
             platformId: 'devkit-platform',
             platformJwksUrl: '%s/lti1p3/.well-known/jwks/primaryKeySet.json' % setup.apps.devkit.backend.http.url,
             platformKeyChain: {},
@@ -347,12 +347,12 @@ function(setup)
             toolKeyChain: {},
           },
           {
-            clientId: 'portal-proctoring-client-id-#tenantId#',
-            clientSecret: 'secret1',
+            clientId: 'lti-portal-proctoring-#tenantId#',
+            clientSecret: setup.lib.hash('lti-portal-proctoring'),
             deploymentIds: [
               '1',
             ],
-            id: 'portal--proctoring-#tenantId#',
+            id: 'lti-portal-proctoring-#tenantId#',
             isInternal: true,
             platformId: 'portal-platform',
             platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
@@ -363,25 +363,25 @@ function(setup)
           },
 
           {
-            clientId: 'portal-deliver-client-id-#tenantId#',
+            clientId: 'lti-portal-deliver-#tenantId#',
             deploymentIds: [
               '1',
             ],
-            id: 'portal--deliver-#tenantId#',
+            id: 'lti-portal-deliver-#tenantId#',
             platformId: 'portal-platform',
             platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             platformKeyChain: {},
-            toolId: 'nextgen-tao-deliver-be-tool',
+            toolId: 'deliver-tool',
             toolJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
             toolKeyChain: {},
           },
           {
-            clientId: 'portal-authoring-client-id-#tenantId#',
-            clientSecret: 'secret1',
+            clientId: 'lti-portal-authoring-#tenantId#',
+            clientSecret: setup.lib.hash('lti-portal-authoring'),
             deploymentIds: [
               '1',
             ],
-            id: 'portal--authoring-#tenantId#',
+            id: 'lti-portal-authoring-#tenantId#',
             isInternal: true,
             platformId: 'portal-platform',
             platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
@@ -392,12 +392,12 @@ function(setup)
             toolKeyChain: {},
           },
           {
-            clientId: 'portal-grader-client-id-#tenantId#',
-            clientSecret: 'secret1',
+            clientId: 'lti-portal-grader-#tenantId#',
+            clientSecret: setup.lib.hash('lti-portal-grader'),
             deploymentIds: [
               '1',
             ],
-            id: 'portal--grader-#tenantId#',
+            id: 'lti-portal-grader-#tenantId#',
             isInternal: true,
             platformId: 'portal-platform',
             platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
@@ -408,10 +408,10 @@ function(setup)
             toolKeyChain: {},
           },
           {
-            id: 'deliver--proctoring',
-            clientId: 'deliver-proctoring-client-id',
+            id: 'lti-deliver-proctoring',
+            clientId: 'lti-deliver-proctoring',
             tenantId: '1',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('lti-deliver-proctoring'),
             platformId: 'portal-platform',
             toolId: 'assessment-proctoring-tool',
             platformJwksUrl: '%s/.well-known/jwks.json' % setup.apps['environment-management'].auth_server.http.url,
@@ -425,7 +425,7 @@ function(setup)
         ],
         ltiRoleMappings: [
           {
-            clientId: 'portal-deliver-client-id-#tenantId#',
+            clientId: 'lti-portal-deliver-#tenantId#',
             defaultLtiRole: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Learner',
             map: [
               {
@@ -438,7 +438,7 @@ function(setup)
             ],
           },
           {
-            clientId: 'portal-proctoring-client-id-#tenantId#',
+            clientId: 'lti-portal-proctoring-#tenantId#',
             map: [
               {
                 internalRoles: [
@@ -449,7 +449,7 @@ function(setup)
             ],
           },
           {
-            clientId: 'portal-authoring-client-id-#tenantId#',
+            clientId: 'lti-portal-authoring-#tenantId#',
             map: [
               {
                 internalRoles: [
@@ -467,7 +467,7 @@ function(setup)
             ],
           },
           {
-            clientId: 'portal-grader-client-id-#tenantId#',
+            clientId: 'lti-portal-grader-#tenantId#',
             defaultLtiRole: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Instructor',
             map: [],
           },
@@ -476,7 +476,7 @@ function(setup)
           {
             audience: 'https://%s/deliver' % [setup.publicDomain],
             deepLinkingUrl: 'https://%s/deliver/api/v1/lti/deep-links' % [setup.publicDomain],
-            id: 'nextgen-tao-deliver-be-tool',
+            id: 'deliver-tool',
             isInternal: true,
             launchUrl: 'https://%s/deliver/api/v1/auth/launch-lti-1p3' % [setup.publicDomain],
             name: 'Test runner as LTI Tool',
@@ -534,7 +534,7 @@ function(setup)
         oauth2Clients: [
           {
             clientId: 'admin',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('admin'),
             isConfidential: false,
             name: 'Portal Backend OAuth2 Client',
             scopes: [
@@ -543,9 +543,9 @@ function(setup)
             ],
           },
           {
-            clientId: 'portal-proctoring-client-id-#tenantId#',
-            clientSecret: 'secret1',
-            isConfidential: false,
+            clientId: 'lti-portal-proctoring-#tenantId#',
+            clientSecret: setup.lib.hash('lti-portal-proctoring'),
+            isConfidential: true,
             name: 'Proctoring OAuth2 Credentials',
             scopes: [
               'https://purl.imsglobal.org/spec/lti-ap/scope/control.all',
@@ -553,7 +553,7 @@ function(setup)
           },
           {
             clientId: 'admin-#tenantId#',
-            clientSecret: 'secret',
+            clientSecret: setup.lib.hash('admin'),
             isConfidential: false,
             name: 'Portal Backend OAuth2 Client per tenant',
             scopes: [
@@ -561,8 +561,8 @@ function(setup)
             ],
           },
           {
-            clientId: 'devkit-deliver-be-#tenantId#',
-            clientSecret: 'client-secret',
+            clientId: 'lti-devkit-deliver-#tenantId#',
+            clientSecret: setup.lib.hash('lti-devkit-deliver'),
             isConfidential: true,
             name: 'Publication OAuth2 Credentials',
             scopes: [
@@ -570,8 +570,8 @@ function(setup)
             ],
           },
           {
-            clientId: 'deliver-be-devkit-#tenantId#',
-            clientSecret: 'client-secret',
+            clientId: 'lti-deliver-devkit-#tenantId#',
+            clientSecret: setup.lib.hash('lti-deliver-devkit'),
             isConfidential: true,
             name: 'Proctoring OAuth2 Credentials',
             scopes: [
@@ -579,24 +579,15 @@ function(setup)
             ],
           },
           {
-            clientId: 'devkit-manual-scoring-#tenantId#',
-            clientSecret: 'secret1',
+            clientId: 'lti-devkit-manual-scoring-#tenantId#',
+            clientSecret: setup.lib.hash('lti-devkit-manual-scoring'),
             isConfidential: false,
             name: 'Manual Scoring OAuth2 Client',
             scopes: [],
           },
           {
-            clientId: 'proctoring_client_id-#tenantId#',
-            clientSecret: 'secret',
-            isConfidential: true,
-            name: 'Proctoring OAuth2 Credentials',
-            scopes: [
-              'https://purl.imsglobal.org/spec/lti-ap/scope/control.all',
-            ],
-          },
-          {
-            clientId: 'portal-deliver-client-id-#tenantId#',
-            clientSecret: 'secret1',
+            clientId: 'lti-portal-deliver-#tenantId#',
+            clientSecret: setup.lib.hash('lti-portal-deliver-#tenantId#'),
             isConfidential: false,
             name: 'Portal Backend OAuth2 Client',
             scopes: [
@@ -769,6 +760,15 @@ function(setup)
               {
                 resource: 'portal.labs',
                 scopes: [
+                  'view',
+                  'all',
+                ],
+              },
+              {
+                resource: 'portal.organization',
+                scopes: [
+                  'create',
+                  'edit',
                   'view',
                   'all',
                 ],

@@ -12,6 +12,10 @@
 
 	redir / /portal/ 302
 
+	handle_path /health* {
+		reverse_proxy localhost:28080
+	}
+
 	# handle will keep prefix
 	handle @deliver-bootstrap {
 		uri strip_prefix /deliver-fe
@@ -56,7 +60,7 @@
 
 	handle @proctoring-bootstrap {
 		uri strip_prefix /pr-fe
-		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTEND_BOOTSTRAP_HTTP_ENDPOINT}
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTEND_HTTP_ENDPOINT}
 	}
 
 	handle @proctoring-gateway-start {
@@ -83,12 +87,12 @@
 
 	handle @proctoring-auth-wait-bootstrap {
 		uri strip_prefix /pr-auth-wait
-		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_BOOTSTRAP_HTTP_ENDPOINT}
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_HTTP_ENDPOINT}
 	}
 
 	handle @proctoring-auth-wait-api {
 		uri strip_prefix /pr-auth-wait-api
-		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAIT_API_HTTP_ENDPOINT}
+		reverse_proxy {$TAO_CE_SVC_PROCTORING_FRONTENDAUTHWAITAPI_HTTP_ENDPOINT}
 	}
 
 	handle_path /pr-auth-wait-static/* {

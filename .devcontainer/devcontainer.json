@@ -37,23 +37,13 @@
             "settings": {
                 "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
                 "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
-                "terminal.integrated.defaultProfile.linux": "devsh",
-                "terminal.integrated.profiles.linux": {
-                    "devsh":{
-                        "overrideName": "devsh",
-                        "path": "${containerWorkspaceFolder}/.devcontainer/bin/devsh",
-                        "env":{
-                            "SYSTEMD_RUN_SHELL_PROMPT_PREFIX": "",
-                            "WORKSPACE_FOLDER": "${containerWorkspaceFolder}",
-                        }
-                    }
-                },
+                "terminal.integrated.defaultProfile.linux": "zsh",
                 "task": {
                     "path": "go-task"
                 },
                 "yaml.schemas": {
                     "https://taskfile.dev/schema.json": [
-                        "**/Taskfile.yml"
+                        "**/Taskfile.*.yml"
                     ]
                 }
             }

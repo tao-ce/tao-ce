@@ -1,0 +1,10 @@
+[Unit]
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/goss serve -e / -l :28080 -f json -g /etc/tao-ce/setup/healthcheck.yml
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=tao-ce.target

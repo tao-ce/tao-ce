@@ -1,70 +1,102 @@
 [submodule "apps/devkit/src"]
 	path = apps/devkit/src
 	url = https://github.com/oat-sa/devkit-lti1p3
-	branch = tao-ce/main
 [submodule "apps/environment-management/src"]
 	path = apps/environment-management/src
-	url = git@github.com:oat-sa/environment-management.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/environment-management.git
 [submodule "apps/deliver/src/be"]
 	path = apps/deliver/src/be
-	url = git@github.com:oat-sa/tao-deliver-be.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/tao-deliver-be.git
 [submodule "apps/deliver/src/fe"]
 	path = apps/deliver/src/fe
-	url = git@github.com:oat-sa/tao-deliver-fe.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/tao-deliver-fe.git
 [submodule "apps/timers/src"]
 	path = apps/timers/src
-	url = git@github.com:oat-sa/tao-timers-be.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/tao-timers-be.git
 [submodule "apps/portal/src"]
 	path = apps/portal/src
-	url = git@github.com:oat-sa/tao-portal.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/tao-portal.git
 [submodule "apps/proctoring/src"]
 	path = apps/proctoring/src
-	url = git@github.com:oat-sa/proctoring.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/proctoring.git
 [submodule "apps/dynamic-query/src"]
 	path = apps/dynamic-query/src
-	url = git@github.com:oat-sa/tao-dynamic-query-api.git
-	branch = tao-ce/main
-[submodule "apps/deliver/src/sandbox"]
-	path = apps/deliver/src/sandbox
-	url = git@github.com:oat-sa/test-runner-sandbox.git
-	branch = tao-ce/main
-[submodule "apps/construct/src/libs/oat-sa/extension-tao-deliver-connect"]
-	path = apps/construct/src/libs/oat-sa/extension-tao-deliver-connect
-	url = git@github.com:oat-sa/extension-tao-deliver-connect.git
-[submodule "apps/construct/src/libs/oat-sa/extension-tao-testqti-export"]
-	path = apps/construct/src/libs/oat-sa/extension-tao-testqti-export
-	url = git@github.com:oat-sa/extension-tao-testqti-export.git
-[submodule "apps/construct/src/libs/oat-sa/extension-tao-deliver-pcis"]
-	path = apps/construct/src/libs/oat-sa/extension-tao-deliver-pcis
-	url = git@github.com:oat-sa/extension-tao-deliver-pcis.git
+	url = git@github.com:tao-ce/tao-dynamic-query-api.git
 [submodule "apps/task-orchestrator/src"]
 	path = apps/task-orchestrator/src
-	url = git@github.com:oat-sa/tao-task-orchestrator.git
+	url = git@github.com:tao-ce/tao-task-orchestrator.git
 [submodule "apps/datastore/src"]
 	path = apps/datastore/src
-	url = git@github.com:oat-sa/tao-datastore-pipeline.git
-[submodule "apps/hierarchy/src"]
-	path = apps/hierarchy/src
-	url = git@github.com:oat-sa/tao-hierarchy-be.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/tao-datastore-pipeline.git
 [submodule "apps/scoring/src/tao-manual-scoring-be"]
 	path = apps/scoring/src/tao-manual-scoring-be
-	url = git@github.com:oat-sa/tao-manual-scoring-be.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/tao-manual-scoring-be.git
 [submodule "apps/scoring/src/tao-manual-scoring-fe"]
 	path = apps/scoring/src/tao-manual-scoring-fe
-	url = git@github.com:oat-sa/tao-manual-scoring-fe.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/tao-manual-scoring-fe.git
 [submodule "apps/scoring/src/tao-scoring-service-be"]
 	path = apps/scoring/src/tao-scoring-service-be
-	url = git@github.com:oat-sa/tao-scoring-service-be.git
-	branch = tao-ce/main
+	url = git@github.com:tao-ce/tao-scoring-service-be.git
 [submodule "apps/content-service/src"]
 	path = apps/content-service/src
-	url = git@github.com:oat-sa/tao-content-service.git
+	url = git@github.com:tao-ce/tao-content-service.git
+[submodule "packages/live-design-system"]
+	path = packages/live-design-system
+	url = git@github.com:tao-ce/live-design-system.git
+[submodule "packages/read-aloud-client-fe"]
+	path = packages/read-aloud-client-fe
+	url = git@github.com:tao-ce/read-aloud-client-fe.git
+[submodule "packages/extension-tao-test-preview-ui-loader"]
+	path = packages/extension-tao-test-preview-ui-loader
+	url = git@github.com:tao-ce/extension-tao-test-preview-ui-loader.git
+[submodule "packages/lib-tenant-management"]
+	path = packages/lib-tenant-management
+	url = git@github.com:tao-ce/lib-tenant-management.git
+[submodule "packages/lib-correlation-ids-http-client"]
+	path = packages/lib-correlation-ids-http-client
+	url = git@github.com:tao-ce/lib-correlation-ids-http-client.git
+[submodule "packages/bundle-cache-document-manager"]
+	path = packages/bundle-cache-document-manager
+	url = git@github.com:tao-ce/bundle-cache-document-manager.git
+[submodule "packages/bundle-correlation-ids"]
+	path = packages/bundle-correlation-ids
+	url = git@github.com:tao-ce/bundle-correlation-ids.git
+[submodule "packages/bundle-document-manager"]
+	path = packages/bundle-document-manager
+	url = git@github.com:tao-ce/bundle-document-manager.git
+[submodule "packages/bundle-filesystem-document-manager"]
+	path = packages/bundle-filesystem-document-manager
+	url = git@github.com:tao-ce/bundle-filesystem-document-manager.git
+[submodule "packages/bundle-grader-messenger-bridge"]
+	path = packages/bundle-grader-messenger-bridge
+	url = git@github.com:tao-ce/bundle-grader-messenger-bridge.git
+[submodule "packages/bundle-qti"]
+	path = packages/bundle-qti
+	url = git@github.com:tao-ce/bundle-qti.git
+[submodule "packages/bundle-scoring-engine"]
+	path = packages/bundle-scoring-engine
+	url = git@github.com:tao-ce/bundle-scoring-engine.git
+[submodule "packages/extension-tao-deliver-connect"]
+	path = packages/extension-tao-deliver-connect
+	url = git@github.com:tao-ce/extension-tao-deliver-connect.git
+[submodule "packages/extension-tao-deliver-pcis"]
+	path = packages/extension-tao-deliver-pcis
+	url = git@github.com:tao-ce/extension-tao-deliver-pcis.git
+[submodule "packages/extension-tao-testqti-export"]
+	path = packages/extension-tao-testqti-export
+	url = git@github.com:tao-ce/extension-tao-testqti-export.git
+[submodule "packages/lib-correlation-ids-messenger"]
+	path = packages/lib-correlation-ids-messenger
+	url = git@github.com:tao-ce/lib-correlation-ids-messenger.git
+[submodule "packages/lib-grader-messenger-bridge"]
+	path = packages/lib-grader-messenger-bridge
+	url = git@github.com:tao-ce/lib-grader-messenger-bridge.git
+[submodule "packages/lib-qti-item-json-compilation"]
+	path = packages/lib-qti-item-json-compilation
+	url = git@github.com:tao-ce/lib-qti-item-json-compilation.git
+[submodule "packages/tao-timers-client"]
+	path = packages/tao-timers-client
+	url = git@github.com:tao-ce/tao-timers-client.git
+[submodule "packages/bundle-elasticsearch-document-manager"]
+	path = packages/bundle-elasticsearch-document-manager
+	url = git@github.com:tao-ce/bundle-elasticsearch-document-manager.git

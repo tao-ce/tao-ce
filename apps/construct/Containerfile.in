@@ -1,0 +1,72 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+ARG MATHJAX_VERSION="2.6.1"
+ARG BUILD_COMPOSER_REGISTRY
+ARG BUILD_NPM_REGISTRY
+
+ ## code #######################################################################
+FROM $BUILD_IMAGE AS code
+ARG BUILD_IMAGE
+ARG MATHJAX_VERSION
+
+WORKDIR /app
+COPY --from=src-code ./composer.json ./
+
+#include <composer/patch.in>
+#define COMPOSER_NPM_BRIDGE
+#include <composer/install.in>
+
+RUN <<EORUN
+    set -eux
+    curl -L "https://github.com/mathjax/MathJax/archive/$MATHJAX_VERSION.tar.gz" \
+            | tar --strip-components=1 -xz \
+                -C "/app/taoQtiItem/views/js/mathjax"
+EORUN
+
+#include <clean-app.in>
+COPY --from=src-code ./index.php .
+
+
+ ## backend ####################################################################
+FROM code AS build-backend
+ARG STATE_ROOT="/var/lib/tao-ce/construct"
+ENV STATE_ROOT="${STATE_ROOT}"
+RUN <<EORUN
+    set -eux
+    rm -rf \
+        ./*/views/js \
+        ./*/views/css \
+        ./*/views/cypress \
+        ./*/views/node_modules \
+        ./*/views/scss \
+        ./*/views/build \
+        ./tao/views/locales \
+        ./config \
+        ./data
+    STATE_DATA(config, config)
+    STATE_DATA(locales, tao/views/locales)
+    STATE_DATA(data, data)
+EORUN
+
+ ## frontend ###################################################################
+FROM scratch AS build-frontend
+
+COPY --parents --from=code /app/**/views /
+
+ ## Export #####################################################################
+FROM scratch AS export
+
+COPY \ 
+    --link --from=build-backend  \
+    /app /backend
+
+COPY  \
+    --link --from=build-frontend  \
+    /app /static
+
+COPY ./router.php /backend/router.php
+COPY ./construct.sh /construct.sh
+COPY meta /meta
+
+ ##

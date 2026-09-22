@@ -1,0 +1,5 @@
+yes $BUILD_NPM_LOGIN \
+    | npm login \
+        --registry $BUILD_NPM_REGISTRY \
+        --auth-type legacy
+npm config set registry=$BUILD_NPM_REGISTRY

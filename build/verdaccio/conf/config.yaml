@@ -1,0 +1,26 @@
+listen:
+  - 0.0.0.0:4873
+
+auth:
+  htpasswd:
+    file: /tmp/htpasswd
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+    cache: true
+    maxage: 2d
+
+packages:
+  '@oat-sa-private/*':
+    access: $all
+    publish: $all
+    unpublish: $all
+
+  '**':
+    access: $all
+    proxy: npmjs
+
+storage: /verdaccio/storage
+max_body_size: 200mb
+

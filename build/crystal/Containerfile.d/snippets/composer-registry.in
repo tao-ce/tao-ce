@@ -1,0 +1,2 @@
+composer config -g secure-http false
+composer repository -g add oat-sa composer $BUILD_COMPOSER_REGISTRY

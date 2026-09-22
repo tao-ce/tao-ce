@@ -1,0 +1,334 @@
+<assessmentTest xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" identifier="t-03august2222" title="16 timers–hours + mins + secs" toolName="tao" toolVersion="2022.10" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.taotesting.com/xsd/qticompact_v2p2.xsd">
+    <timeLimits maxTime="7200" allowLateSubmission="false"/>
+    <testPart identifier="testPart-1" navigationMode="nonlinear" submissionMode="individual">
+        <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+        <timeLimits maxTime="1800" allowLateSubmission="false"/>
+        <assessmentSection identifier="assessmentSection-1" required="true" fixed="false" title="Section" visible="true" keepTogether="true">
+            <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+            <timeLimits maxTime="900" allowLateSubmission="false"/>
+            <assessmentItemRef identifier="item-1" required="false" fixed="false" href="./item-1/item.json" adaptive="false" timeDependent="false" title="001 choice–single choice + CKEditor in choices" label="001 choice–single choice + CKEditor in choices">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="450" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier"/>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>0</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="0" maxConstraint="1"/>
+            </assessmentItemRef>
+            <assessmentItemRef identifier="item-2" required="false" fixed="false" href="./item-2/item.json" adaptive="false" timeDependent="false" title="002 choice–multiple choices + CKEditor in prompt" label="002 choice–multiple choices + CKEditor in prompt">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="450" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier"/>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>0</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="3" maxConstraint="6"/>
+            </assessmentItemRef>
+        </assessmentSection>
+        <assessmentSection identifier="assessmentSection-2" required="false" fixed="false" title="Section" visible="true" keepTogether="true">
+            <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+            <timeLimits maxTime="900" allowLateSubmission="false"/>
+            <assessmentItemRef identifier="item-3" required="false" fixed="false" href="./item-3/item.json" adaptive="false" timeDependent="false" title="002 order–CKEditor in prompt" label="002 order–CKEditor in prompt">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="300" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="ordered" baseType="identifier"/>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>0</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="3" maxConstraint="0"/>
+            </assessmentItemRef>
+            <assessmentItemRef identifier="item-4" required="false" fixed="false" href="./item-4/item.json" adaptive="false" timeDependent="false" title="002 order–CKEditor in choices" label="001 order–CKEditor in choices">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="300" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="ordered" baseType="identifier"/>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>0</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="15" maxConstraint="0"/>
+            </assessmentItemRef>
+            <assessmentItemRef identifier="item-5" required="false" fixed="false" href="./item-5/item.json" adaptive="false" timeDependent="false" title="004 order–scores" label="004 order–scores">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="300" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="ordered" baseType="identifier">
+                    <correctResponse>
+                        <value>choice_3</value>
+                        <value>choice_2</value>
+                        <value>choice_5</value>
+                        <value>choice_1</value>
+                        <value>choice_4</value>
+                    </correctResponse>
+                </responseDeclaration>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>1</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="5" maxConstraint="0"/>
+            </assessmentItemRef>
+        </assessmentSection>
+    </testPart>
+    <testPart identifier="testPart-2" navigationMode="nonlinear" submissionMode="individual">
+        <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+        <timeLimits maxTime="1800" allowLateSubmission="false"/>
+        <assessmentSection identifier="assessmentSection-3" required="false" fixed="false" title="Section" visible="true" keepTogether="true">
+            <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+            <timeLimits maxTime="900" allowLateSubmission="false"/>
+            <assessmentItemRef identifier="item-6" required="false" fixed="false" href="./item-6/item.json" adaptive="false" timeDependent="false" title="002 associate–min/ max constraints" label="002 associate–min/ max constraints">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="330" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="pair"/>
+                <responseDeclaration identifier="RESPONSE_1" cardinality="multiple" baseType="pair"/>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>0</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing>
+                    <responseCondition>
+                        <responseIf>
+                            <match>
+                                <variable identifier="RESPONSE"/>
+                                <correct identifier="RESPONSE"/>
+                            </match>
+                            <setOutcomeValue identifier="SCORE">
+                                <sum>
+                                    <variable identifier="SCORE"/>
+                                    <baseValue baseType="integer">1</baseValue>
+                                </sum>
+                            </setOutcomeValue>
+                        </responseIf>
+                    </responseCondition>
+                    <responseCondition>
+                        <responseIf>
+                            <match>
+                                <variable identifier="RESPONSE_1"/>
+                                <correct identifier="RESPONSE_1"/>
+                            </match>
+                            <setOutcomeValue identifier="SCORE">
+                                <sum>
+                                    <variable identifier="SCORE"/>
+                                    <baseValue baseType="integer">1</baseValue>
+                                </sum>
+                            </setOutcomeValue>
+                        </responseIf>
+                    </responseCondition>
+                </responseProcessing>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="3" maxConstraint="0">
+                    <associationValidityConstraint identifier="choice_1" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_2" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_3" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_4" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_5" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_7" minConstraint="0" maxConstraint="0"/>
+                </responseValidityConstraint>
+                <responseValidityConstraint responseIdentifier="RESPONSE_1" minConstraint="2" maxConstraint="5">
+                    <associationValidityConstraint identifier="choice_6" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_8" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_9" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_10" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_11" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_12" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_13" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_14" minConstraint="0" maxConstraint="0"/>
+                </responseValidityConstraint>
+            </assessmentItemRef>
+            <assessmentItemRef identifier="item-7" required="false" fixed="false" href="./item-7/item.json" adaptive="false" timeDependent="false" title="003 associate–allowed number of uses" label="003 associate–allowed number of uses">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="300" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="pair"/>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>0</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="0" maxConstraint="0">
+                    <associationValidityConstraint identifier="choice_1" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_2" minConstraint="0" maxConstraint="1"/>
+                    <associationValidityConstraint identifier="choice_3" minConstraint="0" maxConstraint="2"/>
+                    <associationValidityConstraint identifier="choice_4" minConstraint="0" maxConstraint="4"/>
+                    <associationValidityConstraint identifier="choice_5" minConstraint="0" maxConstraint="2"/>
+                    <associationValidityConstraint identifier="choice_6" minConstraint="0" maxConstraint="1"/>
+                </responseValidityConstraint>
+            </assessmentItemRef>
+            <assessmentItemRef identifier="item-8" required="false" fixed="false" href="./item-8/item.json" adaptive="false" timeDependent="false" title="005 associate–scores" label="005 associate–scores">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="270" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="pair">
+                    <correctResponse>
+                        <value>choice_2 choice_4</value>
+                        <value>choice_1 choice_5</value>
+                    </correctResponse>
+                </responseDeclaration>
+                <responseDeclaration identifier="RESPONSE_1" cardinality="multiple" baseType="pair">
+                    <correctResponse>
+                        <value>choice_6 choice_7</value>
+                        <value>choice_6 choice_8</value>
+                        <value>choice_6 choice_9</value>
+                        <value>choice_10 choice_6</value>
+                        <value>choice_11 choice_6</value>
+                    </correctResponse>
+                    <mapping defaultValue="0">
+                        <mapEntry mapKey="choice_6 choice_7" mappedValue="1" caseSensitive="true"/>
+                        <mapEntry mapKey="choice_6 choice_8" mappedValue="1" caseSensitive="true"/>
+                        <mapEntry mapKey="choice_6 choice_9" mappedValue="1" caseSensitive="true"/>
+                        <mapEntry mapKey="choice_10 choice_6" mappedValue="1" caseSensitive="true"/>
+                        <mapEntry mapKey="choice_11 choice_6" mappedValue="1" caseSensitive="true"/>
+                    </mapping>
+                </responseDeclaration>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="6"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>6</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing>
+                    <responseCondition>
+                        <responseIf>
+                            <match>
+                                <variable identifier="RESPONSE"/>
+                                <correct identifier="RESPONSE"/>
+                            </match>
+                            <setOutcomeValue identifier="SCORE">
+                                <sum>
+                                    <variable identifier="SCORE"/>
+                                    <baseValue baseType="integer">1</baseValue>
+                                </sum>
+                            </setOutcomeValue>
+                        </responseIf>
+                    </responseCondition>
+                    <responseCondition>
+                        <responseIf>
+                            <not>
+                                <isNull>
+                                    <variable identifier="RESPONSE_1"/>
+                                </isNull>
+                            </not>
+                            <setOutcomeValue identifier="SCORE">
+                                <sum>
+                                    <variable identifier="SCORE"/>
+                                    <mapResponse identifier="RESPONSE_1"/>
+                                </sum>
+                            </setOutcomeValue>
+                        </responseIf>
+                    </responseCondition>
+                </responseProcessing>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="0" maxConstraint="0">
+                    <associationValidityConstraint identifier="choice_1" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_2" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_3" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_4" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_5" minConstraint="0" maxConstraint="0"/>
+                </responseValidityConstraint>
+                <responseValidityConstraint responseIdentifier="RESPONSE_1" minConstraint="0" maxConstraint="0">
+                    <associationValidityConstraint identifier="choice_6" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_7" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_8" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_9" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_10" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_11" minConstraint="0" maxConstraint="0"/>
+                </responseValidityConstraint>
+            </assessmentItemRef>
+        </assessmentSection>
+        <assessmentSection identifier="assessmentSection-4" required="false" fixed="false" title="Section" visible="true" keepTogether="true">
+            <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+            <timeLimits maxTime="900" allowLateSubmission="false"/>
+            <assessmentItemRef identifier="item-9" required="false" fixed="false" href="./item-9/item.json" adaptive="false" timeDependent="false" title="004 match–scores" label="004 match–scores">
+                <itemSessionControl maxAttempts="0" showFeedback="false" allowReview="true" showSolution="false" allowComment="false" allowSkipping="true" validateResponses="false"/>
+                <timeLimits maxTime="900" allowLateSubmission="false"/>
+                <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
+                    <correctResponse>
+                        <value>choice_2 choice_4</value>
+                        <value>choice_2 choice_5</value>
+                    </correctResponse>
+                </responseDeclaration>
+                <responseDeclaration identifier="RESPONSE_1" cardinality="multiple" baseType="directedPair">
+                    <correctResponse>
+                        <value>choice_11 choice_8</value>
+                        <value>choice_6 choice_9</value>
+                        <value>choice_7 choice_9</value>
+                        <value>choice_11 choice_9</value>
+                    </correctResponse>
+                    <mapping defaultValue="0">
+                        <mapEntry mapKey="choice_6 choice_9" mappedValue="1" caseSensitive="true"/>
+                        <mapEntry mapKey="choice_7 choice_9" mappedValue="1" caseSensitive="true"/>
+                        <mapEntry mapKey="choice_11 choice_8" mappedValue="1" caseSensitive="true"/>
+                        <mapEntry mapKey="choice_11 choice_9" mappedValue="1" caseSensitive="true"/>
+                    </mapping>
+                </responseDeclaration>
+                <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="5"/>
+                <outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">
+                    <defaultValue>
+                        <value>5</value>
+                    </defaultValue>
+                </outcomeDeclaration>
+                <responseProcessing>
+                    <responseCondition>
+                        <responseIf>
+                            <match>
+                                <variable identifier="RESPONSE"/>
+                                <correct identifier="RESPONSE"/>
+                            </match>
+                            <setOutcomeValue identifier="SCORE">
+                                <sum>
+                                    <variable identifier="SCORE"/>
+                                    <baseValue baseType="integer">1</baseValue>
+                                </sum>
+                            </setOutcomeValue>
+                        </responseIf>
+                    </responseCondition>
+                    <responseCondition>
+                        <responseIf>
+                            <not>
+                                <isNull>
+                                    <variable identifier="RESPONSE_1"/>
+                                </isNull>
+                            </not>
+                            <setOutcomeValue identifier="SCORE">
+                                <sum>
+                                    <variable identifier="SCORE"/>
+                                    <mapResponse identifier="RESPONSE_1"/>
+                                </sum>
+                            </setOutcomeValue>
+                        </responseIf>
+                    </responseCondition>
+                </responseProcessing>
+                <responseValidityConstraint responseIdentifier="RESPONSE" minConstraint="0" maxConstraint="0">
+                    <associationValidityConstraint identifier="choice_1" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_2" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_3" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_4" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_5" minConstraint="0" maxConstraint="0"/>
+                </responseValidityConstraint>
+                <responseValidityConstraint responseIdentifier="RESPONSE_1" minConstraint="0" maxConstraint="0">
+                    <associationValidityConstraint identifier="choice_6" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_7" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_11" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_8" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_9" minConstraint="0" maxConstraint="0"/>
+                    <associationValidityConstraint identifier="choice_10" minConstraint="0" maxConstraint="0"/>
+                </responseValidityConstraint>
+            </assessmentItemRef>
+        </assessmentSection>
+    </testPart>
+</assessmentTest>

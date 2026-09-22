@@ -1,0 +1,39 @@
+#!/usr/bin/bash
+#
+
+TAO_CE_DIR_PKI=${TAO_CE_VARLIB}/pki
+TAO_CE_DIR_KEYS=${TAO_CE_DIR_PKI}/keys
+
+path_public_key(){
+    echo $TAO_CE_DIR_KEYS/$1.pub
+}
+path_private_key(){
+    echo $TAO_CE_DIR_KEYS/$1.key
+}
+
+generate_keypair() {
+    [ -f $(path_private_key $1) ] \
+      && [ -f $(path_public_key $1) ] \
+      && echo "Key $1 already exists, skipping" \
+      && return 0
+    mkdir -p $TAO_CE_DIR_KEYS
+
+    local key_size=${2:-4096}
+    local key_pass=${3}
+
+    local genrsa_args=""
+    local pubout_args=""
+    [ -n "$key_pass" ] && {
+        genrsa_args="-aes128 -passout pass:$key_pass"
+        pubout_args="-passin pass:$key_pass"
+    }
+
+    openssl genrsa $genrsa_args -out $(path_private_key $1) $key_size
+    openssl rsa $pubout_args -in $(path_private_key $1) -pubout -out $(path_public_key $1)
+}
+
+generate_salt() {
+    [ -f $TAO_CE_DIR_PKI/$1 ] && echo "Salt $1 already exists, skipping" && return 0
+    mkdir -p $TAO_CE_DIR_PKI
+    openssl rand -hex 32 > $TAO_CE_DIR_PKI/$1
+}

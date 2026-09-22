@@ -1,0 +1,29 @@
+# syntax=docker/dockerfile:1-labs
+
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+ ## worker #####################################################################
+FROM $BUILD_IMAGE AS build-worker
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+
+WORKDIR /app
+
+COPY --from=src-worker package*.json ./
+#include <npm/install.in>
+
+COPY --from=src-worker --exclude=data/ . .
+#include <clean-app.in>
+
+
+ ## Export #####################################################################
+
+FROM scratch AS export
+
+COPY --link --from=build-worker  \
+    /app /worker
+COPY --from=src-assets ./compact-test.xml /worker/config/compact-test.xml
+COPY meta /meta
+
+ ##

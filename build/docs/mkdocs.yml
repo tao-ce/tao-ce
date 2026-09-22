@@ -1,0 +1,116 @@
+site_name: TAO Community Edition
+site_url: https://tao-ce.github.io/tao-ce/
+repo_url: https://github.com/tao-ce/tao-ce
+remote_branch: pages/main
+
+extra_css:
+  - stylesheets/extra.css
+
+extra: 
+  status:
+    todo: This document is under construction.
+  social:
+  - icon: fontawesome/brands/github
+    link: https://github.com/tao-ce
+  - icon: fontawesome/brands/linkedin
+    link: https://www.linkedin.com/company/open-assessment-technologies-s-a-/
+  - icon: fontawesome/brands/youtube
+    link: https://www.youtube.com/@openassessmenttechnologies7347
+  - icon: fontawesome/brands/discourse
+    link: https://forum.community.taotesting.com/
+    name: Join the community, and get support from our Forum
+  - icon: tao/logo
+    link: https://www.taotesting.com
+    name: Home of TAO
+
+
+theme:
+  name: material
+  custom_dir: ./custom
+  logo: images/logo-w.svg
+  favicon: images/logo.svg
+  font:
+    text: Open Sans
+    code: Inconsolata
+  
+
+
+
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.path
+    - navigation.expand
+    - toc.follow
+    - toc.integrate
+    - content.code.copy
+    - content.code.annotate # 
+    - search.suggest
+
+
+  palette:
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: &primary "red"
+      accent: &accent "pink"
+      # accent: pink
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      primary: *primary
+      accent: *accent
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate 
+      primary: *primary
+      accent: *accent
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+plugins: 
+  - search
+  - awesome-nav
+  - typeset
+  - social
+
+markdown_extensions:
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      options:
+        custom_icons:
+          - custom/.icons
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+
+copyright: Copyright &copy; 2012 - 2026 Open Assessment Technologies S.A.
+
+docs_dir: ../../docs
+use_directory_urls: true

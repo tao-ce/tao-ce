@@ -1,0 +1,6 @@
+#include <macros.h>
+
+RUN WITH_CACHE_NPM <<EORUN
+#include <snippets/npm-nvm.in>
+npm config NPM_CONFIG_ARGS
+EORUN

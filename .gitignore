@@ -8,3 +8,5 @@ output
 **/no-commit-*
 .task
 .wip
+**/node_modules
+**/dist

@@ -1,0 +1,41 @@
+{
+    "internal": {
+        "apps": [
+            "content-service",
+            "datastore",
+            "dynamic-query",
+            "environment-management",
+            "task-orchestrator",
+            "timers"
+        ]
+    },
+    "full": {
+        "apps": [
+            "construct",
+            "deliver",
+            "devkit",
+            "portal",
+            "proctoring",
+            "scoring"
+        ]
+    },
+    "essential": {
+        "apps": [
+            "construct",
+            "deliver",
+            "devkit",
+            "portal"
+        ]
+    },
+    "lite": {
+        "apps": [
+            "deliver",
+            "portal"
+        ]
+    },
+    "minimal": {
+        "apps": [
+            "deliver"
+        ]
+    }
+}

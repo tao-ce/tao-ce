@@ -1,0 +1,12 @@
+{
+    "drop": [
+        "google/cloud-bigtable",
+        "oat-sa/bundle-bigtable-document-manager",
+        "symfony/amazon-sqs-messenger",
+        "league/flysystem-aws-s3-v3",
+        "aws/aws-sdk-php",
+        "aws/aws-crt-php",
+        "async-aws/sqs",
+        "async-aws/core"
+    ]
+}

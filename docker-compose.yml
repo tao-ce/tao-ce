@@ -19,6 +19,13 @@ services:
     depends_on:
       es:
         condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:28080']
+      interval: 10s
+      timeout: 30s
+      retries: 1
+      start_period: 10s
+      start_interval: 5s
 
     links:
     - redis:redis

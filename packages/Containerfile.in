@@ -1,0 +1,90 @@
+ARG BUILD_IMAGE
+ARG BUILD_NPM_REGISTRY
+ARG BUILD_COMPOSER_REGISTRY
+
+FROM $BUILD_IMAGE AS build-read-aloud-client-fe
+ARG BUILD_IMAGE
+
+WORKDIR /app
+COPY . .
+
+#define NPM_DEV
+#include <npm/ci.in>
+#define NPM_RUN_ARGS build
+#include <npm/run.in>
+#include <npm/publish.in>
+
+FROM $BUILD_IMAGE AS build-live-design-system
+ARG BUILD_IMAGE
+
+WORKDIR /app
+COPY . .
+#define NPM_DEV
+#include <npm/ci.in>
+
+WORKDIR /app/packages/core
+#include <npm/publish.in>
+WORKDIR /app/packages/elements
+#include <npm/publish.in>
+WORKDIR /app/packages/components
+#include <npm/publish.in>
+WORKDIR /app/packages/identity
+#include <npm/publish.in>
+
+FROM $BUILD_IMAGE AS build-tao-deliver-fe
+ARG BUILD_IMAGE
+
+WORKDIR /app
+COPY . .
+#define NPM_INSTALL_PACKAGES @oat-sa-private/ui-core@latest @oat-sa-private/ui-elements@latest @oat-sa-private/ui-components@latest @oat-sa-private/ui-identity@latest
+#define NPM_INSTALL_OPTS --package-lock-only --force --save
+#include <npm/install.in>
+#define NPM_DEV
+#include <npm/ci.in>
+#define NPM_RUN_ARGS build:item-runner
+#include <npm/run.in>
+#define NPM_RUN_ARGS build:test-runner
+#include <npm/run.in>
+#define NPM_RUN_ARGS build:app
+#include <npm/run.in>
+WORKDIR /app/packages/apps-common
+#include <npm/publish.in>
+WORKDIR /app/packages/item-runner
+#include <npm/publish.in>
+WORKDIR /app/packages/test-runner
+#include <npm/publish.in>
+WORKDIR /app/packages/deliver-app
+RUN <<EORUN
+  p=$(mktemp)
+  jq 'del(.private)|.files=["dist", "server.js"]' package.json >$p
+  mv $p package.json
+EORUN
+#define NPM_RUN_ARGS build:bootstrap
+#include <npm/run.in>
+#include <npm/publish.in>
+
+FROM $BUILD_IMAGE AS build-extension-tao-test-preview-ui-loader
+ARG BUILD_IMAGE
+
+WORKDIR /app
+COPY . .
+
+WORKDIR /app/views
+#define NPM_INSTALL_PACKAGES @oat-sa-private/ui-identity@latest @oat-sa-private/tao-test-runner-qtinui@latest @oat-sa-private/read-aloud-client@latest
+#define NPM_INSTALL_OPTS --package-lock-only --force --save
+#include <npm/install.in>
+
+FROM docker.io/composer/satis:latest AS build-satis
+WORKDIR /app
+ARG BUILD_COMPOSER_REGISTRY
+ENV SATIS_HOMEPAGE=${BUILD_COMPOSER_REGISTRY}
+
+COPY --from=build-satis satis.json /config/
+RUN \
+    --mount=from=packages,target=/app/packages \
+    --mount=from=extension-tao-test-preview-ui-loader,source=/app,target=/app/packages/extension-tao-test-preview-ui-loader \
+    --mount=from=em-libs,target=/app/apps/environment-management/libs \
+        rm -rf /output/packages.json /output/p2 /output/include /output/dist /output/index.html \
+        && /satis/bin/satis build -vvvn /config/satis.json /output
+
+
