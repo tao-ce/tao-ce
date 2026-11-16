@@ -15,7 +15,7 @@ ARG BUILD_COMPOSER_REGISTRY
 #endif
 
 RUN WITH_CACHE_COMPOSER COMPOSER_NPM_CACHE <<EORUN
-set -eux
+set -eu
 #ifdef COMPOSER_NPM_BRIDGE
 #include <snippets/npm-nvm.in>
 #include <snippets/npm-registry.in>
