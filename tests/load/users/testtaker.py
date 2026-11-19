@@ -15,7 +15,7 @@ class TestTaker(TAOUser):
             actions.lti.get_lti_delivery_execution,
             actions.lti.open_lti_delivery_execution,
             actions.lti.open_lti_action_delivery_execution,
-            actions.lti.open_lti_action_proctoring,
+            # actions.lti.open_lti_action_proctoring,
             actions.lti.open_lti_action_deliver,
             actions.auth.refresh_tokens,
             actions.testrunner.init_actions,
