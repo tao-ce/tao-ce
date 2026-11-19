@@ -1,4 +1,6 @@
 import utils.exception
+import re
+import requests
 from lxml import etree 
 
 def get_lti_delivery_execution(task):
@@ -37,12 +39,18 @@ def open_lti_action_delivery_execution(task):
             'state': task.user.get('state'),
         }
     ) as response:
+        session_key, session_value = re.search(r"sessionStorage\.setItem\(\w*['\"]+([^'\"']+)['\"]+,\w*['\"]+([^'\"']+)['\"]+", response.text).groups()
+        task.user.push('session_key', requests.utils.unquote(session_key))
+        task.user.push('session_refresh_token', requests.utils.unquote(session_value))
         if int(response.status) != 200:
             raise Exception(f'wrong status {response.request.url} {response.status} {response.content}')
         doc = etree.XML(f"<root>{response.text}</root>")
-        task.user.push('proctoringLtiActionUrl', doc.xpath('string(//root/form/@action)'))
-        task.user.push('proctoringid_token', doc.xpath('string(//root/form/input[@name="id_token"]/@value)'))
-        task.user.push('proctoringstate', doc.xpath('string(//root/form/input[@name="state"]/@value)'))
+        task.user.push('deliverLtiActionUrl', doc.xpath('string(//root/form/@action)'))
+        task.user.push('execution_id', doc.xpath('string(//root/form/input[@name="deliveryExecutionId"]/@value)'))
+        task.user.push('refresh_token_id', doc.xpath('string(//root/form/input[@name="refreshTokenId"]/@value)'))
+        # task.user.push('proctoringLtiActionUrl', doc.xpath('string(//root/form/@action)'))
+        # task.user.push('proctoringid_token', doc.xpath('string(//root/form/input[@name="id_token"]/@value)'))
+        # task.user.push('proctoringstate', doc.xpath('string(//root/form/input[@name="state"]/@value)'))
 
 def open_lti_action_proctoring(task):
     with task.user.client.post(
@@ -63,7 +71,6 @@ def open_lti_action_deliver(task):
         task.user.get('deliverLtiActionUrl'),
         name=task.name(f'{__name__}.open_lti_action_deliver'),
         data={
-            'JWT':  task.user.get('JWT'),
         }
     ) as response:
         pass
