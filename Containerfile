@@ -54,6 +54,7 @@ ARG FEDORA_VERSION
 ARG FEDORA_IMAGE
 ARG IMAGE_PHP_VERSION
 ARG IMAGE_NVM_VERSIONS
+ARG NODE_VERSION
 
 ENV NVM_DIR=/usr/local/libexec/nvm
 
@@ -80,8 +81,7 @@ RUN \
     && mkdir -p ${NVM_DIR} && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | PROFILE="/etc/profile.d/" bash \
     && . ${NVM_DIR}/nvm.sh \
         && echo ${IMAGE_NVM_VERSIONS} | tr , "\n" | xargs -n1 | while read v ; do nvm install $v ; done  \
-        && nvm install --lts \
-        && nvm use --lts \
+        && nvm use ${NODE_VERSION} \
         && nvm alias default node \
     && mkdir -p /opt/xlsx2csv \
         && python3 -m venv /opt/xlsx2csv/venv \

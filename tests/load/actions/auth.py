@@ -4,7 +4,7 @@ def login(task):
         name=task.name(f"{__name__}.login"),
         json={
             "grant_type": "password",
-            "client_id": "portal-client-id_1",
+            "client_id": "portal-client-id-1",
             "username": task.user.username,
             "password": task.user.password,
         },
@@ -21,12 +21,16 @@ def refresh_tokens(task):
         headers={}
             | task.user.headers.origin()
             | task.user.headers.json()
+            | {
+                'refresh-token': task.user.get('session_refresh_token'),
+            }
         ,
         json={
             'deliveryExecutionId': task.user.get('execution_id'),
-            'refreshTokenId': task.user.get('execution_id'),
+            'refreshTokenId': task.user.get('refresh_token_id'),
         },
         catch_response=True,
     ) as response:
         task.user.push('access_token', response.json()['accessToken'])
+        task.user.push('session_refresh_token', response.json()['refreshTokenId'])
         response.success()

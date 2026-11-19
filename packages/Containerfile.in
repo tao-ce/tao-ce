@@ -35,24 +35,40 @@ FROM $BUILD_IMAGE AS build-tao-deliver-fe
 ARG BUILD_IMAGE
 
 WORKDIR /app
-COPY . .
+COPY package*.json .
+COPY packages/apps-common/package*.json packages/apps-common/
+COPY packages/previewer-app/package*.json packages/previewer-app/
+COPY packages/deep-linking-app/package*.json packages/deep-linking-app/
+COPY packages/item-runner/package*.json packages/item-runner/
+COPY packages/test-runner/package*.json packages/test-runner/
+COPY packages/deliver-app/package*.json packages/deliver-app/
 #define NPM_INSTALL_PACKAGES @oat-sa-private/ui-core@latest @oat-sa-private/ui-elements@latest @oat-sa-private/ui-components@latest @oat-sa-private/ui-identity@latest
 #define NPM_INSTALL_OPTS --package-lock-only --force --save
 #include <npm/install.in>
+COPY --exclude=packages --exclude=package-lock.json . .
 #define NPM_DEV
 #include <npm/ci.in>
-#define NPM_RUN_ARGS build:item-runner
-#include <npm/run.in>
-#define NPM_RUN_ARGS build:test-runner
-#include <npm/run.in>
-#define NPM_RUN_ARGS build:app
-#include <npm/run.in>
+COPY packages/apps-common packages/apps-common
+COPY packages/previewer-app packages/previewer-app
+COPY packages/deep-linking-app packages/deep-linking-app
+COPY packages/item-runner packages/item-runner
 WORKDIR /app/packages/apps-common
 #include <npm/publish.in>
+WORKDIR /app
+#define NPM_RUN_ARGS build:item-runner
+#include <npm/run.in>
 WORKDIR /app/packages/item-runner
 #include <npm/publish.in>
+WORKDIR /app
+COPY packages/test-runner packages/test-runner
+#define NPM_RUN_ARGS build:test-runner
+#include <npm/run.in>
 WORKDIR /app/packages/test-runner
 #include <npm/publish.in>
+WORKDIR /app
+COPY packages/deliver-app packages/deliver-app
+#define NPM_RUN_ARGS build:app
+#include <npm/run.in>
 WORKDIR /app/packages/deliver-app
 RUN <<EORUN
   p=$(mktemp)

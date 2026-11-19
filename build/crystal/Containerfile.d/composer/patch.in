@@ -3,7 +3,7 @@ ARG PATCHES_DIR="/run/context/patches"
 COPY --from=patches ./composer $PATCHES_DIR/composer
 
 RUN <<EORUN
-  set -eux
+  set -eu
   src_file=$(mktemp)
   mv composer.json $src_file
   jq \
